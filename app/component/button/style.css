@@ -1,0 +1,28 @@
+.submit-btn {
+  color: #000;
+  transition: color 0.3s ease;
+}
+
+.submit-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
+  transform: translateX(-101%);
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  z-index: 0;
+}
+
+.submit-btn:hover::before {
+  transform: translateX(0);
+}
+
+.submit-btn:hover {
+  color: #fff;
+}
+
+.submit-btn:hover .btn-text,
+.submit-btn:hover .btn-icon,
+.submit-btn:hover .btn-icon i {
+  color: #fff;
+}
