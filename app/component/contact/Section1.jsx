@@ -36,6 +36,8 @@ const headingSizeClass =
   "text-[20px] leading-[32px] md:text-[48px] md:leading-[44px] lg:text-[75px] lg:leading-[56px] xl:text-[94px] xl:leading-[71px]";
 
 const clipRevealClass = "overflow-hidden pb-[0.2em] -mb-[0.2em]";
+const circleSpotlightDuration = 15;
+const inputLineDuration = 0.9;
 const inputClass =
   "w-full bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40";
 const inputLineClass =
@@ -118,7 +120,26 @@ const AnimatedHeadingLine = () => {
       const whiteWords = gsap.utils.toArray("[data-hero-word]", wrap);
       const goldWords = gsap.utils.toArray("[data-hero-word]", gold);
 
-      gsap.set([...whiteWords, ...goldWords], { yPercent: -110 });
+      gsap.set(whiteWords, { yPercent: -110 });
+      gsap.set(goldWords, { yPercent: 0 });
+
+      const startSpotlight = () => {
+        spotlightTween?.kill();
+        spotlightTween = null;
+
+        const proxy = { x: circleRadius };
+        setMask(circleRadius);
+
+        spotlightTween = gsap.to(proxy, {
+          x: () => wrap.offsetWidth + getCircleRadius(),
+          duration: circleSpotlightDuration,
+          repeat: -1,
+          ease: "none",
+          onUpdate: function () {
+            setMask(proxy.x);
+          },
+        });
+      };
 
       const startEntrance = () => {
         const entrance = gsap.timeline({
@@ -129,23 +150,10 @@ const AnimatedHeadingLine = () => {
 
         whiteWords.forEach((word, index) => {
           entrance.to(
-            [word, goldWords[index]],
+            word,
             { yPercent: 0, duration: 2, ease: "power4.out" },
             index * 0.08
           );
-        });
-      };
-
-      const startSpotlight = () => {
-        const proxy = { x: -circleRadius };
-        spotlightTween = gsap.to(proxy, {
-          x: () => wrap.offsetWidth + getCircleRadius(),
-          duration: 5,
-          repeat: -1,
-          ease: "none",
-          onUpdate: function () {
-            setMask(proxy.x);
-          },
         });
       };
 
@@ -270,6 +278,7 @@ const Section1 = () => {
     if (!form) return;
 
     let onStartInputLines = null;
+    let inputLinesStarted = false;
 
     const ctx = gsap.context(() => {
       const lines = gsap.utils.toArray("[data-input-line]", form);
@@ -278,9 +287,12 @@ const Section1 = () => {
       gsap.set(lines, { scaleX: 0, transformOrigin: "left center" });
 
       const startInputLines = () => {
+        if (inputLinesStarted) return;
+        inputLinesStarted = true;
+
         gsap.to(lines, {
           scaleX: 1,
-          duration: 0.9,
+          duration: inputLineDuration,
           ease: "power2.out",
           stagger: 0.1,
         });
