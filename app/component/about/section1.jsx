@@ -248,6 +248,7 @@ const Section1 = () => {
                 WE CREATE DESIRE THROUGH
               </p>
             </Reveal>
+            
 
             <div className="relative left-1/2 mt-8 w-screen -translate-x-1/2 md:mt-10 lg:mt-12 xl:mt-5">
               <div
