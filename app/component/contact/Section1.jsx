@@ -112,6 +112,7 @@ const AnimatedHeadingLine = () => {
     let spotlightTween = null;
 
     let onHeaderComplete = null;
+    let onStartSpotlight = null;
 
     const ctx = gsap.context(() => {
       const whiteWords = gsap.utils.toArray("[data-hero-word]", wrap);
@@ -122,18 +123,7 @@ const AnimatedHeadingLine = () => {
       const startEntrance = () => {
         const entrance = gsap.timeline({
           onComplete: () => {
-            spotlightTween = gsap.to(
-              { x: -circleRadius },
-              {
-                x: () => wrap.offsetWidth + getCircleRadius(),
-                duration: 15,
-                repeat: -1,
-                ease: "none",
-                onUpdate: function () {
-                  setMask(this.targets()[0].x);
-                },
-              }
-            );
+            window.dispatchEvent(new CustomEvent("section1-heading-entrance-complete"));
           },
         });
 
@@ -146,17 +136,38 @@ const AnimatedHeadingLine = () => {
         });
       };
 
+      const startSpotlight = () => {
+        const proxy = { x: -circleRadius };
+        spotlightTween = gsap.to(proxy, {
+          x: () => wrap.offsetWidth + getCircleRadius(),
+          duration: 5,
+          repeat: -1,
+          ease: "none",
+          onUpdate: function () {
+            setMask(proxy.x);
+          },
+        });
+      };
+
       onHeaderComplete = () => {
         startEntrance();
       };
 
+      onStartSpotlight = () => {
+        startSpotlight();
+      };
+
       window.addEventListener("header-reveal-complete", onHeaderComplete);
+      window.addEventListener("section1-start-spotlight", onStartSpotlight);
     }, wrap);
 
     return () => {
       spotlightTween?.kill();
       if (onHeaderComplete) {
         window.removeEventListener("header-reveal-complete", onHeaderComplete);
+      }
+      if (onStartSpotlight) {
+        window.removeEventListener("section1-start-spotlight", onStartSpotlight);
       }
       ctx.revert();
     };
@@ -186,6 +197,36 @@ const Section1 = () => {
   const formRef = useRef(null);
 
   useLayoutEffect(() => {
+    let headingDone = false;
+    let heroDone = false;
+
+    const onAllTextDone = () => {
+      if (headingDone && heroDone) {
+        window.dispatchEvent(new CustomEvent("section1-start-spotlight"));
+        window.dispatchEvent(new CustomEvent("section1-start-input-lines"));
+      }
+    };
+
+    const onHeadingDone = () => {
+      headingDone = true;
+      onAllTextDone();
+    };
+
+    const onHeroDone = () => {
+      heroDone = true;
+      onAllTextDone();
+    };
+
+    window.addEventListener("section1-heading-entrance-complete", onHeadingDone);
+    window.addEventListener("section1-hero-reveal-complete", onHeroDone);
+
+    return () => {
+      window.removeEventListener("section1-heading-entrance-complete", onHeadingDone);
+      window.removeEventListener("section1-hero-reveal-complete", onHeroDone);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
 
@@ -203,6 +244,9 @@ const Section1 = () => {
           duration: 2,
           ease: "power4.out",
           stagger: 0.08,
+          onComplete: () => {
+            window.dispatchEvent(new CustomEvent("section1-hero-reveal-complete"));
+          },
         });
       };
 
@@ -225,25 +269,36 @@ const Section1 = () => {
     const form = formRef.current;
     if (!form) return;
 
+    let onStartInputLines = null;
+
     const ctx = gsap.context(() => {
       const lines = gsap.utils.toArray("[data-input-line]", form);
       if (!lines.length) return;
 
       gsap.set(lines, { scaleX: 0, transformOrigin: "left center" });
-      gsap.to(lines, {
-        scaleX: 1,
-        duration: 0.9,
-        ease: "power2.out",
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: form,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
-      });
+
+      const startInputLines = () => {
+        gsap.to(lines, {
+          scaleX: 1,
+          duration: 0.9,
+          ease: "power2.out",
+          stagger: 0.1,
+        });
+      };
+
+      onStartInputLines = () => {
+        startInputLines();
+      };
+
+      window.addEventListener("section1-start-input-lines", onStartInputLines);
     }, form);
 
-    return () => ctx.revert();
+    return () => {
+      if (onStartInputLines) {
+        window.removeEventListener("section1-start-input-lines", onStartInputLines);
+      }
+      ctx.revert();
+    };
   }, []);
 
   return (
