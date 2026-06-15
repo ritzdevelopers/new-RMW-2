@@ -59,7 +59,7 @@ const serviceTextStyle = {
   color: "#FFFFFF99",
 };
 
-const serviceTextClassName = "text-[18px] lg:text-[13px] xl:text-[18px]";
+const serviceTextClassName = "text-[14px] md:text-[12px] lg:text-[13px] xl:text-[18px]";
 
 const brandTextStyle = {
   fontFamily: sequelFontFamily,
@@ -150,7 +150,7 @@ const MediaWorldText = () => {
   return (
     <span
       ref={textRef}
-      className="inline-block shrink-0 self-end overflow-hidden whitespace-nowrap"
+      className="inline-block shrink-0 self-end overflow-hidden whitespace-nowrap !text-[48px] md:!text-[74px]"
       style={brandTextStyle}
     >
       MEDIAWORLD
@@ -209,18 +209,18 @@ const Footer = () => {
         className="pointer-events-none absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 select-none"
       >
         <img
-          src="/contact/R-logo.png"
+          src="/logo/r-rmw-transparent.png"
           alt=""
-          className="h-[800px] w-auto max-w-none object-contain"
+          className="h-[300px] w-[250px] max-w-none rotate-[-13deg] object-contain md:h-[517px] md:w-[431px]"
           style={{
             filter: "brightness(3.2) contrast(1.05)",
-            // opacity: 0.22,
+            opacity: 0.22,
           }}
         />
       </div>
 
-      <div className="relative z-[1] mx-auto max-w-[1500px]">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8 lg:gap-12">
+      <div className="relative z-[2] mx-auto max-w-[1500px]">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-8 lg:gap-12">
           <div className="flex flex-col gap-5 md:gap-6">
             <span style={connectLabelStyle} className="mt-8">Connect</span>
             <nav className="flex flex-col gap-3 md:gap-4">
@@ -229,7 +229,7 @@ const Footer = () => {
                   key={link.label}
                   href={link.href}
                   style={linkStyle}
-                  className="transition-opacity hover:opacity-70"
+                  className="!text-[17px] transition-opacity hover:opacity-70 md:!text-[18px]"
                   {...(link.href.startsWith("http")
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
@@ -246,20 +246,20 @@ const Footer = () => {
                 key={link.label}
                 href={link.href}
                 style={navLinkStyle}
-                className="relative z-[1] transition-opacity hover:opacity-70 "
+                className="relative z-[1] !text-[30px] transition-opacity hover:opacity-70 md:!text-[40px]"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <div className="flex flex-col items-center gap-6 text-center md:gap-5">
+          <div className="flex flex-col items-center gap-3 text-center md:gap-5">
             <div className="flex flex-col items-center md:mt-15 mt-2">
               <span style={connectLabelStyle}>Email</span>
               <a
                 href="mailto:info@ritzmediaworld.com"
                 style={contactTextStyle}
-                className="mt-4 block transition-opacity hover:opacity-70 "
+                className="md:mt-4 mt-2 block transition-opacity hover:opacity-70 "
               >
                 info@ritzmediaworld.com
               </a>
@@ -274,8 +274,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mx-auto mt-10 w-fit max-w-full items-center justify-center border border-white/10 bg-white/[0.02] p-[20px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] backdrop-blur-sm md:mt-12">
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 lg:gap-15">
+        <div className="mx-auto mt-4 w-fit max-w-full items-center p-[10px] justify-center border border-white/10 bg-white/[0.02] md:p-[20px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] backdrop-blur-sm md:mt-12">
+          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-8 lg:gap-10">
             {partnerLogos
             .map((logo) => (
               <Image
@@ -285,15 +285,15 @@ const Footer = () => {
                 width={90}
                 height={55}
                 className="shrink-0 object-contain"
-                style={{ width: "63px", height: "35px" }}
+                style={{ width: "77px", height: "26px" }}
               />
             ))}
           </div>
         </div>
 
-        <div className="relative left-1/2 mt-10 w-screen -translate-x-1/2 border-y border-[#FFFFFF1A] py-6 md:mt-12 md:py-8 lg:mt-14">
-          <div className="mx-auto flex max-w-[1500px] flex-col items-center gap-6 px-8 md:px-12 lg:flex-row lg:items-end lg:justify-between lg:gap-4">
-            <span style={brandTextStyle} className="shrink-0 self-start">
+        <div className="relative left-1/2 mt-4  w-screen -translate-x-1/2 border-y border-[#FFFFFF1A] py-1 md:mt-12 md:py-8 lg:mt-14">
+          <div className="mx-auto flex max-w-[1500px] flex-col items-center gap-2 px-8 md:px-12 lg:flex-row lg:items-end lg:justify-between lg:gap-4">
+            <span style={brandTextStyle} className="shrink-0 self-start !text-[48px] md:!text-[74px]">
               RITZ
             </span>
 

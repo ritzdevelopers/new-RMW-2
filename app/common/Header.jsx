@@ -27,13 +27,16 @@ const Header = () => {
       if (!items.length) return;
 
       gsap.set(items, { yPercent: -110 });
-      gsap.to(items, {
-        yPercent: 0,
-        duration: 1.05,
-        ease: "power4.out",
-        stagger: 0.08,
-        delay: 0.15,
-      });
+      gsap.timeline({ delay: 0.15 })
+        .to(items, {
+          yPercent: 0,
+          duration: 1.05,
+          ease: "power4.out",
+          stagger: 0.08,
+        })
+        .eventCallback("onComplete", () => {
+          window.dispatchEvent(new CustomEvent("header-reveal-complete"));
+        });
     }, header);
 
     return () => ctx.revert();

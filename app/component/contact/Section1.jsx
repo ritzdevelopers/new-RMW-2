@@ -2,7 +2,10 @@
 
 import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SubmitButton from "../button/submitnew";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const mixtaPro = "font-['MixtaPro']";
 
@@ -31,14 +34,21 @@ const headingStyle = {
 
 const headingSizeClass =
   "text-[20px] leading-[32px] md:text-[48px] md:leading-[44px] lg:text-[75px] lg:leading-[56px] xl:text-[94px] xl:leading-[71px]";
+
+const clipRevealClass = "overflow-hidden pb-[0.2em] -mb-[0.2em]";
 const inputClass =
-  "w-full border-b border-[#FFFFFF33] bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-[#FFFFFF33]";
+  "w-full bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40";
+const inputLineClass =
+  "pointer-events-none absolute bottom-0 left-0 block h-px w-full origin-left scale-x-0 bg-[#FFFFFF33]";
 const selectClass = `${inputClass} appearance-none cursor-pointer`;
 
 const Field = ({ label, children }) => (
   <div>
     <span style={labelStyle}>{label}</span>
-    {children}
+    <div className="relative">
+      {children}
+      <span data-input-line className={inputLineClass} aria-hidden />
+    </div>
   </div>
 );
 
@@ -62,7 +72,7 @@ const headingWords = ["WE", "WOULD", "BE", "HAPPY", "TO"];
 
 const renderHeadingWord = (color) =>
   headingWords.map((item) => (
-    <span key={item} className="inline-block overflow-hidden align-top">
+    <span key={item} className={`inline-block align-top ${clipRevealClass}`}>
       <span
         data-hero-word
         className="inline-block"
@@ -82,9 +92,16 @@ const AnimatedHeadingLine = () => {
     const gold = goldRef.current;
     if (!wrap || !gold) return;
 
-    const circleRadius = 65;
+    const getCircleRadius = () => {
+      const width = window.innerWidth;
+      if (width >= 768) return 65;
+      return 22;
+    };
+
+    let circleRadius = getCircleRadius();
 
     const setMask = (x) => {
+      circleRadius = getCircleRadius();
       const mask = `radial-gradient(circle ${circleRadius}px at ${x}px 50%, #000 98%, transparent 100%)`;
       gold.style.maskImage = mask;
       gold.style.webkitMaskImage = mask;
@@ -94,41 +111,53 @@ const AnimatedHeadingLine = () => {
 
     let spotlightTween = null;
 
+    let onHeaderComplete = null;
+
     const ctx = gsap.context(() => {
       const whiteWords = gsap.utils.toArray("[data-hero-word]", wrap);
       const goldWords = gsap.utils.toArray("[data-hero-word]", gold);
 
       gsap.set([...whiteWords, ...goldWords], { yPercent: -110 });
 
-      const entrance = gsap.timeline({
-        delay: 0.15,
-        onComplete: () => {
-          spotlightTween = gsap.to(
-            { x: -circleRadius },
-            {
-              x: () => wrap.offsetWidth + circleRadius,
-              duration: 5,
-              repeat: -1,
-              ease: "none",
-              onUpdate: function () {
-                setMask(this.targets()[0].x);
-              },
-            }
-          );
-        },
-      });
+      const startEntrance = () => {
+        const entrance = gsap.timeline({
+          onComplete: () => {
+            spotlightTween = gsap.to(
+              { x: -circleRadius },
+              {
+                x: () => wrap.offsetWidth + getCircleRadius(),
+                duration: 15,
+                repeat: -1,
+                ease: "none",
+                onUpdate: function () {
+                  setMask(this.targets()[0].x);
+                },
+              }
+            );
+          },
+        });
 
-      whiteWords.forEach((word, index) => {
-        entrance.to(
-          [word, goldWords[index]],
-          { yPercent: 0, duration: 1.05, ease: "power4.out" },
-          index * 0.08
-        );
-      });
+        whiteWords.forEach((word, index) => {
+          entrance.to(
+            [word, goldWords[index]],
+            { yPercent: 0, duration: 2, ease: "power4.out" },
+            index * 0.08
+          );
+        });
+      };
+
+      onHeaderComplete = () => {
+        startEntrance();
+      };
+
+      window.addEventListener("header-reveal-complete", onHeaderComplete);
     }, wrap);
 
     return () => {
       spotlightTween?.kill();
+      if (onHeaderComplete) {
+        window.removeEventListener("header-reveal-complete", onHeaderComplete);
+      }
       ctx.revert();
     };
   }, []);
@@ -154,30 +183,71 @@ const AnimatedHeadingLine = () => {
 
 const Section1 = () => {
   const heroRef = useRef(null);
+  const formRef = useRef(null);
 
   useLayoutEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
+
+    let onHeaderComplete = null;
 
     const ctx = gsap.context(() => {
       const items = gsap.utils.toArray("[data-hero-reveal]", hero);
       if (!items.length) return;
 
       gsap.set(items, { yPercent: -110 });
-      gsap.to(items, {
-        yPercent: 0,
-        duration: 1.05,
-        ease: "power4.out",
-        stagger: 0.08,
-        delay: 0.55,
-      });
+
+      const startReveal = () => {
+        gsap.to(items, {
+          yPercent: 0,
+          duration: 2,
+          ease: "power4.out",
+          stagger: 0.08,
+        });
+      };
+
+      onHeaderComplete = () => {
+        startReveal();
+      };
+
+      window.addEventListener("header-reveal-complete", onHeaderComplete);
     }, hero);
+
+    return () => {
+      if (onHeaderComplete) {
+        window.removeEventListener("header-reveal-complete", onHeaderComplete);
+      }
+      ctx.revert();
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const form = formRef.current;
+    if (!form) return;
+
+    const ctx = gsap.context(() => {
+      const lines = gsap.utils.toArray("[data-input-line]", form);
+      if (!lines.length) return;
+
+      gsap.set(lines, { scaleX: 0, transformOrigin: "left center" });
+      gsap.to(lines, {
+        scaleX: 1,
+        duration: 0.9,
+        ease: "power2.out",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: form,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, form);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section className="bg-[#0D1334] px-8 py-[35px] md:px-12 md:py-[70px] ">
+    <section className="bg-[#0D1334] px-8 py-[0px] pb-[35px] md:px-12 md:pt-[20px] md:pb-[70px] ">
       <div className="mx-auto max-w-8xl mx-auto max-w-[1500px]">
         <div ref={heroRef}>
           <AnimatedHeadingLine />
@@ -186,7 +256,7 @@ const Section1 = () => {
             <div className="mb-0 flex w-full justify-between md:mt-5 lg:mb-0 lg:contents">
               <span
                 style={headingStyle}
-                className={`${headingSizeClass} shrink-0 self-start overflow-hidden lg:order-1 lg:mt-[30px] xl:mt-[40px]`}
+                className={`${headingSizeClass} shrink-0 self-start ${clipRevealClass} lg:order-1 lg:mt-[30px] xl:mt-[40px]`}
               >
                 <span data-hero-reveal className="inline-block">
                   ASSIST
@@ -194,7 +264,7 @@ const Section1 = () => {
               </span>
               <span
                 style={headingStyle}
-                className={`${headingSizeClass} shrink-0 self-start overflow-hidden text-right lg:order-3 lg:mt-[30px] lg:text-right xl:mt-[40px]`}
+                className={`${headingSizeClass} shrink-0 self-start ${clipRevealClass} text-right lg:order-3 lg:mt-[30px] lg:text-right xl:mt-[40px]`}
               >
                 <span data-hero-reveal className="inline-block">
                   YOU
@@ -213,7 +283,7 @@ const Section1 = () => {
           </div>
         </div>
 
-        <div className="mx-auto mt-7 w-full max-w-[765px] md:mt-7 lg:mt-16">
+        <div ref={formRef} className="mx-auto mt-7 w-full max-w-[765px] md:mt-7 lg:mt-16">
           <div className="grid grid-cols-1 xl:gap-5 gap-8 md:grid-cols-2 md:gap-x-10">
             <Field label="FIRST NAME*">
               <input type="text" className={inputClass} />
