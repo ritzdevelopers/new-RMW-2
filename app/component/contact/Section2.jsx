@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -50,6 +50,21 @@ const addressBodyStyle = {
 
 const Section2 = () => {
   const leftColRef = useRef(null);
+  const mapRef = useRef(null);
+  const [playMapReveal, setPlayMapReveal] = useState(false);
+
+  useEffect(() => {
+    const el = mapRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setPlayMapReveal(entry.isIntersecting),
+      { threshold: 0.2 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useLayoutEffect(() => {
     const leftCol = leftColRef.current;
@@ -127,17 +142,64 @@ const Section2 = () => {
           </div>
         </div>
 
-        <div className="xl:mt-15 h-[150px] w-full overflow-hidden md:h-[400px] lg:mt-0 lg:h-[480px] lg:w-[80%]">
-          <iframe
-            title="Ritz Media World Location"
-            src="https://www.google.com/maps?q=Ritz+Media+World,+Unit+no,+Tower+A1,+Corporate+Park,+4th+floor,+402-404,+Sector+142,+Noida,+Uttar+Pradesh+201305&output=embed"
-            className="h-full w-full border-0"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            allowFullScreen
-          />
+        <div
+          ref={mapRef}
+          className="xl:mt-15 h-[150px] w-full overflow-hidden md:h-[400px] lg:mt-0 lg:h-[480px] lg:w-[80%]"
+        >
+          <div className="relative isolate h-full w-full overflow-hidden [transform:translateZ(0)]">
+            <div
+              className={`absolute inset-0 overflow-hidden ${
+                playMapReveal ? "section2-map-slide-reveal" : "section2-map-slide-hidden"
+              }`}
+            >
+              <iframe
+                title="Ritz Media World Location"
+                src="https://www.google.com/maps?q=Ritz+Media+World,+Unit+no,+Tower+A1,+Corporate+Park,+4th+floor,+402-404,+Sector+142,+Noida,+Uttar+Pradesh+201305&output=embed"
+                className={`h-full w-full border-0 ${playMapReveal ? "section2-map-zoom" : ""}`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+          </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        @keyframes section2-map-clip-reveal {
+          from {
+            clip-path: inset(0% 0% 0% 100%);
+          }
+          to {
+            clip-path: inset(0% 0% 0% 0%);
+          }
+        }
+        @keyframes section2-map-zoom {
+          from {
+            transform: scale(1.2);
+          }
+          to {
+            transform: scale(1);
+          }
+        }
+        .section2-map-slide-hidden {
+          clip-path: inset(0% 0% 0% 100%);
+        }
+        .section2-map-slide-reveal {
+          animation: section2-map-clip-reveal 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+        .section2-map-zoom {
+          transform-origin: center center;
+          animation: section2-map-zoom 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .section2-map-slide-reveal,
+          .section2-map-zoom {
+            animation-duration: 0.35s;
+            animation-timing-function: ease-out;
+          }
+        }
+      `}</style>
     </section>
   );
 };
