@@ -1,4 +1,10 @@
-import React from "react";
+"use client";
+
+import React, { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const mixtaProFamily = '"Mixta Pro", serif';
 const sequelSansFamily = '"Sequel Sans", sans-serif';
@@ -43,32 +49,69 @@ const addressBodyStyle = {
 };
 
 const Section2 = () => {
+  const leftColRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const leftCol = leftColRef.current;
+    if (!leftCol) return;
+
+    const ctx = gsap.context(() => {
+      const heading = leftCol.querySelector("[data-section2-heading]");
+      const subheading = leftCol.querySelector("[data-section2-subheading]");
+      const addressTitle = leftCol.querySelector("[data-section2-address]");
+      if (!heading || !subheading || !addressTitle) return;
+
+      gsap.set([heading, subheading], { xPercent: -110 });
+      gsap.set(addressTitle, { yPercent: -110 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: leftCol,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      tl.to(heading, { xPercent: 0, duration: 2, ease: "power4.out" })
+        .to(subheading, { xPercent: 0, duration: 2, ease: "power4.out" }, "-=1.5")
+        .to(addressTitle, { yPercent: 0, duration: 2, ease: "power4.out" });
+    }, leftCol);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="bg-white px-8 py-[35px] md:px-12  md:py-[70px] ">
+    <section className="bg-white px-8 pt-[35px] pb-[10px] md:px-12  md:pt-[70px] md:pb-[10px] ">
       <div className="mx-auto flex max-w-8xl flex-col items-start md:gap-12 gap-6 lg:flex-row lg:gap-10 xl:gap-0 mx-auto max-w-[1500px]">
-        <div className="w-full lg:w-[40%] lg:shrink-0">
+        <div ref={leftColRef} className="w-full lg:w-[40%] lg:shrink-0">
           <h2
             style={headingStyle}
-            className="text-[28px] leading-[100%] xl:leading-[60px] md:text-[40px] lg:text-[30px] xl:text-[48px] lg:max-w-[500px] w-full"
+            className="overflow-hidden text-[28px] leading-[100%] xl:leading-[60px] md:text-[40px] lg:text-[30px] xl:text-[48px] lg:max-w-[500px] w-full"
           >
-            We transform brands. Your success is next.
+            <span data-section2-heading className="inline-block">
+              We transform brands. Your success is next.
+            </span>
           </h2>
 
           <p
             style={subheadingStyle}
-            className="mt-3 text-[16px] lg:max-w-[500px] leading-[24px] md:mt-4 lg:mt-8 md:text-[20px] lg:leading-[28px] md:leading-[24px] w-full"
+            className="mt-3 overflow-hidden text-[16px] lg:max-w-[500px] leading-[24px] md:mt-4 lg:mt-8 md:text-[20px] lg:leading-[28px] md:leading-[24px] w-full"
           >
-            Start your project now by booking a one-on-one consultation with our
-            expert.
+            <span data-section2-subheading className="block w-full">
+              Start your project now by booking a one-on-one consultation with our
+              expert.
+            </span>
           </p>
 
           <div className="mt-6 md:mt-12 lg:mt-16 md:mt-8">
             <div className="inline-block">
               <h3
                 style={addressTitleStyle}
-                className="text-[24px] md:text-[28px]"
+                className="overflow-hidden text-[24px] md:text-[28px]"
               >
-                Address
+                <span data-section2-address className="inline-block">
+                  Address
+                </span>
               </h3>
               <span className="mt-2 block h-[2px] w-8 bg-[#E8783A]" />
             </div>
