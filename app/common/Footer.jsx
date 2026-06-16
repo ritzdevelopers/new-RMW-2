@@ -120,9 +120,39 @@ const servicesRow2 = [
   "PRINT ADVERTISEMENT",
 ];
 
-const getBrandGap = () => {
-  if (window.innerWidth < 1440) return 0;
-  return 5;
+const getTextMetrics = (el) => {
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const rect = range.getBoundingClientRect();
+  return { left: rect.left, width: rect.width };
+};
+
+const getBrandGap = () => (window.innerWidth >= 1441 ? -95 : 0);
+
+const getBrandTargets = (wrap, ritz, mediaworld) => {
+  gsap.set(ritz, { x: 0 });
+  gsap.set(mediaworld, { x: 0 });
+  const wrapRect = wrap.getBoundingClientRect();
+  const centerX = wrapRect.left + wrapRect.width / 2;
+
+  if (window.innerWidth >= 1441) {
+    const ritzM = getTextMetrics(ritz);
+    const mwM = getTextMetrics(mediaworld);
+    const gap = getBrandGap();
+    const groupLeft = centerX - (ritzM.width + gap + mwM.width) / 2;
+    return {
+      ritzX: groupLeft - ritzM.left,
+      mwX: groupLeft + ritzM.width + gap - mwM.left,
+    };
+  }
+
+  const ritzRect = ritz.getBoundingClientRect();
+  const mwRect = mediaworld.getBoundingClientRect();
+  const groupLeft = centerX - (ritzRect.width + mwRect.width) / 2;
+  return {
+    ritzX: groupLeft - ritzRect.left,
+    mwX: groupLeft + ritzRect.width - mwRect.left,
+  };
 };
 
 const MediaWorldText = () => (
@@ -152,20 +182,7 @@ const Footer = ({ overlaySection = null }) => {
 
     if (!wrap || !ritz || !mediaworld || !services.length) return;
 
-    const getTargets = () => {
-      gsap.set(ritz, { x: 0 });
-      gsap.set(mediaworld, { x: 0 });
-      const wrapRect = wrap.getBoundingClientRect();
-      const centerX = wrapRect.left + wrapRect.width / 2;
-      const ritzRect = ritz.getBoundingClientRect();
-      const mwRect = mediaworld.getBoundingClientRect();
-      const gap = getBrandGap();
-      const groupLeft = centerX - (ritzRect.width + gap + mwRect.width) / 2;
-      return {
-        ritzX: groupLeft - ritzRect.left,
-        mwX: groupLeft + ritzRect.width + gap - mwRect.left,
-      };
-    };
+    const getTargets = () => getBrandTargets(wrap, ritz, mediaworld);
 
     let onRefreshInit = null;
 
@@ -244,18 +261,7 @@ const Footer = ({ overlaySection = null }) => {
 
       const getTargets = () => {
         if (!wrap || !ritz || !mediaworld) return { ritzX: 0, mwX: 0 };
-        gsap.set(ritz, { x: 0 });
-        gsap.set(mediaworld, { x: 0 });
-        const wrapRect = wrap.getBoundingClientRect();
-        const centerX = wrapRect.left + wrapRect.width / 2;
-        const ritzRect = ritz.getBoundingClientRect();
-        const mwRect = mediaworld.getBoundingClientRect();
-        const gap = getBrandGap();
-        const groupLeft = centerX - (ritzRect.width + gap + mwRect.width) / 2;
-        return {
-          ritzX: groupLeft - ritzRect.left,
-          mwX: groupLeft + ritzRect.width + gap - mwRect.left,
-        };
+        return getBrandTargets(wrap, ritz, mediaworld);
       };
 
       let brandTargets = { ritzX: 0, mwX: 0 };
