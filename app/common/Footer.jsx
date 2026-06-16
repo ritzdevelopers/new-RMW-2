@@ -470,7 +470,7 @@ const Footer = ({ overlaySection = null }) => {
 
         <div
           ref={brandBannerRef}
-          className="relative left-1/2 mt-4 w-screen -translate-x-1/2 border-y border-[#FFFFFF1A] py-1 md:mt-12 md:py-8 lg:mt-14"
+          className="relative mt-4 -mx-8 w-[calc(100%+4rem)] border-y border-[#FFFFFF1A] py-1 md:-mx-12 md:mt-12 md:w-[calc(100%+6rem)] md:py-8 lg:mt-14"
         >
           <div
             data-footer-brand-wrap
@@ -517,7 +517,7 @@ const Footer = ({ overlaySection = null }) => {
   );
 
   return (
-    <div ref={stackRef} className="relative isolate">
+    <div ref={stackRef} className="relative isolate overflow-x-hidden">
       {overlaySection ? (
         <div className="max-md:flex max-md:flex-col md:grid">
           <footer
