@@ -120,6 +120,11 @@ const servicesRow2 = [
   "PRINT ADVERTISEMENT",
 ];
 
+const getBrandGap = () => {
+  if (window.innerWidth < 1440) return 0;
+  return 5;
+};
+
 const MediaWorldText = () => (
   <span
     data-footer-mediaworld
@@ -154,10 +159,11 @@ const Footer = ({ overlaySection = null }) => {
       const centerX = wrapRect.left + wrapRect.width / 2;
       const ritzRect = ritz.getBoundingClientRect();
       const mwRect = mediaworld.getBoundingClientRect();
-      const groupLeft = centerX - (ritzRect.width + mwRect.width) / 2;
+      const gap = getBrandGap();
+      const groupLeft = centerX - (ritzRect.width + gap + mwRect.width) / 2;
       return {
         ritzX: groupLeft - ritzRect.left,
-        mwX: groupLeft + ritzRect.width - mwRect.left,
+        mwX: groupLeft + ritzRect.width + gap - mwRect.left,
       };
     };
 
@@ -244,10 +250,11 @@ const Footer = ({ overlaySection = null }) => {
         const centerX = wrapRect.left + wrapRect.width / 2;
         const ritzRect = ritz.getBoundingClientRect();
         const mwRect = mediaworld.getBoundingClientRect();
-        const groupLeft = centerX - (ritzRect.width + mwRect.width) / 2;
+        const gap = getBrandGap();
+        const groupLeft = centerX - (ritzRect.width + gap + mwRect.width) / 2;
         return {
           ritzX: groupLeft - ritzRect.left,
-          mwX: groupLeft + ritzRect.width - mwRect.left,
+          mwX: groupLeft + ritzRect.width + gap - mwRect.left,
         };
       };
 
