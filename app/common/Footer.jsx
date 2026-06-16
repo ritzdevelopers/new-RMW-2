@@ -276,18 +276,14 @@ const Footer = ({ overlaySection = null }) => {
         ScrollTrigger.addEventListener("refreshInit", onBrandRefreshInit);
       }
 
-      const overlayContent = overlay.querySelector("[data-footer-overlay-content]");
-
       const syncConnectLinkClicks = (progress) => {
         stack.querySelectorAll(".pin-spacer").forEach((el) => {
           el.style.pointerEvents = "none";
         });
-        overlay.style.pointerEvents = "none";
-        if (overlayContent) {
-          overlayContent.style.pointerEvents = progress >= 0.85 ? "none" : "auto";
-        }
+        const revealed = progress >= 0.85;
+        overlay.style.pointerEvents = revealed ? "none" : "auto";
         footer.style.pointerEvents = "auto";
-        footer.style.zIndex = progress >= 0.85 ? "20" : "1";
+        footer.style.zIndex = revealed ? "20" : "1";
       };
 
       const revealTl = gsap.timeline({
@@ -470,7 +466,7 @@ const Footer = ({ overlaySection = null }) => {
 
         <div
           ref={brandBannerRef}
-          className="relative mt-4 -mx-8 w-[calc(100%+4rem)] border-y border-[#FFFFFF1A] py-1 md:-mx-12 md:mt-12 md:w-[calc(100%+6rem)] md:py-8 lg:mt-14"
+          className="relative left-1/2 mt-4 w-screen -translate-x-1/2 border-y border-[#FFFFFF1A] py-1 md:mt-12 md:py-8 lg:mt-14"
         >
           <div
             data-footer-brand-wrap
@@ -517,7 +513,7 @@ const Footer = ({ overlaySection = null }) => {
   );
 
   return (
-    <div ref={stackRef} className="relative isolate overflow-x-hidden">
+    <div ref={stackRef} className="relative isolate">
       {overlaySection ? (
         <div className="max-md:flex max-md:flex-col md:grid">
           <footer
@@ -528,11 +524,9 @@ const Footer = ({ overlaySection = null }) => {
           </footer>
           <div
             ref={overlayRef}
-            className="relative z-[2] max-md:order-1 w-full pointer-events-none will-change-transform md:col-start-1 md:row-start-1"
+            className="relative z-[2] max-md:order-1 w-full bg-white will-change-transform md:col-start-1 md:row-start-1"
           >
-            <div data-footer-overlay-content className="pointer-events-auto w-full bg-white">
-              {overlaySection}
-            </div>
+            {overlaySection}
           </div>
         </div>
       ) : (

@@ -83,7 +83,7 @@ const Section2 = () => {
         scrollTrigger: {
           trigger: leftCol,
           start: "top 85%",
-          toggleActions: "play none none none",
+          toggleActions: "restart reset restart reset",
         },
       });
 
