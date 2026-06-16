@@ -1,4 +1,4 @@
-"use client";
+  "use client";
 
 import React, { useEffect, useLayoutEffect, useRef } from "react";
 import Image from "next/image";
@@ -120,80 +120,170 @@ const servicesRow2 = [
   "PRINT ADVERTISEMENT",
 ];
 
-const MediaWorldText = () => {
-  const textRef = useRef(null);
-  const lastScrollY = useRef(0);
-  const expandedRef = useRef(false);
-
-  useEffect(() => {
-    const el = textRef.current;
-    if (!el) return;
-
-    gsap.set(el, { maxWidth: "5.4ch" });
-    lastScrollY.current = window.scrollY;
-
-    const onScroll = () => {
-      const currentY = window.scrollY;
-
-      if (currentY < lastScrollY.current - 5 && !expandedRef.current) {
-        expandedRef.current = true;
-        gsap.to(el, { maxWidth: "11ch", duration: 0.7, ease: "power2.out" });
-      } else if (currentY > lastScrollY.current + 5 && expandedRef.current) {
-        expandedRef.current = false;
-        gsap.to(el, { maxWidth: "5.4ch", duration: 0.7, ease: "power2.out" });
-      }
-
-      lastScrollY.current = currentY;
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  return (
-    <span
-      ref={textRef}
-      className="inline-block shrink-0 self-end overflow-hidden whitespace-nowrap !text-[48px] md:!text-[74px]"
-      style={brandTextStyle}
-    >
-      MEDIAWORLD
-    </span>
-  );
-};
+const MediaWorldText = () => (
+  <span
+    data-footer-mediaworld
+    className="inline-block shrink-0 whitespace-nowrap !text-[33px] md:!text-[74px]"
+    style={brandTextStyle}
+  >
+    MEDIAWORLD
+  </span>
+);
 
 const Footer = ({ overlaySection = null }) => {
   const stackRef = useRef(null);
   const overlayRef = useRef(null);
   const footerRef = useRef(null);
+  const brandBannerRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const banner = brandBannerRef.current;
+    if (!banner) return;
+
+    const wrap = banner.querySelector("[data-footer-brand-wrap]");
+    const ritz = banner.querySelector("[data-footer-ritz]");
+    const mediaworld = banner.querySelector("[data-footer-mediaworld]");
+    const services = banner.querySelectorAll("[data-footer-services]");
+
+    if (!wrap || !ritz || !mediaworld || !services.length) return;
+
+    const getTargets = () => {
+      gsap.set(ritz, { x: 0 });
+      gsap.set(mediaworld, { x: 0 });
+      const wrapRect = wrap.getBoundingClientRect();
+      const centerX = wrapRect.left + wrapRect.width / 2;
+      const ritzRect = ritz.getBoundingClientRect();
+      const mwRect = mediaworld.getBoundingClientRect();
+      const groupLeft = centerX - (ritzRect.width + mwRect.width) / 2;
+      return {
+        ritzX: groupLeft - ritzRect.left,
+        mwX: groupLeft + ritzRect.width - mwRect.left,
+      };
+    };
+
+    let onRefreshInit = null;
+
+    const ctx = gsap.context(() => {
+      let targets = getTargets();
+      gsap.set(services, { opacity: 1 });
+
+      const useStackReveal =
+        overlaySection &&
+        stackRef.current &&
+        footerRef.current &&
+        window.matchMedia("(min-width: 768px)").matches;
+
+      if (useStackReveal) return;
+
+      const scrollConfig = {
+              trigger: banner,
+              start: "top 90%",
+              end: "top 35%",
+              scrub: true,
+              invalidateOnRefresh: true,
+            };
+
+      onRefreshInit = () => {
+        targets = getTargets();
+      };
+
+      ScrollTrigger.addEventListener("refreshInit", onRefreshInit);
+
+      gsap
+        .timeline({ scrollTrigger: scrollConfig })
+        .to(services, { opacity: 0, ease: "none", duration: 1 }, 0)
+        .to(ritz, { x: () => targets.ritzX, ease: "none", duration: 1 }, 0)
+        .to(mediaworld, { x: () => targets.mwX, ease: "none", duration: 1 }, 0);
+    }, banner);
+
+    const refresh = () => ScrollTrigger.refresh();
+    requestAnimationFrame(refresh);
+
+    const onResize = () => ScrollTrigger.refresh();
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      if (onRefreshInit) {
+        ScrollTrigger.removeEventListener("refreshInit", onRefreshInit);
+      }
+      ctx.revert();
+    };
+  }, [overlaySection]);
 
   useLayoutEffect(() => {
     if (!overlaySection || !stackRef.current || !overlayRef.current || !footerRef.current) {
       return;
     }
 
+    if (!window.matchMedia("(min-width: 768px)").matches) {
+      return;
+    }
+
     const stack = stackRef.current;
     const overlay = overlayRef.current;
     const footer = footerRef.current;
+    let onBrandRefreshInit = null;
 
     const ctx = gsap.context(() => {
       const getRevealDistance = () => footer.offsetHeight;
 
       gsap.set(overlay, { y: 0 });
 
-      gsap.to(overlay, {
-        y: () => -getRevealDistance(),
-        ease: "none",
+      const banner = brandBannerRef.current;
+      const wrap = banner?.querySelector("[data-footer-brand-wrap]");
+      const ritz = banner?.querySelector("[data-footer-ritz]");
+      const mediaworld = banner?.querySelector("[data-footer-mediaworld]");
+      const services = banner?.querySelectorAll("[data-footer-services]");
+
+      const getTargets = () => {
+        if (!wrap || !ritz || !mediaworld) return { ritzX: 0, mwX: 0 };
+        gsap.set(ritz, { x: 0 });
+        gsap.set(mediaworld, { x: 0 });
+        const wrapRect = wrap.getBoundingClientRect();
+        const centerX = wrapRect.left + wrapRect.width / 2;
+        const ritzRect = ritz.getBoundingClientRect();
+        const mwRect = mediaworld.getBoundingClientRect();
+        const groupLeft = centerX - (ritzRect.width + mwRect.width) / 2;
+        return {
+          ritzX: groupLeft - ritzRect.left,
+          mwX: groupLeft + ritzRect.width - mwRect.left,
+        };
+      };
+
+      let brandTargets = { ritzX: 0, mwX: 0 };
+
+      if (wrap && ritz && mediaworld && services?.length) {
+        brandTargets = getTargets();
+        gsap.set(services, { opacity: 1 });
+
+        onBrandRefreshInit = () => {
+          brandTargets = getTargets();
+        };
+        ScrollTrigger.addEventListener("refreshInit", onBrandRefreshInit);
+      }
+
+      const revealTl = gsap.timeline({
         scrollTrigger: {
           trigger: stack,
           start: "top top",
           end: () => `+=${getRevealDistance()}`,
-          scrub: 1,
+          scrub: true,
           pin: overlay,
           pinSpacing: true,
           invalidateOnRefresh: true,
-          anticipatePin: 1,
+          anticipatePin: 0,
         },
       });
+
+      revealTl.to(overlay, { y: () => -getRevealDistance(), ease: "none", duration: 1 }, 0);
+
+      if (wrap && ritz && mediaworld && services?.length) {
+        revealTl
+          .to(services, { opacity: 0, ease: "none", duration: 1 }, 0)
+          .to(ritz, { x: () => brandTargets.ritzX, ease: "none", duration: 1 }, 0)
+          .to(mediaworld, { x: () => brandTargets.mwX, ease: "none", duration: 1 }, 0);
+      }
     }, stack);
 
     const refresh = () => ScrollTrigger.refresh();
@@ -204,6 +294,9 @@ const Footer = ({ overlaySection = null }) => {
     return () => {
       window.removeEventListener("load", refresh);
       window.removeEventListener("resize", refresh);
+      if (onBrandRefreshInit) {
+        ScrollTrigger.removeEventListener("refreshInit", onBrandRefreshInit);
+      }
       ctx.revert();
     };
   }, [overlaySection]);
@@ -342,14 +435,16 @@ const Footer = ({ overlaySection = null }) => {
           </div>
         </div>
 
-        <div className="relative left-1/2 mt-4  w-screen -translate-x-1/2 border-y border-[#FFFFFF1A] py-1 md:mt-12 md:py-8 lg:mt-14">
-          <div className="mx-auto flex max-w-[1500px] flex-col items-center gap-2 px-8 md:px-12 lg:flex-row lg:items-end lg:justify-between lg:gap-4">
-            <span style={brandTextStyle} className="shrink-0 self-start !text-[48px] md:!text-[74px]">
-              RITZ
-            </span>
-
-            <div className="flex flex-col items-center gap-2 text-center lg:mb-2 lg:gap-3">
-              <p style={serviceTextStyle} className={serviceTextClassName}>
+        <div
+          ref={brandBannerRef}
+          className="relative left-1/2 mt-4 w-screen -translate-x-1/2 border-y border-[#FFFFFF1A] py-1 md:mt-12 md:py-8 lg:mt-14"
+        >
+          <div
+            data-footer-brand-wrap
+            className="relative mx-auto grid min-h-[130px] w-full max-w-[1500px] grid-cols-1 px-8 md:min-h-[110px] md:px-12 lg:min-h-[90px]"
+          >
+            <div className="relative z-[1] col-start-1 row-start-1 flex flex-col items-center justify-center gap-2 self-center py-2 text-center">
+              <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
                 {servicesRow1.map((service, index) => (
                   <React.Fragment key={service}>
                     {index > 0 && <span className="mx-[10px]">•</span>}
@@ -357,7 +452,7 @@ const Footer = ({ overlaySection = null }) => {
                   </React.Fragment>
                 ))}
               </p>
-              <p style={serviceTextStyle} className={serviceTextClassName}>
+              <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
                 {servicesRow2.map((service, index) => (
                   <React.Fragment key={service}>
                     {index > 0 && <span className="mx-[10px]">•</span>}
@@ -367,7 +462,17 @@ const Footer = ({ overlaySection = null }) => {
               </p>
             </div>
 
-            <MediaWorldText />
+            <span
+              data-footer-ritz
+              style={brandTextStyle}
+              className="relative z-[3] col-start-1 row-start-1 inline-block shrink-0 justify-self-start self-end !text-[33px] md:!text-[74px]"
+            >
+              RITZ
+            </span>
+
+            <div className="relative z-[3] col-start-1 row-start-1 shrink-0 justify-self-end self-end">
+              <MediaWorldText />
+            </div>
           </div>
         </div>
 
@@ -381,16 +486,16 @@ const Footer = ({ overlaySection = null }) => {
   return (
     <div ref={stackRef} className="relative isolate">
       {overlaySection ? (
-        <div className="grid">
+        <div className="max-md:flex max-md:flex-col md:grid">
           <footer
             ref={footerRef}
-            className={`${footerClassName} relative z-[1] col-start-1 row-start-1 w-full self-end sticky bottom-0`}
+            className={`${footerClassName} relative z-[1] max-md:order-2 w-full md:col-start-1 md:row-start-1 md:self-end md:sticky md:bottom-0`}
           >
             {footerInner}
           </footer>
           <div
             ref={overlayRef}
-            className="relative z-[2] col-start-1 row-start-1 w-full bg-white will-change-transform"
+            className="relative z-[2] max-md:order-1 w-full bg-white will-change-transform md:col-start-1 md:row-start-1"
           >
             {overlaySection}
           </div>
