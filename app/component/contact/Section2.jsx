@@ -96,7 +96,7 @@ const Section2 = () => {
   }, []);
 
   return (
-    <section className="bg-white px-8 pt-[35px] pb-[10px] md:px-12  md:pt-[70px] md:pb-[10px] ">
+    <section className="relative bg-white px-8 pt-[35px] pb-[10px] md:px-12  md:pt-[70px] md:pb-[10px] ">
       <div className="mx-auto flex max-w-8xl flex-col items-start md:gap-12 gap-6 lg:flex-row lg:gap-10 xl:gap-0 mx-auto max-w-[1500px]">
         <div ref={leftColRef} className="w-full lg:w-[40%] lg:shrink-0">
           <h2

@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const sequelFontFamily = '"Sequel Sans", sans-serif';
 
@@ -158,9 +161,58 @@ const MediaWorldText = () => {
   );
 };
 
-const Footer = () => {
-  return (
-    <footer className="relative overflow-hidden bg-[#0E1125] px-8 pb-8 pt-0 md:px-12 md:pb-4 md:pt-8">
+const Footer = ({ overlaySection = null }) => {
+  const stackRef = useRef(null);
+  const overlayRef = useRef(null);
+  const footerRef = useRef(null);
+
+  useLayoutEffect(() => {
+    if (!overlaySection || !stackRef.current || !overlayRef.current || !footerRef.current) {
+      return;
+    }
+
+    const stack = stackRef.current;
+    const overlay = overlayRef.current;
+    const footer = footerRef.current;
+
+    const ctx = gsap.context(() => {
+      const getRevealDistance = () => footer.offsetHeight;
+
+      gsap.set(overlay, { y: 0 });
+
+      gsap.to(overlay, {
+        y: () => -getRevealDistance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: stack,
+          start: "top top",
+          end: () => `+=${getRevealDistance()}`,
+          scrub: 1,
+          pin: overlay,
+          pinSpacing: true,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
+        },
+      });
+    }, stack);
+
+    const refresh = () => ScrollTrigger.refresh();
+    requestAnimationFrame(refresh);
+    window.addEventListener("load", refresh);
+    window.addEventListener("resize", refresh);
+
+    return () => {
+      window.removeEventListener("load", refresh);
+      window.removeEventListener("resize", refresh);
+      ctx.revert();
+    };
+  }, [overlaySection]);
+
+  const footerClassName =
+    "relative w-full overflow-hidden bg-[#0E1125] px-8 pb-8 pt-0 md:px-12 md:pb-4 md:pt-8";
+
+  const footerInner = (
+    <>
       <style>{`
         @font-face {
           font-family: "Sequel Sans";
@@ -276,8 +328,7 @@ const Footer = () => {
 
         <div className="mx-auto mt-4 w-fit max-w-full items-center p-[10px] justify-center border border-white/10 bg-white/[0.02] md:p-[20px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] backdrop-blur-sm md:mt-12">
           <div className="flex flex-wrap items-center justify-center gap-3 md:gap-8 lg:gap-10">
-            {partnerLogos
-            .map((logo) => (
+            {partnerLogos.map((logo) => (
               <Image
                 key={logo.src}
                 src={logo.src}
@@ -324,7 +375,30 @@ const Footer = () => {
           © 2026 Ritz Media World. All rights reserved.
         </p>
       </div>
-    </footer>
+    </>
+  );
+
+  return (
+    <div ref={stackRef} className="relative isolate">
+      {overlaySection ? (
+        <div className="grid">
+          <footer
+            ref={footerRef}
+            className={`${footerClassName} relative z-[1] col-start-1 row-start-1 w-full self-end sticky bottom-0`}
+          >
+            {footerInner}
+          </footer>
+          <div
+            ref={overlayRef}
+            className="relative z-[2] col-start-1 row-start-1 w-full bg-white will-change-transform"
+          >
+            {overlaySection}
+          </div>
+        </div>
+      ) : (
+        <footer className={footerClassName}>{footerInner}</footer>
+      )}
+    </div>
   );
 };
 
