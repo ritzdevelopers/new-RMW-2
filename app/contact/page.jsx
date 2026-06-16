@@ -7,10 +7,11 @@ import Footer from '../common/Footer'
 const Contact = () => {
   return (
     <>
-    <Header />
-    <Section1 />
-    <Section2 />
-    <Footer />
+      <Header />
+      <div className="relative z-10 bg-[#0D1334]">
+        <Section1 />
+      </div>
+      <Footer overlaySection={<Section2 />} />
     </>
   )
 }

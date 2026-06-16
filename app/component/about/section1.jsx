@@ -152,8 +152,8 @@ const Section1 = () => {
         }
       `}</style>
 
-      <div ref={heroRef}>
-      <section className="overflow-x-hidden bg-[#0D1334] px-8 py-35px md:px-12 md:pt-[70px]">
+      <div ref={heroRef} className="overflow-x-hidden">
+      <section className="overflow-x-hidden bg-[#0D1334] px-8 pt-35px pb-[60px] md:px-12 md:pt-[70px] md:pb-[80px]">
         <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center text-center">
           <div className="relative  w-screen ">
             <h1
@@ -207,12 +207,16 @@ const Section1 = () => {
             </Reveal>
           </div>
 
-          <div className="mt-14 overflow-hidden md:mt-20 lg:mt-0">
-            <span data-about-reveal className="inline-block">
+          <div className="mt-14 flex w-full justify-center md:mt-20 lg:mt-5">
+            <span data-about-reveal className="inline-flex items-center justify-center px-4 pb-10 md:px-6 md:pb-14 lg:pb-12">
               <img
-                src="/about/about-r-logo.png"
+                src="/logo/r-rmw-transparent.png"
                 alt=""
-                className="h-[140px] w-auto object-contain md:h-[220px] lg:h-[300px]"
+                className="block h-[140px] w-auto max-w-none object-contain md:h-[220px] lg:h-[300px] rotate-[-20deg]"
+                style={{
+                  filter: "brightness(3.2) contrast(1.05)",
+                  opacity: 0.22,
+                }}
               />
             </span>
           </div>
