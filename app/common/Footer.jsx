@@ -22,7 +22,7 @@ const connectLabelStyle = {
 
 const linkStyle = {
   fontFamily: sequelFontFamily,
-  fontWeight: 425,
+  fontWeight: 500,
   fontSize: "18px",
   lineHeight: "100%",
   letterSpacing: "0",
@@ -33,7 +33,7 @@ const linkStyle = {
 
 const contactTextStyle = {
   fontFamily: sequelFontFamily,
-  fontWeight: 300,
+  fontWeight: 500,
   fontSize: "18px",
   lineHeight: "22px",
   letterSpacing: "0",
@@ -276,6 +276,20 @@ const Footer = ({ overlaySection = null }) => {
         ScrollTrigger.addEventListener("refreshInit", onBrandRefreshInit);
       }
 
+      const overlayContent = overlay.querySelector("[data-footer-overlay-content]");
+
+      const syncConnectLinkClicks = (progress) => {
+        stack.querySelectorAll(".pin-spacer").forEach((el) => {
+          el.style.pointerEvents = "none";
+        });
+        overlay.style.pointerEvents = "none";
+        if (overlayContent) {
+          overlayContent.style.pointerEvents = progress >= 0.85 ? "none" : "auto";
+        }
+        footer.style.pointerEvents = "auto";
+        footer.style.zIndex = progress >= 0.85 ? "20" : "1";
+      };
+
       const revealTl = gsap.timeline({
         scrollTrigger: {
           trigger: stack,
@@ -286,8 +300,14 @@ const Footer = ({ overlaySection = null }) => {
           pinSpacing: true,
           invalidateOnRefresh: true,
           anticipatePin: 0,
+          onRefresh: () => syncConnectLinkClicks(revealTl.scrollTrigger?.progress ?? 0),
+          onUpdate: (self) => syncConnectLinkClicks(self.progress),
+          onLeave: () => syncConnectLinkClicks(1),
+          onEnterBack: (self) => syncConnectLinkClicks(self.progress),
         },
       });
+
+      syncConnectLinkClicks(0);
 
       revealTl.to(overlay, { y: () => -getRevealDistance(), ease: "none", duration: 1 }, 0);
 
@@ -381,13 +401,13 @@ const Footer = ({ overlaySection = null }) => {
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-8 lg:gap-12">
           <div className="flex flex-col gap-5 md:gap-6">
             <span style={connectLabelStyle} className="mt-8">Connect</span>
-            <nav className="flex flex-col gap-3 md:gap-4">
+            <nav className="relative z-10 flex flex-col gap-3 pointer-events-auto md:gap-4">
               {connectLinks.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
                   style={linkStyle}
-                  className="!text-[17px] transition-opacity hover:opacity-70 md:!text-[18px]"
+                  className="relative z-10 pointer-events-auto !text-[17px] transition-opacity hover:opacity-70 md:!text-[18px]"
                   {...(link.href.startsWith("http")
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
@@ -508,9 +528,11 @@ const Footer = ({ overlaySection = null }) => {
           </footer>
           <div
             ref={overlayRef}
-            className="relative z-[2] max-md:order-1 w-full bg-white will-change-transform md:col-start-1 md:row-start-1"
+            className="relative z-[2] max-md:order-1 w-full pointer-events-none will-change-transform md:col-start-1 md:row-start-1"
           >
-            {overlaySection}
+            <div data-footer-overlay-content className="pointer-events-auto w-full bg-white">
+              {overlaySection}
+            </div>
           </div>
         </div>
       ) : (
