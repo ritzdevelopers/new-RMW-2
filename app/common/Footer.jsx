@@ -383,12 +383,12 @@ const Footer = ({ overlaySection = null }) => {
         className="pointer-events-none absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 select-none"
       >
         <img
-          src="/logo/r-rmw-transparent.png"
+          src="/logo/r-logo-new.png"
           alt=""
           className="h-[300px] w-[250px] max-w-none rotate-[-13deg] object-contain md:h-[517px] md:w-[431px]"
           style={{
             filter: "brightness(3.2) contrast(1.05)",
-            opacity: 0.22,
+            opacity: 0.50,
           }}
         />
       </div>

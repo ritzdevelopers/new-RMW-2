@@ -2,6 +2,9 @@
 
 import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const mixtaPro = "font-['MixtaPro']";
 const sequelFontFamily = '"Sequel Sans"';
@@ -37,11 +40,11 @@ const subHeadingStyle = {
   color: "#1D1D1B",
 };
 
-const Reveal = ({ children, className = "", clipYOnly = false }) => (
+const Reveal = ({ children, className = "", clipYOnly = false, group = "headline" }) => (
   <span
     className={`block ${clipYOnly ? "overflow-x-visible overflow-y-hidden" : "overflow-hidden"} ${className}`}
   >
-    <span data-about-reveal className="block w-full">
+    <span data-about-reveal={group} className="block w-full">
       {children}
     </span>
   </span>
@@ -55,11 +58,100 @@ const Section1 = () => {
   const heroRef = useRef(null);
   const headlineRef = useRef(null);
   const disruptionRef = useRef(null);
+  const filmRef = useRef(null);
+  const heroSectionRef = useRef(null);
+  const videoFloatRef = useRef(null);
+  const videoSlotRef = useRef(null);
+
+  const getStartSize = () => {
+    const video = videoFloatRef.current?.querySelector("video");
+    const width = Math.min(1044, window.innerWidth - 32);
+    let height = width * (9 / 16);
+
+    if (video?.videoWidth && video?.videoHeight) {
+      height = width * (video.videoHeight / video.videoWidth);
+    }
+
+    return { width, height };
+  };
+
+  const computeVideoBounds = () => {
+    const container = heroRef.current;
+    const slot = videoSlotRef.current;
+    const heroSection = heroSectionRef.current;
+    if (!container || !slot || !heroSection) return null;
+
+    const cRect = container.getBoundingClientRect();
+    const sRect = slot.getBoundingClientRect();
+    const startSize = getStartSize();
+    const sectionBottom = heroSection.offsetTop + heroSection.offsetHeight;
+
+    return {
+      start: {
+        x: window.innerWidth / 2 - cRect.left,
+        y: sectionBottom - startSize.height / 2 + 330,
+        width: startSize.width,
+        height: startSize.height,
+        clipTop: 0,
+      },
+      end: {
+        x: sRect.left + sRect.width / 2 - cRect.left,
+        y: sRect.top + sRect.height / 2 - cRect.top,
+        width: sRect.width,
+        height: sRect.height,
+        clipTop: 0,
+      },
+    };
+  };
+
+  const applyVideoProgress = (progress) => {
+    const floater = videoFloatRef.current;
+    const bounds = computeVideoBounds();
+    if (!floater || !bounds) return;
+
+    const logo = floater.querySelector("[data-about-hero-logo]");
+    const logoImg = logo?.querySelector("img");
+
+    const t = gsap.utils.clamp(0, 1, progress);
+    const { start, end } = bounds;
+    const clipTop = gsap.utils.interpolate(start.clipTop, end.clipTop, t);
+
+    gsap.set(floater, {
+      visibility: "visible",
+      left: gsap.utils.interpolate(start.x, end.x, t),
+      top: gsap.utils.interpolate(start.y, end.y, t),
+      width: gsap.utils.interpolate(start.width, end.width, t),
+      height: gsap.utils.interpolate(start.height, end.height, t),
+      clipPath: clipTop > 0 ? `inset(${clipTop}% 0% 0% 0%)` : "none",
+      borderRadius: gsap.utils.interpolate(24, 20, t),
+    });
+
+    const video = floater.querySelector("video");
+    if (video) {
+      gsap.set(video, { clearProps: "scale,height" });
+    }
+
+    if (logo && logoImg) {
+      const logoHeightPct = 58;
+      gsap.set(logo, {
+        visibility: t >= 0.98 ? "hidden" : "visible",
+        opacity: gsap.utils.interpolate(1, 0, t),
+      });
+      gsap.set(logoImg, {
+        top: `calc(${clipTop}% + 30px)`,
+        height: `${logoHeightPct}%`,
+        width: "auto",
+        left: "50%",
+        xPercent: -50,
+      });
+    }
+  };
 
   useLayoutEffect(() => {
     const hero = heroRef.current;
     const headline = headlineRef.current;
     const disruption = disruptionRef.current;
+    const film = filmRef.current;
     if (!hero) return;
 
     const fitHeadline = () => {
@@ -101,23 +193,140 @@ const Section1 = () => {
       fitDisruption();
     };
 
-    const ctx = gsap.context(() => {
-      const items = gsap.utils.toArray("[data-about-reveal]", hero);
-      if (!items.length) return;
+    let onHeaderComplete = null;
+    let metadataVideo = null;
+    let onVideoMetadata = null;
 
-      gsap.set(items, { yPercent: -110 });
-      gsap.to(items, {
-        yPercent: 0,
-        duration: 1.05,
-        ease: "power4.out",
-        stagger: 0.1,
-        delay: 0.15,
-        onComplete: fitAll,
-      });
+    const ctx = gsap.context(() => {
+      const headlineItems = gsap.utils.toArray("[data-about-reveal='headline']", hero);
+      const subItems = gsap.utils.toArray("[data-about-reveal='sub']", hero);
+      const logoEl = hero.querySelector("[data-about-hero-logo]");
+      const introItems = gsap.utils.toArray("[data-about-reveal='intro']", hero);
+      const disruptionItems = gsap.utils.toArray("[data-about-reveal='disruption']", hero);
+
+      gsap.set(headlineItems, { yPercent: -110 });
+      gsap.set(subItems, { yPercent: -110, opacity: 0 });
+      if (logoEl) gsap.set(logoEl, { clipPath: "inset(0% 0% 0% 0%)" });
+      gsap.set(introItems, { yPercent: -110 });
+      gsap.set(disruptionItems, { yPercent: -110 });
+
+      const playHeroEntrance = () => {
+        const tl = gsap.timeline({
+          onComplete: () => {
+            fitAll();
+            applyVideoProgress(0);
+          },
+        });
+
+        headlineItems.forEach((item, index) => {
+          tl.to(
+            item,
+            { yPercent: 0, duration: 2, ease: "power4.out" },
+            index === 0 ? 0 : "-=1.65"
+          );
+        });
+
+        subItems.forEach((item, index) => {
+          tl.to(
+            item,
+            { yPercent: 0, opacity: 1, duration: 1.4, ease: "power4.out" },
+            index === 0 ? "-=1.1" : "-=1.15"
+          );
+        });
+
+        if (logoEl) {
+          tl.set(logoEl, { visibility: "visible" }, "-=1.1");
+        }
+      };
+
+      onHeaderComplete = () => playHeroEntrance();
+      window.addEventListener("header-reveal-complete", onHeaderComplete);
+
+      if (film && (introItems.length || disruptionItems.length)) {
+        const filmTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: film,
+            start: "top 85%",
+            toggleActions: "restart reset restart reset",
+          },
+        });
+
+        introItems.forEach((item, index) => {
+          filmTl.to(
+            item,
+            { yPercent: 0, duration: 2, ease: "power4.out" },
+            index === 0 ? 0 : "-=1.65"
+          );
+        });
+
+        disruptionItems.forEach((item, index) => {
+          filmTl.to(
+            item,
+            { yPercent: 0, duration: 2, ease: "power4.out" },
+            index === 0 ? "-=1.2" : "-=1.65"
+          );
+        });
+
+        filmTl.eventCallback("onComplete", fitAll);
+      }
+
+      const floater = videoFloatRef.current;
+      const slot = videoSlotRef.current;
+      const heroSection = heroSectionRef.current;
+      const videoEl = floater?.querySelector("video");
+
+      const refreshVideoLayout = () => {
+        applyVideoProgress(
+          ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === slot)?.progress ?? 0
+        );
+        ScrollTrigger.refresh();
+      };
+
+      if (floater && slot && heroSection) {
+        gsap.set(floater, {
+          position: "absolute",
+          xPercent: -50,
+          yPercent: -50,
+          zIndex: 30,
+          borderRadius: "20px",
+          overflow: "hidden",
+        });
+
+        applyVideoProgress(0);
+
+        ScrollTrigger.create({
+          trigger: heroSection,
+          start: "top top",
+          endTrigger: slot,
+          end: "top 55%",
+          scrub: 0.85,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => applyVideoProgress(self.progress),
+        });
+
+        if (videoEl) {
+          onVideoMetadata = refreshVideoLayout;
+          metadataVideo = videoEl;
+          videoEl.addEventListener("loadedmetadata", onVideoMetadata);
+        }
+
+        requestAnimationFrame(() => {
+          applyVideoProgress(0);
+          ScrollTrigger.refresh();
+        });
+      }
     }, hero);
 
+    const onResize = () => {
+      fitAll();
+      applyVideoProgress(
+        ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === videoSlotRef.current)?.progress ?? 0
+      );
+      ScrollTrigger.refresh();
+    };
+
     fitAll();
-    window.addEventListener("resize", fitAll);
+    window.addEventListener("resize", onResize);
 
     const resizeObserver =
       typeof ResizeObserver !== "undefined" &&
@@ -133,7 +342,11 @@ const Section1 = () => {
     }
 
     return () => {
-      window.removeEventListener("resize", fitAll);
+      if (metadataVideo && onVideoMetadata) {
+        metadataVideo.removeEventListener("loadedmetadata", onVideoMetadata);
+      }
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("header-reveal-complete", onHeaderComplete);
       resizeObserver?.disconnect();
       ctx.revert();
     };
@@ -152,10 +365,13 @@ const Section1 = () => {
         }
       `}</style>
 
-      <div ref={heroRef} className="overflow-x-hidden">
-      <section className="overflow-x-hidden bg-[#0D1334] px-8 pt-35px pb-[60px] md:px-12 md:pt-[70px] md:pb-[80px]">
+      <div ref={heroRef} className="relative overflow-x-hidden">
+      <section
+        ref={heroSectionRef}
+        className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#0D1334] px-8 pt-35px pb-[60px] md:px-12 md:pt-[70px] md:pb-[80px]"
+      >
         <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center text-center">
-          <div className="relative  w-screen ">
+          <div className="relative w-screen">
             <h1
               ref={headlineRef}
               style={headingStyle}
@@ -195,35 +411,52 @@ const Section1 = () => {
           </div>
 
           <div className={`${mixtaPro} mt-8 max-w-[720px] md:mt-10 lg:mt-5`}>
-            <Reveal>
+            <Reveal group="sub">
               <p className="m-0 text-[14px] font-[300] italic leading-[20px] text-white md:text-[20px] md:leading-[28px] lg:text-[28px] lg:leading-[36px]">
                 Fuelled by a magnetic culture of hustle and heart, backed
               </p>
             </Reveal>
-            <Reveal className="mt-1">
+            <Reveal group="sub" className="mt-1">
               <p className="m-0 text-[14px] font-[300] italic leading-[20px] text-white md:text-[20px] md:leading-[28px] lg:text-[28px] lg:leading-[36px]">
                 by the belief that great ideas change the world
               </p>
             </Reveal>
           </div>
-
-          <div className="mt-14 flex w-full justify-center md:mt-20 lg:mt-5">
-            <span data-about-reveal className="inline-flex items-center justify-center px-4 pb-10 md:px-6 md:pb-14 lg:pb-12">
-              <img
-                src="/logo/r-rmw-transparent.png"
-                alt=""
-                className="block h-[140px] w-auto max-w-none object-contain md:h-[220px] lg:h-[300px] rotate-[-20deg]"
-                style={{
-                  filter: "brightness(3.2) contrast(1.05)",
-                  opacity: 0.22,
-                }}
-              />
-            </span>
-          </div>
         </div>
+
       </section>
 
-      <section className="relative overflow-x-hidden bg-[#E8E8E8] px-8 py-10 md:px-12 md:py-14 lg:py-16">
+      <div
+        ref={videoFloatRef}
+        className="pointer-events-none absolute z-30 max-w-[1044px] overflow-hidden rounded-[24px] bg-black shadow-[0_24px_60px_rgba(0,0,0,0.35)]"
+        style={{ visibility: "hidden", width: "1044px" }}
+      >
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="block h-full w-full origin-center object-cover"
+          src="/about/aboutsectionvideo.mp4"
+        />
+        <div
+          data-about-hero-logo
+          className="absolute inset-0 z-10 pointer-events-none"
+          style={{ visibility: "hidden" }}
+        >
+          <img
+            src="/logo/r-rmw-transparent.png"
+            alt=""
+            className="absolute block w-auto max-w-[85%] object-contain object-top"
+            style={{
+              filter: "brightness(3.2) contrast(1.05)",
+              opacity: 0.4,
+            }}
+          />
+        </div>
+      </div>
+
+      <section ref={filmRef} className="relative overflow-x-hidden bg-[#E8E8E8] px-8 pb-10 pt-24 md:px-12 md:pb-14 md:pt-32 lg:py-16 lg:pt-36">
         <div className="relative mx-auto w-full max-w-[1400px]">
           {/* <Reveal className="absolute left-0 top-0 z-10">
             <img
@@ -235,19 +468,19 @@ const Section1 = () => {
 
           <div className="flex flex-col items-center  text-center ">
             <div className={`${mixtaPro} max-w-[720px]`}>
-              <Reveal>
+              <Reveal group="intro">
                 <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] lg:leading-[36px]">
                   The world&apos;s largest independent brand agency,
                 </p>
               </Reveal>
-              <Reveal className="mt-1">
+              <Reveal group="intro" className="mt-1">
                 <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] lg:leading-[36px]">
                   17 years in the making.
                 </p>
               </Reveal>
             </div>
 
-            <Reveal className="mt-10 md:mt-12 lg:mt-14 xl:mt-5">
+            <Reveal group="disruption" className="mt-10 md:mt-12 lg:mt-14 xl:mt-5">
               <p style={subHeadingStyle} className="m-0 text-[18px] md:text-[24px] xl:text-[48px]">
                 WE CREATE DESIRE THROUGH
               </p>
@@ -260,7 +493,7 @@ const Section1 = () => {
                 style={disruptionStyle}
                 className="mx-auto w-full text-center"
               >
-                <Reveal clipYOnly className="w-full overflow-x-visible">
+                <Reveal group="disruption" clipYOnly className="w-full overflow-x-visible">
                   <span className="flex w-full justify-center overflow-x-visible">
                     <span
                       data-headline-row
@@ -270,16 +503,11 @@ const Section1 = () => {
                       <Letter>I</Letter>
                       <Letter>S</Letter>
                       <span className="mx-[8px] inline-flex shrink-0 items-center md:mx-[12px] lg:mx-[16px]">
-                        <span className="block h-[120px] w-[200px] overflow-hidden rounded-[20px] bg-black md:h-[160px] md:w-[260px] lg:h-[200px] lg:w-[320px]">
-                          <video
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            className="h-full w-full object-cover"
-                            src="/about/aboutsectionvideo.mp4"
-                          />
-                        </span>
+                        <span
+                          ref={videoSlotRef}
+                          aria-hidden
+                          className="block h-[120px] w-[200px] opacity-0 md:h-[160px] md:w-[260px] lg:h-[200px] lg:w-[320px]"
+                        />
                       </span>
                       <Letter>R</Letter>
                       <Letter>U</Letter>
@@ -288,7 +516,7 @@ const Section1 = () => {
                   </span>
                 </Reveal>
 
-                <Reveal clipYOnly className="mt-1 w-full overflow-x-visible md:mt-2">
+                <Reveal group="disruption" clipYOnly className="mt-1 w-full overflow-x-visible md:mt-2">
                   <span className="flex w-full justify-center overflow-x-visible">
                     <span
                       data-headline-row
