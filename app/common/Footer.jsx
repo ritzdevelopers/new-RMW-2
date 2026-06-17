@@ -127,7 +127,12 @@ const getTextMetrics = (el) => {
   return { left: rect.left, width: rect.width };
 };
 
-const getBrandGap = () => (window.innerWidth >= 1441 ? -95 : 0);
+const getBrandGap = () => {
+  const w = window.innerWidth;
+  if (w >= 1441) return -95;
+  if (w > 391 && w < 426) return -170;
+  return 0;
+};
 
 const getBrandTargets = (wrap, ritz, mediaworld) => {
   gsap.set(ritz, { x: 0 });
@@ -148,10 +153,11 @@ const getBrandTargets = (wrap, ritz, mediaworld) => {
 
   const ritzRect = ritz.getBoundingClientRect();
   const mwRect = mediaworld.getBoundingClientRect();
-  const groupLeft = centerX - (ritzRect.width + mwRect.width) / 2;
+  const gap = getBrandGap();
+  const groupLeft = centerX - (ritzRect.width + gap + mwRect.width) / 2;
   return {
     ritzX: groupLeft - ritzRect.left,
-    mwX: groupLeft + ritzRect.width - mwRect.left,
+    mwX: groupLeft + ritzRect.width + gap - mwRect.left,
   };
 };
 

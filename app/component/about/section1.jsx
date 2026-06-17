@@ -62,6 +62,8 @@ const Section1 = () => {
   const heroSectionRef = useRef(null);
   const videoFloatRef = useRef(null);
   const videoSlotRef = useRef(null);
+  const videoEntranceRef = useRef(0);
+  const videoRevealStartedRef = useRef(false);
 
   const getStartSize = () => {
     const video = videoFloatRef.current?.querySelector("video");
@@ -104,7 +106,7 @@ const Section1 = () => {
     };
   };
 
-  const applyVideoProgress = (progress) => {
+  const applyVideoProgress = (progress, entranceProgress) => {
     const floater = videoFloatRef.current;
     const bounds = computeVideoBounds();
     if (!floater || !bounds) return;
@@ -113,17 +115,30 @@ const Section1 = () => {
     const logoImg = logo?.querySelector("img");
 
     const t = gsap.utils.clamp(0, 1, progress);
+    const entrance = gsap.utils.clamp(0, 1, entranceProgress ?? videoEntranceRef.current);
     const { start, end } = bounds;
     const clipTop = gsap.utils.interpolate(start.clipTop, end.clipTop, t);
 
+    const targetWidth = gsap.utils.interpolate(start.width, end.width, t);
+    const targetHeight = gsap.utils.interpolate(start.height, end.height, t);
+    const minScale = 0.18;
+    const width =
+      t > 0 || entrance >= 1
+        ? targetWidth
+        : gsap.utils.interpolate(start.width * minScale, start.width, entrance);
+    const height =
+      t > 0 || entrance >= 1
+        ? targetHeight
+        : gsap.utils.interpolate(start.height * minScale, start.height, entrance);
+
     gsap.set(floater, {
-      visibility: "visible",
+      visibility: videoRevealStartedRef.current ? "visible" : "hidden",
       left: gsap.utils.interpolate(start.x, end.x, t),
       top: gsap.utils.interpolate(start.y, end.y, t),
-      width: gsap.utils.interpolate(start.width, end.width, t),
-      height: gsap.utils.interpolate(start.height, end.height, t),
+      width,
+      height,
       clipPath: clipTop > 0 ? `inset(${clipTop}% 0% 0% 0%)` : "none",
-      borderRadius: gsap.utils.interpolate(24, 20, t),
+      borderRadius: t > 0 ? gsap.utils.interpolate(24, 20, t) : gsap.utils.interpolate(0, 10, entrance),
     });
 
     const video = floater.querySelector("video");
@@ -133,9 +148,10 @@ const Section1 = () => {
 
     if (logo && logoImg) {
       const logoHeightPct = 58;
+      const logoOpacity = t > 0 ? gsap.utils.interpolate(1, 0, t) : entrance;
       gsap.set(logo, {
         visibility: t >= 0.98 ? "hidden" : "visible",
-        opacity: gsap.utils.interpolate(1, 0, t),
+        opacity: logoOpacity,
       });
       gsap.set(logoImg, {
         top: `calc(${clipTop}% + 30px)`,
@@ -211,10 +227,16 @@ const Section1 = () => {
       gsap.set(disruptionItems, { yPercent: -110 });
 
       const playHeroEntrance = () => {
+        const entrance = { value: 0 };
+        videoEntranceRef.current = 0;
+        videoRevealStartedRef.current = true;
+        applyVideoProgress(0, 0);
+
         const tl = gsap.timeline({
           onComplete: () => {
+            videoEntranceRef.current = 1;
             fitAll();
-            applyVideoProgress(0);
+            applyVideoProgress(0, 1);
           },
         });
 
@@ -235,8 +257,22 @@ const Section1 = () => {
         });
 
         if (logoEl) {
-          tl.set(logoEl, { visibility: "visible" }, "-=1.1");
+          tl.set(logoEl, { visibility: "visible" }, 0);
         }
+
+        tl.to(
+          entrance,
+          {
+            value: 1,
+            duration: 2,
+            ease: "power4.out",
+            onUpdate: () => {
+              videoEntranceRef.current = entrance.value;
+              applyVideoProgress(0, entrance.value);
+            },
+          },
+          0
+        );
       };
 
       onHeaderComplete = () => playHeroEntrance();
@@ -277,7 +313,8 @@ const Section1 = () => {
 
       const refreshVideoLayout = () => {
         applyVideoProgress(
-          ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === slot)?.progress ?? 0
+          ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === slot)?.progress ?? 0,
+          videoEntranceRef.current
         );
         ScrollTrigger.refresh();
       };
@@ -292,7 +329,9 @@ const Section1 = () => {
           overflow: "hidden",
         });
 
-        applyVideoProgress(0);
+        videoEntranceRef.current = 0;
+        videoRevealStartedRef.current = false;
+        applyVideoProgress(0, 0);
 
         ScrollTrigger.create({
           trigger: heroSection,
@@ -301,7 +340,7 @@ const Section1 = () => {
           end: "top 55%",
           scrub: 0.85,
           invalidateOnRefresh: true,
-          onUpdate: (self) => applyVideoProgress(self.progress),
+          onUpdate: (self) => applyVideoProgress(self.progress, 1),
         });
 
         if (videoEl) {
@@ -311,7 +350,7 @@ const Section1 = () => {
         }
 
         requestAnimationFrame(() => {
-          applyVideoProgress(0);
+          applyVideoProgress(0, videoEntranceRef.current);
           ScrollTrigger.refresh();
         });
       }
@@ -320,7 +359,8 @@ const Section1 = () => {
     const onResize = () => {
       fitAll();
       applyVideoProgress(
-        ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === videoSlotRef.current)?.progress ?? 0
+        ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === videoSlotRef.current)?.progress ?? 0,
+        videoEntranceRef.current
       );
       ScrollTrigger.refresh();
     };
