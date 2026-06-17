@@ -130,7 +130,7 @@ const getTextMetrics = (el) => {
 const getBrandGap = () => {
   const w = window.innerWidth;
   if (w >= 1441) return -95;
-  if (w > 391 && w < 426) return -140;
+  if (w > 391 && w < 426) return -160;
   return 0;
 };
 
