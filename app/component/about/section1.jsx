@@ -178,18 +178,6 @@ const Section1 = () => {
     applyLogoPosition(videoEntranceRef.current);
   };
 
-  const updateHeroTextVisibility = (scrollProgress) => {
-    const heroText = heroTextRef.current;
-    if (!heroText) return;
-
-    if (scrollProgress > 0.02) {
-      gsap.set(heroText, { opacity: 0 });
-      return;
-    }
-
-    gsap.set(heroText, { opacity: 1 });
-  };
-
   const applyVideoProgress = (progress, entranceProgress) => {
     const floater = videoFloatRef.current;
     const bounds = computeVideoBounds();
@@ -436,7 +424,6 @@ const Section1 = () => {
           onUpdate: (self) => {
             applyVideoProgress(self.progress, 1);
             syncLogoWithScroll(self.progress);
-            updateHeroTextVisibility(self.progress);
             if (self.progress >= 0.95) {
               showDisruptionWords();
             } else if (self.progress < 0.85) {
