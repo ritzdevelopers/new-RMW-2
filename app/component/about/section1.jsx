@@ -83,6 +83,7 @@ const Section1 = () => {
   const logoFloatRef = useRef(null);
   const videoEntranceRef = useRef(0);
   const videoRevealStartedRef = useRef(false);
+  const videoBoundsRef = useRef(null);
 
   const getStartSize = () => {
     const video = videoFloatRef.current?.querySelector("video");
@@ -96,34 +97,61 @@ const Section1 = () => {
     return { width, height };
   };
 
-  const computeVideoBounds = () => {
+  const measureFinalSlotEnd = () => {
     const container = heroRef.current;
     const slot = videoSlotRef.current;
-    const heroSection = heroSectionRef.current;
-    if (!container || !slot || !heroSection) return null;
+    if (!container || !slot) return null;
+
+    const wordEls = container.querySelectorAll("[data-about-reveal='disruption-word']");
+    const saved = [...wordEls].map((el) => gsap.getProperty(el, "yPercent"));
+    wordEls.forEach((el) => gsap.set(el, { yPercent: 0 }));
 
     const cRect = container.getBoundingClientRect();
     const sRect = slot.getBoundingClientRect();
+    const end = {
+      x: sRect.left + sRect.width / 2 - cRect.left,
+      y: sRect.top + sRect.height / 2 - cRect.top,
+      width: sRect.width,
+      height: sRect.height,
+      clipTop: 0,
+    };
+
+    wordEls.forEach((el, i) => gsap.set(el, { yPercent: saved[i] ?? -110 }));
+    return end;
+  };
+
+  const syncVideoBounds = (lockStart = false) => {
+    const container = heroRef.current;
+    const heroSection = heroSectionRef.current;
+    if (!container || !heroSection) return null;
+
     const startSize = getStartSize();
     const sectionBottom = heroSection.offsetTop + heroSection.offsetHeight;
+    const end = measureFinalSlotEnd();
+    if (!end) return null;
 
-    return {
-      start: {
-        x: window.innerWidth / 2 - cRect.left,
-        y: sectionBottom - startSize.height / 2 + 330,
-        width: startSize.width,
-        height: startSize.height,
-        clipTop: 0,
-      },
-      end: {
-        x: sRect.left + sRect.width / 2 - cRect.left,
-        y: sRect.top + sRect.height / 2 - cRect.top,
-        width: sRect.width,
-        height: sRect.height,
-        clipTop: 0,
-      },
+    const nextStart =
+      lockStart && videoBoundsRef.current?.start
+        ? videoBoundsRef.current.start
+        : {
+            x: container.offsetWidth / 2,
+            y: sectionBottom - startSize.height / 2 + 350,
+            width: startSize.width,
+            height: startSize.height,
+            clipTop: 0,
+          };
+
+    videoBoundsRef.current = {
+      start: nextStart,
+      end,
     };
+
+    return videoBoundsRef.current;
   };
+
+  const getVideoBounds = () => videoBoundsRef.current ?? syncVideoBounds();
+
+  const computeVideoBounds = () => getVideoBounds();
 
   const applyLogoPosition = (entranceProgress) => {
     const heroSection = heroSectionRef.current;
@@ -180,6 +208,7 @@ const Section1 = () => {
       top: gsap.utils.interpolate(start.y, end.y, t),
       width,
       height,
+      zIndex: t > 0 ? 50 : 30,
       clipPath: clipTop > 0 ? `inset(${clipTop}% 0% 0% 0%)` : "none",
       borderRadius: t > 0 ? gsap.utils.interpolate(24, 20, t) : gsap.utils.interpolate(0, 10, entrance),
     });
@@ -246,12 +275,14 @@ const Section1 = () => {
       const logoEl = hero.querySelector("[data-about-hero-logo]");
       const introItems = gsap.utils.toArray("[data-about-reveal='intro']", hero);
       const disruptionItems = gsap.utils.toArray("[data-about-reveal='disruption']", hero);
+      const disruptionWordItems = gsap.utils.toArray("[data-about-reveal='disruption-word']", hero);
 
       gsap.set(headlineItems, { yPercent: -110 });
       gsap.set(subItems, { yPercent: -110, opacity: 0 });
       if (logoEl) gsap.set(logoEl, { clipPath: "inset(0% 0% 0% 0%)" });
       gsap.set(introItems, { yPercent: -110 });
       gsap.set(disruptionItems, { yPercent: -110 });
+      gsap.set(disruptionWordItems, { yPercent: 0, opacity: 0 });
 
       const playHeroEntrance = () => {
         const entrance = { value: 0 };
@@ -263,6 +294,7 @@ const Section1 = () => {
           onComplete: () => {
             videoEntranceRef.current = 1;
             fitAll();
+            syncVideoBounds(true);
             applyVideoProgress(0, 1);
             applyLogoPosition(1);
           },
@@ -335,6 +367,25 @@ const Section1 = () => {
         filmTl.eventCallback("onComplete", fitAll);
       }
 
+      let disruptionWordsVisible = false;
+
+      const showDisruptionWords = () => {
+        if (disruptionWordsVisible || !disruptionWordItems.length) return;
+        disruptionWordsVisible = true;
+        gsap.to(disruptionWordItems, {
+          opacity: 1,
+          duration: 0.1,
+          ease: "power2.out",
+        });
+      };
+
+      const hideDisruptionWords = () => {
+        disruptionWordsVisible = false;
+        if (disruptionWordItems.length) {
+          gsap.set(disruptionWordItems, { opacity: 0 });
+        }
+      };
+
       const floater = videoFloatRef.current;
       const slot = videoSlotRef.current;
       const heroSection = heroSectionRef.current;
@@ -361,6 +412,7 @@ const Section1 = () => {
 
         videoEntranceRef.current = 0;
         videoRevealStartedRef.current = false;
+        syncVideoBounds();
         applyVideoProgress(0, 0);
         applyLogoPosition(0);
 
@@ -371,7 +423,14 @@ const Section1 = () => {
           end: "top 55%",
           scrub: 0.85,
           invalidateOnRefresh: true,
-          onUpdate: (self) => applyVideoProgress(self.progress, 1),
+          onUpdate: (self) => {
+            applyVideoProgress(self.progress, 1);
+            if (self.progress >= 0.95) {
+              showDisruptionWords();
+            } else if (self.progress < 0.85) {
+              hideDisruptionWords();
+            }
+          },
         });
 
         if (videoEl) {
@@ -389,6 +448,7 @@ const Section1 = () => {
 
     const onResize = () => {
       fitAll();
+      syncVideoBounds(videoEntranceRef.current >= 1);
       applyVideoProgress(
         ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === videoSlotRef.current)?.progress ?? 0,
         videoEntranceRef.current
@@ -398,8 +458,10 @@ const Section1 = () => {
     };
 
     fitAll();
+    syncVideoBounds();
     requestAnimationFrame(() => {
       fitAll();
+      syncVideoBounds();
     });
     window.addEventListener("resize", onResize);
 
@@ -574,7 +636,7 @@ const Section1 = () => {
 
         <div className="mt-8 flex w-full justify-center md:mt-10 lg:mt-12 xl:mt-5">
           <div ref={disruptionRef} className="flex flex-col items-center text-center">
-            <Reveal group="disruption" clipYOnly className="overflow-x-visible">
+            <Reveal group="disruption-word" clipYOnly className="overflow-x-visible">
               <span className="flex justify-center overflow-x-visible">
                 <span
                   data-headline-row
@@ -598,7 +660,7 @@ const Section1 = () => {
               </span>
             </Reveal>
 
-            <Reveal group="disruption" clipYOnly className="mt-1 overflow-x-visible md:mt-2">
+            <Reveal group="disruption-word" clipYOnly className="mt-1 overflow-x-visible md:mt-2">
               <span className="flex justify-center overflow-x-visible">
                 <span
                   data-headline-row
