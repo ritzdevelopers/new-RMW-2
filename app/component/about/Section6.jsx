@@ -20,6 +20,15 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
+const newsHeadingStyle = {
+  fontFamily: '"League Spartan", sans-serif',
+  fontWeight: 600,
+  fontSize: "48px",
+  lineHeight: "100%",
+  letterSpacing: "0",
+  textTransform: "uppercase",
+};
+
 const carouselItems = [
   {
     type: "image",
@@ -231,28 +240,29 @@ const Section6 = () => {
                       data-carousel-item
                       onMouseEnter={() => setHoveredNewsIndex(index)}
                       onMouseLeave={() => setHoveredNewsIndex(null)}
-                      className="relative z-10 flex shrink-0 flex-col items-center justify-center gap-8 overflow-hidden rounded-[16px] bg-[#0D1334] p-8"
+                      className="group relative z-10 flex shrink-0 cursor-pointer flex-col items-start justify-center gap-8 overflow-hidden rounded-[16px] border border-[#0D1334] p-8"
                       style={{ width: 320, height: 320 }}
                     >
+                      <span
+                        aria-hidden
+                        className="absolute inset-0 origin-bottom scale-y-0 bg-[#0D1334] transition-transform duration-300 ease-out group-hover:scale-y-100"
+                      />
                       <p
-                        className={`${leagueSpartan.className} m-0 text-center text-[28px] font-semibold uppercase leading-[100%] tracking-[0] text-white md:text-[36px]`}
+                        className={`${leagueSpartan.className} relative z-10 m-0 text-left text-[#0D1334] transition-colors duration-300 group-hover:text-white`}
+                        style={newsHeadingStyle}
                       >
-                        News
+                        News &amp;
                         <br />
-                        &amp; Views
+                        Views
                       </p>
 
                       <a
                         href="https://www.linkedin.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`${montserrat.className} group relative inline-flex w-fit cursor-pointer overflow-hidden border border-white bg-transparent px-5 py-3`}
+                        className={`${montserrat.className} relative z-10 inline-flex w-fit cursor-pointer border border-[#0D1334] bg-transparent px-5 py-3 text-[#0D1334] transition-colors duration-300 group-hover:border-white group-hover:text-white`}
                       >
-                        <span
-                          aria-hidden
-                          className="absolute inset-0 origin-left scale-x-0 bg-black transition-transform duration-300 ease-out group-hover:scale-x-100"
-                        />
-                        <span className="relative z-10 flex items-center gap-2 text-[14px] font-medium uppercase leading-[100%] tracking-[0] text-white transition-colors duration-300">
+                        <span className="flex items-center gap-2 text-[14px] font-medium uppercase leading-[100%] tracking-[0]">
                           Linkedin
                           <i className="ri-arrow-right-up-line text-[16px] leading-none" aria-hidden />
                         </span>
