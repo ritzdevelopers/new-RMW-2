@@ -537,7 +537,7 @@ const Section1 = () => {
               </Reveal>
               <Reveal clipYOnly className="mt-1 w-full md:mt-8">
                 <span className="flex w-full justify-center">
-                  <span data-headline-row className="inline-flex items-center justify-center gap-[160px]">
+                  <span data-headline-row className="inline-flex items-center justify-center gap-[180px]">
                     <span>MAKING</span>
                     <span>BRANDS</span>
                   </span>
@@ -545,7 +545,7 @@ const Section1 = () => {
               </Reveal>
               <Reveal clipYOnly className="mt-1 w-full overflow-x-visible md:mt-8">
                 <span className="flex w-full justify-center overflow-x-visible">
-                  <span data-headline-row className="inline-flex items-center justify-center gap-[120px]">
+                  <span data-headline-row className="inline-flex items-center justify-center gap-[200px]">
                     <span>
                       <span style={{ color: goldColor }}>IM</span>POSSIBLE
                     </span>

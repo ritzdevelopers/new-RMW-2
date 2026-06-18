@@ -20,43 +20,49 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-const hustleImageTemplates = [
-  {
-    src: "/hustle/firstimage.png",
-    width: 750,
-    height: 710,
-    fixedWidth: 480,
-    heightReduce: 50,
-  },
-  {
-    src: "/hustle/secondimage.png",
-    width: 320,
-    height: 433,
-    fixed: true,
-  },
-  {
-    src: "/hustle/thirdimage.png",
-    width: 750,
-    height: 710,
-    fixedWidth: 480,
-    heightReduce: 50,
-    opacity: 0.6,
-  },
-];
-
-const hustleImages = Array.from({ length: 10 }, (_, index) => {
-  const template = hustleImageTemplates[index % hustleImageTemplates.length];
-  return {
-    type: "image",
-    ...template,
-    grayscale: index === 9,
-  };
-});
+const newsHeadingStyle = {
+  fontFamily: '"League Spartan", sans-serif',
+  fontWeight: 600,
+  fontSize: "48px",
+  lineHeight: "100%",
+  letterSpacing: "0",
+  textTransform: "uppercase",
+};
 
 const carouselItems = [
-  hustleImages[0],
+  {
+    type: "image",
+    src: "/Deliver/firstimage.jpeg",
+    width: 750,
+    height: 710,
+    fixedWidth: 480,
+    heightReduce: 50,
+  },
   { type: "news" },
-  ...hustleImages.slice(1),
+  {
+    type: "image",
+    src: "/Deliver/secondimage.jpeg",
+    fixed: true,
+    width: 320,
+    height: 433,
+  },
+
+  {
+    type: "image",
+    src: "/Deliver/thirdimage.jpeg",
+    width: 750,
+    height: 710,
+    fixedWidth: 480,
+    heightReduce: 50,
+  },
+  { type: "news" },
+  {
+    type: "image",
+    src: "/Deliver/fourthimage.jpeg",
+    fixed: true,
+    width: 320,
+    height: 433,
+  },
 ];
 
 const CAROUSEL_HEIGHT = 433;
@@ -82,6 +88,7 @@ const Section6 = () => {
   const headlineRef = useRef(null);
   const trackRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [hoveredNewsIndex, setHoveredNewsIndex] = useState(null);
   const [imagesReady, setImagesReady] = useState(0);
   const loadedImageIndexesRef = useRef(new Set());
 
@@ -127,34 +134,26 @@ const Section6 = () => {
             id: "section6-carousel",
             trigger: section,
             start: "top top",
-            end: () => `+=${scrollDistance + window.innerHeight * 0.5}`,
+            end: () => `+=${scrollDistance}`,
             pin: pin,
             scrub: 1,
             anticipatePin: 1,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
-              const progress = self.progress;
-              if (progress <= 0.75) {
-                const scrollProgress = progress / 0.75;
-                setActiveIndex(
-                  Math.round(scrollProgress * Math.max(carouselItems.length - 1, 1)),
-                );
-              } else {
-                setActiveIndex(0);
-              }
+              setActiveIndex(
+                Math.round(self.progress * Math.max(carouselItems.length - 1, 1)),
+              );
             },
           },
         });
 
         if (scrollDistance > 0) {
           if (headlineOverflow > 0) {
-            tl.to(headline, { x: -headlineOverflow, ease: "none", duration: 0.75 }, 0);
+            tl.to(headline, { x: -headlineOverflow, ease: "none", duration: 1 }, 0);
           }
           if (trackOverflow > 0) {
-            tl.to(track, { x: -trackOverflow, ease: "none", duration: 0.75 }, 0);
+            tl.to(track, { x: -trackOverflow, ease: "none", duration: 1 }, 0);
           }
-          tl.to(headline, { x: 0, ease: "none", duration: 0.25 }, 0.75);
-          tl.to(track, { x: 0, ease: "none", duration: 0.25 }, 0.75);
         }
       };
 
@@ -171,6 +170,11 @@ const Section6 = () => {
     return () => ctx.revert();
   }, [imagesReady]);
 
+  const isImageRevealed = (imageIndex) => {
+    if (hoveredNewsIndex == null) return false;
+    return imageIndex === hoveredNewsIndex - 1 || imageIndex === hoveredNewsIndex + 1;
+  };
+
   const scrollToIndex = (index) => {
     const st = ScrollTrigger.getById("section6-carousel");
     const track = trackRef.current;
@@ -178,8 +182,7 @@ const Section6 = () => {
 
     const overflow = Math.max(0, track.scrollWidth - window.innerWidth);
     const scrollProgress = index / Math.max(carouselItems.length - 1, 1);
-    const targetProgress = scrollProgress * 0.75;
-    const scrollPos = st.start + (st.end - st.start) * targetProgress;
+    const scrollPos = st.start + (st.end - st.start) * scrollProgress;
 
     window.scrollTo({ top: scrollPos, behavior: "smooth" });
     setActiveIndex(index);
@@ -219,7 +222,7 @@ const Section6 = () => {
           <p
             className={`${montserrat.className} m-0 mx-auto mt-6 max-w-[800px] px-8 text-center text-[20px] font-medium leading-[100%] tracking-[0] text-[#333333] md:mt-0 md:px-12 md:text-[28px] lg:text-[36px]`}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing eli
+            Where ideas, culture, and creativity come to life. 
           </p>
         </div>
 
@@ -233,30 +236,33 @@ const Section6 = () => {
                 if (item.type === "news") {
                   return (
                     <div
-                      key="news"
+                      key={`news-${index}`}
                       data-carousel-item
-                      className="relative z-10 flex shrink-0 flex-col items-center justify-center gap-8 overflow-hidden rounded-[16px] bg-[#0D1334] p-8"
+                      onMouseEnter={() => setHoveredNewsIndex(index)}
+                      onMouseLeave={() => setHoveredNewsIndex(null)}
+                      className="group relative z-10 flex shrink-0 cursor-pointer flex-col items-start justify-center gap-8 overflow-hidden rounded-[16px] border border-[#0D1334] p-8"
                       style={{ width: 320, height: 320 }}
                     >
+                      <span
+                        aria-hidden
+                        className="absolute inset-0 origin-bottom scale-y-0 bg-[#0D1334] transition-transform duration-300 ease-out group-hover:scale-y-100"
+                      />
                       <p
-                        className={`${leagueSpartan.className} m-0 text-center text-[28px] font-semibold uppercase leading-[100%] tracking-[0] text-white md:text-[36px]`}
+                        className={`${leagueSpartan.className} relative z-10 m-0 text-left text-[#0D1334] transition-colors duration-300 group-hover:text-white`}
+                        style={newsHeadingStyle}
                       >
-                        News
+                        News &amp;
                         <br />
-                        &amp; Views
+                        Views
                       </p>
 
                       <a
                         href="https://www.linkedin.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`${montserrat.className} group relative inline-flex w-fit cursor-pointer overflow-hidden border border-white bg-transparent px-5 py-3`}
+                        className={`${montserrat.className} relative z-10 inline-flex w-fit cursor-pointer border border-[#0D1334] bg-transparent px-5 py-3 text-[#0D1334] transition-colors duration-300 group-hover:border-white group-hover:text-white`}
                       >
-                        <span
-                          aria-hidden
-                          className="absolute inset-0 origin-left scale-x-0 bg-black transition-transform duration-300 ease-out group-hover:scale-x-100"
-                        />
-                        <span className="relative z-10 flex items-center gap-2 text-[14px] font-medium uppercase leading-[100%] tracking-[0] text-white transition-colors duration-300">
+                        <span className="flex items-center gap-2 text-[14px] font-medium uppercase leading-[100%] tracking-[0]">
                           Linkedin
                           <i className="ri-arrow-right-up-line text-[16px] leading-none" aria-hidden />
                         </span>
@@ -280,8 +286,11 @@ const Section6 = () => {
                       fill
                       onLoad={() => handleImageLoad(index)}
                       onLoadingComplete={() => handleImageLoad(index)}
-                      className={`object-cover ${item.grayscale ? "grayscale" : ""}`}
-                      style={item.opacity != null ? { opacity: item.opacity } : undefined}
+                      className={`object-cover transition-all duration-300 ${
+                        isImageRevealed(index)
+                          ? "opacity-100 grayscale-0"
+                          : "opacity-60 grayscale"
+                      }`}
                       sizes={`${itemWidth}px`}
                     />
                   </div>

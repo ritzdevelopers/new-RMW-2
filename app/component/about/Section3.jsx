@@ -67,14 +67,14 @@ const Section3 = () => {
           </h2>
 
           <div className="mt-10 flex flex-wrap justify-center gap-5 md:mt-12 lg:mt-14">
-            <GalleryImage src="/create/nishi-mam.jpg" width={547} height={806} />
+            <GalleryImage src="/create/first-image.jpeg" width={547} height={806} />
 
             <div className="flex flex-col gap-5">
               <div className="flex flex-wrap justify-center gap-5">
-                <GalleryImage src="/create/award1.jpg" width={376} height={340} />
-                <GalleryImage src="/create/award.png" width={376} height={340} />
+                <GalleryImage src="/create/second-image.jpeg" width={376} height={340} />
+                <GalleryImage src="/create/third-image.jpeg" width={376} height={340} />
               </div>
-              <GalleryImage src="/create/award2.png" width={773} height={447} />
+              <GalleryImage src="/create/fourth-image.jpeg" width={773} height={447} />
             </div>
           </div>
 

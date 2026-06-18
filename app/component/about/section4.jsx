@@ -14,21 +14,21 @@ const montserrat = Montserrat({
 const milestones = [
   {
     year: "2008",
-    image: "/logo/r-logo-new.png",
+    image: "/create/award.jpeg",
     title: "Foundation",
     description:
       "Ritz Media World launched with a mission to reimagine brand communication for India's growth markets.",
   },
   {
     year: "2012",
-    image: "/create/award1.jpg",
+    image: "/create/award3.jpeg",
     title: "Innovation Leadership",
     description:
       "Pioneered centrespread storytelling in Hindustan Times, setting new creative benchmarks for print.",
   },
   {
     year: "2016",
-    image: "/create/award2.png",
+    image: "/create/award2.jpeg",
     title: "Digital Expansion",
     description:
       "Scaled into 360° digital marketing, unifying performance, content, and automation for premium brands.",
