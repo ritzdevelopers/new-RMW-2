@@ -78,6 +78,7 @@ const Section1 = () => {
   const disruptionRef = useRef(null);
   const filmRef = useRef(null);
   const heroSectionRef = useRef(null);
+  const heroTextRef = useRef(null);
   const videoFloatRef = useRef(null);
   const videoSlotRef = useRef(null);
   const logoFloatRef = useRef(null);
@@ -154,30 +155,39 @@ const Section1 = () => {
   const computeVideoBounds = () => getVideoBounds();
 
   const applyLogoPosition = (entranceProgress) => {
-    const heroSection = heroSectionRef.current;
     const logoFloat = logoFloatRef.current;
-    const bounds = computeVideoBounds();
-    if (!heroSection || !logoFloat || !bounds) return;
+    if (!logoFloat) return;
 
     const entrance = gsap.utils.clamp(0, 1, entranceProgress ?? videoEntranceRef.current);
-    const { start } = bounds;
-    const minScale = 0.18;
-    const videoWidth = gsap.utils.interpolate(start.width * minScale, start.width, entrance);
-    const videoHeight = gsap.utils.interpolate(start.height * minScale, start.height, entrance);
-    const videoTop = start.y - videoHeight / 2;
-    const logoHeight = (58 / 100) * videoHeight;
 
     gsap.set(logoFloat, {
-      position: "absolute",
-      left: start.x - heroSection.offsetLeft,
-      top: videoTop - heroSection.offsetTop + 30,
-      xPercent: -50,
-      width: videoWidth,
-      height: logoHeight,
-      zIndex: 40,
       visibility: videoRevealStartedRef.current ? "visible" : "hidden",
       opacity: entrance,
     });
+  };
+
+  const syncLogoWithScroll = (scrollProgress) => {
+    const logoFloat = logoFloatRef.current;
+    if (!logoFloat) return;
+
+    if (scrollProgress > 0.05) {
+      gsap.set(logoFloat, { opacity: 0, visibility: "hidden" });
+      return;
+    }
+
+    applyLogoPosition(videoEntranceRef.current);
+  };
+
+  const updateHeroTextVisibility = (scrollProgress) => {
+    const heroText = heroTextRef.current;
+    if (!heroText) return;
+
+    if (scrollProgress > 0.02) {
+      gsap.set(heroText, { opacity: 0 });
+      return;
+    }
+
+    gsap.set(heroText, { opacity: 1 });
   };
 
   const applyVideoProgress = (progress, entranceProgress) => {
@@ -425,6 +435,8 @@ const Section1 = () => {
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             applyVideoProgress(self.progress, 1);
+            syncLogoWithScroll(self.progress);
+            updateHeroTextVisibility(self.progress);
             if (self.progress >= 0.95) {
               showDisruptionWords();
             } else if (self.progress < 0.85) {
@@ -515,7 +527,10 @@ const Section1 = () => {
         ref={heroSectionRef}
         className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#0D1334] px-8 pt-35px pb-[60px] md:px-12 md:pt-[70px] md:pb-[80px]"
       >
-        <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center text-center">
+        <div
+          ref={heroTextRef}
+          className="mx-auto flex w-full max-w-[1200px] flex-col items-center text-center"
+        >
           <div className="relative w-screen">
             <h1
               ref={headlineRef}
@@ -568,23 +583,6 @@ const Section1 = () => {
             </Reveal>
           </div>
         </div>
-
-        <div
-          ref={logoFloatRef}
-          data-about-hero-logo
-          className="pointer-events-none absolute z-40 flex justify-center"
-          style={{ visibility: "hidden" }}
-        >
-          <img
-            src="/logo/r-rmw-transparent.png"
-            alt=""
-            className="block h-full w-auto max-w-[85%] object-contain object-top"
-            style={{
-              filter: "brightness(3.2) contrast(1.05)",
-              opacity: 0.4,
-            }}
-          />
-        </div>
       </section>
 
       <div
@@ -600,6 +598,22 @@ const Section1 = () => {
           className="block h-full w-full origin-center object-cover"
           src="/about/aboutsectionvideo.mp4"
         />
+        <div
+          ref={logoFloatRef}
+          data-about-hero-logo
+          className="pointer-events-none absolute inset-x-0 top-[6%] z-10 flex h-[58%] justify-center"
+          style={{ visibility: "hidden" }}
+        >
+          <img
+            src="/logo/r-rmw-transparent.png"
+            alt=""
+            className="block h-full w-auto max-w-[85%] object-contain object-top"
+            style={{
+              filter: "brightness(3.2) contrast(1.05)",
+              opacity: 0.4,
+            }}
+          />
+        </div>
       </div>
 
       <section ref={filmRef} className="relative overflow-x-hidden bg-[#F1F1F1] px-8 pb-10 pt-24 md:px-12 md:pb-14 md:pt-32 lg:py-16 lg:pt-36">
