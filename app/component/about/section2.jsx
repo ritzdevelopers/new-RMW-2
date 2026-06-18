@@ -2,16 +2,21 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { Montserrat } from "next/font/google";
 
-const sequelFontFamily = '"Sequel Sans"';
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  display: "swap",
+});
 const deliverImage = "/Deliver/Deliver1.jpg";
 const ACTIVE_WIDTH = 878;
 const INACTIVE_WIDTH = 282;
 const CARD_HEIGHT = 768;
 
 const headingStyle = {
-  fontFamily: sequelFontFamily,
-  fontWeight: 320,
+  fontFamily: '"League Spartan", sans-serif',
+  fontWeight: 600,
   fontSize: "48px",
   lineHeight: "100%",
   letterSpacing: "0",
@@ -21,8 +26,7 @@ const headingStyle = {
 };
 
 const sideCardLabelStyle = {
-  fontFamily: sequelFontFamily,
-  fontWeight: 320,
+  fontWeight: 500,
   fontSize: "28px",
   lineHeight: "100%",
   letterSpacing: "0",
@@ -45,7 +49,6 @@ const StaggeredLabel = ({ lines, style, indentEm = 1.1 }) => (
 );
 
 const cardLabelStyle = {
-  fontFamily: sequelFontFamily,
   fontWeight: 370,
   fontSize: "56px",
   lineHeight: "100%",
@@ -55,8 +58,7 @@ const cardLabelStyle = {
 };
 
 const standOutStyle = {
-  fontFamily: sequelFontFamily,
-  fontWeight: 300,
+  fontWeight: 600,
   fontSize: "56px",
   lineHeight: "60px",
   letterSpacing: "0",
@@ -65,8 +67,7 @@ const standOutStyle = {
 };
 
 const caseStudyStyle = {
-  fontFamily: sequelFontFamily,
-  fontWeight: 320,
+  fontWeight: 600,
   fontSize: "24px",
   lineHeight: "30px",
   letterSpacing: "0",
@@ -75,8 +76,7 @@ const caseStudyStyle = {
 };
 
 const caseStudyLabelStyle = {
-  fontFamily: sequelFontFamily,
-  fontWeight: 300,
+  fontWeight: 600,
   fontSize: "18px",
   lineHeight: "100%",
   letterSpacing: "0",
@@ -146,7 +146,7 @@ const Section2 = () => {
                 isActive={activeIndex === 0}
                 onMouseEnter={() => setActiveIndex(0)}
               >
-                <div className="absolute inset-0 flex flex-col justify-end p-8">
+                <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-8`}>
                   <StaggeredLabel lines={["Gro", "Wth"]} style={sideCardLabelStyle} />
                 </div>
               </DeliverCard>
@@ -155,7 +155,7 @@ const Section2 = () => {
                 isActive={activeIndex === 1}
                 onMouseEnter={() => setActiveIndex(1)}
               >
-                <div className="absolute inset-0 flex flex-col justify-end p-8">
+                <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-8`}>
                   <div className="flex w-full items-end justify-between gap-6">
                     <p style={standOutStyle} className="m-0 whitespace-nowrap">
                       Sta
@@ -194,7 +194,7 @@ const Section2 = () => {
                 isActive={activeIndex === 2}
                 onMouseEnter={() => setActiveIndex(2)}
               >
-                <div className="absolute inset-0 flex flex-col justify-end p-8">
+                <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-8`}>
                   <StaggeredLabel lines={["Fan", "Dom"]} style={sideCardLabelStyle} />
                 </div>
               </DeliverCard>

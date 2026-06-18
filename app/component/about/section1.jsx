@@ -22,7 +22,7 @@ const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
   fontWeight: 500,
   fontSize: "94px",
-  lineHeight: "71px",
+  lineHeight: "85px",
   letterSpacing: "0",
   textTransform: "uppercase",
   color: "#FFFFFF",
@@ -39,8 +39,8 @@ const disruptionStyle = {
 };
 
 const disruptionWordStyle = {
-  fontFamily: sequelFontFamily,
-  fontWeight: 370,
+  fontFamily: '"League Spartan", sans-serif',
+  fontWeight: 600,
   fontSize: "180px",
   lineHeight: "100%",
   letterSpacing: "0",
@@ -49,7 +49,7 @@ const disruptionWordStyle = {
 };
 
 const subHeadingStyle = {
-  fontFamily: sequelFontFamily,
+  fontFamily: '"League Spartan", sans-serif',
   fontWeight: 500,
   fontSize: "48px",
   // lineHeight: "34px",
@@ -551,7 +551,7 @@ const Section1 = () => {
           </Reveal> */}
 
           <div className="flex flex-col items-center text-center">
-            <div className={`${mixtaPro} max-w-[720px]`}>
+            <div className={`${montserrat.className} max-w-[850px]`}>
               <Reveal group="intro">
                 <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] lg:leading-[36px]">
                   The world&apos;s largest independent brand agency,
