@@ -3,16 +3,24 @@
 import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Montserrat } from "next/font/google";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["300"],
+  style: ["italic"],
+  display: "swap",
+});
 
 const mixtaPro = "font-['MixtaPro']";
 const sequelFontFamily = '"Sequel Sans"';
 const goldColor = "#FFD188";
 
 const headingStyle = {
-  fontFamily: sequelFontFamily,
-  fontWeight: 365,
+  fontFamily: '"League Spartan", sans-serif',
+  fontWeight: 500,
   fontSize: "94px",
   lineHeight: "71px",
   letterSpacing: "0",
@@ -30,14 +38,24 @@ const disruptionStyle = {
   color: "#1D1D1B",
 };
 
+const disruptionWordStyle = {
+  fontFamily: sequelFontFamily,
+  fontWeight: 370,
+  fontSize: "180px",
+  lineHeight: "100%",
+  letterSpacing: "0",
+  textTransform: "uppercase",
+  color: "#333333",
+};
+
 const subHeadingStyle = {
   fontFamily: sequelFontFamily,
-  fontWeight: 300,
+  fontWeight: 500,
   fontSize: "48px",
   // lineHeight: "34px",
   letterSpacing: "0",
   textTransform: "uppercase",
-  color: "#1D1D1B",
+  color: "#333333",
 };
 
 const Reveal = ({ children, className = "", clipYOnly = false, group = "headline" }) => (
@@ -62,6 +80,7 @@ const Section1 = () => {
   const heroSectionRef = useRef(null);
   const videoFloatRef = useRef(null);
   const videoSlotRef = useRef(null);
+  const logoFloatRef = useRef(null);
   const videoEntranceRef = useRef(0);
   const videoRevealStartedRef = useRef(false);
 
@@ -106,13 +125,37 @@ const Section1 = () => {
     };
   };
 
+  const applyLogoPosition = (entranceProgress) => {
+    const heroSection = heroSectionRef.current;
+    const logoFloat = logoFloatRef.current;
+    const bounds = computeVideoBounds();
+    if (!heroSection || !logoFloat || !bounds) return;
+
+    const entrance = gsap.utils.clamp(0, 1, entranceProgress ?? videoEntranceRef.current);
+    const { start } = bounds;
+    const minScale = 0.18;
+    const videoWidth = gsap.utils.interpolate(start.width * minScale, start.width, entrance);
+    const videoHeight = gsap.utils.interpolate(start.height * minScale, start.height, entrance);
+    const videoTop = start.y - videoHeight / 2;
+    const logoHeight = (58 / 100) * videoHeight;
+
+    gsap.set(logoFloat, {
+      position: "absolute",
+      left: start.x - heroSection.offsetLeft,
+      top: videoTop - heroSection.offsetTop + 30,
+      xPercent: -50,
+      width: videoWidth,
+      height: logoHeight,
+      zIndex: 40,
+      visibility: videoRevealStartedRef.current ? "visible" : "hidden",
+      opacity: entrance,
+    });
+  };
+
   const applyVideoProgress = (progress, entranceProgress) => {
     const floater = videoFloatRef.current;
     const bounds = computeVideoBounds();
     if (!floater || !bounds) return;
-
-    const logo = floater.querySelector("[data-about-hero-logo]");
-    const logoImg = logo?.querySelector("img");
 
     const t = gsap.utils.clamp(0, 1, progress);
     const entrance = gsap.utils.clamp(0, 1, entranceProgress ?? videoEntranceRef.current);
@@ -145,22 +188,6 @@ const Section1 = () => {
     if (video) {
       gsap.set(video, { clearProps: "scale,height" });
     }
-
-    if (logo && logoImg) {
-      const logoHeightPct = 58;
-      const logoOpacity = t > 0 ? gsap.utils.interpolate(1, 0, t) : entrance;
-      gsap.set(logo, {
-        visibility: t >= 0.98 ? "hidden" : "visible",
-        opacity: logoOpacity,
-      });
-      gsap.set(logoImg, {
-        top: `calc(${clipTop}% + 30px)`,
-        height: `${logoHeightPct}%`,
-        width: "auto",
-        left: "50%",
-        xPercent: -50,
-      });
-    }
   };
 
   useLayoutEffect(() => {
@@ -188,9 +215,9 @@ const Section1 = () => {
     };
 
     const fitDisruption = () => {
-      const parent = disruption?.parentElement;
-      if (!disruption || !parent) return;
+      if (!disruption) return;
 
+      const parent = disruption.parentElement;
       disruption.style.transform = "none";
       const rows = disruption.querySelectorAll("[data-headline-row]");
       let needed = 0;
@@ -198,10 +225,10 @@ const Section1 = () => {
         needed = Math.max(needed, row.scrollWidth, row.getBoundingClientRect().width);
       });
       const buffer = 48;
-      const available = parent.clientWidth - buffer;
+      const available = (parent?.clientWidth ?? window.innerWidth) - buffer;
       const scale = needed > 0 ? Math.min(1, available / needed) : 1;
       disruption.style.transform = scale < 1 ? `scale(${scale})` : "none";
-      disruption.style.transformOrigin = "top center";
+      disruption.style.transformOrigin = "center top";
     };
 
     const fitAll = () => {
@@ -237,6 +264,7 @@ const Section1 = () => {
             videoEntranceRef.current = 1;
             fitAll();
             applyVideoProgress(0, 1);
+            applyLogoPosition(1);
           },
         });
 
@@ -269,6 +297,7 @@ const Section1 = () => {
             onUpdate: () => {
               videoEntranceRef.current = entrance.value;
               applyVideoProgress(0, entrance.value);
+              applyLogoPosition(entrance.value);
             },
           },
           0
@@ -316,6 +345,7 @@ const Section1 = () => {
           ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === slot)?.progress ?? 0,
           videoEntranceRef.current
         );
+        applyLogoPosition(1);
         ScrollTrigger.refresh();
       };
 
@@ -332,6 +362,7 @@ const Section1 = () => {
         videoEntranceRef.current = 0;
         videoRevealStartedRef.current = false;
         applyVideoProgress(0, 0);
+        applyLogoPosition(0);
 
         ScrollTrigger.create({
           trigger: heroSection,
@@ -362,10 +393,14 @@ const Section1 = () => {
         ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === videoSlotRef.current)?.progress ?? 0,
         videoEntranceRef.current
       );
+      applyLogoPosition(1);
       ScrollTrigger.refresh();
     };
 
     fitAll();
+    requestAnimationFrame(() => {
+      fitAll();
+    });
     window.addEventListener("resize", onResize);
 
     const resizeObserver =
@@ -400,6 +435,14 @@ const Section1 = () => {
           src: url("/fonts/Sequel-Sans-Font-Family/Sequel-Sans-Font-Family-DEMO/Sequel Sans OTF/Sequel Sans Medium Head.otf")
             format("opentype");
           font-weight: 365;
+          font-style: normal;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: "Sequel Sans";
+          src: url("/fonts/Sequel-Sans-Font-Family/Sequel-Sans-Font-Family-DEMO/Sequel Sans OTF/Sequel Sans Semi Bold Head.otf")
+            format("opentype");
+          font-weight: 370;
           font-style: normal;
           font-display: swap;
         }
@@ -450,7 +493,7 @@ const Section1 = () => {
             </h1>
           </div>
 
-          <div className={`${mixtaPro} mt-8 max-w-[720px] md:mt-10 lg:mt-5`}>
+          <div className={`${montserrat.className} mt-8 max-w-[900px] md:mt-10 lg:mt-5`}>
             <Reveal group="sub">
               <p className="m-0 text-[14px] font-[300] italic leading-[20px] text-white md:text-[20px] md:leading-[28px] lg:text-[28px] lg:leading-[36px]">
                 Fuelled by a magnetic culture of hustle and heart, backed
@@ -464,6 +507,22 @@ const Section1 = () => {
           </div>
         </div>
 
+        <div
+          ref={logoFloatRef}
+          data-about-hero-logo
+          className="pointer-events-none absolute z-40 flex justify-center"
+          style={{ visibility: "hidden" }}
+        >
+          <img
+            src="/logo/r-rmw-transparent.png"
+            alt=""
+            className="block h-full w-auto max-w-[85%] object-contain object-top"
+            style={{
+              filter: "brightness(3.2) contrast(1.05)",
+              opacity: 0.4,
+            }}
+          />
+        </div>
       </section>
 
       <div
@@ -479,24 +538,9 @@ const Section1 = () => {
           className="block h-full w-full origin-center object-cover"
           src="/about/aboutsectionvideo.mp4"
         />
-        <div
-          data-about-hero-logo
-          className="absolute inset-0 z-10 pointer-events-none"
-          style={{ visibility: "hidden" }}
-        >
-          <img
-            src="/logo/r-rmw-transparent.png"
-            alt=""
-            className="absolute block w-auto max-w-[85%] object-contain object-top"
-            style={{
-              filter: "brightness(3.2) contrast(1.05)",
-              opacity: 0.4,
-            }}
-          />
-        </div>
       </div>
 
-      <section ref={filmRef} className="relative overflow-x-hidden bg-[#E8E8E8] px-8 pb-10 pt-24 md:px-12 md:pb-14 md:pt-32 lg:py-16 lg:pt-36">
+      <section ref={filmRef} className="relative overflow-x-hidden bg-[#F1F1F1] px-8 pb-10 pt-24 md:px-12 md:pb-14 md:pt-32 lg:py-16 lg:pt-36">
         <div className="relative mx-auto w-full max-w-[1400px]">
           {/* <Reveal className="absolute left-0 top-0 z-10">
             <img
@@ -506,7 +550,7 @@ const Section1 = () => {
             />
           </Reveal> */}
 
-          <div className="flex flex-col items-center  text-center ">
+          <div className="flex flex-col items-center text-center">
             <div className={`${mixtaPro} max-w-[720px]`}>
               <Reveal group="intro">
                 <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] lg:leading-[36px]">
@@ -525,52 +569,49 @@ const Section1 = () => {
                 WE CREATE DESIRE THROUGH
               </p>
             </Reveal>
-            
+          </div>
+        </div>
 
-            <div className="relative left-1/2 mt-8 w-screen -translate-x-1/2 md:mt-10 lg:mt-12 xl:mt-5">
-              <div
-                ref={disruptionRef}
-                style={disruptionStyle}
-                className="mx-auto w-full text-center"
-              >
-                <Reveal group="disruption" clipYOnly className="w-full overflow-x-visible">
-                  <span className="flex w-full justify-center overflow-x-visible">
+        <div className="mt-8 flex w-full justify-center md:mt-10 lg:mt-12 xl:mt-5">
+          <div ref={disruptionRef} className="flex flex-col items-center text-center">
+            <Reveal group="disruption" clipYOnly className="overflow-x-visible">
+              <span className="flex justify-center overflow-x-visible">
+                <span
+                  data-headline-row
+                  style={disruptionWordStyle}
+                  className="inline-flex items-center justify-center gap-[20px]"
+                >
+                  <Letter>D</Letter>
+                  <Letter>I</Letter>
+                  <Letter>S</Letter>
+                  <span className="inline-flex shrink-0 items-center">
                     <span
-                      data-headline-row
-                      className="inline-flex items-center justify-center gap-[20px] md:gap-[32px] lg:gap-[48px]"
-                    >
-                      <Letter>D</Letter>
-                      <Letter>I</Letter>
-                      <Letter>S</Letter>
-                      <span className="mx-[8px] inline-flex shrink-0 items-center md:mx-[12px] lg:mx-[16px]">
-                        <span
-                          ref={videoSlotRef}
-                          aria-hidden
-                          className="block h-[120px] w-[200px] opacity-0 md:h-[160px] md:w-[260px] lg:h-[200px] lg:w-[320px]"
-                        />
-                      </span>
-                      <Letter>R</Letter>
-                      <Letter>U</Letter>
-                      <Letter>P</Letter>
-                    </span>
+                      ref={videoSlotRef}
+                      aria-hidden
+                      className="block h-[180px] w-[320px] opacity-0"
+                    />
                   </span>
-                </Reveal>
+                  <Letter>R</Letter>
+                  <Letter>U</Letter>
+                  <Letter>P</Letter>
+                </span>
+              </span>
+            </Reveal>
 
-                <Reveal group="disruption" clipYOnly className="mt-1 w-full overflow-x-visible md:mt-2">
-                  <span className="flex w-full justify-center overflow-x-visible">
-                    <span
-                      data-headline-row
-                      className="inline-flex items-center justify-center gap-[20px] md:gap-[32px] lg:gap-[48px]"
-                    >
-                      <Letter>T</Letter>
-                      <Letter>I</Letter>
-                      <Letter>O</Letter>
-                      <Letter>N</Letter>
-                    </span>
-                  </span>
-                </Reveal>
-              </div>
-            </div>
+            <Reveal group="disruption" clipYOnly className="mt-1 overflow-x-visible md:mt-2">
+              <span className="flex justify-center overflow-x-visible">
+                <span
+                  data-headline-row
+                  style={disruptionWordStyle}
+                  className="inline-flex items-center justify-center gap-[20px]"
+                >
+                  <Letter>T</Letter>
+                  <Letter>I</Letter>
+                  <Letter>O</Letter>
+                  <Letter>N</Letter>
+                </span>
+              </span>
+            </Reveal>
           </div>
         </div>
       </section>
