@@ -566,7 +566,7 @@ const Section1 = () => {
 
             <Reveal group="disruption" className="mt-10 md:mt-12 lg:mt-14 xl:mt-5">
               <p style={subHeadingStyle} className="m-0 text-[18px] md:text-[24px] xl:text-[48px]">
-              Building tomorrow's 
+              We Drive Growth Through
               </p>
             </Reveal>
           </div>
@@ -581,9 +581,9 @@ const Section1 = () => {
                   style={disruptionWordStyle}
                   className="inline-flex items-center justify-center gap-[20px]"
                 >
-                  <Letter>L</Letter>
-                  <Letter>A</Letter>
-                  <Letter>N</Letter>
+                  <Letter>c</Letter>
+                  <Letter>R</Letter>
+                  <Letter>E</Letter>
                   <span className="inline-flex shrink-0 items-center">
                     <span
                       ref={videoSlotRef}
@@ -591,9 +591,9 @@ const Section1 = () => {
                       className="block h-[180px] w-[320px] opacity-0"
                     />
                   </span>
-                  <Letter>D</Letter>
-                  <Letter>U</Letter>
-                  <Letter>P</Letter>
+                  <Letter>A</Letter>
+                  <Letter>T</Letter>
+                  <Letter>I</Letter>
                 </span>
               </span>
             </Reveal>
@@ -605,10 +605,10 @@ const Section1 = () => {
                   style={disruptionWordStyle}
                   className="inline-flex items-center justify-center gap-[20px]"
                 >
-                  <Letter>T</Letter>
+                  <Letter>V</Letter>
                   <Letter>I</Letter>
-                  <Letter>O</Letter>
-                  <Letter>N</Letter>
+                  <Letter>T</Letter>
+                  <Letter>Y</Letter>
                 </span>
               </span>
             </Reveal>
