@@ -20,41 +20,40 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-// Update carousel image paths here
-const hustleCarouselImages = [
-  "/Deliver/firstimage.jpeg",
-  "/Deliver/fourthimage.jpeg",
-  "/Deliver/secondimage.jpeg",
-  "/Deliver/thirdimage.jpeg",
-  "/Deliver/firstimage.jpeg",
-  "/Deliver/fourthimage.jpeg",
-  "/Deliver/secondimage.jpeg",
-  "/Deliver/thirdimage.jpeg",
-  "/Deliver/firstimage.jpeg",
-  "/Deliver/fourthimage.jpeg",
-];
-
-const getHustleImageConfig = (index) => {
-  if (index % 4 === 2) {
-    return { fixed: true, width: 320, height: 433 };
-  }
-  if (index % 4 === 3) {
-    return { width: 750, height: 710, fixedWidth: 480, heightReduce: 50, opacity: 0.6 };
-  }
-  return { width: 750, height: 710, fixedWidth: 480, heightReduce: 50 };
-};
-
-const hustleImages = hustleCarouselImages.map((src, index) => ({
-  type: "image",
-  src,
-  ...getHustleImageConfig(index),
-  grayscale: index === 9,
-}));
-
 const carouselItems = [
-  hustleImages[0],
+  {
+    type: "image",
+    src: "/Deliver/firstimage.jpeg",
+    width: 750,
+    height: 710,
+    fixedWidth: 480,
+    heightReduce: 50,
+  },
   { type: "news" },
-  ...hustleImages.slice(1),
+  {
+    type: "image",
+    src: "/Deliver/secondimage.jpeg",
+    fixed: true,
+    width: 320,
+    height: 433,
+  },
+
+  {
+    type: "image",
+    src: "/Deliver/thirdimage.jpeg",
+    width: 750,
+    height: 710,
+    fixedWidth: 480,
+    heightReduce: 50,
+  },
+  { type: "news" },
+  {
+    type: "image",
+    src: "/Deliver/fourthimage.jpeg",
+    fixed: true,
+    width: 320,
+    height: 433,
+  },
 ];
 
 const CAROUSEL_HEIGHT = 433;
@@ -80,6 +79,7 @@ const Section6 = () => {
   const headlineRef = useRef(null);
   const trackRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [hoveredNewsIndex, setHoveredNewsIndex] = useState(null);
   const [imagesReady, setImagesReady] = useState(0);
   const loadedImageIndexesRef = useRef(new Set());
 
@@ -161,6 +161,11 @@ const Section6 = () => {
     return () => ctx.revert();
   }, [imagesReady]);
 
+  const isImageRevealed = (imageIndex) => {
+    if (hoveredNewsIndex == null) return false;
+    return imageIndex === hoveredNewsIndex - 1 || imageIndex === hoveredNewsIndex + 1;
+  };
+
   const scrollToIndex = (index) => {
     const st = ScrollTrigger.getById("section6-carousel");
     const track = trackRef.current;
@@ -222,8 +227,10 @@ const Section6 = () => {
                 if (item.type === "news") {
                   return (
                     <div
-                      key="news"
+                      key={`news-${index}`}
                       data-carousel-item
+                      onMouseEnter={() => setHoveredNewsIndex(index)}
+                      onMouseLeave={() => setHoveredNewsIndex(null)}
                       className="relative z-10 flex shrink-0 flex-col items-center justify-center gap-8 overflow-hidden rounded-[16px] bg-[#0D1334] p-8"
                       style={{ width: 320, height: 320 }}
                     >
@@ -269,8 +276,11 @@ const Section6 = () => {
                       fill
                       onLoad={() => handleImageLoad(index)}
                       onLoadingComplete={() => handleImageLoad(index)}
-                      className={`object-cover ${item.grayscale ? "grayscale" : ""}`}
-                      style={item.opacity != null ? { opacity: item.opacity } : undefined}
+                      className={`object-cover transition-all duration-300 ${
+                        isImageRevealed(index)
+                          ? "opacity-100 grayscale-0"
+                          : "opacity-60 grayscale"
+                      }`}
                       sizes={`${itemWidth}px`}
                     />
                   </div>
