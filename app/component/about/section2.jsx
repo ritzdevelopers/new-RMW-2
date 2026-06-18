@@ -88,6 +88,80 @@ const caseStudyLabelStyle = {
   color: "#FFFFFF",
 };
 
+const StandOutText = ({ parts }) => (
+  <p style={standOutStyle} className="m-0 whitespace-nowrap">
+    <span style={{ display: "block" }}>
+      {parts[0]}
+      {parts[1] != null && (
+        <>
+          <br />
+          <span style={{ display: "block", paddingLeft: "1.1em" }}>{parts[1]}</span>
+        </>
+      )}
+    </span>
+    {parts[2] != null && <span style={{ display: "block" }}>{parts[2]}</span>}
+  </p>
+);
+
+const deliverCards = [
+  { label: "Growth", parts: ["gr", "ow", "th"] },
+  { label: "influence", parts: ["infl", "ue", "nce"], showCaseStudy: true },
+  { label: "legacy", parts: ["leg", "ac", "y"] },
+];
+
+const CaseStudyBlock = () => (
+  <div className="flex flex-col items-start gap-4">
+    <p style={caseStudyStyle} className="m-0 text-left">
+      How Toblerone
+      <br />
+      Supercharged Brand
+      <br />
+      Recall By <span style={{ color: "#FFFFFF" }}>29%</span>
+    </p>
+    <div className="flex cursor-pointer items-center gap-3">
+      <span style={caseStudyLabelStyle} className="m-0">
+        Case Study
+      </span>
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F5A623]">
+        <span className="ml-0.5 block h-0 w-0 border-y-[6px] border-l-[10px] border-y-transparent border-l-white" />
+      </span>
+    </div>
+  </div>
+);
+
+const CardContent = ({ card, isActive, cardIndex }) => (
+  <div className="relative w-full">
+    <div
+      className={`origin-bottom-left transition-all duration-300 ease-out ${
+        isActive
+          ? "pointer-events-none absolute bottom-0 left-0 opacity-0 translate-y-3"
+          : "opacity-100 translate-y-0"
+      }`}
+    >
+      <StaggeredLabel lines={[card.label]} style={sideCardLabelStyle} />
+    </div>
+
+    {isActive && (
+      <div className="w-full">
+        {card.showCaseStudy ? (
+          <div className="flex w-full items-end justify-between gap-6">
+            <div key={`text-${cardIndex}`} className="deliver-card-text-enter">
+              <StandOutText parts={card.parts} />
+            </div>
+            <div key={`case-${cardIndex}`} className="deliver-card-case-enter">
+              <CaseStudyBlock />
+            </div>
+          </div>
+        ) : (
+          <div key={`text-${cardIndex}`} className="deliver-card-text-enter">
+            <StandOutText parts={card.parts} />
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+);
+
 const DeliverCard = ({ imageSrc, isActive, onMouseEnter, children }) => (
   <div
     onMouseEnter={onMouseEnter}
@@ -133,6 +207,35 @@ const Section2 = () => {
           font-style: normal;
           font-display: swap;
         }
+        @keyframes deliver-text-in {
+          from {
+            opacity: 0;
+            transform: translate(-12px, 36px) scale(0.72);
+          }
+          to {
+            opacity: 1;
+            transform: translate(0, 0) scale(1);
+          }
+        }
+        @keyframes deliver-case-in {
+          from {
+            opacity: 0;
+            transform: translate(20px, 48px);
+          }
+          to {
+            opacity: 1;
+            transform: translate(0, 0);
+          }
+        }
+        .deliver-card-text-enter {
+          transform-origin: left bottom;
+          animation: deliver-text-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .deliver-card-case-enter {
+          transform-origin: right bottom;
+          animation: deliver-case-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.12s forwards;
+          opacity: 0;
+        }
       `}</style>
 
       <section className="bg-[#F1F1F1] px-8 py-16 md:px-12 md:py-20 lg:py-24">
@@ -146,66 +249,22 @@ const Section2 = () => {
               className="mx-auto flex w-max justify-center gap-4"
               onMouseLeave={() => setActiveIndex(1)}
             >
-              <DeliverCard
-                imageSrc={deliverImages[0]}
-                isActive={activeIndex === 0}
-                onMouseEnter={() => setActiveIndex(0)}
-              >
-                <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-8`}>
-                  <StaggeredLabel lines={["Growth"]} style={sideCardLabelStyle} />
-                </div>
-              </DeliverCard>
-
-              <DeliverCard
-                imageSrc={deliverImages[1]}
-                isActive={activeIndex === 1}
-                onMouseEnter={() => setActiveIndex(1)}
-              >
-                <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-8`}>
-                  <div className="flex w-full items-end justify-between gap-6">
-                    <p style={standOutStyle} className="m-0 whitespace-nowrap">
-                      <span style={{ display: "block", marginTop: "56px" }}>
-                        infl
-                        <br />
-                        <span style={{ display: "block", paddingLeft: "1.1em" }}>ue</span>
-                      </span>
-                      <span style={{ display: "block" }}>nce</span>
-                    </p>
-
-                    <div
-                      className={`flex flex-col items-start gap-4 transition-opacity duration-300 ${
-                        activeIndex === 1 ? "opacity-100" : "pointer-events-none opacity-0"
-                      }`}
-                    >
-                      <p style={caseStudyStyle} className="m-0 text-left">
-                        How Toblerone
-                        <br />
-                        Supercharged Brand
-                        <br />
-                        Recall By <span style={{ color: "#FFFFFF" }}>29%</span>
-                      </p>
-                      <div className="flex cursor-pointer items-center gap-3">
-                        <span style={caseStudyLabelStyle} className="m-0">
-                          Case Study
-                        </span>
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F5A623]">
-                          <span className="ml-0.5 block h-0 w-0 border-y-[6px] border-l-[10px] border-y-transparent border-l-white" />
-                        </span>
-                      </div>
-                    </div>
+              {deliverCards.map((card, index) => (
+                <DeliverCard
+                  key={card.label}
+                  imageSrc={deliverImages[index]}
+                  isActive={activeIndex === index}
+                  onMouseEnter={() => setActiveIndex(index)}
+                >
+                  <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-8`}>
+                    <CardContent
+                      card={card}
+                      isActive={activeIndex === index}
+                      cardIndex={index}
+                    />
                   </div>
-                </div>
-              </DeliverCard>
-
-              <DeliverCard
-                imageSrc={deliverImages[2]}
-                isActive={activeIndex === 2}
-                onMouseEnter={() => setActiveIndex(2)}
-              >
-                <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-8`}>
-                  <StaggeredLabel lines={["legacy"]} style={sideCardLabelStyle} />
-                </div>
-              </DeliverCard>
+                </DeliverCard>
+              ))}
             </div>
           </div>
         </div>
