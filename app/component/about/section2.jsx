@@ -9,7 +9,11 @@ const montserrat = Montserrat({
   weight: ["300", "400", "500"],
   display: "swap",
 });
-const deliverImage = "/Deliver/Deliver1.jpg";
+const deliverImages = [
+  "/Deliver/slider1.jpeg",
+  "/Deliver/slider2.jpeg",
+  "/Deliver/slider3.jpeg",
+];
 const ACTIVE_WIDTH = 878;
 const INACTIVE_WIDTH = 282;
 const CARD_HEIGHT = 768;
@@ -84,7 +88,7 @@ const caseStudyLabelStyle = {
   color: "#FFFFFF",
 };
 
-const DeliverCard = ({ isActive, onMouseEnter, children }) => (
+const DeliverCard = ({ imageSrc, isActive, onMouseEnter, children }) => (
   <div
     onMouseEnter={onMouseEnter}
     className="relative shrink-0 overflow-hidden rounded-[16px] transition-[width] duration-500 ease-in-out"
@@ -93,7 +97,7 @@ const DeliverCard = ({ isActive, onMouseEnter, children }) => (
       height: CARD_HEIGHT,
     }}
   >
-    <Image src={deliverImage} alt="" fill className="object-cover" sizes="878px" />
+    <Image src={imageSrc} alt="" fill className="object-cover" sizes="878px" />
     <div className="absolute inset-0 bg-black/15" />
     {children}
   </div>
@@ -143,6 +147,7 @@ const Section2 = () => {
               onMouseLeave={() => setActiveIndex(1)}
             >
               <DeliverCard
+                imageSrc={deliverImages[0]}
                 isActive={activeIndex === 0}
                 onMouseEnter={() => setActiveIndex(0)}
               >
@@ -152,17 +157,19 @@ const Section2 = () => {
               </DeliverCard>
 
               <DeliverCard
+                imageSrc={deliverImages[1]}
                 isActive={activeIndex === 1}
                 onMouseEnter={() => setActiveIndex(1)}
               >
                 <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-8`}>
                   <div className="flex w-full items-end justify-between gap-6">
                     <p style={standOutStyle} className="m-0 whitespace-nowrap">
-                      infl
-                      <br />
-                      <span style={{ display: "block", paddingLeft: "1.1em" }}>ue</span>
-                      <br />
-                      nce
+                      <span style={{ display: "block", marginTop: "56px" }}>
+                        infl
+                        <br />
+                        <span style={{ display: "block", paddingLeft: "1.1em" }}>ue</span>
+                      </span>
+                      <span style={{ display: "block" }}>nce</span>
                     </p>
 
                     <div
@@ -177,7 +184,7 @@ const Section2 = () => {
                         <br />
                         Recall By <span style={{ color: "#FFFFFF" }}>29%</span>
                       </p>
-                      <div className="flex items-center gap-3">
+                      <div className="flex cursor-pointer items-center gap-3">
                         <span style={caseStudyLabelStyle} className="m-0">
                           Case Study
                         </span>
@@ -191,6 +198,7 @@ const Section2 = () => {
               </DeliverCard>
 
               <DeliverCard
+                imageSrc={deliverImages[2]}
                 isActive={activeIndex === 2}
                 onMouseEnter={() => setActiveIndex(2)}
               >

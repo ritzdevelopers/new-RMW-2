@@ -20,38 +20,36 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-const hustleImageTemplates = [
-  {
-    src: "/hustle/firstimage.png",
-    width: 750,
-    height: 710,
-    fixedWidth: 480,
-    heightReduce: 50,
-  },
-  {
-    src: "/hustle/secondimage.png",
-    width: 320,
-    height: 433,
-    fixed: true,
-  },
-  {
-    src: "/hustle/thirdimage.png",
-    width: 750,
-    height: 710,
-    fixedWidth: 480,
-    heightReduce: 50,
-    opacity: 0.6,
-  },
+// Update carousel image paths here
+const hustleCarouselImages = [
+  "/Deliver/firstimage.jpeg",
+  "/Deliver/fourthimage.jpeg",
+  "/Deliver/secondimage.jpeg",
+  "/Deliver/thirdimage.jpeg",
+  "/Deliver/firstimage.jpeg",
+  "/Deliver/fourthimage.jpeg",
+  "/Deliver/secondimage.jpeg",
+  "/Deliver/thirdimage.jpeg",
+  "/Deliver/firstimage.jpeg",
+  "/Deliver/fourthimage.jpeg",
 ];
 
-const hustleImages = Array.from({ length: 10 }, (_, index) => {
-  const template = hustleImageTemplates[index % hustleImageTemplates.length];
-  return {
-    type: "image",
-    ...template,
-    grayscale: index === 9,
-  };
-});
+const getHustleImageConfig = (index) => {
+  if (index % 4 === 2) {
+    return { fixed: true, width: 320, height: 433 };
+  }
+  if (index % 4 === 3) {
+    return { width: 750, height: 710, fixedWidth: 480, heightReduce: 50, opacity: 0.6 };
+  }
+  return { width: 750, height: 710, fixedWidth: 480, heightReduce: 50 };
+};
+
+const hustleImages = hustleCarouselImages.map((src, index) => ({
+  type: "image",
+  src,
+  ...getHustleImageConfig(index),
+  grayscale: index === 9,
+}));
 
 const carouselItems = [
   hustleImages[0],
@@ -127,34 +125,26 @@ const Section6 = () => {
             id: "section6-carousel",
             trigger: section,
             start: "top top",
-            end: () => `+=${scrollDistance + window.innerHeight * 0.5}`,
+            end: () => `+=${scrollDistance}`,
             pin: pin,
             scrub: 1,
             anticipatePin: 1,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
-              const progress = self.progress;
-              if (progress <= 0.75) {
-                const scrollProgress = progress / 0.75;
-                setActiveIndex(
-                  Math.round(scrollProgress * Math.max(carouselItems.length - 1, 1)),
-                );
-              } else {
-                setActiveIndex(0);
-              }
+              setActiveIndex(
+                Math.round(self.progress * Math.max(carouselItems.length - 1, 1)),
+              );
             },
           },
         });
 
         if (scrollDistance > 0) {
           if (headlineOverflow > 0) {
-            tl.to(headline, { x: -headlineOverflow, ease: "none", duration: 0.75 }, 0);
+            tl.to(headline, { x: -headlineOverflow, ease: "none", duration: 1 }, 0);
           }
           if (trackOverflow > 0) {
-            tl.to(track, { x: -trackOverflow, ease: "none", duration: 0.75 }, 0);
+            tl.to(track, { x: -trackOverflow, ease: "none", duration: 1 }, 0);
           }
-          tl.to(headline, { x: 0, ease: "none", duration: 0.25 }, 0.75);
-          tl.to(track, { x: 0, ease: "none", duration: 0.25 }, 0.75);
         }
       };
 
@@ -178,8 +168,7 @@ const Section6 = () => {
 
     const overflow = Math.max(0, track.scrollWidth - window.innerWidth);
     const scrollProgress = index / Math.max(carouselItems.length - 1, 1);
-    const targetProgress = scrollProgress * 0.75;
-    const scrollPos = st.start + (st.end - st.start) * targetProgress;
+    const scrollPos = st.start + (st.end - st.start) * scrollProgress;
 
     window.scrollTo({ top: scrollPos, behavior: "smooth" });
     setActiveIndex(index);
@@ -219,7 +208,7 @@ const Section6 = () => {
           <p
             className={`${montserrat.className} m-0 mx-auto mt-6 max-w-[800px] px-8 text-center text-[20px] font-medium leading-[100%] tracking-[0] text-[#333333] md:mt-0 md:px-12 md:text-[28px] lg:text-[36px]`}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing eli
+            Where ideas, culture, and creativity come to life. 
           </p>
         </div>
 

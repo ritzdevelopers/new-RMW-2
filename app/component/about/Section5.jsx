@@ -19,17 +19,42 @@ const montserrat = Montserrat({
 const awards = [
   {
     year: "2024",
-    image: "/award/awardlogo.png",
+    image: "/award/awardsecion1.jpeg",
     description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
   },
   {
     year: "2024",
-    image: "/award/awardlogo.png",
+    image: "/award/awardsection2.jpeg",
+    description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
+  },
+  {
+    year: "2024",
+    image: "/award/awardsection3.jpeg",
+    description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
+  },
+  {
+    year: "2024",
+    image: "/award/awardsecion4.jpeg",
     description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
   },
   {
     year: "2025",
-    image: "/award/awardlogo.png",
+    image: "/award/awardsecion5.jpeg",
+    description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
+  },
+  {
+    year: "2025",
+    image: "/award/awardsecion6.jpeg",
+    description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
+  },
+  {
+    year: "2025",
+    image: "/award/awardsecion7.jpeg",
+    description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
+  },
+  {
+    year: "2025",
+    image: "/award/awardsecion8.jpeg",
     description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
   },
 ];
