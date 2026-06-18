@@ -167,14 +167,15 @@ const Section6 = () => {
         className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-white pb-12 pt-20 md:pb-16 md:pt-10"
       >
         <div className="relative z-10 shrink-0">
-          <div
-            ref={headlineWrapRef}
-            className="relative left-1/2 w-screen -translate-x-1/2 overflow-x-hidden overflow-y-visible"
-          >
-            <h2
-              ref={headlineRef}
-              className={`${leagueSpartan.className} m-0 inline-flex w-max flex-nowrap items-baseline gap-x-[50px] py-1 uppercase leading-[1.05] tracking-[0] will-change-transform text-[80px] md:text-[120px] lg:text-[180px]`}
+          <div className="mx-auto w-full max-w-8xl px-8 md:px-12">
+            <div
+              ref={headlineWrapRef}
+              className="overflow-x-hidden overflow-y-visible"
             >
+              <h2
+                ref={headlineRef}
+                className={`${leagueSpartan.className} m-0 inline-flex w-max flex-nowrap items-baseline gap-x-[50px] py-1 uppercase leading-[1.05] tracking-[0] will-change-transform text-[80px] md:text-[120px] lg:text-[180px]`}
+              >
               {"HUSTLE".split("").map((letter, index) => (
                 <span key={`hustle-${index}`} className="text-[#000000]">
                   {letter}
@@ -187,10 +188,11 @@ const Section6 = () => {
                 </span>
               ))}
             </h2>
+            </div>
           </div>
 
           <p
-            className={`${montserrat.className} m-0 mx-auto mt-6 max-w-[900px] px-8 text-center text-[20px] font-medium leading-[100%] tracking-[0] text-[#333333] md:mt-0 md:px-12 md:text-[28px] lg:text-[36px]`}
+            className={`${montserrat.className} m-0 mx-auto mt-6 max-w-8xl px-8 text-center text-[20px] font-medium leading-[100%] tracking-[0] text-[#333333] md:mt-0 md:px-12 md:text-[28px] lg:text-[36px]`}
           >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           </p>
