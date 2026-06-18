@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
-/* @theme {
-  --font-sequel: "Sequel Sans", sans-serif;
-} */
+@theme {
+  --font-league-spartan: "League Spartan", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+}
 
 @font-face {
   font-family: "Sequel Sans";
