@@ -7,6 +7,7 @@ import Section3 from '../component/about/Section3'
 import Section4 from '../component/about/section4'
 import Section5 from '../component/about/Section5'
 import Section6 from '../component/about/Section6'
+import Section7 from '../component/about/Section7'
 
 const About = () => {
   return (
@@ -18,6 +19,7 @@ const About = () => {
             <Section4 />
             <Section5 />
             <Section6 />
+            <Section7 />
             <Footer />
             </>
   )

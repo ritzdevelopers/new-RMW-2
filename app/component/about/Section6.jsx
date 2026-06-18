@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -20,36 +20,43 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-const carouselItems = [
+const hustleImageTemplates = [
   {
-    type: "image",
     src: "/hustle/firstimage.png",
     width: 750,
     height: 710,
-    grayscale: false,
     fixedWidth: 480,
     heightReduce: 50,
   },
-  { type: "news" },
   {
-    type: "image",
     src: "/hustle/secondimage.png",
     width: 320,
     height: 433,
-    grayscale: false,
     fixed: true,
   },
   {
-    type: "image",
     src: "/hustle/thirdimage.png",
     width: 750,
     height: 710,
-    grayscale: false,
     fixedWidth: 480,
     heightReduce: 50,
     opacity: 0.6,
   },
-  { type: "image", src: "/hustle/firstimage.png", width: 750, height: 710, grayscale: true },
+];
+
+const hustleImages = Array.from({ length: 10 }, (_, index) => {
+  const template = hustleImageTemplates[index % hustleImageTemplates.length];
+  return {
+    type: "image",
+    ...template,
+    grayscale: index === 9,
+  };
+});
+
+const carouselItems = [
+  hustleImages[0],
+  { type: "news" },
+  ...hustleImages.slice(1),
 ];
 
 const CAROUSEL_HEIGHT = 433;
@@ -75,6 +82,24 @@ const Section6 = () => {
   const headlineRef = useRef(null);
   const trackRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [imagesReady, setImagesReady] = useState(0);
+  const loadedImageIndexesRef = useRef(new Set());
+
+  const handleImageLoad = (index) => {
+    if (loadedImageIndexesRef.current.has(index)) return;
+    loadedImageIndexesRef.current.add(index);
+    setImagesReady((count) => count + 1);
+  };
+
+  useEffect(() => {
+    const imgs = trackRef.current?.querySelectorAll("img");
+    if (!imgs?.length) return;
+
+    const alreadyLoaded = Array.from(imgs).filter((img) => img.complete).length;
+    if (alreadyLoaded > 0) {
+      setImagesReady((count) => Math.max(count, alreadyLoaded));
+    }
+  }, []);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -144,7 +169,7 @@ const Section6 = () => {
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [imagesReady]);
 
   const scrollToIndex = (index) => {
     const st = ScrollTrigger.getById("section6-carousel");
@@ -176,14 +201,14 @@ const Section6 = () => {
                 ref={headlineRef}
                 className={`${leagueSpartan.className} m-0 inline-flex w-max flex-nowrap items-baseline gap-x-[50px] py-1 uppercase leading-[1.05] tracking-[0] will-change-transform text-[80px] md:text-[120px] lg:text-[180px]`}
               >
-              {"HUSTLE".split("").map((letter, index) => (
-                <span key={`hustle-${index}`} className="text-[#000000]">
+              {"CONNECT".split("").map((letter, index) => (
+                <span key={`connect-${index}`} className="text-[#000000]">
                   {letter}
                 </span>
               ))}
               <span className="text-[#33333366]">&amp;</span>
-              {"HEART".split("").map((letter, index) => (
-                <span key={`heart-${index}`} className="text-[#33333366]">
+              {"CREATE".split("").map((letter, index) => (
+                <span key={`create-${index}`} className="text-[#33333366]">
                   {letter}
                 </span>
               ))}
@@ -192,9 +217,9 @@ const Section6 = () => {
           </div>
 
           <p
-            className={`${montserrat.className} m-0 mx-auto mt-6 max-w-8xl px-8 text-center text-[20px] font-medium leading-[100%] tracking-[0] text-[#333333] md:mt-0 md:px-12 md:text-[28px] lg:text-[36px]`}
+            className={`${montserrat.className} m-0 mx-auto mt-6 max-w-[800px] px-8 text-center text-[20px] font-medium leading-[100%] tracking-[0] text-[#333333] md:mt-0 md:px-12 md:text-[28px] lg:text-[36px]`}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            Lorem ipsum dolor sit amet, consectetur adipiscing eli
           </p>
         </div>
 
@@ -202,7 +227,7 @@ const Section6 = () => {
           <div className="h-[433px] w-full overflow-hidden">
             <div
               ref={trackRef}
-              className="flex h-full w-max flex-nowrap items-center gap-5 will-change-transform"
+              className="flex h-full w-max flex-nowrap items-center gap-5 px-8 will-change-transform md:px-12"
             >
               {carouselItems.map((item, index) => {
                 if (item.type === "news") {
@@ -244,7 +269,7 @@ const Section6 = () => {
 
                 return (
                   <div
-                    key={`${item.src}-${index}`}
+                    key={`carousel-image-${index}`}
                     data-carousel-item
                     className="relative z-10 shrink-0 overflow-hidden"
                     style={{ height: itemHeight, width: itemWidth }}
@@ -253,6 +278,8 @@ const Section6 = () => {
                       src={item.src}
                       alt=""
                       fill
+                      onLoad={() => handleImageLoad(index)}
+                      onLoadingComplete={() => handleImageLoad(index)}
                       className={`object-cover ${item.grayscale ? "grayscale" : ""}`}
                       style={item.opacity != null ? { opacity: item.opacity } : undefined}
                       sizes={`${itemWidth}px`}

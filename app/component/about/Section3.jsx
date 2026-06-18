@@ -63,7 +63,7 @@ const Section3 = () => {
       <section className="bg-[#F1F1F1] px-8 py-0 md:px-12 md:pt-0 pb-[35px] md:pb-[70px]">
         <div className="mx-auto w-full max-w-[1500px]">
           <h2 style={headingStyle} className="m-0">
-            Think, Create, Celebrate
+          BUILD. BELIEVE. BECOME
           </h2>
 
           <div className="mt-10 flex flex-wrap justify-center gap-5 md:mt-12 lg:mt-14">

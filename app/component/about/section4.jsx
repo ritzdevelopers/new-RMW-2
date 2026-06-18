@@ -40,14 +40,13 @@ const Section4 = () => {
     <section className="bg-white px-8 py-16 md:px-12 md:py-20 lg:py-24">
       <div className="mx-auto w-full max-w-[1200px]">
         <h2 className="m-0 text-center font-league-spartan text-[48px] font-[500] uppercase leading-[100%] tracking-[0] text-[#333333]">
-          17 Years of Brand Excellence
+        17 Years. Countless Stories. One Legacy.
         </h2>
 
         <p
           className={`${montserrat.className} m-0 mx-auto mt-6 max-w-[1100px] text-center text-[36px] font-normal leading-[100%] tracking-[0] text-[#333333]`}
         >
-          From pioneering print innovations to 360° Digital Marketing, our journey reflects our
-          commitment to excellence.
+          From print to digital, campaigns to cultural impact, every milestone reflects our passion for creating work that matters.
         </p>
 
         <div className="mt-16 md:mt-20">

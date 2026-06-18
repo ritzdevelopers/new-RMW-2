@@ -147,7 +147,7 @@ const Section2 = () => {
                 onMouseEnter={() => setActiveIndex(0)}
               >
                 <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-8`}>
-                  <StaggeredLabel lines={["Gro", "Wth"]} style={sideCardLabelStyle} />
+                  <StaggeredLabel lines={["Growth"]} style={sideCardLabelStyle} />
                 </div>
               </DeliverCard>
 
@@ -158,11 +158,11 @@ const Section2 = () => {
                 <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-8`}>
                   <div className="flex w-full items-end justify-between gap-6">
                     <p style={standOutStyle} className="m-0 whitespace-nowrap">
-                      Sta
+                      infl
                       <br />
-                      <span style={{ display: "block", paddingLeft: "1.1em" }}>Nd</span>
+                      <span style={{ display: "block", paddingLeft: "1.1em" }}>ue</span>
                       <br />
-                      Out
+                      nce
                     </p>
 
                     <div
@@ -195,7 +195,7 @@ const Section2 = () => {
                 onMouseEnter={() => setActiveIndex(2)}
               >
                 <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-8`}>
-                  <StaggeredLabel lines={["Fan", "Dom"]} style={sideCardLabelStyle} />
+                  <StaggeredLabel lines={["legacy"]} style={sideCardLabelStyle} />
                 </div>
               </DeliverCard>
             </div>

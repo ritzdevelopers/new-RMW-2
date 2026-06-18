@@ -493,10 +493,10 @@ const Section1 = () => {
             </h1>
           </div>
 
-          <div className={`${montserrat.className} mt-8 max-w-[900px] md:mt-10 lg:mt-5`}>
+          <div className={`${montserrat.className} mt-8 max-w-[1000px] md:mt-10 lg:mt-5`}>
             <Reveal group="sub">
               <p className="m-0 text-[14px] font-[300] italic leading-[20px] text-white md:text-[20px] md:leading-[28px] lg:text-[28px] lg:leading-[36px]">
-                Fuelled by a magnetic culture of hustle and heart, backed
+              Built on hustle. Driven by heart. Powered by ideas that move the world
               </p>
             </Reveal>
             <Reveal group="sub" className="mt-1">
@@ -558,7 +558,7 @@ const Section1 = () => {
                 </p>
               </Reveal>
               <Reveal group="intro" className="mt-1">
-                <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] lg:leading-[36px]">
+                <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] lg:leading-[40px]">
                   17 years in the making.
                 </p>
               </Reveal>
@@ -566,7 +566,7 @@ const Section1 = () => {
 
             <Reveal group="disruption" className="mt-10 md:mt-12 lg:mt-14 xl:mt-5">
               <p style={subHeadingStyle} className="m-0 text-[18px] md:text-[24px] xl:text-[48px]">
-                WE CREATE DESIRE THROUGH
+              Building tomorrow's 
               </p>
             </Reveal>
           </div>
@@ -581,9 +581,9 @@ const Section1 = () => {
                   style={disruptionWordStyle}
                   className="inline-flex items-center justify-center gap-[20px]"
                 >
-                  <Letter>D</Letter>
-                  <Letter>I</Letter>
-                  <Letter>S</Letter>
+                  <Letter>L</Letter>
+                  <Letter>A</Letter>
+                  <Letter>N</Letter>
                   <span className="inline-flex shrink-0 items-center">
                     <span
                       ref={videoSlotRef}
@@ -591,7 +591,7 @@ const Section1 = () => {
                       className="block h-[180px] w-[320px] opacity-0"
                     />
                   </span>
-                  <Letter>R</Letter>
+                  <Letter>D</Letter>
                   <Letter>U</Letter>
                   <Letter>P</Letter>
                 </span>

@@ -19,17 +19,17 @@ const montserrat = Montserrat({
 const awards = [
   {
     year: "2024",
-    image: "/award/award1.jpeg",
+    image: "/award/awardlogo.png",
     description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
   },
   {
     year: "2024",
-    image: "/award/award1.jpeg",
+    image: "/award/awardlogo.png",
     description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
   },
   {
     year: "2025",
-    image: "/award/award1.jpeg",
+    image: "/award/awardlogo.png",
     description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
   },
 ];
@@ -54,12 +54,19 @@ const Section5 = () => {
   return (
     <section className="bg-[#0D1334] px-8 py-16 md:px-12 md:py-20 lg:py-24">
       <div className="mx-auto w-full max-w-[1400px]">
-        <h2
+        {/* <h2
           className={`${leagueSpartan.className} m-0 text-center text-[48px] font-semibold uppercase leading-[100%] tracking-[0] text-white md:text-[86px]`}
         >
           Awards &amp; Company
           <br />
           Recognition
+        </h2> */}
+        <h2
+          className={`${leagueSpartan.className} m-0 text-center text-[48px] font-semibold uppercase leading-[100%] tracking-[0] text-white md:text-[86px]`}
+        >
+         HONOURS  &amp; RECOGNITION
+          {/* <br />
+          Recognition */}
         </h2>
 
         <div className="mt-12 grid grid-cols-1 gap-5 md:mt-16 md:grid-cols-3 md:gap-6">
