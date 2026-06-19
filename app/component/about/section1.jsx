@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Montserrat } from "next/font/google";
@@ -82,7 +82,145 @@ const Letter = ({ children, from }) => (
   </span>
 );
 
+const VIDEO_SRC = "/about/video-about.mp4";
+
+const VideoFullscreenModal = ({ open, onClose }) => {
+  const videoRef = useRef(null);
+  const [isEntered, setIsEntered] = useState(false);
+
+  useEffect(() => {
+    if (!open) {
+      setIsEntered(false);
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setIsEntered(true));
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    const video = videoRef.current;
+    if (video) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+      if (video) video.pause();
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className={`video-modal-backdrop fixed inset-0 z-[200] flex cursor-pointer items-center justify-center bg-black/92 p-4 md:p-8 ${isEntered ? "is-visible" : ""}`}
+      onClick={onClose}
+      role="presentation"
+    >
+      <div
+        className={`video-modal-panel relative w-full max-w-[1200px] ${isEntered ? "is-visible" : ""}`}
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Watch video"
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close video"
+          className="absolute -top-10 right-0 flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white transition-opacity hover:opacity-80 md:-top-12"
+        >
+          <i className="ri-close-line text-[22px]" aria-hidden />
+        </button>
+        <video
+          ref={videoRef}
+          controls
+          playsInline
+          className="block max-h-[85vh] w-full rounded-[12px] bg-black object-contain"
+          src={VIDEO_SRC}
+        />
+      </div>
+    </div>
+  );
+};
+
+const WatchNowOverlay = ({ className = "", onWatch }) => {
+  const overlayRef = useRef(null);
+  const [position, setPosition] = useState({ x: 50, y: 50 });
+  const [isTracking, setIsTracking] = useState(false);
+
+  const handleMouseMove = (event) => {
+    const overlay = overlayRef.current;
+    if (!overlay) return;
+
+    const rect = overlay.getBoundingClientRect();
+    setPosition({
+      x: ((event.clientX - rect.left) / rect.width) * 100,
+      y: ((event.clientY - rect.top) / rect.height) * 100,
+    });
+    setIsTracking(true);
+  };
+
+  const handleMouseLeave = () => {
+    setPosition({ x: 50, y: 50 });
+    setIsTracking(false);
+  };
+
+  return (
+    <div
+      ref={overlayRef}
+      className={`pointer-events-auto absolute inset-0 z-20 cursor-pointer ${className}`}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onWatch}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") onWatch?.();
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label="Watch now"
+    >
+      <button
+        type="button"
+        aria-label="Watch now"
+        className="watch-now-btn pointer-events-none absolute flex items-center gap-2 rounded-full bg-white py-2 pl-5 pr-2 shadow-[0_8px_30px_rgba(0,0,0,0.25)] md:gap-3 md:py-2.5 md:pl-6"
+        style={{
+          left: `${position.x}%`,
+          top: `${position.y}%`,
+          transform: "translate(-50%, -50%)",
+          transition: isTracking
+            ? "left 0.14s ease-out, top 0.14s ease-out, transform 0.25s ease"
+            : "left 0.5s cubic-bezier(0.22, 1, 0.36, 1), top 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.25s ease",
+        }}
+      >
+        <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[12px]">
+          Watch Now
+        </span>
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
+          <i className="ri-play-fill text-[14px] md:text-[16px]" aria-hidden />
+        </span>
+      </button>
+    </div>
+  );
+};
+
 const Section1 = () => {
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const heroRef = useRef(null);
   const headlineRef = useRef(null);
   const disruptionRef = useRef(null);
@@ -602,6 +740,9 @@ const Section1 = () => {
     };
   }, []);
 
+  const openVideoModal = () => setIsVideoModalOpen(true);
+  const closeVideoModal = () => setIsVideoModalOpen(false);
+
   return (
     <>
       <style>{`
@@ -620,6 +761,36 @@ const Section1 = () => {
           font-weight: 370;
           font-style: normal;
           font-display: swap;
+        }
+        @keyframes watchNowPulse {
+          0%,
+          100% {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25), 0 0 0 0 rgba(255, 255, 255, 0.45);
+          }
+          50% {
+            box-shadow: 0 10px 34px rgba(0, 0, 0, 0.28), 0 0 0 10px rgba(255, 255, 255, 0);
+          }
+        }
+        .watch-now-btn {
+          animation: watchNowPulse 2.4s ease-in-out infinite;
+        }
+        .video-modal-backdrop {
+          opacity: 0;
+          transition: opacity 0.35s ease;
+        }
+        .video-modal-backdrop.is-visible {
+          opacity: 1;
+        }
+        .video-modal-panel {
+          transform: scale(0.35);
+          opacity: 0;
+          transition:
+            transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.4s ease;
+        }
+        .video-modal-panel.is-visible {
+          transform: scale(1);
+          opacity: 1;
         }
       `}</style>
 
@@ -692,7 +863,7 @@ const Section1 = () => {
                 className="block h-auto w-full"
                 src="/about/video-about.mp4"
               />
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
                 <img
                   src="/logo/r-rmw-transparent.png"
                   alt=""
@@ -703,6 +874,7 @@ const Section1 = () => {
                   }}
                 />
               </div>
+              <WatchNowOverlay onWatch={openVideoModal} />
             </div>
           </div>
         </div>
@@ -721,6 +893,7 @@ const Section1 = () => {
           className="block h-full w-full origin-center object-cover"
           src="/about/video-about.mp4"
         />
+        <WatchNowOverlay onWatch={openVideoModal} />
       </div>
       <div
         ref={logoFloatRef}
@@ -742,7 +915,13 @@ const Section1 = () => {
       </div>
 
       <section ref={filmRef} className="relative overflow-x-hidden bg-[#F1F1F1] px-8 pb-0 pt-[35px] md:px-12 md:pb-0 md:pt-[70px] lg:py-16 lg:pt-20">
-        <div className="relative mx-auto w-full max-w-[1400px]">
+        <img
+          src="/logo/r-logo-side.png"
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute -left-0 top-[50%] z-0 hidden h-[min(460px,50vh)] w-auto -translate-y-1/2 object-contain object-left lg:block lg:h-[min(380px,35vh)] xl:h-[min(620px,50vh)]"
+        />
+        <div className="relative z-10 mx-auto w-full max-w-[1400px]">
           {/* <Reveal className="absolute left-0 top-0 z-10">
             <img
               src="/about/ritz-logo.png"
@@ -754,7 +933,7 @@ const Section1 = () => {
           <div className="flex flex-col items-center text-center">
             <div className={`${montserrat.className} max-w-[850px]`}>
               <Reveal group="intro">
-                <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] lg:leading-[36px]">
+                <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] lg:leading-[40px]">
                   The world&apos;s largest independent brand agency,
                 </p>
               </Reveal>
@@ -773,7 +952,7 @@ const Section1 = () => {
           </div>
         </div>
 
-        <div className="mt-8 flex w-full justify-center md:mt-10 lg:mt-12 xl:mt-5">
+        <div className="relative z-10 mt-8 flex w-full justify-center md:mt-10 lg:mt-12 xl:mt-5">
           <div ref={disruptionRef} className="flex w-full flex-col items-center text-center">
             <div className="flex w-full flex-col items-center md:hidden">
               <Reveal group="disruption-word" clipYOnly className="overflow-x-visible">
@@ -799,6 +978,7 @@ const Section1 = () => {
                   className="block h-auto w-full"
                   src="/about/video-about.mp4"
                 />
+                <WatchNowOverlay onWatch={openVideoModal} />
               </div>
 
               <Reveal group="disruption-word" clipYOnly className="overflow-x-visible">
@@ -875,6 +1055,7 @@ const Section1 = () => {
         </div>
       </section>
       </div>
+      <VideoFullscreenModal open={isVideoModalOpen} onClose={closeVideoModal} />
     </>
   );
 };
