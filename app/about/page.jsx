@@ -19,10 +19,7 @@ const About = () => {
             <Section4 />
             <Section5 />
             <Section6 />
-            {/* <Section7 /> */}
-            {/* <Footer /> */}
-          <Section7 />
-          <Footer />
+          <Footer overlaySection={<Section7 />} />
             </>
   )
 }

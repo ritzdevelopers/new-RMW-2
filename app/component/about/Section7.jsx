@@ -93,70 +93,69 @@ const Section7 = () => {
           animation: section7-contact-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
       `}</style>
-    <section ref={sectionRef} className="relative w-full overflow-hidden">
-      <div className="relative w-full">
-        <Image
-          src="/service/bg-image.png"
-          alt=""
-          width={1024}
-          height={584}
-          priority
-          className="block h-auto w-full object-cover object-center"
-          sizes="100vw"
-        />
+      <section ref={sectionRef} className="relative min-h-screen w-full overflow-hidden">
+        <div className="relative min-h-screen w-full">
+          <Image
+            src="/service/bg-image.png"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+          />
 
-        <div className="absolute inset-0 bg-black/10" aria-hidden />
+          <div className="absolute inset-0 bg-black/10" aria-hidden />
 
-        <div
-          className={`${leagueSpartan.className} absolute inset-0 z-10 flex flex-col justify-center px-8 py-20 md:px-12 md:py-15 ${
-            showContact ? "items-center" : "gap-6 md:gap-8 lg:gap-10"
-          }`}
-        >
-        {showContact ? (
           <div
-            key={selectedService}
-            className="section7-contact-enter max-w-[820px] text-left uppercase text-white"
+            className={`${leagueSpartan.className} absolute inset-0 z-10 flex flex-col justify-center px-8 py-20 md:px-12 md:py-15 ${
+              showContact ? "items-center" : "gap-6 md:gap-8 lg:gap-10"
+            }`}
           >
-            <h2 className="m-0 text-[60px] font-semibold leading-[100%] tracking-[0]">
-              {selectedService}
-            </h2>
-            <p className="m-0 mt-8 text-[14px] font-semibold leading-[140%] tracking-[0] md:text-[18px] lg:text-[22px]">
-              {contactInfo.address[0]}
-              <br />
-              {contactInfo.address[1]}
-            </p>
-            <a
-              href={`mailto:${contactInfo.email}`}
-              className="mt-8 inline-block w-fit border-b border-white pb-1 text-[14px] font-semibold leading-[100%] tracking-[0] md:text-[18px] lg:text-[22px]"
-            >
-              {contactInfo.email}
-            </a>
-            <span className="mt-6 inline-block w-fit border-b border-white pb-1 text-[14px] font-semibold leading-[100%] tracking-[0] md:text-[18px] lg:text-[22px]">
-              {contactInfo.phone}
-            </span>
-          </div>
-        ) : (
-          serviceRows.map((row, rowIndex) => (
-            <div
-              key={rowIndex}
-              className={`flex w-full flex-wrap items-center gap-x-8 gap-y-2 lg:gap-x-16 ${rowOffsetClasses[rowIndex] ?? ""}`}
-            >
-              {row.map((label, index) => (
-                <button
-                  key={`${rowIndex}-${index}-${label}`}
-                  type="button"
-                  onClick={() => handleServiceClick(label)}
-                  className={`${serviceClass} cursor-pointer border-0 bg-transparent p-0 font-semibold text-[#FFFFFF4D] transition-colors duration-300 hover:text-white`}
+            {showContact ? (
+              <div
+                key={selectedService}
+                className="section7-contact-enter max-w-[820px] text-left uppercase text-white"
+              >
+                <h2 className="m-0 text-[60px] font-semibold leading-[100%] tracking-[0]">
+                  {selectedService}
+                </h2>
+                <p className="m-0 mt-8 text-[14px] font-semibold leading-[140%] tracking-[0] md:text-[18px] lg:text-[22px]">
+                  {contactInfo.address[0]}
+                  <br />
+                  {contactInfo.address[1]}
+                </p>
+                <a
+                  href={`mailto:${contactInfo.email}`}
+                  className="mt-8 inline-block w-fit border-b border-white pb-1 text-[14px] font-semibold leading-[100%] tracking-[0] md:text-[18px] lg:text-[22px]"
                 >
-                  {label}
-                </button>
-              ))}
-            </div>
-          ))
-        )}
+                  {contactInfo.email}
+                </a>
+                <span className="mt-6 inline-block w-fit border-b border-white pb-1 text-[14px] font-semibold leading-[100%] tracking-[0] md:text-[18px] lg:text-[22px]">
+                  {contactInfo.phone}
+                </span>
+              </div>
+            ) : (
+              serviceRows.map((row, rowIndex) => (
+                <div
+                  key={rowIndex}
+                  className={`flex w-full flex-wrap items-center gap-x-8 gap-y-2 lg:gap-x-16 ${rowOffsetClasses[rowIndex] ?? ""}`}
+                >
+                  {row.map((label, index) => (
+                    <button
+                      key={`${rowIndex}-${index}-${label}`}
+                      type="button"
+                      onClick={() => handleServiceClick(label)}
+                      className={`${serviceClass} cursor-pointer border-0 bg-transparent p-0 font-semibold text-[#FFFFFF4D] transition-colors duration-300 hover:text-white`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              ))
+            )}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 };

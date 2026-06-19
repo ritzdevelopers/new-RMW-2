@@ -23,37 +23,75 @@ const headingStyle = {
   color: "#FFFFFF",
 };
 
-const Reveal = ({ children, className = "", group = "headline" }) => (
-  <span className={`block ${className}`}>
+const Reveal = ({ children, className = "", group = "headline", clipYOnly = false }) => (
+  <span
+    className={`block ${clipYOnly ? "overflow-x-visible overflow-y-hidden" : "overflow-hidden"} ${className}`}
+  >
     <span data-svc-reveal={group} className="block w-full will-change-transform">
       {children}
     </span>
   </span>
 );
 
+const headlineRowSpread =
+  "flex w-full items-baseline justify-between gap-x-[clamp(16px,4vw,80px)]";
+const headlineRowThree =
+  "grid w-full grid-cols-3 items-baseline gap-x-[clamp(12px,3vw,48px)]";
+const headlineRowEnd =
+  "flex w-full items-baseline justify-end";
+const headlineRowClassWide =
+  "flex w-full flex-wrap items-baseline justify-between gap-x-[clamp(16px,4vw,64px)] gap-y-2";
+
+const subtextRowClass =
+  "inline-flex max-w-full flex-wrap items-center justify-center gap-x-[clamp(12px,2.5vw,48px)] gap-y-2";
+
+const defaultSubtext = [
+  ["Fuelled by a magnetic culture of hustle and heart,", "backed by the belief that"],
+  ["great ideas change the world."],
+];
+
+function normalizeSubtext(subtext) {
+  if (!subtext?.length) return defaultSubtext;
+
+  return subtext.map((line) => {
+    if (Array.isArray(line)) return line;
+
+    const emDashParts = line
+      .split(/\s*[—–]\s*/)
+      .map((part) => part.trim())
+      .filter(Boolean);
+    if (emDashParts.length > 1) return emDashParts;
+
+    const commaParts = line
+      .split(/,\s+(?=backed|from|and|with|to|across|or|but)\s*/i)
+      .map((part) => part.trim())
+      .filter(Boolean);
+    if (commaParts.length > 1) return commaParts;
+
+    return [line];
+  });
+}
+
 const ServicesHero = ({
-  lineOne = "Services Tailored",
-  lineTwoBefore = "To ",
-  lineTwoHighlight = "Transform",
-  lineTwoAfter = " Your Brand",
-  subtext = [
-    "Fuelled by a magnetic culture of hustle and heart, backed by the belief that",
-    "great ideas change the world.",
-  ],
+  lineOne = "Digital Marketing",
+  singleLine = false,
+  subtext = defaultSubtext,
   subtextItalic = true,
 }) => {
+  const subtextLines = normalizeSubtext(subtext);
   const heroRef = useRef(null);
   const headlineRef = useRef(null);
+  const headlineWrapRef = useRef(null);
   const logoRef = useRef(null);
 
   useLayoutEffect(() => {
     const hero = heroRef.current;
     const headline = headlineRef.current;
+    const headlineWrap = headlineWrapRef.current;
     if (!hero) return;
 
     const fitHeadline = () => {
-      const parent = headline?.parentElement;
-      if (!headline || !parent) return;
+      if (!headline || !headlineWrap) return;
 
       headline.style.transform = "none";
       const rows = headline.querySelectorAll("[data-headline-row]");
@@ -61,8 +99,12 @@ const ServicesHero = ({
       rows.forEach((row) => {
         needed = Math.max(needed, row.scrollWidth, row.getBoundingClientRect().width);
       });
-      const available = parent.clientWidth - 48;
-      const scale = needed > 0 ? Math.min(1, available / needed) : 1;
+
+      const sectionStyles = window.getComputedStyle(hero);
+      const horizontalPadding =
+        parseFloat(sectionStyles.paddingLeft) + parseFloat(sectionStyles.paddingRight);
+      const available = Math.min(window.innerWidth, headlineWrap.clientWidth) - horizontalPadding - 16;
+      const scale = needed > 0 && available > 0 ? Math.min(1, available / needed) : 1;
       headline.style.transform = scale < 1 ? `scale(${scale})` : "none";
       headline.style.transformOrigin = "top center";
     };
@@ -152,10 +194,20 @@ const ServicesHero = ({
 
       fitHeadline();
       window.addEventListener("resize", fitHeadline);
+      window.addEventListener("load", fitHeadline);
+      document.fonts?.ready?.then(() => requestAnimationFrame(fitHeadline));
+
+      const resizeObserver =
+        typeof ResizeObserver !== "undefined"
+          ? new ResizeObserver(() => fitHeadline())
+          : null;
+      if (headlineWrap) resizeObserver?.observe(headlineWrap);
 
       return () => {
         window.removeEventListener("header-reveal-complete", onHeaderComplete);
         window.removeEventListener("resize", fitHeadline);
+        window.removeEventListener("load", fitHeadline);
+        resizeObserver?.disconnect();
       };
     }, hero);
 
@@ -165,7 +217,7 @@ const ServicesHero = ({
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen flex-col overflow-hidden bg-[#0D1334] px-8 pb-[60px] pt-[35px] md:px-12 md:pb-[80px] md:pt-[70px]"
+      className="relative flex min-h-screen flex-col overflow-hidden overflow-x-hidden bg-[#0D1334] px-8 pb-[60px] pt-[35px] md:px-12 md:pb-[80px] md:pt-[70px]"
     >
       <div className="pointer-events-none absolute bottom-6 left-1/2 z-[1] -translate-x-1/2 md:bottom-10 lg:bottom-12">
         <div
@@ -188,49 +240,72 @@ const ServicesHero = ({
         />
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-1 flex-col items-center justify-center text-center">
-        <div className="relative w-full">
-          <h1 ref={headlineRef} style={headingStyle} className="m-0 mx-auto w-full text-center">
-            <Reveal className="w-full">
-              <span className="flex w-full justify-center">
-                <span
-                  data-headline-row
-                  className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[60px] lg:gap-x-[100px]"
-                >
-                  <span>{lineOne}</span>
-                </span>
-              </span>
-            </Reveal>
-            {(lineTwoBefore || lineTwoHighlight || lineTwoAfter) && (
-              <Reveal className="mt-1 w-full md:mt-4">
-                <span className="flex w-full justify-center">
-                  <span
-                    data-headline-row
-                    className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[60px] lg:gap-x-[100px]"
-                  >
-                    <span>
-                      {lineTwoBefore}
-                      {lineTwoHighlight ? (
-                        <span style={{ color: goldColor }}>{lineTwoHighlight}</span>
-                      ) : null}
-                      {lineTwoAfter}
-                    </span>
+      <div className="relative z-10 mx-auto flex w-full max-w-[1320px] flex-1 flex-col items-center justify-center text-center">
+        <div ref={headlineWrapRef} className="relative w-full overflow-x-visible px-1">
+          <h1 ref={headlineRef} style={headingStyle} className="m-0 mx-auto w-full max-w-full text-left">
+            {singleLine ? (
+              <Reveal clipYOnly className="w-full">
+                <span className="block w-full overflow-x-visible">
+                  <span data-headline-row className={headlineRowClassWide}>
+                    {lineOne.split(" ").map((word, index) => (
+                      <span key={`${word}-${index}`}>{word}</span>
+                    ))}
                   </span>
                 </span>
               </Reveal>
+            ) : (
+              <>
+                <Reveal clipYOnly className="w-full">
+                  <span className="block w-full overflow-x-visible">
+                    <span data-headline-row className={headlineRowSpread}>
+                      <span>SERVICES</span>
+                      <span>TAILORED</span>
+                    </span>
+                  </span>
+                </Reveal>
+                <Reveal clipYOnly className="w-full overflow-x-visible">
+                  <span className="block w-full overflow-x-visible">
+                    <span data-headline-row className={headlineRowThree}>
+                      <span className="text-left">TO</span>
+                      <span className="text-center">
+                        <span style={{ color: goldColor }}>TRANSFORM</span>
+                      </span>
+                      <span className="text-right">YOUR</span>
+                    </span>
+                  </span>
+                </Reveal>
+                <Reveal clipYOnly className="w-full overflow-x-visible">
+                  <span className="block w-full overflow-x-visible">
+                    <span data-headline-row className={headlineRowEnd}>
+                      <span>BRAND</span>
+                    </span>
+                  </span>
+                </Reveal>
+              </>
             )}
           </h1>
         </div>
 
-        <div className={`${montserrat.className} relative mt-8 max-w-[900px] md:mt-10`}>
-          {subtext.map((line, index) => (
-            <Reveal key={`${line.slice(0, 24)}-${index}`} group="sub" className={index > 0 ? "mt-1" : ""}>
+        <div className={`${montserrat.className} relative z-40 mt-8 max-w-[1000px] md:mt-0 lg:mt-0 xl:mt-5`}>
+          {subtextLines.map((phrases, index) => (
+            <Reveal
+              key={`${phrases.join("-")}-${index}`}
+              group="sub"
+              clipYOnly
+              className={index > 0 ? "mt-1" : ""}
+            >
               <p
-                className={`m-0 text-[14px] font-[300] leading-[22px] text-white md:text-[20px] md:leading-[30px] lg:text-[28px] lg:leading-[38px] ${
+                className={`m-0 text-[14px] font-[300] leading-[20px] text-white md:text-[20px] md:leading-[28px] lg:text-[28px] lg:leading-[36px] ${
                   subtextItalic ? "italic" : ""
                 }`}
               >
-                {line}
+                <span className="flex w-full justify-center overflow-x-visible">
+                  <span className={subtextRowClass}>
+                    {phrases.map((phrase, phraseIndex) => (
+                      <span key={`${phrase}-${phraseIndex}`}>{phrase}</span>
+                    ))}
+                  </span>
+                </span>
               </p>
             </Reveal>
           ))}
