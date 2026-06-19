@@ -10,9 +10,9 @@ const montserrat = Montserrat({
   display: "swap",
 });
 const deliverImages = [
-  "/Deliver/slider1.jpeg",
-  "/Deliver/slider2.jpeg",
-  "/Deliver/slider3.jpeg",
+  "/Deliver/slidernew1.jpeg",
+  "/Deliver/slidernew2.jpeg",
+  "/Deliver/slidernew3.jpeg",
 ];
 
 const headingStyle = {
@@ -127,7 +127,7 @@ const getDesktopCardFlex = (index, hoveredIndex, activeIndex) => {
     return { flexGrow: 0.85, flexShrink: 1, flexBasis: 0, maxWidth: "none", minWidth: 0 };
   }
   if (index === activeIndex) {
-    return { flexGrow: 1, flexShrink: 1, flexBasis: 0, maxWidth: "none", minWidth: 0 };
+    return { flexGrow: 2, flexShrink: 1, flexBasis: 0, maxWidth: "none", minWidth: 0 };
   }
   return { flexGrow: 0, flexShrink: 0, flexBasis: "22%", maxWidth: "282px", minWidth: 0 };
 };
@@ -149,7 +149,7 @@ const CardContent = ({ card, isActive, cardIndex }) => (
     </div>
 
     {isActive && (
-      <div className="w-full">
+      <div className="w-full pl-5 max-md:pl-9 md:pl-3 lg:pl-5 xl:pl-7">
         {card.showCaseStudy ? (
           <div className="flex w-full flex-col items-start gap-4 max-md:gap-6 md:flex-row md:items-end md:justify-between md:gap-6">
             <div key={`text-${cardIndex}`} className="deliver-card-text-enter">
@@ -174,15 +174,18 @@ const DeliverCard = ({ imageSrc, isActive, cardIndex, hoveredIndex, activeIndex,
     onMouseEnter={onMouseEnter}
     onClick={onClick}
     style={getDesktopCardFlex(cardIndex, hoveredIndex, activeIndex)}
-    className={`deliver-card relative w-full min-w-0 cursor-pointer overflow-hidden rounded-[16px] ${
-      isActive ? "max-md:aspect-[878/768] max-md:h-auto" : "max-md:aspect-auto max-md:h-[104px]"
-    } max-md:w-full md:min-w-0 md:rounded-none md:h-auto md:aspect-[878/768] lg:rounded-[16px] lg:h-auto lg:aspect-[878/768] xl:aspect-auto xl:h-[768px]`}
+    className={`deliver-card relative w-full min-w-0 cursor-pointer overflow-hidden rounded-[10px] ${
+      isActive
+        ? "deliver-card-active-mobile max-md:aspect-[878/768] max-md:h-auto"
+        : "max-md:h-[88px]"
+    } max-md:w-full md:h-[380px] md:min-w-0 md:rounded-none lg:h-[420px] lg:rounded-[16px] xl:h-[640px]`}
   >
     <Image
       src={imageSrc}
       alt=""
-      fill
-      className={`object-cover ${isActive ? "max-md:object-contain" : ""}`}
+      width={878}
+      height={768}
+      className="absolute inset-0 h-full w-full object-cover object-center max-md:rounded-[10px]"
       sizes="(min-width: 1280px) 40vw, 100vw"
     />
     <div className="absolute inset-0 bg-black/15" />
@@ -263,11 +266,20 @@ const Section2 = () => {
           .deliver-card {
             transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
             flex: none !important;
-            width: 100% !important;
             max-width: none !important;
             flex-grow: unset !important;
             flex-shrink: unset !important;
             flex-basis: auto !important;
+          }
+          .deliver-card:not(.deliver-card-active-mobile) {
+            width: 100% !important;
+          }
+          .deliver-card-active-mobile {
+            width: calc(100% + 4rem) !important;
+            margin-left: -2rem !important;
+            margin-right: -2rem !important;
+            border-radius: 10px !important;
+            overflow: hidden !important;
           }
         }
       `}</style>
@@ -280,7 +292,7 @@ const Section2 = () => {
 
           <div className="mt-5 w-full overflow-hidden md:mt-6 lg:mt-8 xl:mt-14">
             <div
-              className="flex w-full flex-col gap-3 md:flex-row md:gap-4"
+              className="flex w-full flex-col gap-3 md:flex-row md:items-stretch md:gap-4"
               onMouseLeave={() => {
                 setHoveredIndex(null);
                 setActiveIndex(1);
@@ -300,7 +312,11 @@ const Section2 = () => {
                   }}
                   onClick={() => setActiveIndex(index)}
                 >
-                  <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-2 md:p-4 lg:p-8`}>
+                  <div
+                    className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-2 md:p-4 lg:p-8 ${
+                      activeIndex === index ? "max-md:pl-1 max-md:pr-3" : ""
+                    }`}
+                  >
                     <CardContent
                       card={card}
                       isActive={activeIndex === index}
