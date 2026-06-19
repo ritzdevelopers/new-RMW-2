@@ -197,7 +197,7 @@ const ServicesGrid = () => {
               key={service.slug}
               href={getServiceHref(service.slug)}
               data-svc-card
-              className={`group relative block w-full max-w-[587px] overflow-hidden rounded-[18px] bg-[#1D1D1B] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.35)] will-change-transform md:h-[621px] md:w-[587px] md:max-w-none ${
+              className={`group relative block w-full max-w-[587px] overflow-hidden rounded-none bg-[#1D1D1B] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.35)] will-change-transform md:h-[621px] md:w-[587px] md:max-w-none ${
                 index % 2 === 1 ? "md:mt-20 lg:mt-28 xl:mt-36" : ""
               }`}
               style={{ aspectRatio: CARD_ASPECT }}
