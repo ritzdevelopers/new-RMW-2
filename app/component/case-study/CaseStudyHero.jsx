@@ -27,8 +27,8 @@ const headingStyle = {
 };
 
 const Reveal = ({ children, className = "", group = "headline" }) => (
-  <span className={`block overflow-hidden ${className}`}>
-    <span data-cs-reveal={group} className="block w-full">
+  <span className={`block ${className}`}>
+    <span data-cs-reveal={group} className="block w-full will-change-transform">
       {children}
     </span>
   </span>
@@ -63,16 +63,25 @@ const CaseStudyHero = () => {
     const ctx = gsap.context(() => {
       const headlineItems = gsap.utils.toArray("[data-cs-reveal='headline']", hero);
       const subItems = gsap.utils.toArray("[data-cs-reveal='sub']", hero);
+      const fallItems = [...headlineItems, ...subItems];
 
-      gsap.set(headlineItems, { yPercent: -110 });
-      gsap.set(subItems, { yPercent: -110, opacity: 0 });
+      const getFallDistance = () => -(window.innerHeight * 0.72);
+      const fallFrom = getFallDistance();
+
+      gsap.set(fallItems, {
+        y: fallFrom,
+        opacity: 0,
+        force3D: true,
+      });
+
       if (logoRef.current) {
         gsap.set(logoRef.current, {
           opacity: 0,
-          scale: 0.94,
-          y: 24,
+          scale: 0.9,
+          y: fallFrom,
           rotation: -12.441,
           transformOrigin: "50% 50%",
+          force3D: true,
         });
       }
 
@@ -84,50 +93,60 @@ const CaseStudyHero = () => {
 
         const tl = gsap.timeline({ onComplete: fitHeadline });
 
+        if (logoRef.current) {
+          tl.to(
+            logoRef.current,
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              rotation: -12.441,
+              duration: 1.65,
+              ease: "power4.out",
+              force3D: true,
+            },
+            0,
+          );
+        }
+
         headlineItems.forEach((item, index) => {
           tl.to(
             item,
-            { yPercent: 0, duration: 1.8, ease: "power4.out" },
-            index === 0 ? 0 : "-=1.55",
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1.35,
+              ease: "power4.out",
+              force3D: true,
+            },
+            index === 0 ? 0.08 : "-=1.05",
           );
         });
 
         subItems.forEach((item, index) => {
           tl.to(
             item,
-            { yPercent: 0, opacity: 1, duration: 1.3, ease: "power4.out" },
-            index === 0 ? "-=1" : "-=1.1",
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1.15,
+              ease: "power4.out",
+              force3D: true,
+            },
+            index === 0 ? "-=0.85" : "-=0.95",
           );
         });
-
-        if (logoRef.current) {
-          tl.to(
-            logoRef.current,
-            {
-              opacity: 1,
-              scale: 1,
-              y: 0,
-              rotation: -12.441,
-              duration: 2,
-              ease: "power3.out",
-            },
-            0,
-          );
-        }
       };
 
       const onHeaderComplete = () => playEntrance();
       window.addEventListener("header-reveal-complete", onHeaderComplete);
 
-      // Fallback if header animation already finished before this effect ran
       requestAnimationFrame(() => {
-        if (logoRef.current && gsap.getProperty(logoRef.current, "opacity") === 0) {
-          const headerItems = document.querySelectorAll("[data-header-reveal]");
-          const headerDone = headerItems.length
-            ? Array.from(headerItems).every((el) => gsap.getProperty(el, "yPercent") === 0)
-            : true;
-          if (headerDone) playEntrance();
-        }
+        const headerItems = document.querySelectorAll("[data-header-reveal]");
+        const headerDone = headerItems.length
+          ? Array.from(headerItems).every((el) => gsap.getProperty(el, "yPercent") === 0)
+          : true;
+        if (headerDone) playEntrance();
       });
 
       if (logoRef.current) {
