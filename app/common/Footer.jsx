@@ -95,8 +95,8 @@ const connectLinks = [
 
 const mainNavLinks = [
   { label: "HOME", href: "/" },
-  { label: "WORK", href: "#" },
-  { label: "ABOUT", href: "#" },
+  { label: "WORK", href: "/case-study" },
+  { label: "ABOUT", href: "/about" },
   { label: "SERVICES", href: "#" },
 ];
 
