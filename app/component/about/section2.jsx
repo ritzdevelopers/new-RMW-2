@@ -119,6 +119,19 @@ const CaseStudyBlock = () => (
   </div>
 );
 
+const getDesktopCardFlex = (index, hoveredIndex, activeIndex) => {
+  if (hoveredIndex !== null) {
+    if (index === hoveredIndex) {
+      return { flexGrow: 2.2, flexShrink: 1, flexBasis: 0, maxWidth: "none", minWidth: 0 };
+    }
+    return { flexGrow: 0.85, flexShrink: 1, flexBasis: 0, maxWidth: "none", minWidth: 0 };
+  }
+  if (index === activeIndex) {
+    return { flexGrow: 1, flexShrink: 1, flexBasis: 0, maxWidth: "none", minWidth: 0 };
+  }
+  return { flexGrow: 0, flexShrink: 0, flexBasis: "22%", maxWidth: "282px", minWidth: 0 };
+};
+
 const CardContent = ({ card, isActive, cardIndex }) => (
   <div className="relative w-full">
     <div
@@ -156,17 +169,14 @@ const CardContent = ({ card, isActive, cardIndex }) => (
   </div>
 );
 
-const DeliverCard = ({ imageSrc, isActive, onMouseEnter, onClick, children }) => (
+const DeliverCard = ({ imageSrc, isActive, cardIndex, hoveredIndex, activeIndex, onMouseEnter, onClick, children }) => (
   <div
     onMouseEnter={onMouseEnter}
     onClick={onClick}
-    className={`deliver-card relative w-full cursor-pointer overflow-hidden rounded-[16px] transition-[height,flex-grow,flex-basis,width] duration-500 ease-in-out ${
+    style={getDesktopCardFlex(cardIndex, hoveredIndex, activeIndex)}
+    className={`deliver-card relative w-full min-w-0 cursor-pointer overflow-hidden rounded-[16px] ${
       isActive ? "max-md:aspect-[878/768] max-md:h-auto" : "max-md:aspect-auto max-md:h-[104px]"
-    } md:rounded-none md:h-auto md:aspect-[878/768] lg:rounded-[16px] lg:h-auto lg:aspect-[878/768] xl:aspect-auto xl:h-[768px] ${
-      isActive
-        ? "md:min-w-0 md:flex-1"
-        : "md:shrink-0 md:basis-[22%] md:max-w-[282px] xl:basis-[282px]"
-    }`}
+    } max-md:w-full md:min-w-0 md:rounded-none md:h-auto md:aspect-[878/768] lg:rounded-[16px] lg:h-auto lg:aspect-[878/768] xl:aspect-auto xl:h-[768px]`}
   >
     <Image
       src={imageSrc}
@@ -182,6 +192,7 @@ const DeliverCard = ({ imageSrc, isActive, onMouseEnter, onClick, children }) =>
 
 const Section2 = () => {
   const [activeIndex, setActiveIndex] = useState(1);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
     <>
@@ -239,6 +250,26 @@ const Section2 = () => {
           animation: deliver-case-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.12s forwards;
           opacity: 0;
         }
+        @media (min-width: 768px) {
+          .deliver-card {
+            transition:
+              flex-grow 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              flex-shrink 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              flex-basis 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              max-width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+          }
+        }
+        @media (max-width: 767px) {
+          .deliver-card {
+            transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            flex: none !important;
+            width: 100% !important;
+            max-width: none !important;
+            flex-grow: unset !important;
+            flex-shrink: unset !important;
+            flex-basis: auto !important;
+          }
+        }
       `}</style>
 
       <section className="bg-[#F1F1F1] pb-[35px] md:pb-[70px]">
@@ -250,17 +281,26 @@ const Section2 = () => {
           <div className="mt-5 w-full overflow-hidden md:mt-6 lg:mt-8 xl:mt-14">
             <div
               className="flex w-full flex-col gap-3 md:flex-row md:gap-4"
-              onMouseLeave={() => setActiveIndex(1)}
+              onMouseLeave={() => {
+                setHoveredIndex(null);
+                setActiveIndex(1);
+              }}
             >
               {deliverCards.map((card, index) => (
                 <DeliverCard
                   key={card.label}
                   imageSrc={deliverImages[index]}
+                  cardIndex={index}
+                  hoveredIndex={hoveredIndex}
+                  activeIndex={activeIndex}
                   isActive={activeIndex === index}
-                  onMouseEnter={() => setActiveIndex(index)}
+                  onMouseEnter={() => {
+                    setHoveredIndex(index);
+                    setActiveIndex(index);
+                  }}
                   onClick={() => setActiveIndex(index)}
                 >
-                  <div className={`${montserrat.className} absolute p-2 inset-0 flex flex-col justify-end lg:p-8 md:p-4`}>
+                  <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-2 md:p-4 lg:p-8`}>
                     <CardContent
                       card={card}
                       isActive={activeIndex === index}
