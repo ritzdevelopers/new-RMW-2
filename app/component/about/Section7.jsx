@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { League_Spartan } from "next/font/google";
 
@@ -43,6 +43,7 @@ const contactInfo = {
 };
 
 const Section7 = () => {
+  const sectionRef = useRef(null);
   const [showContact, setShowContact] = useState(false);
   const [selectedService, setSelectedService] = useState("");
 
@@ -50,6 +51,30 @@ const Section7 = () => {
     setSelectedService(label);
     setShowContact(true);
   };
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let wasVisible = false;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const isVisible = entry.isIntersecting;
+
+        if (!isVisible || (isVisible && !wasVisible)) {
+          setShowContact(false);
+          setSelectedService("");
+        }
+
+        wasVisible = isVisible;
+      },
+      { threshold: 0 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
@@ -68,7 +93,7 @@ const Section7 = () => {
           animation: section7-contact-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
       `}</style>
-    <section className="relative w-full overflow-hidden">
+    <section ref={sectionRef} className="relative w-full overflow-hidden">
       <div className="relative w-full">
         <Image
           src="/service/bg-image.png"

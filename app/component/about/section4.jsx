@@ -37,19 +37,19 @@ const milestones = [
 
 const Section4 = () => {
   return (
-    <section className="bg-white px-8 py-16 md:px-12 md:py-20 lg:py-24">
+    <section className="bg-white px-8 py-[35px] md:px-12  md:py-[70px]">
       <div className="mx-auto w-full max-w-[1200px]">
-        <h2 className="m-0 text-center font-league-spartan text-[48px] font-[500] uppercase leading-[100%] tracking-[0] text-[#333333]">
+        <h2 className="m-0 text-center font-league-spartan xl:text-[48px] lg:text-[40px] md:text-[32px] text-[20px] font-[500] uppercase md:leading-[100%] tracking-[0] text-[#333333] leading-[25px]">
         17 Years. Countless Stories. One Legacy.
         </h2>
 
         <p
-          className={`${montserrat.className} m-0 mx-auto mt-6 max-w-[1100px] text-center text-[36px] font-normal leading-[100%] tracking-[0] text-[#333333]`}
+          className={`${montserrat.className} m-0 mx-auto xl:mt-6 md:mt-3 max-w-[1100px] text-center lg:text-[24px] xl:text-[36px] font-normal xl:leading-[45px] lg:leading-[30px] tracking-[0] text-[#333333]`}
         >
           From print to digital, campaigns to cultural impact, every milestone reflects our passion for creating work that matters.
         </p>
 
-        <div className="mt-16 md:mt-20">
+        <div className="mt-8 md:mt-20">
           <div className="relative grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8">
             <div className="absolute left-1/6 right-1/6 top-1/2 hidden h-px -translate-y-1/2 bg-[#D9D9D9] md:block" />
             {milestones.map((item) => (
@@ -62,7 +62,7 @@ const Section4 = () => {
             ))}
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
+          <div className="mt-5 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
             {milestones.map((item) => (
               <div key={item.year} className="flex flex-col items-center text-center">
                 <div className="relative z-10 flex h-[165px] w-[165px] items-center justify-center rounded-full border border-[#D9D9D9] opacity-100">

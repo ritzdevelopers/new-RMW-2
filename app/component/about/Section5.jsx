@@ -76,8 +76,46 @@ const Section5 = () => {
     awards[(activeIndex + 2) % awards.length],
   ];
 
+  const renderAwardCard = (award, index) => (
+    <article
+      key={`${award.year}-${award.image}-${index}`}
+      className="flex min-h-[420px] flex-col rounded-[20px] border border-[#1F275A] bg-[#11173D] px-6 pb-8 pt-6 md:min-h-auto md:px-8"
+    >
+      <div className="flex items-center justify-between">
+        <span
+          className={`${montserrat.className} text-[16px] font-medium leading-none text-white md:text-[18px]`}
+        >
+          {award.year}
+        </span>
+        <button
+          type="button"
+          aria-label="View award details"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-white"
+        >
+          <i className="ri-add-line text-[20px] leading-none" aria-hidden />
+        </button>
+      </div>
+
+      <div className="relative mx-auto my-15 flex w-full items-center justify-center">
+        <Image
+          src={award.image}
+          alt=""
+          width={260}
+          height={260}
+          className="object-contain"
+        />
+      </div>
+
+      <p
+        className={`${montserrat.className} m-0 text-center text-[16px] font-medium leading-[28px] tracking-[0] text-white md:text-[18px]`}
+      >
+        {award.description}
+      </p>
+    </article>
+  );
+
   return (
-    <section className="bg-[#0D1334] px-8 py-16 md:px-12 md:py-20 lg:py-24">
+    <section className="bg-[#0D1334] px-8 py-[35px] md:px-12 md:py-[70px]">
       <div className="mx-auto w-full max-w-[1400px]">
         {/* <h2
           className={`${leagueSpartan.className} m-0 text-center text-[48px] font-semibold uppercase leading-[100%] tracking-[0] text-white md:text-[86px]`}
@@ -87,51 +125,17 @@ const Section5 = () => {
           Recognition
         </h2> */}
         <h2
-          className={`${leagueSpartan.className} m-0 text-center text-[48px] font-semibold uppercase leading-[100%] tracking-[0] text-white md:text-[86px]`}
+          className={`${leagueSpartan.className} m-0 text-center text-[30px] font-semibold uppercase leading-[100%] tracking-[0] text-white lg:text-[86px] md:text-[60px]`}
         >
          HONOURS  &amp; RECOGNITION
           {/* <br />
           Recognition */}
         </h2>
 
-        <div className="mt-12 grid grid-cols-1 gap-5 md:mt-16 md:grid-cols-3 md:gap-6">
-          {visibleAwards.map((award, index) => (
-            <article
-              key={`${award.year}-${index}`}
-              className="flex min-h-[420px] flex-col rounded-[20px] border border-[#1F275A] bg-[#11173D] px-6 pb-8 pt-6 md:min-h-auto md:px-8"
-            >
-              <div className="flex items-center justify-between">
-                <span
-                  className={`${montserrat.className} text-[16px] font-medium leading-none text-white md:text-[18px]`}
-                >
-                  {award.year}
-                </span>
-                <button
-                  type="button"
-                  aria-label="View award details"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-white"
-                >
-                  <i className="ri-add-line text-[20px] leading-none" aria-hidden />
-                </button>
-              </div>
+        <div className="mt-12 md:hidden">{renderAwardCard(awards[activeIndex], activeIndex)}</div>
 
-              <div className="relative mx-auto my-15 flex w-full   items-center justify-center ">
-                <Image
-                  src={award.image}
-                  alt=""
-                  width={260}
-                  height={260}
-                  className="object-contain"
-                />
-              </div>
-
-              <p
-                className={`${montserrat.className} m-0 text-center text-[16px] font-medium leading-[28px] tracking-[0] text-white md:text-[18px]`}
-              >
-                {award.description}
-              </p>
-            </article>
-          ))}
+        <div className="mt-12 hidden grid-cols-1 gap-5 md:mt-16 md:grid md:grid-cols-3 md:gap-6">
+          {visibleAwards.map((award, index) => renderAwardCard(award, index))}
         </div>
 
         <div className="mt-10 flex items-center justify-center gap-4 md:mt-12">
