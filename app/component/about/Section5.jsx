@@ -22,21 +22,21 @@ const awards = [
     image: "/award/awardsecion1.jpeg",
     description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
   },
-  {
-    year: "2024",
-    image: "/award/awardsection2.jpeg",
-    description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
-  },
+  // {
+  //   year: "2024",
+  //   image: "/award/awardsection2.jpeg",
+  //   description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
+  // },
   {
     year: "2024",
     image: "/award/awardsection3.jpeg",
     description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
   },
-  {
-    year: "2024",
-    image: "/award/awardsecion4.jpeg",
-    description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
-  },
+  // {
+  //   year: "2024",
+  //   image: "/award/awardsecion4.jpeg",
+  //   description: "Best Creative Agency (Real Estate) in Delhi/NCR By Big FM",
+  // },
   {
     year: "2025",
     image: "/award/awardsecion5.jpeg",
