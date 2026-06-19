@@ -14,7 +14,7 @@ const montserrat = Montserrat({
 const milestones = [
   {
     year: "2008",
-    image: "/create/r-logo.jpeg",
+    image: "/create/r-logo-1.png",
     title: "Foundation",
     description:
       "Ritz Media World launched with a mission to reimagine brand communication for India's growth markets.",
@@ -40,7 +40,7 @@ const Section4 = () => {
     <section className="bg-white px-8 py-[35px] md:px-12  md:py-[70px]">
       <div className="mx-auto w-full max-w-[1200px]">
         <h2 className="m-0 text-center font-league-spartan xl:text-[48px] lg:text-[40px] md:text-[32px] text-[20px] font-[500] uppercase md:leading-[100%] tracking-[0] text-[#333333] leading-[25px]">
-        17 Years. Countless Stories. One Legacy.
+          17 Years. Countless Stories. One Legacy.
         </h2>
 
         <p
@@ -66,14 +66,10 @@ const Section4 = () => {
             {milestones.map((item) => (
               <div key={item.year} className="flex flex-col items-center text-center">
                 <div className="relative z-10 flex h-[165px] w-[165px] items-center justify-center rounded-full border border-[#D9D9D9] opacity-100">
-                  <div className="relative h-[147px] w-[147px] overflow-hidden rounded-full">
-                    <Image
-                      src={item.image}
-                      alt=""
-                      fill
-                      className="object-cover"
-                      sizes="147px"
-                    />
+                  <div className="relative h-[147px] w-[147px] flex justify-center items-center overflow-hidden rounded-full">
+                    <img src={item.image} alt="" className={`
+                      ${item.year === "2008" ? "h-[80%]" : "h-[100%]"}
+                      `} />
                   </div>
                 </div>
 
