@@ -39,13 +39,13 @@ export default async function ServiceDetailPage({ params }) {
       <main>
         <ServicesHero
           lineOne={service.title}
+          singleLine
           subtext={[service.description]}
           subtextItalic={false}
         />
         <ServiceDetailContent service={service} />
-        <Section7 />
       </main>
-      <Footer />
+      <Footer overlaySection={<Section7 />} />
     </>
   );
 }

@@ -20,9 +20,8 @@ const CaseStudyPage = () => {
         <CaseStudyHero />
         <CaseStudyIntro />
         <CaseStudyStack />
-        <Section7 />
       </main>
-      <Footer />
+      <Footer overlaySection={<Section7 />} />
     </>
   );
 };

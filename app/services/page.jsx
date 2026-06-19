@@ -18,9 +18,8 @@ const ServicesPage = () => {
       <main>
         <ServicesHero />
         <ServicesGrid />
-        <Section7 />
       </main>
-      <Footer />
+      <Footer overlaySection={<Section7 />} />
     </>
   );
 };

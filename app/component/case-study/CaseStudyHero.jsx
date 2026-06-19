@@ -23,27 +23,43 @@ const headingStyle = {
   color: "#FFFFFF",
 };
 
-const Reveal = ({ children, className = "", group = "headline" }) => (
-  <span className={`block ${className}`}>
+const Reveal = ({ children, className = "", group = "headline", clipYOnly = false }) => (
+  <span
+    className={`block ${clipYOnly ? "overflow-x-visible overflow-y-hidden" : "overflow-hidden"} ${className}`}
+  >
     <span data-cs-reveal={group} className="block w-full will-change-transform">
       {children}
     </span>
   </span>
 );
 
+const headlineRowClass =
+  "inline-flex max-w-full flex-wrap items-center justify-center gap-x-[clamp(20px,6vw,140px)] gap-y-2";
+const headlineRowClassWide =
+  "inline-flex max-w-full flex-wrap items-center justify-center gap-x-[clamp(18px,5.5vw,180px)] gap-y-2";
+
+const subtextRowClass =
+  "inline-flex max-w-full flex-wrap items-center justify-center gap-x-[clamp(12px,2.5vw,48px)] gap-y-2";
+
+const subtextLines = [
+  ["Fuelled by a magnetic culture of hustle and heart,", "backed by the belief that"],
+  ["great ideas change the world."],
+];
+
 const CaseStudyHero = () => {
   const heroRef = useRef(null);
   const headlineRef = useRef(null);
+  const headlineWrapRef = useRef(null);
   const logoRef = useRef(null);
 
   useLayoutEffect(() => {
     const hero = heroRef.current;
     const headline = headlineRef.current;
+    const headlineWrap = headlineWrapRef.current;
     if (!hero) return;
 
     const fitHeadline = () => {
-      const parent = headline?.parentElement;
-      if (!headline || !parent) return;
+      if (!headline || !headlineWrap) return;
 
       headline.style.transform = "none";
       const rows = headline.querySelectorAll("[data-headline-row]");
@@ -51,8 +67,12 @@ const CaseStudyHero = () => {
       rows.forEach((row) => {
         needed = Math.max(needed, row.scrollWidth, row.getBoundingClientRect().width);
       });
-      const available = parent.clientWidth - 48;
-      const scale = needed > 0 ? Math.min(1, available / needed) : 1;
+
+      const sectionStyles = window.getComputedStyle(hero);
+      const horizontalPadding =
+        parseFloat(sectionStyles.paddingLeft) + parseFloat(sectionStyles.paddingRight);
+      const available = Math.min(window.innerWidth, headlineWrap.clientWidth) - horizontalPadding - 16;
+      const scale = needed > 0 && available > 0 ? Math.min(1, available / needed) : 1;
       headline.style.transform = scale < 1 ? `scale(${scale})` : "none";
       headline.style.transformOrigin = "top center";
     };
@@ -148,10 +168,20 @@ const CaseStudyHero = () => {
 
       fitHeadline();
       window.addEventListener("resize", fitHeadline);
+      window.addEventListener("load", fitHeadline);
+      document.fonts?.ready?.then(() => requestAnimationFrame(fitHeadline));
+
+      const resizeObserver =
+        typeof ResizeObserver !== "undefined"
+          ? new ResizeObserver(() => fitHeadline())
+          : null;
+      if (headlineWrap) resizeObserver?.observe(headlineWrap);
 
       return () => {
         window.removeEventListener("header-reveal-complete", onHeaderComplete);
         window.removeEventListener("resize", fitHeadline);
+        window.removeEventListener("load", fitHeadline);
+        resizeObserver?.disconnect();
       };
     }, hero);
 
@@ -161,7 +191,7 @@ const CaseStudyHero = () => {
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen flex-col overflow-hidden bg-[#0D1334] px-8 pb-[60px] pt-[35px] md:px-12 md:pb-[80px] md:pt-[70px]"
+      className="relative flex min-h-screen flex-col overflow-hidden overflow-x-hidden bg-[#0D1334] px-8 pb-[60px] pt-[35px] md:px-12 md:pb-[80px] md:pt-[70px]"
     >
       <div className="pointer-events-none absolute bottom-6 left-1/2 z-[1] -translate-x-1/2 md:bottom-10 lg:bottom-12">
         <div
@@ -185,38 +215,44 @@ const CaseStudyHero = () => {
       </div>
 
       <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-1 flex-col items-center justify-center text-center">
-        <div className="relative w-full">
-          <h1 ref={headlineRef} style={headingStyle} className="m-0 mx-auto w-full text-center">
-            <Reveal className="w-full">
-              <span className="flex w-full justify-center">
-                <span data-headline-row className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[60px] lg:gap-x-[100px]">
-                  <span>A Home for</span>
+        <div ref={headlineWrapRef} className="relative w-full overflow-x-visible px-1">
+          <h1 ref={headlineRef} style={headingStyle} className="m-0 mx-auto w-full max-w-full text-center">
+            <Reveal clipYOnly className="w-full">
+              <span className="flex w-full justify-center overflow-x-visible">
+                <span data-headline-row className={headlineRowClass}>
+                  <span>A</span>
+                  <span>HOME</span>
+                  <span>FOR</span>
                 </span>
               </span>
             </Reveal>
-            <Reveal className="mt-1 w-full md:mt-4">
-              <span className="flex w-full justify-center">
-                <span data-headline-row className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[60px] lg:gap-x-[100px]">
+            <Reveal clipYOnly className="mt-1 w-full md:mt-8">
+              <span className="flex w-full justify-center overflow-x-visible">
+                <span data-headline-row className={headlineRowClassWide}>
                   <span>
-                    <span style={{ color: goldColor }}>Curious</span> Minds
+                    <span style={{ color: goldColor }}>CURIOUS</span>
                   </span>
+                  <span>MINDS</span>
                 </span>
               </span>
             </Reveal>
           </h1>
         </div>
 
-        <div className={`${montserrat.className} relative mt-8 max-w-[900px] md:mt-10`}>
-          <Reveal group="sub">
-            <p className="m-0 text-[14px] font-[300] italic leading-[22px] text-white md:text-[20px] md:leading-[30px] lg:text-[28px] lg:leading-[38px]">
-              Fuelled by a magnetic culture of hustle and heart, backed by the belief that
-            </p>
-          </Reveal>
-          <Reveal group="sub" className="mt-1">
-            <p className="m-0 text-[14px] font-[300] italic leading-[22px] text-white md:text-[20px] md:leading-[30px] lg:text-[28px] lg:leading-[38px]">
-              great ideas change the world.
-            </p>
-          </Reveal>
+        <div className={`${montserrat.className} relative z-40 mt-8 max-w-[1000px] md:mt-0 lg:mt-0 xl:mt-5`}>
+          {subtextLines.map((phrases, index) => (
+            <Reveal key={phrases.join("-")} group="sub" clipYOnly className={index > 0 ? "mt-1" : ""}>
+              <p className="m-0 text-[14px] font-[300] italic leading-[20px] text-white md:text-[20px] md:leading-[28px] lg:text-[28px] lg:leading-[36px]">
+                <span className="flex w-full justify-center overflow-x-visible">
+                  <span className={subtextRowClass}>
+                    {phrases.map((phrase) => (
+                      <span key={phrase}>{phrase}</span>
+                    ))}
+                  </span>
+                </span>
+              </p>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
