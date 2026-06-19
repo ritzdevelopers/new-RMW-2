@@ -176,6 +176,7 @@ const Footer = ({ overlaySection = null }) => {
   const overlayRef = useRef(null);
   const footerRef = useRef(null);
   const brandBannerRef = useRef(null);
+  const footerRevealLogoRef = useRef(null);
 
   useLayoutEffect(() => {
     const banner = brandBannerRef.current;
@@ -313,6 +314,24 @@ const Footer = ({ overlaySection = null }) => {
 
       revealTl.to(overlay, { y: () => -getRevealDistance(), ease: "none", duration: 1 }, 0);
 
+      const footerLogo = footerRevealLogoRef.current;
+      if (footerLogo) {
+        gsap.set(footerLogo, {
+          scale: 0.38,
+          y: 200,
+          opacity: 0.05,
+          rotation: -13,
+          transformOrigin: "50% 50%",
+          force3D: true,
+        });
+
+        revealTl.to(
+          footerLogo,
+          { scale: 1, y: 0, opacity: 0.5, ease: "none", duration: 1 },
+          0,
+        );
+      }
+
       if (wrap && ritz && mediaworld && services?.length) {
         revealTl
           .to(services, { opacity: 0, ease: "none", duration: 1 }, 0)
@@ -389,12 +408,14 @@ const Footer = ({ overlaySection = null }) => {
         className="pointer-events-none absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 select-none"
       >
         <img
+          ref={footerRevealLogoRef}
+          data-footer-reveal-logo
           src="/logo/r-logo-new.png"
           alt=""
-          className="h-[300px] w-[250px] max-w-none rotate-[-13deg] object-contain md:h-[517px] md:w-[431px]"
+          className="h-[300px] w-[250px] max-w-none object-contain will-change-transform md:h-[517px] md:w-[431px]"
           style={{
             filter: "brightness(3.2) contrast(1.05)",
-            opacity: 0.50,
+            opacity: overlaySection ? 0.05 : 0.5,
           }}
         />
       </div>
