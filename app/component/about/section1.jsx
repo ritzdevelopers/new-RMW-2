@@ -526,6 +526,31 @@ const Section1 = () => {
     let onHeaderComplete = null;
     let metadataVideo = null;
     let onVideoMetadata = null;
+    let introHandoffDone = false;
+    let heroVideoST = null;
+    const videoScroll = { p: 0 };
+
+    const getFilmSnapY = () => {
+      if (!film) return 0;
+      return Math.round(window.scrollY + film.getBoundingClientRect().top);
+    };
+
+    const isFilmEntering = () => {
+      if (!film) return false;
+      const filmTop = film.getBoundingClientRect().top;
+      return filmTop > 0 && filmTop < window.innerHeight * 0.92;
+    };
+
+    const runIntroReveal = () => {
+      if (introHandoffDone || isMobileViewport() || !film || !isFilmEntering()) return;
+
+      introHandoffDone = true;
+      window.scrollTo({ top: getFilmSnapY(), behavior: "smooth" });
+    };
+
+    const resetIntroReveal = () => {
+      introHandoffDone = false;
+    };
 
     const ctx = gsap.context(() => {
       const headlineItems = gsap.utils.toArray("[data-about-reveal='headline']", hero);
@@ -640,6 +665,16 @@ const Section1 = () => {
         filmTl.eventCallback("onComplete", fitAll);
       }
 
+      if (film && !isMobileViewport()) {
+        ScrollTrigger.create({
+          id: "intro-reveal",
+          trigger: film,
+          start: "top 92%",
+          onEnter: runIntroReveal,
+          onLeaveBack: resetIntroReveal,
+        });
+      }
+
       const floater = videoFloatRef.current;
       const slot = videoSlotRef.current;
       const heroSection = heroSectionRef.current;
@@ -670,17 +705,26 @@ const Section1 = () => {
         applyVideoProgress(0, 0);
         applyLogoPosition(0);
 
-        ScrollTrigger.create({
-          trigger: heroSection,
-          start: "top top",
-          endTrigger: slot,
-          end: "top 55%",
-          scrub: 0.85,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            applyVideoProgress(self.progress, 1);
-            applyHeroTextScroll(self.progress);
-            syncLogoWithScroll(self.progress);
+        const videoTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: heroSection,
+            start: "top top",
+            endTrigger: slot,
+            end: "top 55%",
+            scrub: 1.8,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        heroVideoST = videoTl.scrollTrigger;
+
+        videoTl.to(videoScroll, {
+          p: 1,
+          ease: "none",
+          onUpdate: () => {
+            applyVideoProgress(videoScroll.p, 1);
+            applyHeroTextScroll(videoScroll.p);
+            syncLogoWithScroll(videoScroll.p);
           },
         });
 
@@ -882,7 +926,7 @@ const Section1 = () => {
 
       <div
         ref={videoFloatRef}
-        className="pointer-events-none absolute z-30 hidden max-w-[1044px] overflow-hidden rounded-[24px] bg-black shadow-[0_24px_60px_rgba(0,0,0,0.35)] md:block"
+        className="pointer-events-none absolute z-30 hidden max-w-[1044px] overflow-hidden rounded-[24px] bg-black shadow-[0_24px_60px_rgba(0,0,0,0.35)] will-change-[left,top,width,height] md:block"
         style={{ visibility: "hidden", width: "1044px" }}
       >
         <video
@@ -914,7 +958,7 @@ const Section1 = () => {
         </div>
       </div>
 
-      <section ref={filmRef} className="relative overflow-x-hidden bg-[#F1F1F1] px-8 pb-0 pt-[35px] md:px-12 md:pb-0 md:pt-[70px] lg:py-16 lg:pt-20">
+      <section id="intro" ref={filmRef} className="relative overflow-x-hidden bg-[#F1F1F1] px-8 pb-0 pt-[35px] md:px-12 md:pb-0 md:pt-[70px] lg:py-16 lg:pt-20">
         <img
           src="/logo/r-logo-side.png"
           alt=""

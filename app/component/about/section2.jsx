@@ -175,9 +175,7 @@ const DeliverCard = ({ imageSrc, isActive, cardIndex, hoveredIndex, activeIndex,
     onClick={onClick}
     style={getDesktopCardFlex(cardIndex, hoveredIndex, activeIndex)}
     className={`deliver-card relative w-full min-w-0 cursor-pointer overflow-hidden rounded-[10px] ${
-      isActive
-        ? "deliver-card-active-mobile max-md:aspect-[878/768] max-md:h-auto"
-        : "max-md:h-[88px]"
+      isActive ? "deliver-card-active-mobile" : "deliver-card-inactive-mobile"
     } max-md:w-full md:h-[380px] md:min-w-0 md:rounded-none lg:h-[420px] lg:rounded-[16px] xl:h-[640px]`}
   >
     <Image
@@ -264,22 +262,30 @@ const Section2 = () => {
         }
         @media (max-width: 767px) {
           .deliver-card {
-            transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            transition:
+              height 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              width 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              margin-left 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              margin-right 0.6s cubic-bezier(0.22, 1, 0.36, 1);
             flex: none !important;
             max-width: none !important;
             flex-grow: unset !important;
             flex-shrink: unset !important;
             flex-basis: auto !important;
+            overflow: hidden !important;
+            border-radius: 10px !important;
           }
-          .deliver-card:not(.deliver-card-active-mobile) {
-            width: 100% !important;
+          .deliver-card-inactive-mobile {
+            height: 88px;
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
           }
           .deliver-card-active-mobile {
-            width: calc(100% + 4rem) !important;
-            margin-left: -2rem !important;
-            margin-right: -2rem !important;
-            border-radius: 10px !important;
-            overflow: hidden !important;
+            height: calc(100vw * 768 / 878);
+            width: calc(100% + 4rem);
+            margin-left: -2rem;
+            margin-right: -2rem;
           }
         }
       `}</style>
