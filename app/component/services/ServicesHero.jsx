@@ -25,13 +25,23 @@ const headingStyle = {
 
 const Reveal = ({ children, className = "", group = "headline" }) => (
   <span className={`block ${className}`}>
-    <span data-cs-reveal={group} className="block w-full will-change-transform">
+    <span data-svc-reveal={group} className="block w-full will-change-transform">
       {children}
     </span>
   </span>
 );
 
-const CaseStudyHero = () => {
+const ServicesHero = ({
+  lineOne = "Services Tailored",
+  lineTwoBefore = "To ",
+  lineTwoHighlight = "Transform",
+  lineTwoAfter = " Your Brand",
+  subtext = [
+    "Fuelled by a magnetic culture of hustle and heart, backed by the belief that",
+    "great ideas change the world.",
+  ],
+  subtextItalic = true,
+}) => {
   const heroRef = useRef(null);
   const headlineRef = useRef(null);
   const logoRef = useRef(null);
@@ -58,18 +68,12 @@ const CaseStudyHero = () => {
     };
 
     const ctx = gsap.context(() => {
-      const headlineItems = gsap.utils.toArray("[data-cs-reveal='headline']", hero);
-      const subItems = gsap.utils.toArray("[data-cs-reveal='sub']", hero);
+      const headlineItems = gsap.utils.toArray("[data-svc-reveal='headline']", hero);
+      const subItems = gsap.utils.toArray("[data-svc-reveal='sub']", hero);
       const fallItems = [...headlineItems, ...subItems];
+      const fallFrom = -(window.innerHeight * 0.72);
 
-      const getFallDistance = () => -(window.innerHeight * 0.72);
-      const fallFrom = getFallDistance();
-
-      gsap.set(fallItems, {
-        y: fallFrom,
-        opacity: 0,
-        force3D: true,
-      });
+      gsap.set(fallItems, { y: fallFrom, opacity: 0, force3D: true });
 
       if (logoRef.current) {
         gsap.set(logoRef.current, {
@@ -189,38 +193,51 @@ const CaseStudyHero = () => {
           <h1 ref={headlineRef} style={headingStyle} className="m-0 mx-auto w-full text-center">
             <Reveal className="w-full">
               <span className="flex w-full justify-center">
-                <span data-headline-row className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[60px] lg:gap-x-[100px]">
-                  <span>A Home for</span>
+                <span
+                  data-headline-row
+                  className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[60px] lg:gap-x-[100px]"
+                >
+                  <span>{lineOne}</span>
                 </span>
               </span>
             </Reveal>
-            <Reveal className="mt-1 w-full md:mt-4">
-              <span className="flex w-full justify-center">
-                <span data-headline-row className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[60px] lg:gap-x-[100px]">
-                  <span>
-                    <span style={{ color: goldColor }}>Curious</span> Minds
+            {(lineTwoBefore || lineTwoHighlight || lineTwoAfter) && (
+              <Reveal className="mt-1 w-full md:mt-4">
+                <span className="flex w-full justify-center">
+                  <span
+                    data-headline-row
+                    className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[60px] lg:gap-x-[100px]"
+                  >
+                    <span>
+                      {lineTwoBefore}
+                      {lineTwoHighlight ? (
+                        <span style={{ color: goldColor }}>{lineTwoHighlight}</span>
+                      ) : null}
+                      {lineTwoAfter}
+                    </span>
                   </span>
                 </span>
-              </span>
-            </Reveal>
+              </Reveal>
+            )}
           </h1>
         </div>
 
         <div className={`${montserrat.className} relative mt-8 max-w-[900px] md:mt-10`}>
-          <Reveal group="sub">
-            <p className="m-0 text-[14px] font-[300] italic leading-[22px] text-white md:text-[20px] md:leading-[30px] lg:text-[28px] lg:leading-[38px]">
-              Fuelled by a magnetic culture of hustle and heart, backed by the belief that
-            </p>
-          </Reveal>
-          <Reveal group="sub" className="mt-1">
-            <p className="m-0 text-[14px] font-[300] italic leading-[22px] text-white md:text-[20px] md:leading-[30px] lg:text-[28px] lg:leading-[38px]">
-              great ideas change the world.
-            </p>
-          </Reveal>
+          {subtext.map((line, index) => (
+            <Reveal key={`${line.slice(0, 24)}-${index}`} group="sub" className={index > 0 ? "mt-1" : ""}>
+              <p
+                className={`m-0 text-[14px] font-[300] leading-[22px] text-white md:text-[20px] md:leading-[30px] lg:text-[28px] lg:leading-[38px] ${
+                  subtextItalic ? "italic" : ""
+                }`}
+              >
+                {line}
+              </p>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
   );
 };
 
-export default CaseStudyHero;
+export default ServicesHero;

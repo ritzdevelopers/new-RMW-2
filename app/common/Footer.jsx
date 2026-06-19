@@ -97,7 +97,7 @@ const mainNavLinks = [
   { label: "HOME", href: "/" },
   { label: "WORK", href: "/case-study" },
   { label: "ABOUT", href: "/about" },
-  { label: "SERVICES", href: "#" },
+  { label: "SERVICES", href: "/services" },
 ];
 
 const partnerLogos
