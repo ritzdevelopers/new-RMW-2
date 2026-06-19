@@ -21,8 +21,6 @@ const goldColor = "#FFD188";
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
   fontWeight: 500,
-  fontSize: "94px",
-  lineHeight: "85px",
   letterSpacing: "0",
   textTransform: "uppercase",
   color: "#FFFFFF",
@@ -128,6 +126,8 @@ const Section1 = () => {
   const getVideoStartYOffset = () => {
     const w = window.innerWidth;
     if (w >= 1280 && w < 1536) return 480;
+    if (w >= 1024 && w < 1280) return 390;
+    if (w >= 768 && w < 1024) return 150;
     return 350;
   };
 
@@ -164,28 +164,123 @@ const Section1 = () => {
 
   const computeVideoBounds = () => getVideoBounds();
 
-  const applyLogoPosition = (entranceProgress) => {
+  const applyLogoPosition = (entranceProgress, scrollProgress = 0) => {
     const logoFloat = logoFloatRef.current;
-    if (!logoFloat) return;
+    const bounds = computeVideoBounds();
+    if (!logoFloat || !bounds) return;
 
     const entrance = gsap.utils.clamp(0, 1, entranceProgress ?? videoEntranceRef.current);
+    const scrollT = gsap.utils.clamp(0, 1, scrollProgress);
+    const { start } = bounds;
+    const minScale = 0.18;
+    const width =
+      entrance >= 1
+        ? start.width
+        : gsap.utils.interpolate(start.width * minScale, start.width, entrance);
+    const height =
+      entrance >= 1
+        ? start.height
+        : gsap.utils.interpolate(start.height * minScale, start.height, entrance);
 
-    gsap.set(logoFloat, {
-      visibility: videoRevealStartedRef.current ? "visible" : "hidden",
-      opacity: entrance,
-    });
-  };
+    const logoInner = logoFloat.querySelector("[data-logo-inner]");
 
-  const syncLogoWithScroll = (scrollProgress) => {
-    const logoFloat = logoFloatRef.current;
-    if (!logoFloat) return;
+    if (scrollT > 0) {
+      const heroSection = heroSectionRef.current;
+      const container = heroRef.current;
+      if (!heroSection || !container) return;
 
-    if (scrollProgress > 0.05) {
-      gsap.set(logoFloat, { opacity: 0, visibility: "hidden" });
+      const sectionBottom = heroSection.offsetTop + heroSection.offsetHeight;
+
+      gsap.set(logoFloat, {
+        position: "absolute",
+        left: container.offsetWidth / 2,
+        right: "auto",
+        top: sectionBottom,
+        xPercent: -50,
+        yPercent: -100,
+        width: start.width,
+        height: start.height * 0.42,
+        zIndex: 55,
+        borderRadius: 0,
+        visibility: videoRevealStartedRef.current ? "visible" : "hidden",
+        opacity: 1,
+      });
+
+      if (logoInner) {
+        gsap.set(logoInner, {
+          top: "auto",
+          bottom: "6%",
+          left: 0,
+          right: 0,
+          height: "58%",
+          alignItems: "flex-end",
+          justifyContent: "center",
+        });
+      }
+      const logoImg = logoFloat.querySelector("[data-logo-inner] img");
+      if (logoImg) {
+        gsap.set(logoImg, {
+          clearProps: "width,height",
+          height: "100%",
+          width: "auto",
+          maxWidth: "85%",
+          objectPosition: "bottom",
+        });
+      }
       return;
     }
 
-    applyLogoPosition(videoEntranceRef.current);
+    gsap.set(logoFloat, {
+      position: "absolute",
+      left: start.x,
+      top: start.y,
+      xPercent: -50,
+      yPercent: -50,
+      width,
+      height,
+      zIndex: 35,
+      borderRadius: gsap.utils.interpolate(0, 10, entrance),
+      visibility: videoRevealStartedRef.current ? "visible" : "hidden",
+      opacity: entrance,
+    });
+
+    if (logoInner) {
+      gsap.set(logoInner, {
+        top: "6%",
+        bottom: "auto",
+        left: 0,
+        right: 0,
+        height: "58%",
+        alignItems: "center",
+        justifyContent: "center",
+      });
+    }
+    const logoImg = logoFloat.querySelector("[data-logo-inner] img");
+    if (logoImg) {
+      gsap.set(logoImg, {
+        clearProps: "width,height,maxWidth,objectPosition",
+        objectPosition: "top",
+      });
+    }
+  };
+
+  const applyHeroTextScroll = (scrollProgress) => {
+    const heroText = heroTextRef.current;
+    const heroSection = heroSectionRef.current;
+    if (!heroText || !heroSection) return;
+
+    const t = gsap.utils.clamp(0, 1, scrollProgress);
+    gsap.set(heroText, {
+      y: -t * heroSection.offsetHeight * 0.38,
+      opacity: gsap.utils.interpolate(1, 0.15, t),
+    });
+  };
+
+  const syncLogoWithScroll = (scrollProgress = 0) => {
+    applyLogoPosition(
+      videoEntranceRef.current >= 1 ? 1 : videoEntranceRef.current,
+      scrollProgress
+    );
   };
 
   const applyVideoProgress = (progress, entranceProgress) => {
@@ -388,11 +483,11 @@ const Section1 = () => {
       const videoEl = floater?.querySelector("video");
 
       const refreshVideoLayout = () => {
-        applyVideoProgress(
-          ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === slot)?.progress ?? 0,
-          videoEntranceRef.current
-        );
-        applyLogoPosition(1);
+        const scrollProgress =
+          ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === slot)?.progress ?? 0;
+        applyVideoProgress(scrollProgress, videoEntranceRef.current);
+        applyHeroTextScroll(scrollProgress);
+        applyLogoPosition(1, scrollProgress);
         ScrollTrigger.refresh();
       };
 
@@ -421,6 +516,7 @@ const Section1 = () => {
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             applyVideoProgress(self.progress, 1);
+            applyHeroTextScroll(self.progress);
             syncLogoWithScroll(self.progress);
           },
         });
@@ -441,11 +537,11 @@ const Section1 = () => {
     const onResize = () => {
       fitAll();
       syncVideoBounds(videoEntranceRef.current >= 1);
-      applyVideoProgress(
-        ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === videoSlotRef.current)?.progress ?? 0,
-        videoEntranceRef.current
-      );
-      applyLogoPosition(1);
+      const scrollProgress =
+        ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === videoSlotRef.current)?.progress ?? 0;
+      applyVideoProgress(scrollProgress, videoEntranceRef.current);
+      applyHeroTextScroll(scrollProgress);
+      applyLogoPosition(1, scrollProgress);
       ScrollTrigger.refresh();
     };
 
@@ -511,15 +607,15 @@ const Section1 = () => {
           ref={heroTextRef}
           className="relative z-40 mx-auto flex w-full max-w-[1200px] flex-col items-center text-center"
         >
-          <div className="relative w-screen">
+          <div className="relative w-full md:w-full lg:w-screen">
             <h1
               ref={headlineRef}
               style={headingStyle}
-              className="m-0 mx-auto w-full text-center"
+              className="m-0 mx-auto w-full text-center text-[94px] leading-[94px] md:text-[72px] md:leading-[72px] lg:text-[94px] lg:leading-[94px]"
             >
-              <Reveal clipYOnly className="w-full">
+              <Reveal clipYOnly className="w-full py-[4px]">
                 <span className="flex w-full justify-center">
-                  <span data-headline-row className="inline-flex items-center justify-center gap-[140px]">
+                  <span data-headline-row className="inline-flex items-center justify-center gap-[140px] md:gap-[40px] lg:gap-[90px]">
                     <span>17</span>
                     <span>YEARS</span>
                     <span>
@@ -528,17 +624,17 @@ const Section1 = () => {
                   </span>
                 </span>
               </Reveal>
-              <Reveal clipYOnly className="mt-1 w-full md:mt-8">
+              <Reveal clipYOnly className="mt-[10px] w-full py-[4px]">
                 <span className="flex w-full justify-center">
-                  <span data-headline-row className="inline-flex items-center justify-center gap-[180px]">
+                  <span data-headline-row className="inline-flex items-center justify-center gap-[180px] md:gap-[20px] lg:gap-[90px]">
                     <span>MAKING</span>
                     <span>BRANDS</span>
                   </span>
                 </span>
               </Reveal>
-              <Reveal clipYOnly className="mt-1 w-full overflow-x-visible md:mt-8">
+              <Reveal clipYOnly className="mt-[10px] w-full overflow-x-visible py-[4px]">
                 <span className="flex w-full justify-center overflow-x-visible">
-                  <span data-headline-row className="inline-flex items-center justify-center gap-[200px] lg:gap-[50px] xl:gap-[200px]">
+                  <span data-headline-row className="inline-flex items-center justify-center gap-[200px] md:gap-[6px] md:text-[58px] md:leading-[58px] lg:gap-[50px] lg:text-[94px] lg:leading-[94px] xl:gap-[120px]">
                     <span>
                       <span style={{ color: goldColor }}>IM</span>POSSIBLE
                     </span>
@@ -550,14 +646,14 @@ const Section1 = () => {
             </h1>
           </div>
 
-          <div className={`${montserrat.className} relative z-40 mt-8 max-w-[1000px] md:mt-0 lg:mt-0 xl:mt-5`}>
+          <div className={`${montserrat.className} relative z-40 mt-8 max-w-[1000px] md:mt-0 lg:mt-0 xl:mt-2`}>
             <Reveal group="sub">
-              <p className="m-0 text-[14px] font-[300] italic leading-[20px] text-white md:text-[20px] md:leading-[28px] lg:text-[28px] lg:leading-[36px]">
+              <p className="m-0 text-[14px] font-[300] italic leading-[20px] text-white md:text-[18px] md:leading-[20px] lg:text-[22px] xl:text-[28px] lg:leading-[36px]">
               Built on hustle. Driven by heart. Powered by ideas that move the world
               </p>
             </Reveal>
             <Reveal group="sub" className="mt-1">
-              <p className="m-0 text-[14px] font-[300] italic leading-[20px] text-white md:text-[20px] md:leading-[28px] lg:text-[28px] lg:leading-[36px]">
+              <p className="m-0 text-[14px] font-[300] italic leading-[20px] text-white md:text-[18px] md:leading-[20px] lg:text-[22px] xl:text-[28px] lg:leading-[36px]">
                 by the belief that great ideas change the world
               </p>
             </Reveal>
@@ -578,12 +674,14 @@ const Section1 = () => {
           className="block h-full w-full origin-center object-cover"
           src="/about/aboutsectionvideo.mp4"
         />
-        <div
-          ref={logoFloatRef}
-          data-about-hero-logo
-          className="pointer-events-none absolute inset-x-0 top-[6%] z-10 flex h-[58%] justify-center"
-          style={{ visibility: "hidden" }}
-        >
+      </div>
+      <div
+        ref={logoFloatRef}
+        data-about-hero-logo
+        className="pointer-events-none absolute z-[35] overflow-hidden"
+        style={{ visibility: "hidden" }}
+      >
+        <div data-logo-inner className="absolute inset-x-0 top-[6%] flex h-[58%] justify-center">
           <img
             src="/logo/r-rmw-transparent.png"
             alt=""
