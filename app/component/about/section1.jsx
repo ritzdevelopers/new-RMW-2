@@ -68,8 +68,12 @@ const Reveal = ({ children, className = "", clipYOnly = false, group = "headline
   </span>
 );
 
-const Letter = ({ children }) => (
-  <span className="inline-block shrink-0">{children}</span>
+const Letter = ({ children, from }) => (
+  <span className="inline-block shrink-0 overflow-hidden align-bottom">
+    <span data-letter-reveal={from} className="inline-block">
+      {children}
+    </span>
+  </span>
 );
 
 const Section1 = () => {
@@ -121,6 +125,12 @@ const Section1 = () => {
     return end;
   };
 
+  const getVideoStartYOffset = () => {
+    const w = window.innerWidth;
+    if (w >= 1280 && w < 1536) return 480;
+    return 350;
+  };
+
   const syncVideoBounds = (lockStart = false) => {
     const container = heroRef.current;
     const heroSection = heroSectionRef.current;
@@ -136,7 +146,7 @@ const Section1 = () => {
         ? videoBoundsRef.current.start
         : {
             x: container.offsetWidth / 2,
-            y: sectionBottom - startSize.height / 2 + 350,
+            y: sectionBottom - startSize.height / 2 + getVideoStartYOffset(),
             width: startSize.width,
             height: startSize.height,
             clipTop: 0,
@@ -278,9 +288,15 @@ const Section1 = () => {
       gsap.set(headlineItems, { yPercent: -110 });
       gsap.set(subItems, { yPercent: -110, opacity: 0 });
       if (logoEl) gsap.set(logoEl, { clipPath: "inset(0% 0% 0% 0%)" });
-      gsap.set(introItems, { yPercent: -110 });
-      gsap.set(disruptionItems, { yPercent: -110 });
+      gsap.set(introItems, { yPercent: 110 });
+      gsap.set(disruptionItems, { yPercent: 110 });
       gsap.set(disruptionWordItems, { yPercent: 0, opacity: 0 });
+
+      const leftLetters = gsap.utils.toArray("[data-letter-reveal='left']", hero);
+      const rightLetters = gsap.utils.toArray("[data-letter-reveal='right']", hero);
+      const allLetters = gsap.utils.toArray("[data-letter-reveal]", hero);
+      gsap.set(leftLetters, { x: "105%" });
+      gsap.set(rightLetters, { x: "-105%" });
 
       const playHeroEntrance = () => {
         const entrance = { value: 0 };
@@ -346,43 +362,25 @@ const Section1 = () => {
           },
         });
 
-        introItems.forEach((item, index) => {
-          filmTl.to(
-            item,
-            { yPercent: 0, duration: 2, ease: "power4.out" },
-            index === 0 ? 0 : "-=1.65"
-          );
+        introItems.forEach((item) => {
+          filmTl.to(item, { yPercent: 0, duration: 1.1, ease: "power4.out" }, 0);
         });
 
-        disruptionItems.forEach((item, index) => {
-          filmTl.to(
-            item,
-            { yPercent: 0, duration: 2, ease: "power4.out" },
-            index === 0 ? "-=1.2" : "-=1.65"
-          );
+        disruptionItems.forEach((item) => {
+          filmTl.to(item, { yPercent: 0, duration: 1.1, ease: "power4.out" }, ">-0.15");
         });
+
+        if (allLetters.length && disruptionWordItems.length) {
+          filmTl.to(disruptionWordItems, { opacity: 1, duration: 0.01 }, "<");
+          filmTl.to(
+            allLetters,
+            { x: "0%", duration: 0.55, ease: "power4.out", stagger: 0.06 },
+            "<"
+          );
+        }
 
         filmTl.eventCallback("onComplete", fitAll);
       }
-
-      let disruptionWordsVisible = false;
-
-      const showDisruptionWords = () => {
-        if (disruptionWordsVisible || !disruptionWordItems.length) return;
-        disruptionWordsVisible = true;
-        gsap.to(disruptionWordItems, {
-          opacity: 1,
-          duration: 0.1,
-          ease: "power2.out",
-        });
-      };
-
-      const hideDisruptionWords = () => {
-        disruptionWordsVisible = false;
-        if (disruptionWordItems.length) {
-          gsap.set(disruptionWordItems, { opacity: 0 });
-        }
-      };
 
       const floater = videoFloatRef.current;
       const slot = videoSlotRef.current;
@@ -424,11 +422,6 @@ const Section1 = () => {
           onUpdate: (self) => {
             applyVideoProgress(self.progress, 1);
             syncLogoWithScroll(self.progress);
-            if (self.progress >= 0.95) {
-              showDisruptionWords();
-            } else if (self.progress < 0.85) {
-              hideDisruptionWords();
-            }
           },
         });
 
@@ -516,7 +509,7 @@ const Section1 = () => {
       >
         <div
           ref={heroTextRef}
-          className="mx-auto flex w-full max-w-[1200px] flex-col items-center text-center"
+          className="relative z-40 mx-auto flex w-full max-w-[1200px] flex-col items-center text-center"
         >
           <div className="relative w-screen">
             <h1
@@ -545,7 +538,7 @@ const Section1 = () => {
               </Reveal>
               <Reveal clipYOnly className="mt-1 w-full overflow-x-visible md:mt-8">
                 <span className="flex w-full justify-center overflow-x-visible">
-                  <span data-headline-row className="inline-flex items-center justify-center gap-[200px]">
+                  <span data-headline-row className="inline-flex items-center justify-center gap-[200px] lg:gap-[50px] xl:gap-[200px]">
                     <span>
                       <span style={{ color: goldColor }}>IM</span>POSSIBLE
                     </span>
@@ -557,7 +550,7 @@ const Section1 = () => {
             </h1>
           </div>
 
-          <div className={`${montserrat.className} mt-8 max-w-[1000px] md:mt-10 lg:mt-5`}>
+          <div className={`${montserrat.className} relative z-40 mt-8 max-w-[1000px] md:mt-0 lg:mt-0 xl:mt-5`}>
             <Reveal group="sub">
               <p className="m-0 text-[14px] font-[300] italic leading-[20px] text-white md:text-[20px] md:leading-[28px] lg:text-[28px] lg:leading-[36px]">
               Built on hustle. Driven by heart. Powered by ideas that move the world
@@ -603,7 +596,7 @@ const Section1 = () => {
         </div>
       </div>
 
-      <section ref={filmRef} className="relative overflow-x-hidden bg-[#F1F1F1] px-8 pb-10 pt-24 md:px-12 md:pb-14 md:pt-32 lg:py-16 lg:pt-36">
+      <section ref={filmRef} className="relative overflow-x-hidden bg-[#F1F1F1] px-8 pb-10 pt-24 md:px-12 md:pb-14 md:pt-32 lg:py-16 lg:pt-20">
         <div className="relative mx-auto w-full max-w-[1400px]">
           {/* <Reveal className="absolute left-0 top-0 z-10">
             <img
@@ -644,9 +637,9 @@ const Section1 = () => {
                   style={disruptionWordStyle}
                   className="inline-flex items-center justify-center gap-[20px]"
                 >
-                  <Letter>c</Letter>
-                  <Letter>R</Letter>
-                  <Letter>E</Letter>
+                  <Letter from="left">c</Letter>
+                  <Letter from="left">R</Letter>
+                  <Letter from="left">E</Letter>
                   <span className="inline-flex shrink-0 items-center">
                     <span
                       ref={videoSlotRef}
@@ -654,9 +647,9 @@ const Section1 = () => {
                       className="block h-[180px] w-[320px] opacity-0"
                     />
                   </span>
-                  <Letter>A</Letter>
-                  <Letter>T</Letter>
-                  <Letter>I</Letter>
+                  <Letter from="right">A</Letter>
+                  <Letter from="right">T</Letter>
+                  <Letter from="right">I</Letter>
                 </span>
               </span>
             </Reveal>
@@ -668,10 +661,10 @@ const Section1 = () => {
                   style={disruptionWordStyle}
                   className="inline-flex items-center justify-center gap-[20px]"
                 >
-                  <Letter>V</Letter>
-                  <Letter>I</Letter>
-                  <Letter>T</Letter>
-                  <Letter>Y</Letter>
+                  <Letter from="left">V</Letter>
+                  <Letter from="left">I</Letter>
+                  <Letter from="right">T</Letter>
+                  <Letter from="right">Y</Letter>
                 </span>
               </span>
             </Reveal>

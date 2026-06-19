@@ -14,14 +14,10 @@ const deliverImages = [
   "/Deliver/slider2.jpeg",
   "/Deliver/slider3.jpeg",
 ];
-const ACTIVE_WIDTH = 878;
-const INACTIVE_WIDTH = 282;
-const CARD_HEIGHT = 768;
 
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
   fontWeight: 600,
-  fontSize: "48px",
   lineHeight: "100%",
   letterSpacing: "0",
   textTransform: "uppercase",
@@ -31,15 +27,14 @@ const headingStyle = {
 
 const sideCardLabelStyle = {
   fontWeight: 500,
-  fontSize: "28px",
   lineHeight: "100%",
   letterSpacing: "0",
   textTransform: "uppercase",
   color: "#FFFFFF",
 };
 
-const StaggeredLabel = ({ lines, style, indentEm = 1.1 }) => (
-  <div style={style} className="m-0">
+const StaggeredLabel = ({ lines, style, indentEm = 1.1, className = "" }) => (
+  <div style={style} className={`m-0 ${className}`}>
     {lines.map((line, index) => (
       <span
         key={index}
@@ -63,8 +58,6 @@ const cardLabelStyle = {
 
 const standOutStyle = {
   fontWeight: 600,
-  fontSize: "56px",
-  lineHeight: "60px",
   letterSpacing: "0",
   textTransform: "uppercase",
   color: "#FFFFFF",
@@ -72,8 +65,6 @@ const standOutStyle = {
 
 const caseStudyStyle = {
   fontWeight: 600,
-  fontSize: "24px",
-  lineHeight: "30px",
   letterSpacing: "0",
   textTransform: "uppercase",
   color: "#FFFFFF99",
@@ -81,7 +72,6 @@ const caseStudyStyle = {
 
 const caseStudyLabelStyle = {
   fontWeight: 600,
-  fontSize: "18px",
   lineHeight: "100%",
   letterSpacing: "0",
   textTransform: "uppercase",
@@ -89,7 +79,7 @@ const caseStudyLabelStyle = {
 };
 
 const StandOutText = ({ parts }) => (
-  <p style={standOutStyle} className="m-0 whitespace-nowrap">
+  <p style={standOutStyle} className="m-0 whitespace-nowrap text-[32px] leading-[34px] md:text-[32px] md:leading-[34px] lg:text-[32px] lg:leading-[34px] xl:text-[56px] xl:leading-[60px]">
     <span style={{ display: "block" }}>
       {parts[0]}
       {parts[1] != null && (
@@ -110,8 +100,8 @@ const deliverCards = [
 ];
 
 const CaseStudyBlock = () => (
-  <div className="flex flex-col items-start gap-4">
-    <p style={caseStudyStyle} className="m-0 text-left">
+  <div className="flex flex-col items-start lg:gap-4 md:gap-2">
+    <p style={caseStudyStyle} className="m-0 text-left text-[14px] leading-[18px] md:text-[14px] md:leading-[18px] lg:text-[14px] lg:leading-[18px] xl:text-[24px] xl:leading-[30px]">
       How Toblerone
       <br />
       Supercharged Brand
@@ -119,7 +109,7 @@ const CaseStudyBlock = () => (
       Recall By <span style={{ color: "#FFFFFF" }}>29%</span>
     </p>
     <div className="flex cursor-pointer items-center gap-3">
-      <span style={caseStudyLabelStyle} className="m-0">
+      <span style={caseStudyLabelStyle} className="m-0 text-[14px] md:text-[14px] lg:text-[14px] xl:text-[18px]">
         Case Study
       </span>
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F5A623]">
@@ -138,13 +128,17 @@ const CardContent = ({ card, isActive, cardIndex }) => (
           : "opacity-100 translate-y-0"
       }`}
     >
-      <StaggeredLabel lines={[card.label]} style={sideCardLabelStyle} />
+      <StaggeredLabel
+        lines={[card.label]}
+        style={sideCardLabelStyle}
+        className="text-[18px] md:text-[18px] lg:text-[18px] xl:text-[28px]"
+      />
     </div>
 
     {isActive && (
       <div className="w-full">
         {card.showCaseStudy ? (
-          <div className="flex w-full items-end justify-between gap-6">
+          <div className="flex w-full flex-col items-start gap-4 max-md:gap-6 md:flex-row md:items-end md:justify-between md:gap-6">
             <div key={`text-${cardIndex}`} className="deliver-card-text-enter">
               <StandOutText parts={card.parts} />
             </div>
@@ -162,16 +156,25 @@ const CardContent = ({ card, isActive, cardIndex }) => (
   </div>
 );
 
-const DeliverCard = ({ imageSrc, isActive, onMouseEnter, children }) => (
+const DeliverCard = ({ imageSrc, isActive, onMouseEnter, onClick, children }) => (
   <div
     onMouseEnter={onMouseEnter}
-    className="relative shrink-0 overflow-hidden rounded-[16px] transition-[width] duration-500 ease-in-out"
-    style={{
-      width: isActive ? ACTIVE_WIDTH : INACTIVE_WIDTH,
-      height: CARD_HEIGHT,
-    }}
+    onClick={onClick}
+    className={`deliver-card relative w-full cursor-pointer overflow-hidden rounded-[16px] transition-[height,flex-grow,flex-basis,width] duration-500 ease-in-out ${
+      isActive ? "max-md:aspect-[878/768] max-md:h-auto" : "max-md:aspect-auto max-md:h-[104px]"
+    } md:rounded-none md:h-auto md:aspect-[878/768] lg:rounded-[16px] lg:h-auto lg:aspect-[878/768] xl:aspect-auto xl:h-[768px] ${
+      isActive
+        ? "md:min-w-0 md:flex-1"
+        : "md:shrink-0 md:basis-[22%] md:max-w-[282px] xl:basis-[282px]"
+    }`}
   >
-    <Image src={imageSrc} alt="" fill className="object-cover" sizes="878px" />
+    <Image
+      src={imageSrc}
+      alt=""
+      fill
+      className={`object-cover ${isActive ? "max-md:object-contain" : ""}`}
+      sizes="(min-width: 1280px) 40vw, 100vw"
+    />
     <div className="absolute inset-0 bg-black/15" />
     {children}
   </div>
@@ -238,15 +241,15 @@ const Section2 = () => {
         }
       `}</style>
 
-      <section className="bg-[#F1F1F1] px-8 py-16 md:px-12 md:py-20 lg:py-24">
-        <div className="mx-auto w-full max-w-[1500px]">
-          <h2 style={headingStyle} className="m-0">
+      <section className="bg-[#F1F1F1] pb-[35px] md:pb-[70px]">
+        <div className="mx-auto w-full max-w-8xl px-8 md:px-12">
+          <h2 style={headingStyle} className="m-0 text-[30px] md:text-[48px]">
             What we Deliver
           </h2>
 
-          <div className="mt-10 overflow-x-auto md:mt-12 lg:mt-14">
+          <div className="mt-5 w-full overflow-hidden md:mt-6 lg:mt-8 xl:mt-14">
             <div
-              className="mx-auto flex w-max justify-center gap-4"
+              className="flex w-full flex-col gap-3 md:flex-row md:gap-4"
               onMouseLeave={() => setActiveIndex(1)}
             >
               {deliverCards.map((card, index) => (
@@ -255,8 +258,9 @@ const Section2 = () => {
                   imageSrc={deliverImages[index]}
                   isActive={activeIndex === index}
                   onMouseEnter={() => setActiveIndex(index)}
+                  onClick={() => setActiveIndex(index)}
                 >
-                  <div className={`${montserrat.className} absolute inset-0 flex flex-col justify-end p-8`}>
+                  <div className={`${montserrat.className} absolute p-2 inset-0 flex flex-col justify-end lg:p-8 md:p-4`}>
                     <CardContent
                       card={card}
                       isActive={activeIndex === index}

@@ -13,12 +13,10 @@ const montserrat = Montserrat({
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
   fontWeight: 600,
-  fontSize: "86px",
   lineHeight: "100%",
   letterSpacing: "0",
   textTransform: "uppercase",
   color: "#333333",
-  textAlign: "center",
 };
 
 const buttonStyle = {
@@ -29,12 +27,19 @@ const buttonStyle = {
   textTransform: "uppercase",
 };
 
-const GalleryImage = ({ src, alt = "", width, height, className = "" }) => (
+const galleryImages = [
+  { src: "/create/first-image.jpeg", width: 547, height: 806 },
+  { src: "/create/second-image.jpeg", width: 376, height: 340 },
+  { src: "/create/third-image.jpeg", width: 376, height: 340 },
+  { src: "/create/fourth-image.jpeg", width: 773, height: 447 },
+];
+
+const GalleryImage = ({ src, alt = "", width, height, className = "", fill = false }) => (
   <div
     className={`relative shrink-0 overflow-hidden rounded-[16px] ${className}`}
-    style={{ width: `${width}px`, height: `${height}px`, maxWidth: "100%" }}
+    style={fill ? { aspectRatio: `${width} / ${height}` } : { width: `${width}px`, height: `${height}px`, maxWidth: "100%" }}
   >
-    <Image src={src} alt={alt} fill className="object-cover" sizes={`${width}px`} />
+    <Image src={src} alt={alt} fill className="object-cover" sizes={fill ? "100vw" : `${width}px`} />
   </div>
 );
 
@@ -60,13 +65,29 @@ const Section3 = () => {
         }
       `}</style>
 
-      <section className="bg-[#F1F1F1] px-8 py-0 md:px-12 md:pt-0 pb-[35px] md:pb-[70px]">
-        <div className="mx-auto w-full max-w-[1500px]">
-          <h2 style={headingStyle} className="m-0">
+      <section className="bg-[#F1F1F1] pb-[35px] md:pb-[70px]">
+        <div className="mx-auto w-full max-w-8xl px-8 md:px-12 lg:max-w-[1500px]">
+          <h2
+            style={headingStyle}
+            className="m-0 text-center text-[30px] md:text-[48px] lg:text-[60px] xl:text-[86px]"
+          >
           BUILD. BELIEVE. BECOME
           </h2>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-5 md:mt-12 lg:mt-14">
+          <div className="mt-4 flex flex-col gap-4 md:mt-5 md:gap-5 lg:hidden">
+            {galleryImages.map((image) => (
+              <GalleryImage
+                key={image.src}
+                src={image.src}
+                width={image.width}
+                height={image.height}
+                fill
+                className="w-full"
+              />
+            ))}
+          </div>
+
+          <div className="mt-4 hidden flex-wrap justify-center gap-5 lg:mt-8 lg:flex xl:mt-14">
             <GalleryImage src="/create/first-image.jpeg" width={547} height={806} />
 
             <div className="flex flex-col gap-5">
@@ -81,7 +102,7 @@ const Section3 = () => {
           <div className="mt-12 flex justify-center md:mt-14">
             <button
               type="button"
-              className={`${montserrat.className} group relative cursor-pointer overflow-hidden border border-black bg-transparent px-[42px] py-4`}
+              className={`${montserrat.className} group relative cursor-pointer overflow-hidden border border-black bg-transparent px-[15px] py-2 md:px-[42px] md:py-4`}
             >
               <span
                 aria-hidden

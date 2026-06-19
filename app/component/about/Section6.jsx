@@ -81,6 +81,14 @@ const getImageSize = (item) => {
   return { width: Math.round(height * (item.width / item.height)), height };
 };
 
+const Letter = ({ children, from, className = "" }) => (
+  <span className={`inline-block shrink-0 overflow-hidden align-bottom ${className}`}>
+    <span data-letter-reveal={from} className="inline-block">
+      {children}
+    </span>
+  </span>
+);
+
 const Section6 = () => {
   const sectionRef = useRef(null);
   const pinRef = useRef(null);
@@ -106,6 +114,37 @@ const Section6 = () => {
     if (alreadyLoaded > 0) {
       setImagesReady((count) => Math.max(count, alreadyLoaded));
     }
+  }, []);
+
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      const leftLetters = gsap.utils.toArray("[data-letter-reveal='left']", section);
+      const rightLetters = gsap.utils.toArray("[data-letter-reveal='right']", section);
+
+      gsap.set(leftLetters, { x: "105%" });
+      gsap.set(rightLetters, { x: "-105%" });
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top 85%",
+            toggleActions: "play none none reset",
+          },
+        })
+        .to(leftLetters, { x: "0%", duration: 0.55, ease: "power4.out", stagger: 0.06 }, 0)
+        .to(rightLetters, { x: "0%", duration: 0.55, ease: "power4.out", stagger: 0.06 }, 0);
+
+      if (section.getBoundingClientRect().top < window.innerHeight * 0.85) {
+        gsap.set(leftLetters, { x: "0%" });
+        gsap.set(rightLetters, { x: "0%" });
+      }
+    }, section);
+
+    return () => ctx.revert();
   }, []);
 
   useLayoutEffect(() => {
@@ -205,15 +244,17 @@ const Section6 = () => {
                 className={`${leagueSpartan.className} m-0 inline-flex w-max flex-nowrap items-baseline gap-x-[50px] py-1 uppercase leading-[1.05] tracking-[0] will-change-transform text-[80px] md:text-[120px] lg:text-[180px]`}
               >
               {"CONNECT".split("").map((letter, index) => (
-                <span key={`connect-${index}`} className="text-[#000000]">
+                <Letter key={`connect-${index}`} from="left" className="text-[#000000]">
                   {letter}
-                </span>
+                </Letter>
               ))}
-              <span className="text-[#33333366]">&amp;</span>
+              <Letter from="left" className="text-[#33333366]">
+                &amp;
+              </Letter>
               {"CREATE".split("").map((letter, index) => (
-                <span key={`create-${index}`} className="text-[#33333366]">
+                <Letter key={`create-${index}`} from="right" className="text-[#33333366]">
                   {letter}
-                </span>
+                </Letter>
               ))}
             </h2>
             </div>
@@ -226,7 +267,7 @@ const Section6 = () => {
           </p>
         </div>
 
-        <div className="relative z-30 mt-8 w-full xl:mt-10">
+        <div className="relative z-30 mt-8 w-full xl:mt-0">
           <div className="h-[433px] w-full overflow-hidden">
             <div
               ref={trackRef}
