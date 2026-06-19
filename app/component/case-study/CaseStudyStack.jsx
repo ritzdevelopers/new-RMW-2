@@ -340,6 +340,39 @@ const CaseStudyStack = () => {
 
       const scrollDistance = SCROLL_PER_CARD * segmentCount;
 
+      const setCardSticky = (enabled) => {
+        cards.forEach((card, index) => {
+          card.style.position = enabled ? "sticky" : "relative";
+          card.style.top = enabled ? `${STICKY_TOP + index * STICKY_STEP}px` : "auto";
+        });
+
+        gsap.utils.toArray("[data-cs-side-label]", section).forEach((label) => {
+          label.style.position = enabled ? "sticky" : "relative";
+          label.style.top = enabled ? `${STICKY_TOP}px` : "auto";
+        });
+      };
+
+      const syncCardDepth = (progress) => {
+        const visibleCount = Math.min(
+          cards.length,
+          1 + Math.floor(progress * segmentCount),
+        );
+
+        cards.forEach((card, i) => {
+          card.style.zIndex = String(i + 1);
+          const surface = card.querySelector("[data-cs-card-surface]");
+          if (!surface) return;
+
+          const depth = Math.max(0, visibleCount - 1 - i);
+          const scale = i === 0 ? 1 : Math.max(0.972, 1 - depth * 0.004);
+          gsap.set(surface, {
+            scale,
+            force3D: true,
+            transformOrigin: "50% 100%",
+          });
+        });
+      };
+
       const masterTl = gsap.timeline({
         scrollTrigger: {
           id: "cs-stack-scroll",
@@ -350,26 +383,13 @@ const CaseStudyStack = () => {
           scrub: 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const visibleCount = Math.min(
-              cards.length,
-              1 + Math.floor(self.progress * segmentCount),
-            );
-
-            cards.forEach((card, i) => {
-              card.style.zIndex = String(i + 1);
-              const surface = card.querySelector("[data-cs-card-surface]");
-              if (!surface) return;
-
-              const depth = Math.max(0, visibleCount - 1 - i);
-              const scale = i === 0 ? 1 : Math.max(0.972, 1 - depth * 0.004);
-              gsap.set(surface, {
-                scale,
-                force3D: true,
-                transformOrigin: "50% 100%",
-              });
-            });
+          onLeave: () => setCardSticky(false),
+          onEnterBack: (self) => {
+            setCardSticky(true);
+            masterTl.progress(self.progress);
+            syncCardDepth(self.progress);
           },
+          onUpdate: (self) => syncCardDepth(self.progress),
         },
       });
 

@@ -63,12 +63,12 @@ const CaseStudyIntro = () => {
         <div className={montserrat.className}>
           <Reveal>
             <p className="m-0 text-[18px] font-[300] italic leading-[28px] text-[#1D1D1B] md:text-[24px] md:leading-[36px] lg:text-[36px] lg:leading-[44px]">
-              The world&apos;s largest independent brand agency,
+              Thought-provoking ideas, industry insights, and fresh perspectives
             </p>
           </Reveal>
           <Reveal className="mt-1">
             <p className="m-0 text-[18px] font-[300] italic leading-[28px] text-[#1D1D1B] md:text-[24px] md:leading-[36px] lg:text-[36px] lg:leading-[44px]">
-              25 years in the making.
+              from the world of creativity and communication.
             </p>
           </Reveal>
         </div>

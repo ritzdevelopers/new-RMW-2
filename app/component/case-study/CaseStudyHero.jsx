@@ -66,9 +66,22 @@ const CaseStudyHero = () => {
 
       gsap.set(headlineItems, { yPercent: -110 });
       gsap.set(subItems, { yPercent: -110, opacity: 0 });
-      if (logoRef.current) gsap.set(logoRef.current, { opacity: 0, scale: 0.92 });
+      if (logoRef.current) {
+        gsap.set(logoRef.current, {
+          opacity: 0,
+          scale: 0.94,
+          y: 24,
+          rotation: -12.441,
+          transformOrigin: "50% 50%",
+        });
+      }
+
+      let entrancePlayed = false;
 
       const playEntrance = () => {
+        if (entrancePlayed) return;
+        entrancePlayed = true;
+
         const tl = gsap.timeline({ onComplete: fitHeadline });
 
         headlineItems.forEach((item, index) => {
@@ -88,16 +101,38 @@ const CaseStudyHero = () => {
         });
 
         if (logoRef.current) {
-          tl.to(logoRef.current, { opacity: 0.35, scale: 1, duration: 2, ease: "power3.out" }, 0);
+          tl.to(
+            logoRef.current,
+            {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              rotation: -12.441,
+              duration: 2,
+              ease: "power3.out",
+            },
+            0,
+          );
         }
       };
 
       const onHeaderComplete = () => playEntrance();
       window.addEventListener("header-reveal-complete", onHeaderComplete);
 
+      // Fallback if header animation already finished before this effect ran
+      requestAnimationFrame(() => {
+        if (logoRef.current && gsap.getProperty(logoRef.current, "opacity") === 0) {
+          const headerItems = document.querySelectorAll("[data-header-reveal]");
+          const headerDone = headerItems.length
+            ? Array.from(headerItems).every((el) => gsap.getProperty(el, "yPercent") === 0)
+            : true;
+          if (headerDone) playEntrance();
+        }
+      });
+
       if (logoRef.current) {
         gsap.to(logoRef.current, {
-          y: 40,
+          y: -30,
           ease: "none",
           scrollTrigger: {
             trigger: hero,
@@ -125,56 +160,43 @@ const CaseStudyHero = () => {
       ref={heroRef}
       className="relative flex min-h-screen flex-col overflow-hidden bg-[#0D1334] px-8 pb-[60px] pt-[35px] md:px-12 md:pb-[80px] md:pt-[70px]"
     >
-      <div
-        ref={logoRef}
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
-      >
-        <img
-          src="/logo/r-rmw-transparent.png"
-          alt=""
-          className="h-[55vh] w-auto max-w-[90%] object-contain opacity-0"
-          style={{ filter: "brightness(3.2) contrast(1.05)" }}
+      <div className="pointer-events-none absolute bottom-6 left-1/2 z-[1] -translate-x-1/2 md:bottom-10 lg:bottom-12">
+        <div
+          ref={logoRef}
+          aria-hidden
+          style={{
+            width: 282.186,
+            height: 339,
+            background: "rgba(255, 255, 255, 0.20)",
+            WebkitMaskImage: "url(/logo/r-logo-new.png)",
+            maskImage: "url(/logo/r-logo-new.png)",
+            WebkitMaskSize: "contain",
+            maskSize: "contain",
+            WebkitMaskRepeat: "no-repeat",
+            maskRepeat: "no-repeat",
+            WebkitMaskPosition: "center",
+            maskPosition: "center",
+            transform: "rotate(-12.441deg)",
+          }}
         />
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-col items-center text-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-1 flex-col items-center justify-center text-center">
         <div className="relative w-full">
           <h1 ref={headlineRef} style={headingStyle} className="m-0 mx-auto w-full text-center">
             <Reveal className="w-full">
               <span className="flex w-full justify-center">
-                <span data-headline-row className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[80px] lg:gap-x-[120px]">
-                  <span>RITZ</span>
-                  <span>MEDIA</span>
+                <span data-headline-row className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[60px] lg:gap-x-[100px]">
+                  <span>A Home for</span>
+                </span>
+              </span>
+            </Reveal>
+            <Reveal className="mt-1 w-full md:mt-4">
+              <span className="flex w-full justify-center">
+                <span data-headline-row className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[60px] lg:gap-x-[100px]">
                   <span>
-                    <span style={{ color: goldColor }}>I</span>S
+                    <span style={{ color: goldColor }}>Curious</span> Minds
                   </span>
-                </span>
-              </span>
-            </Reveal>
-            <Reveal className="mt-1 w-full md:mt-4">
-              <span className="flex w-full justify-center">
-                <span data-headline-row className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[60px] lg:gap-x-[100px]">
-                  <span>HOME</span>
-                  <span>TO</span>
-                  <span>THOSE</span>
-                </span>
-              </span>
-            </Reveal>
-            <Reveal className="mt-1 w-full md:mt-4">
-              <span className="flex w-full justify-center">
-                <span data-headline-row className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[60px] lg:gap-x-[100px]">
-                  <span>WHO</span>
-                  <span>DARE</span>
-                  <span>TO</span>
-                </span>
-              </span>
-            </Reveal>
-            <Reveal className="mt-1 w-full overflow-x-visible md:mt-4">
-              <span className="flex w-full justify-center overflow-x-visible">
-                <span data-headline-row className="inline-flex flex-wrap items-center justify-center gap-x-[24px] gap-y-1 md:gap-x-[80px] lg:gap-x-[140px]">
-                  <span>DEFY</span>
-                  <span>CONVENTION</span>
                 </span>
               </span>
             </Reveal>
