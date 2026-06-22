@@ -21,8 +21,7 @@ const About = () => {
             <Section5 />
             {/* <Slider/> */}
             <Section6 />
-            <Section7 />
-          <Footer  />
+            <Footer overlaySection={<Section7 />} />
             </>
   )
 }
