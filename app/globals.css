@@ -53,6 +53,7 @@
 html {
   scrollbar-width: none;
   -ms-overflow-style: none;
+  overflow-x: clip;
 }
 
 html::-webkit-scrollbar {
@@ -64,6 +65,7 @@ html::-webkit-scrollbar {
 body {
   scrollbar-width: none;
   -ms-overflow-style: none;
+  overflow-x: clip;
 }
 
 body::-webkit-scrollbar {

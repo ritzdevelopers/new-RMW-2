@@ -31,7 +31,7 @@ const rowOffsetClasses = [
 ];
 
 const serviceClass =
-  "whitespace-nowrap uppercase leading-[100%] tracking-[0] text-[32px] md:text-[48px] lg:text-[60px]";
+  "whitespace-nowrap uppercase leading-[100%] tracking-[0] text-[26px] sm:text-[30px] md:text-[42px] lg:text-[52px] xl:text-[60px]";
 
 const contactInfo = {
   address: [
@@ -96,9 +96,9 @@ const Section7 = () => {
       `}</style>
       <section
         ref={sectionRef}
-        className="relative min-h-screen w-full overflow-hidden bg-[#0E1125]"
+        className="relative min-h-[100dvh] w-full max-w-full overflow-x-clip bg-[#0E1125]"
       >
-        <div className="relative min-h-screen w-full">
+        <div className="relative min-h-[100dvh] w-full">
           <Image
             src="/service/bg-image.png"
             alt=""
@@ -111,7 +111,7 @@ const Section7 = () => {
           <div className="absolute inset-0 bg-black/10" aria-hidden />
 
           <div
-            className={`${leagueSpartan.className} absolute inset-0 z-10 flex flex-col justify-center px-8 py-20 md:px-12 md:py-15 ${
+            className={`${leagueSpartan.className} relative z-10 flex min-h-[100dvh] flex-col justify-center px-8 py-14 md:px-12 md:py-16 lg:py-20 ${
               showContact ? "items-center" : ""
             }`}
           >
@@ -140,7 +140,7 @@ const Section7 = () => {
               </div>
             ) : (
               <div
-                className="flex w-full flex-col gap-6 md:gap-8 lg:gap-10"
+                className="flex w-full flex-col gap-4 sm:gap-5 md:gap-6 lg:gap-8"
                 onMouseLeave={() => setHoveredService(null)}
               >
               {serviceRows.map((row, rowIndex) => (

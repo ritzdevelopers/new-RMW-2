@@ -249,6 +249,29 @@ const ServicesGrid = () => {
           },
         });
       }
+
+      const refreshFooterScroll = () => {
+        ScrollTrigger.sort();
+        ScrollTrigger.refresh();
+      };
+
+      let refreshTimer = null;
+      const scheduleRefresh = () => {
+        window.clearTimeout(refreshTimer);
+        refreshTimer = window.setTimeout(refreshFooterScroll, 200);
+      };
+
+      scheduleRefresh();
+      window.addEventListener("load", scheduleRefresh, { once: true });
+
+      gsap.utils.toArray("[data-svc-image]", section).forEach((img) => {
+        if (img.complete) return;
+        img.addEventListener("load", scheduleRefresh, { once: true });
+      });
+
+      return () => {
+        window.clearTimeout(refreshTimer);
+      };
     }, section);
 
     return () => {

@@ -13,14 +13,14 @@ export const metadata = {
 
 const ServicesPage = () => {
   return (
-    <>
+    <div className="overflow-x-clip">
       <Header />
-      <main>
+      <div className="relative overflow-x-clip">
         <ServicesHero />
         <ServicesGrid />
-      </main>
+      </div>
       <Footer overlaySection={<Section7 />} />
-    </>
+    </div>
   );
 };
 

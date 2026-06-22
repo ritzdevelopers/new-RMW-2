@@ -254,7 +254,8 @@ const Footer = ({ overlaySection = null }) => {
     let onBrandRefreshInit = null;
 
     const ctx = gsap.context(() => {
-      const getRevealDistance = () => Math.max(overlay.offsetHeight, footer.offsetHeight);
+      const getRevealDistance = () =>
+        Math.max(footer.offsetHeight, overlay.offsetHeight, overlay.scrollHeight);
 
       gsap.set(overlay, { y: 0, zIndex: 2, force3D: true });
       gsap.set(footer, { zIndex: 1 });
@@ -359,11 +360,24 @@ const Footer = ({ overlaySection = null }) => {
     const refreshTimer = window.setTimeout(refresh, 800);
     const lateRefreshTimer = window.setTimeout(refresh, 2000);
 
+    let resizeRefreshTimer = null;
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(() => {
+            window.clearTimeout(resizeRefreshTimer);
+            resizeRefreshTimer = window.setTimeout(refresh, 120);
+          })
+        : null;
+    resizeObserver?.observe(footer);
+    resizeObserver?.observe(overlay);
+
     return () => {
       window.clearTimeout(refreshTimer);
       window.clearTimeout(lateRefreshTimer);
+      window.clearTimeout(resizeRefreshTimer);
       window.removeEventListener("load", refresh);
       window.removeEventListener("resize", refresh);
+      resizeObserver?.disconnect();
       if (onBrandRefreshInit) {
         ScrollTrigger.removeEventListener("refreshInit", onBrandRefreshInit);
       }
@@ -372,7 +386,7 @@ const Footer = ({ overlaySection = null }) => {
   }, [overlaySection]);
 
   const footerClassName =
-    "relative w-full overflow-hidden bg-[#0E1125] px-8 pb-8 pt-0 md:px-12 md:pb-4 md:pt-8";
+    "relative w-full max-w-full overflow-x-clip bg-[#0E1125] px-8 pb-8 pt-0 md:px-12 md:pb-4 md:pt-8";
 
   const footerInner = (
     <>
@@ -506,48 +520,50 @@ const Footer = ({ overlaySection = null }) => {
             ))}
           </div>
         </div>
+      </div>
 
+      <div
+        ref={brandBannerRef}
+        className="relative z-[2] mt-4 w-full border-y border-[#FFFFFF1A] py-1 md:mt-12 md:py-8 lg:mt-14"
+      >
         <div
-          ref={brandBannerRef}
-          className="relative left-1/2 mt-4 w-screen -translate-x-1/2 border-y border-[#FFFFFF1A] py-1 md:mt-12 md:py-8 lg:mt-14"
+          data-footer-brand-wrap
+          className="relative mx-auto grid min-h-[130px] w-full max-w-[1500px] grid-cols-1 overflow-hidden px-8 md:min-h-[110px] md:px-12 lg:min-h-[90px]"
         >
-          <div
-            data-footer-brand-wrap
-            className="relative mx-auto grid min-h-[130px] w-full max-w-[1500px] grid-cols-1 overflow-hidden px-8 md:min-h-[110px] md:px-12 lg:min-h-[90px]"
+          <div className="relative z-[1] col-start-1 row-start-1 flex flex-col items-center justify-center gap-2 self-center py-2 text-center pointer-events-none">
+            <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
+              {servicesRow1.map((service, index) => (
+                <React.Fragment key={service}>
+                  {index > 0 && <span className="mx-[10px]">•</span>}
+                  {service}
+                </React.Fragment>
+              ))}
+            </p>
+            <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
+              {servicesRow2.map((service, index) => (
+                <React.Fragment key={service}>
+                  {index > 0 && <span className="mx-[10px]">•</span>}
+                  {service}
+                </React.Fragment>
+              ))}
+            </p>
+          </div>
+
+          <span
+            data-footer-ritz
+            style={brandTextStyle}
+            className="relative z-[3] col-start-1 row-start-1 inline-block shrink-0 justify-self-start self-end !text-[33px] md:!text-[74px]"
           >
-            <div className="relative z-[1] col-start-1 row-start-1 flex flex-col items-center justify-center gap-2 self-center py-2 text-center pointer-events-none">
-              <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
-                {servicesRow1.map((service, index) => (
-                  <React.Fragment key={service}>
-                    {index > 0 && <span className="mx-[10px]">•</span>}
-                    {service}
-                  </React.Fragment>
-                ))}
-              </p>
-              <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
-                {servicesRow2.map((service, index) => (
-                  <React.Fragment key={service}>
-                    {index > 0 && <span className="mx-[10px]">•</span>}
-                    {service}
-                  </React.Fragment>
-                ))}
-              </p>
-            </div>
+            RITZ
+          </span>
 
-            <span
-              data-footer-ritz
-              style={brandTextStyle}
-              className="relative z-[3] col-start-1 row-start-1 inline-block shrink-0 justify-self-start self-end !text-[33px] md:!text-[74px]"
-            >
-              RITZ
-            </span>
-
-            <div className="relative z-[3] col-start-1 row-start-1 shrink-0 justify-self-end self-end">
-              <MediaWorldText />
-            </div>
+          <div className="relative z-[3] col-start-1 row-start-1 shrink-0 justify-self-end self-end">
+            <MediaWorldText />
           </div>
         </div>
+      </div>
 
+      <div className="relative z-[2] mx-auto max-w-[1500px]">
         <p className="mt-5 text-center !text-[13px] md:mt-7 md:!text-[18px]" style={copyrightTextStyle}>
           © 2026 Ritz Media World. All rights reserved.
         </p>
@@ -556,9 +572,9 @@ const Footer = ({ overlaySection = null }) => {
   );
 
   return (
-    <div ref={stackRef} className="relative z-[1] w-full">
+    <div ref={stackRef} className="relative z-[1] w-full max-w-full overflow-x-clip">
       {overlaySection ? (
-        <div className="max-md:flex max-md:flex-col md:grid md:w-full md:grid-cols-1 md:grid-rows-1">
+        <div className="max-md:flex max-md:flex-col md:grid md:w-full md:max-w-full md:grid-cols-1 md:grid-rows-1 md:overflow-x-clip">
           <footer
             ref={footerRef}
             className={`${footerClassName} relative z-[1] max-md:order-2 w-full md:col-start-1 md:row-start-1 md:sticky md:bottom-0 md:self-end`}
@@ -567,7 +583,7 @@ const Footer = ({ overlaySection = null }) => {
           </footer>
           <div
             ref={overlayRef}
-            className="relative z-[2] max-md:order-1 w-full min-h-screen min-h-full will-change-transform md:col-start-1 md:row-start-1 md:self-stretch isolate"
+            className="relative z-[2] max-md:order-1 w-full will-change-transform md:col-start-1 md:row-start-1 md:self-stretch isolate"
           >
             {overlaySection}
           </div>

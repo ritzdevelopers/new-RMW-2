@@ -2,7 +2,10 @@
 
 import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Montserrat } from "next/font/google";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -311,7 +314,10 @@ const ServicesHero = ({
         entrancePlayed = true;
 
         const tl = gsap.timeline({
-          onComplete: fitHeadline,
+          onComplete: () => {
+            fitHeadline();
+            ScrollTrigger.refresh();
+          },
         });
 
         headlineItems.forEach((item, index) => {
