@@ -28,7 +28,7 @@ const About = () => {
 
       <Header />
 
-      <div className="overflow-x-hidden relative z-10">
+      <div className="overflow-x-hidden relative">
 
         <Section1 />
 
@@ -47,7 +47,6 @@ const About = () => {
       <Footer overlaySection={<Section7 />} />
 
     </>
-
   )
 
 }
