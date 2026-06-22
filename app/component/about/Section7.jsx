@@ -22,16 +22,16 @@ const serviceRows = [
 
 const rowOffsetClasses = [
   "",
-  "ml-[40px]",
-  "ml-[120px]",
-  "-ml-8 md:-ml-12",
-  "ml-[130px]",
-  "ml-[40px]",
-  "-ml-8 md:-ml-12",
+  "md:ml-[40px]",
+  "md:ml-[120px]",
+  "md:-ml-12",
+  "md:ml-[130px]",
+  "md:ml-[40px]",
+  "md:-ml-12",
 ];
 
 const serviceClass =
-  "whitespace-nowrap uppercase leading-[100%] tracking-[0] text-[32px] md:text-[48px] lg:text-[60px]";
+  "section7-service-text uppercase leading-[100%] tracking-[0] text-left text-[20px] md:whitespace-nowrap md:text-[28px] lg:text-[38px] min-[1280px]:max-[1439px]:text-[45px]";
 
 const contactInfo = {
   address: [
@@ -93,6 +93,11 @@ const Section7 = () => {
         .section7-contact-enter {
           animation: section7-contact-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
+        @media (min-width: 1440px) {
+          .section7-service-text {
+            font-size: 50px;
+          }
+        }
       `}</style>
       <section
         ref={sectionRef}
@@ -139,8 +144,21 @@ const Section7 = () => {
                 </span>
               </div>
             ) : (
+              <>
+              <div className="flex w-full flex-col items-start gap-4 md:hidden">
+                {serviceRows.flat().map((label, index) => (
+                    <button
+                      key={`mobile-${index}-${label}`}
+                      type="button"
+                      onClick={() => handleServiceClick(label)}
+                      className={`${serviceClass} cursor-pointer border-0 bg-transparent p-0 text-left font-semibold text-white`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+              </div>
               <div
-                className="flex w-full flex-col gap-6 md:gap-8 lg:gap-10"
+                className="hidden w-full flex-col gap-6 md:flex md:gap-8 lg:gap-10"
                 onMouseLeave={() => setHoveredService(null)}
               >
               {serviceRows.map((row, rowIndex) => (
@@ -167,6 +185,7 @@ const Section7 = () => {
                 </div>
               ))}
               </div>
+              </>
             )}
           </div>
         </div>
