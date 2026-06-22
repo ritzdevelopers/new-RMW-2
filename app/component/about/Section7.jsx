@@ -96,9 +96,9 @@ const Section7 = () => {
       `}</style>
       <section
         ref={sectionRef}
-        className="relative isolate z-[1] min-h-screen min-h-full h-full w-full overflow-hidden bg-[#0E1125]"
+        className="relative min-h-screen w-full overflow-hidden bg-[#0E1125]"
       >
-        <div className="relative h-full min-h-screen min-h-full w-full">
+        <div className="relative min-h-screen w-full">
           <Image
             src="/service/bg-image.png"
             alt=""
