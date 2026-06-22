@@ -233,17 +233,28 @@ const Footer = ({ overlaySection = null }) => {
       return;
     }
 
-    if (!window.matchMedia("(min-width: 768px)").matches) {
-      return;
-    }
-
     const stack = stackRef.current;
     const overlay = overlayRef.current;
     const footer = footerRef.current;
+
+    const syncFooterMetrics = () => {
+      const footerHeight = footer.offsetHeight;
+      const peek = Math.min(footerHeight, window.innerHeight * 0.42);
+      stack.style.setProperty("--footer-h", `${footerHeight}px`);
+      stack.style.setProperty("--footer-peek", `${peek}px`);
+    };
+
+    syncFooterMetrics();
+
+    if (!window.matchMedia("(min-width: 768px)").matches) {
+      window.addEventListener("resize", syncFooterMetrics);
+      return () => window.removeEventListener("resize", syncFooterMetrics);
+    }
+
     let onBrandRefreshInit = null;
 
     const ctx = gsap.context(() => {
-      const getRevealDistance = () => footer.offsetHeight;
+      const getRevealDistance = () => Math.max(overlay.offsetHeight, footer.offsetHeight);
 
       gsap.set(overlay, { y: 0, zIndex: 2, force3D: true });
       gsap.set(footer, { zIndex: 1 });
@@ -267,6 +278,7 @@ const Footer = ({ overlaySection = null }) => {
 
         onBrandRefreshInit = () => {
           brandTargets = getTargets();
+          syncFooterMetrics();
         };
         ScrollTrigger.addEventListener("refreshInit", onBrandRefreshInit);
       }
@@ -337,6 +349,7 @@ const Footer = ({ overlaySection = null }) => {
     }, stack);
 
     const refresh = () => {
+      syncFooterMetrics();
       ScrollTrigger.sort();
       ScrollTrigger.refresh();
     };
