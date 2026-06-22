@@ -17,6 +17,7 @@ const montserrat = Montserrat({
 const mixtaPro = "font-['MixtaPro']";
 const sequelFontFamily = '"Sequel Sans"';
 const goldColor = "#FFD188";
+const circleSpotlightDuration = 15;
 
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
@@ -198,7 +199,7 @@ const WatchNowOverlay = ({ className = "", onWatch }) => {
       <button
         type="button"
         aria-label="Watch now"
-        className="watch-now-btn pointer-events-none absolute flex items-center gap-2 rounded-full bg-white py-2 pl-5 pr-2 shadow-[0_8px_30px_rgba(0,0,0,0.25)] md:gap-3 md:py-2.5 md:pl-6"
+        className="watch-now-btn pointer-events-none absolute flex items-center gap-1.5 rounded-full bg-white py-1.5 pl-3.5 pr-1.5 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2 md:py-2 md:pl-4 md:pr-1.5"
         style={{
           left: `${position.x}%`,
           top: `${position.y}%`,
@@ -208,11 +209,11 @@ const WatchNowOverlay = ({ className = "", onWatch }) => {
             : "left 0.5s cubic-bezier(0.22, 1, 0.36, 1), top 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.25s ease",
         }}
       >
-        <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[12px]">
+        <span className="font-league-spartan text-[10px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[11px]">
           Watch Now
         </span>
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
-          <i className="ri-play-fill text-[14px] md:text-[16px]" aria-hidden />
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-7 md:w-7">
+          <i className="ri-play-fill text-[11px] md:text-[12px]" aria-hidden />
         </span>
       </button>
     </div>
@@ -223,6 +224,8 @@ const Section1 = () => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const heroRef = useRef(null);
   const headlineRef = useRef(null);
+  const headlineSpotlightWrapRef = useRef(null);
+  const headlineGoldRef = useRef(null);
   const disruptionRef = useRef(null);
   const filmRef = useRef(null);
   const heroSectionRef = useRef(null);
@@ -317,100 +320,48 @@ const Section1 = () => {
     if (isMobileViewport()) return;
 
     const logoFloat = logoFloatRef.current;
-    const bounds = computeVideoBounds();
-    if (!logoFloat || !bounds) return;
+    const heroSection = heroSectionRef.current;
+    const container = heroRef.current;
+    if (!logoFloat || !heroSection || !container) return;
 
     const entrance = gsap.utils.clamp(0, 1, entranceProgress ?? videoEntranceRef.current);
     const scrollT = gsap.utils.clamp(0, 1, scrollProgress);
-    const { start } = bounds;
-    const minScale = 0.18;
-    const width =
-      entrance >= 1
-        ? start.width
-        : gsap.utils.interpolate(start.width * minScale, start.width, entrance);
-    const height =
-      entrance >= 1
-        ? start.height
-        : gsap.utils.interpolate(start.height * minScale, start.height, entrance);
-
+    const logoHeight = 200;
+    const sectionBottom = heroSection.offsetTop + heroSection.offsetHeight;
     const logoInner = logoFloat.querySelector("[data-logo-inner]");
-
-    if (scrollT > 0) {
-      const heroSection = heroSectionRef.current;
-      const container = heroRef.current;
-      if (!heroSection || !container) return;
-
-      const sectionBottom = heroSection.offsetTop + heroSection.offsetHeight;
-
-      gsap.set(logoFloat, {
-        position: "absolute",
-        left: container.offsetWidth / 2,
-        right: "auto",
-        top: sectionBottom,
-        xPercent: -50,
-        yPercent: -100,
-        width: start.width,
-        height: start.height * 0.42,
-        zIndex: 55,
-        borderRadius: 0,
-        visibility: videoRevealStartedRef.current ? "visible" : "hidden",
-        opacity: 1,
-      });
-
-      if (logoInner) {
-        gsap.set(logoInner, {
-          top: "auto",
-          bottom: "6%",
-          left: 0,
-          right: 0,
-          height: "58%",
-          alignItems: "flex-end",
-          justifyContent: "center",
-        });
-      }
-      const logoImg = logoFloat.querySelector("[data-logo-inner] img");
-      if (logoImg) {
-        gsap.set(logoImg, {
-          clearProps: "width,height",
-          height: "100%",
-          width: "auto",
-          maxWidth: "85%",
-          objectPosition: "bottom",
-        });
-      }
-      return;
-    }
 
     gsap.set(logoFloat, {
       position: "absolute",
-      left: start.x,
-      top: start.y,
+      left: container.offsetWidth / 2,
+      right: "auto",
+      top: sectionBottom,
       xPercent: -50,
-      yPercent: -50,
-      width,
-      height,
-      zIndex: 35,
-      borderRadius: gsap.utils.interpolate(0, 10, entrance),
+      yPercent: -100,
+      width: container.offsetWidth,
+      height: logoHeight,
+      zIndex: scrollT > 0 ? 55 : 35,
+      borderRadius: 0,
       visibility: videoRevealStartedRef.current ? "visible" : "hidden",
       opacity: entrance,
     });
 
     if (logoInner) {
       gsap.set(logoInner, {
-        top: "6%",
-        bottom: "auto",
+        top: "auto",
+        bottom: 0,
         left: 0,
         right: 0,
-        height: "58%",
-        alignItems: "center",
+        height: "100%",
+        alignItems: "flex-end",
         justifyContent: "center",
       });
     }
+
     const logoImg = logoFloat.querySelector("[data-logo-inner] img");
     if (logoImg) {
       gsap.set(logoImg, {
         clearProps: "width,height,maxWidth,objectPosition",
-        objectPosition: "top",
+        objectPosition: "bottom",
       });
     }
   };
@@ -552,6 +503,96 @@ const Section1 = () => {
       introHandoffDone = false;
     };
 
+    let spotlightTween = null;
+    let spotlightStarted = false;
+
+    const getCircleRadius = () => {
+      const width = window.innerWidth;
+      if (width >= 768) return 65;
+      return 22;
+    };
+
+    const getSpotlightWaypoints = () => {
+      const wrap = headlineSpotlightWrapRef.current;
+      if (!wrap) return null;
+
+      const words = wrap.querySelectorAll("[data-headline-word]");
+      if (!words.length) return null;
+
+      const wrapRect = wrap.getBoundingClientRect();
+      return [...words].map((el) => {
+        const rect = el.getBoundingClientRect();
+        return {
+          x: rect.left - wrapRect.left + rect.width * 0.5,
+          y: rect.top - wrapRect.top + rect.height * 0.5,
+        };
+      });
+    };
+
+    const hideHeadlineGold = () => {
+      const gold = headlineGoldRef.current;
+      if (!gold) return;
+
+      const mask = "radial-gradient(circle 0px at -9999px -9999px, transparent 100%, transparent 100%)";
+      gold.style.maskImage = mask;
+      gold.style.webkitMaskImage = mask;
+    };
+
+    const startHeadlineSpotlight = () => {
+      const wrap = headlineSpotlightWrapRef.current;
+      const gold = headlineGoldRef.current;
+      if (!wrap || !gold) return;
+
+      const waypoints = getSpotlightWaypoints();
+      if (!waypoints?.length) return;
+
+      spotlightTween?.kill();
+      spotlightTween = null;
+
+      const circleRadius = getCircleRadius();
+      const points = [
+        { x: waypoints[0].x - circleRadius, y: waypoints[0].y },
+        ...waypoints,
+        {
+          x: waypoints[waypoints.length - 1].x + circleRadius,
+          y: waypoints[waypoints.length - 1].y,
+        },
+      ];
+
+      const setMaskAt = (x, y) => {
+        const radius = getCircleRadius();
+        const mask = `radial-gradient(circle ${radius}px at ${x}px ${y}px, #000 98%, transparent 100%)`;
+        gold.style.maskImage = mask;
+        gold.style.webkitMaskImage = mask;
+      };
+
+      const speed = wrap.offsetWidth / circleSpotlightDuration;
+      const proxy = { x: points[0].x, y: points[0].y };
+      setMaskAt(proxy.x, proxy.y);
+
+      const tl = gsap.timeline({
+        repeat: -1,
+        onUpdate: () => setMaskAt(proxy.x, proxy.y),
+      });
+
+      for (let i = 1; i < points.length; i += 1) {
+        const from = points[i - 1];
+        const to = points[i];
+        const dist = Math.hypot(to.x - from.x, to.y - from.y);
+        if (!dist) continue;
+
+        tl.to(proxy, {
+          x: to.x,
+          y: to.y,
+          duration: dist / speed,
+          ease: "none",
+        });
+      }
+
+      spotlightTween = tl;
+      spotlightStarted = true;
+    };
+
     const ctx = gsap.context(() => {
       const headlineItems = gsap.utils.toArray("[data-about-reveal='headline']", hero);
       const subItems = gsap.utils.toArray("[data-about-reveal='sub']", hero);
@@ -598,7 +639,18 @@ const Section1 = () => {
         headlineItems.forEach((item, index) => {
           tl.to(
             item,
-            { yPercent: 0, duration: 2, ease: "power4.out" },
+            {
+              yPercent: 0,
+              duration: 2,
+              ease: "power4.out",
+              onComplete:
+                index === headlineItems.length - 1
+                  ? () => {
+                      fitAll();
+                      startHeadlineSpotlight();
+                    }
+                  : undefined,
+            },
             index === 0 ? 0 : "-=1.65"
           );
         });
@@ -749,9 +801,11 @@ const Section1 = () => {
       applyVideoProgress(scrollProgress, videoEntranceRef.current);
       applyHeroTextScroll(scrollProgress);
       applyLogoPosition(1, scrollProgress);
+      if (spotlightStarted) startHeadlineSpotlight();
       ScrollTrigger.refresh();
     };
 
+    hideHeadlineGold();
     fitAll();
     syncVideoBounds();
     requestAnimationFrame(() => {
@@ -774,6 +828,7 @@ const Section1 = () => {
     }
 
     return () => {
+      spotlightTween?.kill();
       if (metadataVideo && onVideoMetadata) {
         metadataVideo.removeEventListener("loadedmetadata", onVideoMetadata);
       }
@@ -841,7 +896,7 @@ const Section1 = () => {
       <div ref={heroRef} className="relative overflow-x-hidden">
       <section
         ref={heroSectionRef}
-        className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col overflow-x-hidden bg-[#0D1334] px-8 pt-35px pb-[60px] md:min-h-screen md:px-12 md:pt-[70px] md:pb-[80px]"
+        className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col overflow-x-hidden bg-[#0D1334] px-8 pt-35px pb-[60px] md:min-h-screen md:px-12 md:pt-[30px] md:pb-[80px]"
       >
         <div
           ref={heroTextRef}
@@ -853,40 +908,73 @@ const Section1 = () => {
               style={headingStyle}
               className="m-0 mx-auto w-full max-w-full text-center text-[34px] leading-[36px] md:text-[72px] md:leading-[72px] lg:text-[94px] lg:leading-[94px]"
             >
-              <Reveal clipYOnly className="w-full py-[2px]">
-                <span className="flex w-full justify-center">
-                  <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[8px] md:gap-[40px] lg:gap-[90px]">
-                    <span>17</span>
-                    <span>YEARS</span>
-                    <span>
-                      <span style={{ color: goldColor }}>O</span>F
+              <div ref={headlineSpotlightWrapRef} className="relative w-full">
+                <div className="relative z-[1]">
+                  <Reveal clipYOnly className="w-full py-[2px]">
+                    <span className="flex w-full justify-center">
+                      <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[8px] md:gap-[40px] lg:gap-[90px]">
+                        <span data-headline-word>18</span>
+                        <span data-headline-word>YEARS</span>
+                        <span data-headline-word>OF</span>
+                      </span>
                     </span>
-                  </span>
-                </span>
-              </Reveal>
-              <Reveal clipYOnly className="mt-[4px] w-full py-[2px]">
-                <span className="flex w-full justify-center">
-                  <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[10px] md:gap-[20px] lg:gap-[90px]">
-                    <span>MAKING</span>
-                    <span>BRANDS</span>
-                  </span>
-                </span>
-              </Reveal>
-              <Reveal clipYOnly className="mt-[4px] w-full py-[2px] md:overflow-x-visible">
-                <span className="flex w-full justify-center md:overflow-x-visible">
-                  <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[6px] text-[26px] leading-[28px] md:gap-[6px] md:text-[58px] md:leading-[58px] lg:gap-[50px] lg:text-[94px] lg:leading-[94px] xl:gap-[120px]">
-                    <span>
-                      <span style={{ color: goldColor }}>IM</span>POSSIBLE
+                  </Reveal>
+                  <Reveal clipYOnly className="mt-[4px] w-full py-[2px]">
+                    <span className="flex w-full justify-center">
+                      <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[10px] md:gap-[20px] lg:gap-[90px]">
+                        <span data-headline-word>MAKING</span>
+                        <span data-headline-word>BRANDS</span>
+                      </span>
                     </span>
-                    <span>TO</span>
-                    <span className="pr-[6px]">IGNORE</span>
-                  </span>
-                </span>
-              </Reveal>
+                  </Reveal>
+                  <Reveal clipYOnly className="mt-[4px] w-full py-[2px] md:overflow-x-visible">
+                    <span className="flex w-full justify-center md:overflow-x-visible">
+                      <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[6px] text-[26px] leading-[28px] md:gap-[6px] md:text-[58px] md:leading-[58px] lg:gap-[50px] lg:text-[94px] lg:leading-[94px] xl:gap-[120px]">
+                        <span data-headline-word>IMPOSSIBLE</span>
+                        <span data-headline-word>TO</span>
+                        <span data-headline-word className="pr-[6px]">IGNORE</span>
+                      </span>
+                    </span>
+                  </Reveal>
+                </div>
+                <div
+                  ref={headlineGoldRef}
+                  className="pointer-events-none absolute inset-0 z-[2] text-center"
+                  style={{ ...headingStyle, color: goldColor }}
+                  aria-hidden
+                >
+                  <div className="w-full py-[2px]">
+                    <span className="flex w-full justify-center">
+                      <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[8px] md:gap-[40px] lg:gap-[90px]">
+                        <span>18</span>
+                        <span>YEARS</span>
+                        <span>OF</span>
+                      </span>
+                    </span>
+                  </div>
+                  <div className="mt-[4px] w-full py-[2px]">
+                    <span className="flex w-full justify-center">
+                      <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[10px] md:gap-[20px] lg:gap-[90px]">
+                        <span>MAKING</span>
+                        <span>BRANDS</span>
+                      </span>
+                    </span>
+                  </div>
+                  <div className="mt-[4px] w-full py-[2px] md:overflow-x-visible">
+                    <span className="flex w-full justify-center md:overflow-x-visible">
+                      <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[6px] text-[26px] leading-[28px] md:gap-[6px] md:text-[58px] md:leading-[58px] lg:gap-[50px] lg:text-[94px] lg:leading-[94px] xl:gap-[120px]">
+                        <span>IMPOSSIBLE</span>
+                        <span>TO</span>
+                        <span className="pr-[6px]">IGNORE</span>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
             </h1>
           </div>
 
-          <div className={`${montserrat.className} relative z-40 mt-8 max-w-[1000px] md:mt-0 lg:mt-0 xl:mt-2`}>
+          <div className={`${montserrat.className} relative z-40 mt-8 max-w-[1000px] md:mt-0 lg:mt-0 xl:mt-5`}>
             <Reveal group="sub">
               <p className="m-0 text-[20px] font-[300] italic leading-[25px] text-white md:text-[18px] md:leading-[20px] lg:text-[22px] xl:text-[28px] lg:leading-[36px]">
               Built on hustle. Driven by heart. Powered by ideas that move the world
@@ -945,11 +1033,11 @@ const Section1 = () => {
         className="pointer-events-none absolute z-[35] hidden overflow-hidden md:block"
         style={{ visibility: "hidden" }}
       >
-        <div data-logo-inner className="absolute inset-x-0 top-[6%] flex h-[58%] justify-center">
+        <div data-logo-inner className="absolute inset-x-0 bottom-0 flex h-full items-end justify-center">
           <img
             src="/logo/r-rmw-transparent.png"
             alt=""
-            className="block h-full w-auto max-w-[85%] object-contain object-top"
+            className="block h-full w-auto max-w-[85%] object-contain object-bottom"
             style={{
               filter: "brightness(3.2) contrast(1.05)",
               opacity: 0.4,

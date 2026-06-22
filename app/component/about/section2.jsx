@@ -101,20 +101,20 @@ const deliverCards = [
 
 const CaseStudyBlock = () => (
   <div className="flex flex-col items-start lg:gap-4 md:gap-2">
-    <p style={caseStudyStyle} className="m-0 text-left text-[14px] leading-[18px] md:text-[14px] md:leading-[18px] lg:text-[14px] lg:leading-[18px] xl:text-[24px] xl:leading-[30px]">
+    {/* <p style={caseStudyStyle} className="m-0 text-left text-[14px] leading-[18px] md:text-[14px] md:leading-[18px] lg:text-[14px] lg:leading-[18px] xl:text-[24px] xl:leading-[30px]">
       How Toblerone
       <br />
       Supercharged Brand
       <br />
       Recall By <span style={{ color: "#FFFFFF" }}>29%</span>
-    </p>
+    </p> */}
     <div className="flex cursor-pointer items-center gap-3">
-      <span style={caseStudyLabelStyle} className="m-0 text-[14px] md:text-[14px] lg:text-[14px] xl:text-[18px]">
+      {/* <span style={caseStudyLabelStyle} className="m-0 text-[14px] md:text-[14px] lg:text-[14px] xl:text-[18px]">
         Case Study
       </span>
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F5A623]">
         <span className="ml-0.5 block h-0 w-0 border-y-[6px] border-l-[10px] border-y-transparent border-l-white" />
-      </span>
+      </span> */}
     </div>
   </div>
 );
