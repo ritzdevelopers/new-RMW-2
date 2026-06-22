@@ -46,6 +46,7 @@ const Section7 = () => {
   const sectionRef = useRef(null);
   const [showContact, setShowContact] = useState(false);
   const [selectedService, setSelectedService] = useState("");
+  const [hoveredService, setHoveredService] = useState(null);
 
   const handleServiceClick = (label) => {
     setSelectedService(label);
@@ -108,7 +109,7 @@ const Section7 = () => {
 
           <div
             className={`${leagueSpartan.className} absolute inset-0 z-10 flex flex-col justify-center px-8 py-20 md:px-12 md:py-15 ${
-              showContact ? "items-center" : "gap-6 md:gap-8 lg:gap-10"
+              showContact ? "items-center" : ""
             }`}
           >
             {showContact ? (
@@ -135,23 +136,34 @@ const Section7 = () => {
                 </span>
               </div>
             ) : (
-              serviceRows.map((row, rowIndex) => (
+              <div
+                className="flex w-full flex-col gap-6 md:gap-8 lg:gap-10"
+                onMouseLeave={() => setHoveredService(null)}
+              >
+              {serviceRows.map((row, rowIndex) => (
                 <div
                   key={rowIndex}
                   className={`flex w-full flex-wrap items-center gap-x-8 gap-y-2 lg:gap-x-16 ${rowOffsetClasses[rowIndex] ?? ""}`}
                 >
-                  {row.map((label, index) => (
+                  {row.map((label, index) => {
+                    const itemKey = `${rowIndex}-${index}`;
+                    return (
                     <button
                       key={`${rowIndex}-${index}-${label}`}
                       type="button"
                       onClick={() => handleServiceClick(label)}
-                      className={`${serviceClass} cursor-pointer border-0 bg-transparent p-0 font-semibold text-[#FFFFFF4D] transition-colors duration-300 hover:text-white`}
+                      onMouseEnter={() => setHoveredService(itemKey)}
+                      className={`${serviceClass} cursor-pointer border-0 bg-transparent p-0 font-semibold text-white transition-opacity duration-300 ${
+                        hoveredService && hoveredService !== itemKey ? "opacity-30" : "opacity-100"
+                      }`}
                     >
                       {label}
                     </button>
-                  ))}
+                    );
+                  })}
                 </div>
-              ))
+              ))}
+              </div>
             )}
           </div>
         </div>

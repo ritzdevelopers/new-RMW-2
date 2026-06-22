@@ -102,18 +102,13 @@ const Section3 = () => {
           <div className="mt-12 flex justify-center md:mt-14">
             <button
               type="button"
-              className={`${montserrat.className} group relative cursor-pointer overflow-hidden border border-black bg-transparent px-[15px] py-2 md:px-[42px] md:py-4`}
+              className="flex cursor-pointer items-center gap-2 rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
             >
-              <span
-                aria-hidden
-                className="absolute inset-0 origin-left scale-x-0 bg-black transition-transform duration-300 ease-out group-hover:scale-x-100"
-              />
-              <span
-                style={buttonStyle}
-                className="relative z-10 flex items-center gap-3 text-black transition-colors duration-300 group-hover:text-white"
-              >
+              <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[14px]">
                 Load More Images
-                <i className="ri-arrow-right-up-line text-[18px] leading-none" aria-hidden />
+              </span>
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
+                <i className="ri-arrow-right-up-line text-[14px] md:text-[16px]" aria-hidden />
               </span>
             </button>
           </div>

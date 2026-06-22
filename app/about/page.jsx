@@ -8,6 +8,7 @@ import Section4 from '../component/about/section4'
 import Section5 from '../component/about/Section5'
 import Section6 from '../component/about/Section6'
 import Section7 from '../component/about/Section7'
+import Slider from '../component/about/Slider'
 
 const About = () => {
   return (
@@ -18,6 +19,7 @@ const About = () => {
             <Section3 />
             <Section4 />
             <Section5 />
+            {/* <Slider/> */}
             <Section6 />
             <Section7 />
           <Footer  />

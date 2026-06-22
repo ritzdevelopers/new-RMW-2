@@ -38,7 +38,7 @@ const carouselItems = [
     fixedWidth: 480,
     heightReduce: 50,
   },
-  { type: "news" },
+  { type: "news", href: "https://www.linkedin.com", label: "Linkedin" },
   {
     type: "image",
     src: "/Deliver/secondimage.jpeg",
@@ -55,7 +55,7 @@ const carouselItems = [
     fixedWidth: 480,
     heightReduce: 50,
   },
-  { type: "news" },
+  { type: "news", href: "https://www.instagram.com", label: "Instagram", subtitle: "the creative side" },
   {
     type: "image",
     src: "/Deliver/fourthimage.jpeg",
@@ -292,20 +292,28 @@ const Section6 = () => {
                         className={`${leagueSpartan.className} relative z-10 m-0 text-left text-[#0D1334] transition-colors duration-300 group-hover:text-white`}
                         style={newsHeadingStyle}
                       >
-                        News &amp;
-                        <br />
-                        Views
+                        {item.subtitle ? (
+                          item.subtitle
+                        ) : (
+                          <>
+                            News &amp;
+                            <br />
+                            Views
+                          </>
+                        )}
                       </p>
 
                       <a
-                        href="https://www.linkedin.com"
+                        href={item.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`${montserrat.className} relative z-10 inline-flex w-fit cursor-pointer border border-[#0D1334] bg-transparent px-5 py-3 text-[#0D1334] transition-colors duration-300 group-hover:border-white group-hover:text-white`}
+                        className="relative z-10 inline-flex cursor-pointer items-center gap-2 rounded-full bg-white py-1 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-1 md:pl-6 md:pr-2"
                       >
-                        <span className="flex items-center gap-2 text-[14px] font-medium uppercase leading-[100%] tracking-[0]">
-                          Linkedin
-                          <i className="ri-arrow-right-up-line text-[16px] leading-none" aria-hidden />
+                        <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[14px]">
+                          {item.label}
+                        </span>
+                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
+                          <i className="ri-arrow-right-up-line text-[14px] md:text-[16px]" aria-hidden />
                         </span>
                       </a>
                     </div>
