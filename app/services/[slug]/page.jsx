@@ -36,7 +36,7 @@ export default async function ServiceDetailPage({ params }) {
   return (
     <>
       <Header />
-      <main>
+      <div className="relative overflow-x-hidden">
         <ServicesHero
           lineOne={service.title}
           singleLine
@@ -44,7 +44,7 @@ export default async function ServiceDetailPage({ params }) {
           subtextItalic={false}
         />
         <ServiceDetailContent service={service} />
-      </main>
+      </div>
       <Footer overlaySection={<Section7 />} />
     </>
   );
