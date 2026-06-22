@@ -27,6 +27,12 @@ const headingStyle = {
   color: "#FFFFFF",
 };
 
+const headlineRowClass =
+  "flex w-full items-center justify-between gap-[10px] md:gap-[40px] lg:gap-[48px] xl:gap-[120px]";
+
+const headlineRowClassDistinction =
+  "flex w-full items-center justify-between gap-[10px] md:gap-[30px] lg:gap-[48px] xl:gap-[120px]";
+
 const disruptionStyle = {
   fontFamily: sequelFontFamily,
   fontWeight: 365,
@@ -163,7 +169,7 @@ const VideoFullscreenModal = ({ open, onClose }) => {
 const WatchNowOverlay = ({ className = "", onWatch }) => {
   const overlayRef = useRef(null);
   const [position, setPosition] = useState({ x: 50, y: 50 });
-  const [isTracking, setIsTracking] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseMove = (event) => {
     const overlay = overlayRef.current;
@@ -174,18 +180,19 @@ const WatchNowOverlay = ({ className = "", onWatch }) => {
       x: ((event.clientX - rect.left) / rect.width) * 100,
       y: ((event.clientY - rect.top) / rect.height) * 100,
     });
-    setIsTracking(true);
+    setIsHovering(true);
   };
 
   const handleMouseLeave = () => {
     setPosition({ x: 50, y: 50 });
-    setIsTracking(false);
+    setIsHovering(false);
   };
 
   return (
     <div
       ref={overlayRef}
       className={`pointer-events-auto absolute inset-0 z-20 cursor-pointer ${className}`}
+      onMouseEnter={() => setIsHovering(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={onWatch}
@@ -199,22 +206,34 @@ const WatchNowOverlay = ({ className = "", onWatch }) => {
       <button
         type="button"
         aria-label="Watch now"
-        className="watch-now-btn pointer-events-none absolute flex items-center gap-1.5 rounded-full bg-white py-1.5 pl-3.5 pr-1.5 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2 md:py-2 md:pl-4 md:pr-1.5"
+        className={`watch-now-btn pointer-events-none absolute flex items-center ${
+          isHovering
+            ? "gap-1.5 rounded-full bg-white py-1.5 pl-3.5 pr-1.5 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2 md:py-2 md:pl-4 md:pr-1.5"
+            : "rounded-full"
+        }`}
         style={{
-          left: `${position.x}%`,
-          top: `${position.y}%`,
+          left: isHovering ? `${position.x}%` : "50%",
+          top: isHovering ? `${position.y}%` : "50%",
           transform: "translate(-50%, -50%)",
-          transition: isTracking
+          transition: isHovering
             ? "left 0.14s ease-out, top 0.14s ease-out, transform 0.25s ease"
             : "left 0.5s cubic-bezier(0.22, 1, 0.36, 1), top 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.25s ease",
         }}
       >
-        <span className="font-league-spartan text-[10px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[11px]">
-          Watch Now
-        </span>
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-7 md:w-7">
-          <i className="ri-play-fill text-[11px] md:text-[12px]" aria-hidden />
-        </span>
+        {isHovering ? (
+          <>
+            <span className="font-league-spartan text-[10px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[11px]">
+              Watch Now
+            </span>
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-7 md:w-7">
+              <i className="ri-play-fill text-[11px] md:text-[12px]" aria-hidden />
+            </span>
+          </>
+        ) : (
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1D1D1B] text-white shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:h-11 md:w-11">
+            <i className="ri-play-fill text-[14px] md:text-[15px]" aria-hidden />
+          </span>
+        )}
       </button>
     </div>
   );
@@ -242,7 +261,8 @@ const Section1 = () => {
 
   const getStartSize = () => {
     const video = videoFloatRef.current?.querySelector("video");
-    const width = Math.min(1044, window.innerWidth - 32);
+    const contentWidth = heroTextRef.current?.clientWidth ?? Math.min(1408, window.innerWidth - (window.innerWidth >= 768 ? 96 : 64));
+    const width = Math.min(1044, contentWidth);
     let height = width * (9 / 16);
 
     if (video?.videoWidth && video?.videoHeight) {
@@ -250,6 +270,17 @@ const Section1 = () => {
     }
 
     return { width, height };
+  };
+
+  const getContentCenterX = () => {
+    const container = heroRef.current;
+    const textCol = heroTextRef.current;
+    if (!container) return window.innerWidth / 2;
+    if (!textCol) return container.offsetWidth / 2;
+
+    const containerRect = container.getBoundingClientRect();
+    const textRect = textCol.getBoundingClientRect();
+    return textRect.left + textRect.width / 2 - containerRect.left;
   };
 
   const measureFinalSlotEnd = () => {
@@ -263,11 +294,13 @@ const Section1 = () => {
 
     const cRect = container.getBoundingClientRect();
     const sRect = slot.getBoundingClientRect();
+    const endHeight = sRect.height;
+    const endWidth = sRect.width;
     const end = {
       x: sRect.left + sRect.width / 2 - cRect.left,
-      y: sRect.top + sRect.height / 2 - cRect.top,
-      width: sRect.width,
-      height: sRect.height,
+      y: sRect.top + sRect.height / 2 - cRect.top - 20,
+      width: endWidth,
+      height: endHeight,
       clipTop: 0,
     };
 
@@ -275,9 +308,32 @@ const Section1 = () => {
     return end;
   };
 
+  const getVideoTextGap = () => {
+    const w = window.innerWidth;
+    if (w >= 1280) return 100;
+    if (w >= 1024) return 104;
+    if (w >= 768) return 78;
+    return 108;
+  };
+
+  const getVideoStartCenterY = (startSize) => {
+    const container = heroRef.current;
+    const heroSection = heroSectionRef.current;
+    if (!container || !heroSection) return null;
+
+    const subEl = heroSection.querySelector("[data-about-reveal='sub']");
+    if (!subEl) return null;
+
+    const containerRect = container.getBoundingClientRect();
+    const subRect = subEl.getBoundingClientRect();
+    const subBottom = subRect.bottom - containerRect.top;
+
+    return subBottom + getVideoTextGap() + startSize.height / 2;
+  };
+
   const getVideoStartYOffset = () => {
     const w = window.innerWidth;
-    if (w >= 1280 && w < 1536) return 380;
+    if (w >= 1280 && w < 1536) return 150;
     if (w >= 1024 && w < 1280) return 355;
     if (w >= 768 && w < 1024) return 150;
     return 350;
@@ -285,8 +341,9 @@ const Section1 = () => {
 
   const getLogoVideoTopOffset = () => {
     const w = window.innerWidth;
-    if (w >= 1280 && w < 1536) return 20;
-    if (w >= 1024 && w < 1280) return 40;
+    if (w >= 1280 && w < 1536) return 10;
+    if (w >= 1024 && w < 1280) return 20;
+    if (w >= 768) return 30;
     return 0;
   };
 
@@ -295,18 +352,17 @@ const Section1 = () => {
     const bounds = computeVideoBounds();
     if (!heroSection || !bounds) return null;
 
-    const sectionBottom = heroSection.offsetTop + heroSection.offsetHeight;
-    const videoTop = bounds.start.y - bounds.start.height / 2;
-    const videoTopOffset = getLogoVideoTopOffset();
-
-    if (videoTopOffset > 0) {
+    const w = window.innerWidth;
+    if (w >= 768) {
+      const videoTop = bounds.start.y - bounds.start.height / 2;
       return {
-        top: videoTop + videoTopOffset,
+        top: videoTop + getLogoVideoTopOffset(),
         yPercent: 0,
         alignEnd: false,
       };
     }
 
+    const sectionBottom = heroSection.offsetTop + heroSection.offsetHeight;
     return {
       top: sectionBottom,
       yPercent: -100,
@@ -328,8 +384,10 @@ const Section1 = () => {
       lockStart && videoBoundsRef.current?.start
         ? videoBoundsRef.current.start
         : {
-            x: container.offsetWidth / 2,
-            y: sectionBottom - startSize.height / 2 + getVideoStartYOffset(),
+            x: getContentCenterX(),
+            y:
+              getVideoStartCenterY(startSize) ??
+              sectionBottom - startSize.height / 2 + getVideoStartYOffset(),
             width: startSize.width,
             height: startSize.height,
             clipTop: 0,
@@ -469,19 +527,33 @@ const Section1 = () => {
 
     const fitHeadline = () => {
       const parent = headline?.parentElement;
+      const textCol = heroTextRef.current;
       if (!headline || !parent) return;
 
       headline.style.transform = "none";
-      const rows = headline.querySelectorAll("[data-headline-row]");
+      headline.style.width = "100%";
+      headline.style.marginLeft = "0";
+
+      const primaryLayer = headline.querySelector("[data-headline-primary]");
+      const rows = primaryLayer
+        ? primaryLayer.querySelectorAll("[data-headline-row]")
+        : headline.querySelectorAll("[data-headline-row]");
       let needed = 0;
       rows.forEach((row) => {
         needed = Math.max(needed, row.scrollWidth, row.getBoundingClientRect().width);
       });
-      const buffer = 48;
-      const available = parent.clientWidth - buffer;
+      const available = (textCol?.clientWidth ?? parent.clientWidth) - 2;
       const scale = needed > 0 ? Math.min(1, available / needed) : 1;
-      headline.style.transform = scale < 1 ? `scale(${scale})` : "none";
-      headline.style.transformOrigin = "top center";
+      if (scale < 1) {
+        headline.style.width = `${100 / scale}%`;
+        headline.style.marginLeft = "0";
+        headline.style.transform = `scale(${scale})`;
+      } else {
+        headline.style.width = "100%";
+        headline.style.marginLeft = "0";
+        headline.style.transform = "none";
+      }
+      headline.style.transformOrigin = "top left";
     };
 
     const fitDisruption = () => {
@@ -540,7 +612,9 @@ const Section1 = () => {
 
     const getCircleRadius = () => {
       const width = window.innerWidth;
-      if (width >= 768) return 65;
+      if (width >= 1280) return 55;
+      if (width >= 1024) return 45;
+      if (width >= 768) return 35;
       return 22;
     };
 
@@ -963,76 +1037,82 @@ const Section1 = () => {
       <div ref={heroRef} className="relative overflow-x-hidden">
       <section
         ref={heroSectionRef}
-        className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col overflow-x-hidden bg-[#0D1334] px-8 pt-35px pb-[60px] md:min-h-screen md:px-12 md:pt-[30px] md:pb-[80px]"
+        className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col overflow-x-hidden bg-[#0D1334] pt-35px pb-[60px] md:min-h-screen md:pt-[30px] md:pb-[48px] xl:pb-[40px]"
       >
         <div
           ref={heroTextRef}
-          className="relative z-40 mx-auto flex w-full max-w-[1200px] flex-col items-center text-center"
+          className="relative z-40 mx-auto flex w-full max-w-8xl flex-col items-start px-8 text-left md:px-12"
         >
-          <div className="relative w-full overflow-x-hidden md:w-full lg:w-screen">
+          <div className="relative w-full overflow-x-hidden">
             <h1
               ref={headlineRef}
               style={headingStyle}
-              className="m-0 mx-auto w-full max-w-full text-center text-[34px] leading-[36px] md:text-[72px] md:leading-[72px] lg:text-[94px] lg:leading-[94px]"
+              className="m-0 w-full max-w-full text-left text-[26px] leading-[28px] sm:text-[30px] sm:leading-[32px] md:text-[56px] md:leading-[58px] lg:text-[72px] lg:leading-[72px] xl:text-[94px] xl:leading-[94px]"
             >
-              <div ref={headlineSpotlightWrapRef} className="relative w-full">
-                <div className="relative z-[1]">
-                  <Reveal clipYOnly className="w-full py-[2px]">
-                    <span className="flex w-full justify-center">
-                      <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[8px] md:gap-[40px] lg:gap-[90px]">
+              <div ref={headlineSpotlightWrapRef} className="relative w-full overflow-x-hidden">
+                <div data-headline-primary className="relative z-[1]">
+                  <Reveal className="w-full overflow-hidden py-[2px]">
+                    <span className="flex w-full">
+                      <span data-headline-row className={headlineRowClass}>
                         <span data-headline-word>18</span>
-                        <span data-headline-word>YEARS</span>
-                        <span data-headline-word>OF</span>
-                      </span>
-                    </span>
-                  </Reveal> 
-                  <Reveal clipYOnly className="mt-[4px] w-full py-[2px]">
-                    <span className="flex w-full justify-center">
-                      <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[10px] md:gap-[20px] lg:gap-[90px]">
-                        <span data-headline-word>MAKING</span>
-                        <span data-headline-word>BRANDS</span>
+                        <span data-headline-word>Years</span>
+                        <span data-headline-word>of</span>
+                        <span data-headline-word>Creating</span>
                       </span>
                     </span>
                   </Reveal>
-                  <Reveal clipYOnly className="mt-[4px] w-full py-[2px] md:overflow-x-visible">
-                    <span className="flex w-full justify-center md:overflow-x-visible">
-                      <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[6px] text-[26px] leading-[28px] md:gap-[6px] md:text-[58px] md:leading-[58px] lg:gap-[50px] lg:text-[94px] lg:leading-[94px] xl:gap-[120px]">
-                        <span data-headline-word>IMPOSSIBLE</span>
-                        <span data-headline-word>TO</span>
-                        <span data-headline-word className="pr-[6px]">IGNORE</span>
+                  <Reveal className="mt-[4px] w-full overflow-hidden py-[2px]">
+                    <span className="flex w-full">
+                      <span data-headline-row className={headlineRowClassDistinction}>
+                        <span data-headline-word>Distinction</span>
+                        <span data-headline-word>in</span>
+                        <span data-headline-word>a</span>
+                        <span data-headline-word className="shrink-0">World</span>
+                      </span>
+                    </span>
+                  </Reveal>
+                  <Reveal className="mt-[4px] w-full overflow-hidden py-[2px]">
+                    <span className="flex w-full">
+                      <span data-headline-row className={headlineRowClass}>
+                        <span data-headline-word>Full</span>
+                        <span data-headline-word>of</span>
+                        <span data-headline-word>Sameness</span>
                       </span>
                     </span>
                   </Reveal>
                 </div>
                 <div
                   ref={headlineGoldRef}
-                  className="pointer-events-none absolute inset-0 z-[2] text-center"
+                  className="pointer-events-none absolute inset-0 z-[2] text-left"
                   style={{ ...headingStyle, color: goldColor }}
                   aria-hidden
                 >
                   <div className="w-full py-[2px]">
-                    <span className="flex w-full justify-center">
-                      <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[8px] md:gap-[40px] lg:gap-[90px]">
+                    <span className="flex w-full">
+                      <span data-headline-row className={headlineRowClass}>
                         <span>18</span>
-                        <span>YEARS</span>
-                        <span>OF</span>
+                        <span>Years</span>
+                        <span>of</span>
+                        <span>Creating</span>
                       </span>
                     </span>
                   </div>
                   <div className="mt-[4px] w-full py-[2px]">
-                    <span className="flex w-full justify-center">
-                      <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[10px] md:gap-[20px] lg:gap-[90px]">
-                        <span>MAKING</span>
-                        <span>BRANDS</span>
+                    <span className="flex w-full">
+                      <span data-headline-row className={headlineRowClassDistinction}>
+                        <span>Distinction</span>
+                        <span>in</span>
+                        <span>a</span>
+                        <span className="shrink-0">World</span>
                       </span>
                     </span>
                   </div>
-                  <div className="mt-[4px] w-full py-[2px] md:overflow-x-visible">
-                    <span className="flex w-full justify-center md:overflow-x-visible">
-                      <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[6px] text-[26px] leading-[28px] md:gap-[6px] md:text-[58px] md:leading-[58px] lg:gap-[50px] lg:text-[94px] lg:leading-[94px] xl:gap-[120px]">
-                        <span>IMPOSSIBLE</span>
-                        <span>TO</span>
-                        <span className="pr-[6px]">IGNORE</span>
+                  <div className="mt-[4px] w-full py-[2px]">
+                    <span className="flex w-full">
+                      <span data-headline-row className={headlineRowClass}>
+                        <span>Full</span>
+                        <span>of</span>
+                        <span>Sameness</span>
                       </span>
                     </span>
                   </div>
@@ -1041,19 +1121,19 @@ const Section1 = () => {
             </h1>
           </div>
 
-          <div className={`${montserrat.className} relative z-40 mt-8 max-w-[1000px] md:mt-6 lg:mt-0 xl:mt-5`}>
+          <div className={`${montserrat.className} relative z-40 mx-auto mt-8 w-full max-w-[1000px] text-center md:mt-5 lg:mt-5 xl:mt-5`}>
             <Reveal group="sub">
               <p className="m-0 text-[20px] font-[300] italic leading-[25px] text-white md:text-[18px] md:leading-[20px] lg:text-[22px] xl:text-[28px] lg:leading-[36px]">
-              Built on hustle. Driven by heart. Powered by ideas that move the world
+              Built on hustle. Driven by heart. Powered by ideas 
               </p>
             </Reveal>
-            <Reveal group="sub" className="mt-1">
+            {/* <Reveal group="sub" className="mt-1">
               <p className="m-0 text-[20px] font-[300] italic leading-[25px] text-white md:text-[18px] md:leading-[20px] lg:text-[22px] xl:text-[28px] lg:leading-[36px]">
                 by the belief that great ideas change the world
               </p>
-            </Reveal>
+            </Reveal> */}
 
-            <div className="relative mt-14 w-full md:hidden">
+            <div className="relative mt-14 w-full md:hidden"> 
               <video
                 autoPlay
                 loop
@@ -1118,7 +1198,7 @@ const Section1 = () => {
           src="/logo/r-logo-side.png"
           alt=""
           aria-hidden
-          className="pointer-events-none absolute -left-0 top-[50%] z-0 hidden h-[min(460px,50vh)] w-auto -translate-y-1/2 object-contain object-left lg:block lg:h-[min(380px,35vh)] xl:h-[min(620px,50vh)]"
+          className="pointer-events-none absolute -left-0 top-[50%] z-0 hidden h-[min(460px,50vh)] w-auto -translate-y-1/2 object-contain object-left lg:block lg:h-[min(380px,35vh)] xl:h-[min(620px,60vh)]"
         />
         <div className="relative z-10 mx-auto w-full max-w-[1400px]">
           {/* <Reveal className="absolute left-0 top-0 z-10">
@@ -1132,12 +1212,12 @@ const Section1 = () => {
           <div className="flex flex-col items-center text-center">
             <div className={`${montserrat.className} max-w-[850px]`}>
               <Reveal group="intro">
-                <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] lg:leading-[40px]">
+                <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] xl:text-[30px] lg:leading-[40px]">
                   The world&apos;s largest independent brand agency,
                 </p>
               </Reveal>
               <Reveal group="intro" className="mt-1">
-                <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] lg:leading-[40px]">
+                <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] xl:text-[30px] lg:leading-[40px]">
                   17 years in the making.
                 </p>
               </Reveal>
@@ -1221,11 +1301,11 @@ const Section1 = () => {
                   <Letter from="left">c</Letter>
                   <Letter from="left">R</Letter>
                   <Letter from="left">E</Letter>
-                  <span className="inline-flex shrink-0 items-center">
+                  <span className="inline-flex shrink-0 items-center ">
                     <span
                       ref={videoSlotRef}
                       aria-hidden
-                      className="block h-[180px] w-[320px] opacity-0"
+                      className="block h-[130px] w-[250px] opacity-0"
                     />
                   </span>
                   <Letter from="right">A</Letter>

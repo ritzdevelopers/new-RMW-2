@@ -1,6 +1,6 @@
   "use client";
 
-import React, { useEffect, useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
@@ -256,7 +256,8 @@ const Footer = ({ overlaySection = null }) => {
     const ctx = gsap.context(() => {
       const getRevealDistance = () => Math.max(overlay.offsetHeight, footer.offsetHeight);
 
-      gsap.set(overlay, { y: 0 });
+      gsap.set(overlay, { y: 0, zIndex: 2, force3D: true });
+      gsap.set(footer, { zIndex: 1 });
 
       const banner = brandBannerRef.current;
       const wrap = banner?.querySelector("[data-footer-brand-wrap]");
@@ -283,13 +284,16 @@ const Footer = ({ overlaySection = null }) => {
       }
 
       const syncConnectLinkClicks = (progress) => {
+        const footerInteractive = progress >= 0.85;
+
         stack.querySelectorAll(".pin-spacer").forEach((el) => {
           el.style.pointerEvents = "none";
         });
-        const revealed = progress >= 0.85;
-        overlay.style.pointerEvents = revealed ? "none" : "auto";
-        footer.style.pointerEvents = "auto";
-        footer.style.zIndex = revealed ? "20" : "1";
+
+        overlay.style.pointerEvents = footerInteractive ? "none" : "auto";
+        footer.style.pointerEvents = footerInteractive ? "auto" : "none";
+        overlay.style.zIndex = "2";
+        footer.style.zIndex = "1";
       };
 
       const revealTl = gsap.timeline({
@@ -302,6 +306,7 @@ const Footer = ({ overlaySection = null }) => {
           pinSpacing: true,
           invalidateOnRefresh: true,
           anticipatePin: 0,
+          onEnter: (self) => syncConnectLinkClicks(self.progress),
           onRefresh: () => syncConnectLinkClicks(revealTl.scrollTrigger?.progress ?? 0),
           onUpdate: (self) => syncConnectLinkClicks(self.progress),
           onLeave: () => syncConnectLinkClicks(1),
@@ -311,7 +316,11 @@ const Footer = ({ overlaySection = null }) => {
 
       syncConnectLinkClicks(0);
 
-      revealTl.to(overlay, { y: () => -getRevealDistance(), ease: "none", duration: 1 }, 0);
+      revealTl.to(
+        overlay,
+        { y: () => -getRevealDistance(), ease: "none", duration: 1, force3D: true },
+        0,
+      );
 
       const footerLogo = footerRevealLogoRef.current;
       if (footerLogo) {
@@ -547,18 +556,18 @@ const Footer = ({ overlaySection = null }) => {
   );
 
   return (
-    <div ref={stackRef} className="relative isolate w-full [--footer-h:320px] [--footer-peek:320px]">
+    <div ref={stackRef} className="relative z-[1] w-full">
       {overlaySection ? (
-        <div className="grid w-full grid-cols-1 grid-rows-1">
+        <div className="max-md:flex max-md:flex-col md:grid md:w-full md:grid-cols-1 md:grid-rows-1">
           <footer
             ref={footerRef}
-            className={`${footerClassName} relative z-[1] col-start-1 row-start-1 w-full self-end md:sticky md:bottom-0`}
+            className={`${footerClassName} relative z-[1] max-md:order-2 w-full md:col-start-1 md:row-start-1 md:sticky md:bottom-0 md:self-end`}
           >
             {footerInner}
           </footer>
           <div
             ref={overlayRef}
-            className="relative z-[2] col-start-1 row-start-1 isolate min-h-screen w-full will-change-transform md:min-h-[calc(100vh-var(--footer-peek))]"
+            className="relative z-[2] max-md:order-1 w-full min-h-screen min-h-full will-change-transform md:col-start-1 md:row-start-1 md:self-stretch isolate"
           >
             {overlaySection}
           </div>
