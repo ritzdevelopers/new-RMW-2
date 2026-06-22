@@ -1,19 +1,22 @@
 export const serviceImages = [
-  "/services/image%201005.png",
-  "/services/image%201005%20(1).png",
-  "/services/image%201005%20(2).png",
-  "/services/image%201005%20(3).png",
-  "/services/image%201005%20(4).png",
-  "/services/image%201005%20(5).png",
+  "/services/Digital.jpg",
+  "/services/Creative.jpg",
+  "/services/print-service.jpg",
+  "/services/radio.jpg",
+  "/services/Content-Service.jpg",
+  "/services/web-development.jpg",
+  "/services/Celebrity.jpg",
+  "/services/Content%20Marketing.jpg",
+  "/services/3d-rendering-service.jpg",
 ];
 
 export const services = [
   {
     slug: "digital-marketing",
     number: "01",
-    category: "BREAKING THE NEWS",
+    category: "Digital Marketing",
     title: "Digital Marketing",
-    headline: "STAND OUT",
+    headline: "Own the Attention",
     image: serviceImages[0],
     description:
       "Data-driven campaigns that cut through the noise — from performance media and SEO to full-funnel brand growth across every digital touchpoint.",
@@ -26,29 +29,12 @@ export const services = [
     featured: true,
   },
   {
-    slug: "content-marketing",
-    number: "02",
-    category: "STORYTELLING",
-    title: "Content Marketing",
-    headline: "STAND OUT",
-    image: serviceImages[1],
-    description:
-      "Stories that move people — editorial calendars, branded content, and narrative-led campaigns built to earn attention and trust.",
-    highlights: [
-      "Editorial strategy & calendars",
-      "Blog, video & long-form content",
-      "Brand voice development",
-      "Content distribution plans",
-    ],
-    featured: true,
-  },
-  {
     slug: "creative-services",
-    number: "03",
-    category: "DESIGN & FILM",
+    number: "02",
+    category: "Creative Services",
     title: "Creative Services",
-    headline: "STAND OUT",
-    image: serviceImages[2],
+    headline: "Distinct by Design",
+    image: serviceImages[1],
     description:
       "Bold design, brand films, and visual systems that defy convention — crafted to make your brand impossible to ignore.",
     highlights: [
@@ -61,11 +47,11 @@ export const services = [
   },
   {
     slug: "print-advertisement",
-    number: "04",
-    category: "PRINT MEDIA",
-    title: "Print Advertisement",
-    headline: "STAND OUT",
-    image: serviceImages[3],
+    number: "03",
+    category: "Print Advertising",
+    title: "Print Advertising",
+    headline: "Ink Meets Impact",
+    image: serviceImages[2],
     description:
       "High-impact print campaigns across newspapers, magazines, and outdoor — where craft, placement, and message still win the room.",
     highlights: [
@@ -77,12 +63,46 @@ export const services = [
     featured: true,
   },
   {
-    slug: "web-development",
+    slug: "radio-advertisement",
+    number: "04",
+    category: "Radio Advertising",
+    title: "Radio Advertising",
+    headline: "Voices That Travel",
+    image: serviceImages[3],
+    description:
+      "Memorable radio spots and audio campaigns that build recall — scripted, produced, and placed across the right stations.",
+    highlights: [
+      "Scriptwriting & voice casting",
+      "Audio production & mixing",
+      "Station planning & buying",
+      "Jingle & sonic branding",
+    ],
+    featured: true,
+  },
+  {
+    slug: "content-marketing",
     number: "05",
-    category: "DIGITAL PRODUCTS",
-    title: "Web Development",
-    headline: "STAND OUT",
+    category: "Content Marketing",
+    title: "Content Marketing",
+    headline: "Stories That Sell",
     image: serviceImages[4],
+    description:
+      "Stories that move people — editorial calendars, branded content, and narrative-led campaigns built to earn attention and trust.",
+    highlights: [
+      "Editorial strategy & calendars",
+      "Blog, video & long-form content",
+      "Brand voice development",
+      "Content distribution plans",
+    ],
+    featured: true,
+  },
+  {
+    slug: "web-development",
+    number: "06",
+    category: "Web Development",
+    title: "Web Development",
+    headline: "Digital Front Door",
+    image: serviceImages[5],
     description:
       "Fast, beautiful websites and digital products engineered for performance, accessibility, and seamless brand experiences.",
     highlights: [
@@ -94,12 +114,29 @@ export const services = [
     featured: true,
   },
   {
+    slug: "celebrity-endorsement",
+    number: "07",
+    category: "Celebrity Endorsements",
+    title: "Celebrity Endorsements",
+    headline: "Borrow the Spotlight",
+    image: serviceImages[6],
+    description:
+      "Strategic celebrity partnerships that lend credibility and reach — from talent matchmaking to full campaign integration.",
+    highlights: [
+      "Talent scouting & matchmaking",
+      "Contract & negotiation support",
+      "Campaign integration planning",
+      "PR & launch amplification",
+    ],
+    featured: true,
+  },
+  {
     slug: "influencer-marketing",
-    number: "06",
-    category: "SOCIAL REACH",
+    number: "08",
+    category: "Influencer Marketing",
     title: "Influencer Marketing",
-    headline: "STAND OUT",
-    image: serviceImages[5],
+    headline: "Make People Listen",
+    image: serviceImages[7],
     description:
       "Authentic creator partnerships that amplify your message — from discovery and briefing to campaign measurement.",
     highlights: [
@@ -111,38 +148,21 @@ export const services = [
     featured: true,
   },
   {
-    slug: "radio-advertisement",
-    number: "07",
-    category: "AUDIO MEDIA",
-    title: "Radio Advertisement",
-    headline: "STAND OUT",
-    image: serviceImages[4],
+    slug: "3d-rendering",
+    number: "09",
+    category: "3D Rendering",
+    title: "3D Rendering",
+    headline: "See The Unbuilt",
+    image: serviceImages[8],
     description:
-      "Memorable radio spots and audio campaigns that build recall — scripted, produced, and placed across the right stations.",
+      "Photorealistic 3D visualizations that bring unbuilt spaces and products to life — before a single brick is laid or prototype is made.",
     highlights: [
-      "Scriptwriting & voice casting",
-      "Audio production & mixing",
-      "Station planning & buying",
-      "Jingle & sonic branding",
+      "Architectural & interior renders",
+      "Product & concept visualization",
+      "Animation & walkthrough films",
+      "Material, lighting & scene design",
     ],
-    featured: false,
-  },
-  {
-    slug: "celebrity-endorsement",
-    number: "08",
-    category: "TALENT & PR",
-    title: "Celebrity Endorsement",
-    headline: "STAND OUT",
-    image: serviceImages[5],
-    description:
-      "Strategic celebrity partnerships that lend credibility and reach — from talent matchmaking to full campaign integration.",
-    highlights: [
-      "Talent scouting & matchmaking",
-      "Contract & negotiation support",
-      "Campaign integration planning",
-      "PR & launch amplification",
-    ],
-    featured: false,
+    featured: true,
   },
 ];
 

@@ -233,17 +233,28 @@ const Footer = ({ overlaySection = null }) => {
       return;
     }
 
-    if (!window.matchMedia("(min-width: 768px)").matches) {
-      return;
-    }
-
     const stack = stackRef.current;
     const overlay = overlayRef.current;
     const footer = footerRef.current;
+
+    const syncFooterMetrics = () => {
+      const footerHeight = footer.offsetHeight;
+      const peek = Math.min(footerHeight, window.innerHeight * 0.42);
+      stack.style.setProperty("--footer-h", `${footerHeight}px`);
+      stack.style.setProperty("--footer-peek", `${peek}px`);
+    };
+
+    syncFooterMetrics();
+
+    if (!window.matchMedia("(min-width: 768px)").matches) {
+      window.addEventListener("resize", syncFooterMetrics);
+      return () => window.removeEventListener("resize", syncFooterMetrics);
+    }
+
     let onBrandRefreshInit = null;
 
     const ctx = gsap.context(() => {
-      const getRevealDistance = () => footer.offsetHeight;
+      const getRevealDistance = () => Math.max(overlay.offsetHeight, footer.offsetHeight);
 
       gsap.set(overlay, { y: 0 });
 
@@ -266,6 +277,7 @@ const Footer = ({ overlaySection = null }) => {
 
         onBrandRefreshInit = () => {
           brandTargets = getTargets();
+          syncFooterMetrics();
         };
         ScrollTrigger.addEventListener("refreshInit", onBrandRefreshInit);
       }
@@ -328,6 +340,7 @@ const Footer = ({ overlaySection = null }) => {
     }, stack);
 
     const refresh = () => {
+      syncFooterMetrics();
       ScrollTrigger.sort();
       ScrollTrigger.refresh();
     };
@@ -534,18 +547,18 @@ const Footer = ({ overlaySection = null }) => {
   );
 
   return (
-    <div ref={stackRef} className="relative isolate w-full">
+    <div ref={stackRef} className="relative isolate w-full [--footer-h:320px] [--footer-peek:320px]">
       {overlaySection ? (
         <div className="grid w-full grid-cols-1 grid-rows-1">
           <footer
             ref={footerRef}
-            className={`${footerClassName} relative z-[1] col-start-1 row-start-1 w-full md:sticky md:bottom-0 md:self-end`}
+            className={`${footerClassName} relative z-[1] col-start-1 row-start-1 w-full self-end md:sticky md:bottom-0`}
           >
             {footerInner}
           </footer>
           <div
             ref={overlayRef}
-            className="relative z-[2] col-start-1 row-start-1 isolate min-h-screen w-full min-h-full will-change-transform"
+            className="relative z-[2] col-start-1 row-start-1 isolate min-h-screen w-full will-change-transform md:min-h-[calc(100vh-var(--footer-peek))]"
           >
             {overlaySection}
           </div>

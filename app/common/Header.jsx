@@ -43,8 +43,8 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="relative mx-auto w-full max-w-8xl bg-[#0D1334] px-8 py-5 md:px-12">
-      <div ref={headerRef} className="flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full bg-[#0D1334]">
+      <div ref={headerRef} className="mx-auto flex w-full max-w-8xl items-center justify-between px-8 py-5 md:px-12">
         <Link href="/" className="shrink-0 overflow-hidden">
           <span data-header-reveal className="inline-block">
             <Image
@@ -94,7 +94,7 @@ const Header = () => {
       </div>
 
       <div
-        className={`fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 md:hidden ${
           menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={() => setMenuOpen(false)}
@@ -102,7 +102,7 @@ const Header = () => {
       />
 
       <nav
-        className={`fixed top-0 right-0 z-50 flex h-full w-[280px] max-w-[80vw] flex-col gap-8 bg-[#0D1334] px-8 pb-8 pt-24 transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed top-0 right-0 z-[70] flex h-full w-[280px] max-w-[80vw] flex-col gap-8 bg-[#0D1334] px-8 pb-8 pt-24 transition-transform duration-300 ease-out md:hidden ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
         aria-hidden={!menuOpen}
