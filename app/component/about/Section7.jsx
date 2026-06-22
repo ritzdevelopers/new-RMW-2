@@ -22,12 +22,12 @@ const serviceRows = [
 
 const rowOffsetClasses = [
   "",
-  "ml-[40px]",
-  "ml-[120px]",
-  "-ml-8 md:-ml-12",
-  "ml-[130px]",
-  "ml-[40px]",
-  "-ml-8 md:-ml-12",
+  "md:ml-[40px]",
+  "md:ml-[120px]",
+  "md:-ml-12",
+  "md:ml-[130px]",
+  "md:ml-[40px]",
+  "md:-ml-12",
 ];
 
 const serviceClass =
@@ -93,6 +93,11 @@ const Section7 = () => {
         .section7-contact-enter {
           animation: section7-contact-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
+        @media (min-width: 1440px) {
+          .section7-service-text {
+            font-size: 50px;
+          }
+        }
       `}</style>
       <section
         ref={sectionRef}
@@ -139,6 +144,19 @@ const Section7 = () => {
                 </span>
               </div>
             ) : (
+              <>
+              <div className="flex w-full flex-col items-start gap-4 md:hidden">
+                {serviceRows.flat().map((label, index) => (
+                    <button
+                      key={`mobile-${index}-${label}`}
+                      type="button"
+                      onClick={() => handleServiceClick(label)}
+                      className={`${serviceClass} cursor-pointer border-0 bg-transparent p-0 text-left font-semibold text-white`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+              </div>
               <div
                 className="flex w-full flex-col gap-4 sm:gap-5 md:gap-6 lg:gap-8"
                 onMouseLeave={() => setHoveredService(null)}
@@ -167,6 +185,7 @@ const Section7 = () => {
                 </div>
               ))}
               </div>
+              </>
             )}
           </div>
         </div>
