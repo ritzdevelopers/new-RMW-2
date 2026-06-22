@@ -543,7 +543,7 @@ const Footer = ({ overlaySection = null }) => {
   );
 
   return (
-    <div ref={stackRef} className="relative isolate z-10 w-full">
+    <div ref={stackRef} className="relative z-[1] w-full">
       {overlaySection ? (
         <div className="max-md:flex max-md:flex-col md:grid md:w-full md:grid-cols-1 md:grid-rows-1">
           <footer
