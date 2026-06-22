@@ -129,9 +129,8 @@ const getTextMetrics = (el) => {
 
 const getBrandGap = () => {
   const w = window.innerWidth;
-  if (w >= 1441) return -95;
-  if (w > 391 && w < 426) return -30;
-  return 0;
+  if (w < 768) return 10;
+  return 16;
 };
 
 const getBrandTargets = (wrap, ritz, mediaworld) => {
@@ -139,25 +138,13 @@ const getBrandTargets = (wrap, ritz, mediaworld) => {
   gsap.set(mediaworld, { x: 0 });
   const wrapRect = wrap.getBoundingClientRect();
   const centerX = wrapRect.left + wrapRect.width / 2;
-
-  if (window.innerWidth >= 1441) {
-    const ritzM = getTextMetrics(ritz);
-    const mwM = getTextMetrics(mediaworld);
-    const gap = getBrandGap();
-    const groupLeft = centerX - (ritzM.width + gap + mwM.width) / 2;
-    return {
-      ritzX: groupLeft - ritzM.left,
-      mwX: groupLeft + ritzM.width + gap - mwM.left,
-    };
-  }
-
-  const ritzRect = ritz.getBoundingClientRect();
-  const mwRect = mediaworld.getBoundingClientRect();
   const gap = getBrandGap();
-  const groupLeft = centerX - (ritzRect.width + gap + mwRect.width) / 2;
+  const ritzM = getTextMetrics(ritz);
+  const mwM = getTextMetrics(mediaworld);
+  const groupLeft = centerX - (ritzM.width + gap + mwM.width) / 2;
   return {
-    ritzX: groupLeft - ritzRect.left,
-    mwX: groupLeft + ritzRect.width + gap - mwRect.left,
+    ritzX: groupLeft - ritzM.left,
+    mwX: groupLeft + ritzM.width + gap - mwM.left,
   };
 };
 
@@ -497,9 +484,9 @@ const Footer = ({ overlaySection = null }) => {
         >
           <div
             data-footer-brand-wrap
-            className="relative mx-auto grid min-h-[130px] w-full max-w-[1500px] grid-cols-1 px-8 md:min-h-[110px] md:px-12 lg:min-h-[90px]"
+            className="relative mx-auto grid min-h-[130px] w-full max-w-[1500px] grid-cols-1 overflow-hidden px-8 md:min-h-[110px] md:px-12 lg:min-h-[90px]"
           >
-            <div className="relative z-[1] col-start-1 row-start-1 flex flex-col items-center justify-center gap-2 self-center py-2 text-center">
+            <div className="relative z-[1] col-start-1 row-start-1 flex flex-col items-center justify-center gap-2 self-center py-2 text-center pointer-events-none">
               <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
                 {servicesRow1.map((service, index) => (
                   <React.Fragment key={service}>
@@ -540,18 +527,18 @@ const Footer = ({ overlaySection = null }) => {
   );
 
   return (
-    <div ref={stackRef} className="relative isolate">
+    <div ref={stackRef} className="relative isolate w-full">
       {overlaySection ? (
-        <div className="max-md:flex max-md:flex-col md:grid">
+        <div className="grid w-full grid-cols-1 grid-rows-1">
           <footer
             ref={footerRef}
-            className={`${footerClassName} relative z-[1] max-md:order-2 w-full md:col-start-1 md:row-start-1 md:self-end md:sticky md:bottom-0`}
+            className={`${footerClassName} relative z-[1] col-start-1 row-start-1 w-full md:sticky md:bottom-0 md:self-end`}
           >
             {footerInner}
           </footer>
           <div
             ref={overlayRef}
-            className="relative z-[2] max-md:order-1 w-full bg-white will-change-transform md:col-start-1 md:row-start-1"
+            className="relative z-[2] col-start-1 row-start-1 isolate min-h-screen w-full min-h-full will-change-transform"
           >
             {overlaySection}
           </div>

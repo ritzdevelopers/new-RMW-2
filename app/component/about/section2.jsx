@@ -10,9 +10,9 @@ const montserrat = Montserrat({
   display: "swap",
 });
 const deliverImages = [
-  "/Deliver/slidernew1.jpeg",
+  "/Deliver/growth.jpeg",
   "/Deliver/slidernew2.jpeg",
-  "/Deliver/slidernew3.jpeg",
+  "/Deliver/legacy.jpeg",
 ];
 
 const headingStyle = {
