@@ -1198,7 +1198,7 @@ const Section1 = () => {
           src="/logo/r-logo-side.png"
           alt=""
           aria-hidden
-          className="pointer-events-none absolute -left-0 top-[50%] z-0 hidden h-[min(460px,50vh)] w-auto -translate-y-1/2 object-contain object-left lg:block lg:h-[min(380px,35vh)] xl:h-[min(620px,75vh)]"
+          className="pointer-events-none absolute -left-0 top-[50%] z-0 hidden h-[min(460px,50vh)] w-auto -translate-y-1/2 object-contain object-left lg:block lg:h-[min(380px,35vh)] xl:h-[min(620px,60vh)]"
         />
         <div className="relative z-10 mx-auto w-full max-w-[1400px]">
           {/* <Reveal className="absolute left-0 top-0 z-10">
