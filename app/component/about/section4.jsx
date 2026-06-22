@@ -50,8 +50,8 @@ const Section4 = () => {
         </p>
 
         <div className="mt-8 md:mt-20">
-          <div className="relative grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8">
-            <div className="absolute left-1/6 right-1/6 top-1/2 hidden h-px -translate-y-1/2 bg-[#D9D9D9] md:block" />
+          <div className="relative hidden grid-cols-3 gap-8 md:grid">
+            <div className="absolute left-1/6 right-1/6 top-1/2 h-px -translate-y-1/2 bg-[#D9D9D9]" />
             {milestones.map((item) => (
               <p
                 key={`${item.year}-label`}
@@ -62,9 +62,12 @@ const Section4 = () => {
             ))}
           </div>
 
-          <div className="mt-5 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
+          <div className="grid grid-cols-1 gap-12 md:mt-5 md:grid-cols-3 md:gap-8">
             {milestones.map((item) => (
               <div key={item.year} className="flex flex-col items-center text-center">
+                <p className="m-0 bg-white px-4 text-center font-league-spartan text-[30px] font-medium leading-[56px] tracking-[0] text-[#000000] md:hidden">
+                  {item.year}
+                </p>
                 <div className="relative z-10 flex h-[165px] w-[165px] items-center justify-center rounded-full border border-[#D9D9D9] opacity-100">
                   <div className="relative h-[147px] w-[147px] flex justify-center items-center overflow-hidden rounded-full">
                     <img src={item.image} alt="" className={`
