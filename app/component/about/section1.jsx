@@ -277,10 +277,41 @@ const Section1 = () => {
 
   const getVideoStartYOffset = () => {
     const w = window.innerWidth;
-    if (w >= 1280 && w < 1536) return 480;
-    if (w >= 1024 && w < 1280) return 390;
+    if (w >= 1280 && w < 1536) return 380;
+    if (w >= 1024 && w < 1280) return 355;
     if (w >= 768 && w < 1024) return 150;
     return 350;
+  };
+
+  const getLogoVideoTopOffset = () => {
+    const w = window.innerWidth;
+    if (w >= 1280 && w < 1536) return 20;
+    if (w >= 1024 && w < 1280) return 40;
+    return 0;
+  };
+
+  const getLogoRestPosition = () => {
+    const heroSection = heroSectionRef.current;
+    const bounds = computeVideoBounds();
+    if (!heroSection || !bounds) return null;
+
+    const sectionBottom = heroSection.offsetTop + heroSection.offsetHeight;
+    const videoTop = bounds.start.y - bounds.start.height / 2;
+    const videoTopOffset = getLogoVideoTopOffset();
+
+    if (videoTopOffset > 0) {
+      return {
+        top: videoTop + videoTopOffset,
+        yPercent: 0,
+        alignEnd: false,
+      };
+    }
+
+    return {
+      top: sectionBottom,
+      yPercent: -100,
+      alignEnd: true,
+    };
   };
 
   const syncVideoBounds = (lockStart = false) => {
@@ -327,16 +358,17 @@ const Section1 = () => {
     const entrance = gsap.utils.clamp(0, 1, entranceProgress ?? videoEntranceRef.current);
     const scrollT = gsap.utils.clamp(0, 1, scrollProgress);
     const logoHeight = 200;
-    const sectionBottom = heroSection.offsetTop + heroSection.offsetHeight;
+    const logoRest = getLogoRestPosition();
+    if (!logoRest) return;
     const logoInner = logoFloat.querySelector("[data-logo-inner]");
 
     gsap.set(logoFloat, {
       position: "absolute",
       left: container.offsetWidth / 2,
       right: "auto",
-      top: sectionBottom,
+      top: logoRest.top,
       xPercent: -50,
-      yPercent: -100,
+      yPercent: logoRest.yPercent,
       width: container.offsetWidth,
       height: logoHeight,
       zIndex: scrollT > 0 ? 55 : 35,
@@ -347,12 +379,12 @@ const Section1 = () => {
 
     if (logoInner) {
       gsap.set(logoInner, {
-        top: "auto",
-        bottom: 0,
+        top: logoRest.alignEnd ? "auto" : 0,
+        bottom: logoRest.alignEnd ? 0 : "auto",
         left: 0,
         right: 0,
         height: "100%",
-        alignItems: "flex-end",
+        alignItems: logoRest.alignEnd ? "flex-end" : "flex-start",
         justifyContent: "center",
       });
     }
@@ -361,7 +393,7 @@ const Section1 = () => {
     if (logoImg) {
       gsap.set(logoImg, {
         clearProps: "width,height,maxWidth,objectPosition",
-        objectPosition: "bottom",
+        objectPosition: logoRest.alignEnd ? "bottom" : "top",
       });
     }
   };
@@ -512,21 +544,41 @@ const Section1 = () => {
       return 22;
     };
 
-    const getSpotlightWaypoints = () => {
+    const getSpotlightRowWaypoints = () => {
       const wrap = headlineSpotlightWrapRef.current;
       if (!wrap) return null;
 
-      const words = wrap.querySelectorAll("[data-headline-word]");
-      if (!words.length) return null;
+      const whiteLayer = wrap.firstElementChild;
+      if (!whiteLayer) return null;
+
+      const rows = whiteLayer.querySelectorAll("[data-headline-row]");
+      if (!rows.length) return null;
 
       const wrapRect = wrap.getBoundingClientRect();
-      return [...words].map((el) => {
-        const rect = el.getBoundingClientRect();
-        return {
-          x: rect.left - wrapRect.left + rect.width * 0.5,
-          y: rect.top - wrapRect.top + rect.height * 0.5,
-        };
-      });
+      const circleRadius = getCircleRadius();
+
+      return [...rows]
+        .map((row) => {
+          const words = [...row.querySelectorAll("[data-headline-word]")];
+          if (!words.length) return null;
+
+          const firstRect = words[0].getBoundingClientRect();
+          const lastRect = words[words.length - 1].getBoundingClientRect();
+          const startX = firstRect.left - wrapRect.left + circleRadius;
+          const endX = lastRect.left - wrapRect.left + lastRect.width - circleRadius;
+
+          return {
+            start: {
+              x: startX,
+              y: firstRect.top - wrapRect.top + firstRect.height * 0.5,
+            },
+            end: {
+              x: Math.max(startX, endX),
+              y: lastRect.top - wrapRect.top + lastRect.height * 0.5,
+            },
+          };
+        })
+        .filter(Boolean);
     };
 
     const hideHeadlineGold = () => {
@@ -543,21 +595,11 @@ const Section1 = () => {
       const gold = headlineGoldRef.current;
       if (!wrap || !gold) return;
 
-      const waypoints = getSpotlightWaypoints();
-      if (!waypoints?.length) return;
+      const rowWaypoints = getSpotlightRowWaypoints();
+      if (!rowWaypoints?.length) return;
 
       spotlightTween?.kill();
       spotlightTween = null;
-
-      const circleRadius = getCircleRadius();
-      const points = [
-        { x: waypoints[0].x - circleRadius, y: waypoints[0].y },
-        ...waypoints,
-        {
-          x: waypoints[waypoints.length - 1].x + circleRadius,
-          y: waypoints[waypoints.length - 1].y,
-        },
-      ];
 
       const setMaskAt = (x, y) => {
         const radius = getCircleRadius();
@@ -567,27 +609,52 @@ const Section1 = () => {
       };
 
       const speed = wrap.offsetWidth / circleSpotlightDuration;
-      const proxy = { x: points[0].x, y: points[0].y };
-      setMaskAt(proxy.x, proxy.y);
+      let maskVisible = true;
+      const proxy = {
+        x: rowWaypoints[0].start.x,
+        y: rowWaypoints[0].start.y,
+      };
+
+      const showMask = () => {
+        maskVisible = true;
+        setMaskAt(proxy.x, proxy.y);
+      };
+
+      const hideMask = () => {
+        maskVisible = false;
+        hideHeadlineGold();
+      };
 
       const tl = gsap.timeline({
         repeat: -1,
-        onUpdate: () => setMaskAt(proxy.x, proxy.y),
+        onUpdate: () => {
+          if (maskVisible) setMaskAt(proxy.x, proxy.y);
+        },
       });
 
-      for (let i = 1; i < points.length; i += 1) {
-        const from = points[i - 1];
-        const to = points[i];
-        const dist = Math.hypot(to.x - from.x, to.y - from.y);
-        if (!dist) continue;
+      rowWaypoints.forEach((row, rowIndex) => {
+        if (rowIndex > 0) {
+          tl.call(hideMask);
+          tl.set(proxy, { x: row.start.x, y: row.start.y });
+          tl.call(showMask);
+        } else {
+          tl.set(proxy, { x: row.start.x, y: row.start.y });
+          tl.call(showMask);
+        }
+
+        const dist = Math.hypot(row.end.x - row.start.x, row.end.y - row.start.y);
+        if (!dist) return;
 
         tl.to(proxy, {
-          x: to.x,
-          y: to.y,
+          x: row.end.x,
+          y: row.end.y,
           duration: dist / speed,
           ease: "none",
         });
-      }
+      });
+
+      tl.call(hideMask);
+      tl.set(proxy, { x: rowWaypoints[0].start.x, y: rowWaypoints[0].start.y });
 
       spotlightTween = tl;
       spotlightStarted = true;
@@ -918,7 +985,7 @@ const Section1 = () => {
                         <span data-headline-word>OF</span>
                       </span>
                     </span>
-                  </Reveal>
+                  </Reveal> 
                   <Reveal clipYOnly className="mt-[4px] w-full py-[2px]">
                     <span className="flex w-full justify-center">
                       <span data-headline-row className="inline-flex max-w-full items-center justify-center gap-[10px] md:gap-[20px] lg:gap-[90px]">
@@ -974,7 +1041,7 @@ const Section1 = () => {
             </h1>
           </div>
 
-          <div className={`${montserrat.className} relative z-40 mt-8 max-w-[1000px] md:mt-0 lg:mt-0 xl:mt-5`}>
+          <div className={`${montserrat.className} relative z-40 mt-8 max-w-[1000px] md:mt-6 lg:mt-0 xl:mt-5`}>
             <Reveal group="sub">
               <p className="m-0 text-[20px] font-[300] italic leading-[25px] text-white md:text-[18px] md:leading-[20px] lg:text-[22px] xl:text-[28px] lg:leading-[36px]">
               Built on hustle. Driven by heart. Powered by ideas that move the world
