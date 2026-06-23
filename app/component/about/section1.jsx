@@ -353,6 +353,16 @@ const Section1 = () => {
     if (!heroSection || !bounds) return null;
 
     const w = window.innerWidth;
+    const sectionBottom = heroSection.offsetTop + heroSection.offsetHeight;
+
+    if (w >= 1280 && w < 1536) {
+      return {
+        top: sectionBottom,
+        yPercent: -100,
+        alignEnd: true,
+      };
+    }
+
     if (w >= 768) {
       const videoTop = bounds.start.y - bounds.start.height / 2;
       return {
@@ -362,7 +372,6 @@ const Section1 = () => {
       };
     }
 
-    const sectionBottom = heroSection.offsetTop + heroSection.offsetHeight;
     return {
       top: sectionBottom,
       yPercent: -100,
