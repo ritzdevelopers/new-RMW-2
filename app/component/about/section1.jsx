@@ -90,6 +90,13 @@ const Letter = ({ children, from }) => (
 );
 
 const VIDEO_SRC = "/about/video-about.mp4";
+const VIDEO_SCROLL_SCRUB = 2.2;
+const LETTER_REVEAL_VIDEO_START = 0.5;
+const LETTER_REVEAL_VIDEO_END = 0.98;
+const LETTER_REVEAL_ORDER = [2, 3, 1, 4, 0, 5, 7, 8, 6, 9];
+const LETTER_REVEAL_STAGGER = 0.72;
+const LETTER_REVEAL_DURATION = 0.34;
+const LETTER_REVEAL_EASE = "power4.out";
 
 const VideoFullscreenModal = ({ open, onClose }) => {
   const videoRef = useRef(null);
@@ -479,6 +486,100 @@ const Section1 = () => {
     });
   };
 
+  const getDisruptionBlock = () => {
+    const root = disruptionRef.current;
+    if (!root) return null;
+    return isMobileViewport()
+      ? root.querySelector("[data-disruption-mobile]")
+      : root.querySelector("[data-disruption-desktop]");
+  };
+
+  const getDisruptionLetters = () => {
+    const block = getDisruptionBlock();
+    return block ? gsap.utils.toArray("[data-letter-reveal]", block) : [];
+  };
+
+  const getDisruptionWordItems = () => {
+    const block = getDisruptionBlock();
+    return block ? gsap.utils.toArray("[data-about-reveal='disruption-word']", block) : [];
+  };
+
+  const mapVideoProgressToLetterReveal = (scrollProgress) =>
+    gsap.utils.clamp(
+      0,
+      1,
+      gsap.utils.mapRange(LETTER_REVEAL_VIDEO_START, LETTER_REVEAL_VIDEO_END, 0, 1, scrollProgress)
+    );
+
+  const applyFilmSectionReveal = (progress) => {
+    if (isMobileViewport()) return;
+
+    const hero = heroRef.current;
+    if (!hero) return;
+
+    const introItems = gsap.utils.toArray("[data-about-reveal='intro']", hero);
+    const disruptionItems = gsap.utils.toArray("[data-about-reveal='disruption']", hero);
+    const t = gsap.utils.clamp(0, 1, progress);
+
+    introItems.forEach((item, index) => {
+      const start = index * 0.08;
+      const end = start + 0.55;
+      const p = gsap.utils.clamp(0, 1, gsap.utils.mapRange(start, end, 0, 1, t));
+      const eased = gsap.parseEase(LETTER_REVEAL_EASE)(p);
+      gsap.set(item, { yPercent: gsap.utils.interpolate(110, 0, eased) });
+    });
+
+    disruptionItems.forEach((item, index) => {
+      const start = 0.12 + index * 0.08;
+      const end = start + 0.55;
+      const p = gsap.utils.clamp(0, 1, gsap.utils.mapRange(start, end, 0, 1, t));
+      const eased = gsap.parseEase(LETTER_REVEAL_EASE)(p);
+      gsap.set(item, { yPercent: gsap.utils.interpolate(110, 0, eased) });
+    });
+  };
+
+  const applyCreativityLetterReveal = (letterProgress) => {
+    const letters = getDisruptionLetters();
+    const wordItems = getDisruptionWordItems();
+    if (!letters.length) return;
+
+    const t = gsap.utils.clamp(0, 1, letterProgress);
+    const revealOrder =
+      letters.length === LETTER_REVEAL_ORDER.length
+        ? LETTER_REVEAL_ORDER
+        : letters.map((_, index) => index);
+
+    revealOrder.forEach((letterIndex, orderIndex) => {
+      const letter = letters[letterIndex];
+      if (!letter) return;
+
+      const from = letter.getAttribute("data-letter-reveal");
+      const startOffset = from === "left" ? 105 : -105;
+      const letterStart = (orderIndex / revealOrder.length) * LETTER_REVEAL_STAGGER;
+      const letterEnd = letterStart + LETTER_REVEAL_DURATION;
+      const progress = gsap.utils.clamp(
+        0,
+        1,
+        gsap.utils.mapRange(letterStart, letterEnd, 0, 1, t)
+      );
+      const eased = gsap.parseEase(LETTER_REVEAL_EASE)(progress);
+
+      gsap.set(letter, {
+        x: `${gsap.utils.interpolate(startOffset, 0, eased)}%`,
+      });
+    });
+
+    wordItems.forEach((item, index) => {
+      const opacityStart = Math.max(0, (index / Math.max(wordItems.length, 1)) * 0.12);
+      const opacity = gsap.utils.clamp(
+        0,
+        1,
+        gsap.utils.mapRange(opacityStart, opacityStart + 0.08, 0, 1, t)
+      );
+      gsap.set(item, { opacity: t > 0.02 ? Math.max(opacity, 0.01) : 0 });
+    });
+  };
+
   const syncLogoWithScroll = (scrollProgress = 0) => {
     applyLogoPosition(
       videoEntranceRef.current >= 1 ? 1 : videoEntranceRef.current,
@@ -502,11 +603,11 @@ const Section1 = () => {
     const targetHeight = gsap.utils.interpolate(start.height, end.height, t);
     const minScale = 0.18;
     const width =
-      t > 0 || entrance >= 1
+      progress > 0 || entrance >= 1
         ? targetWidth
         : gsap.utils.interpolate(start.width * minScale, start.width, entrance);
     const height =
-      t > 0 || entrance >= 1
+      progress > 0 || entrance >= 1
         ? targetHeight
         : gsap.utils.interpolate(start.height * minScale, start.height, entrance);
 
@@ -516,9 +617,10 @@ const Section1 = () => {
       top: gsap.utils.interpolate(start.y, end.y, t),
       width,
       height,
-      zIndex: t > 0 ? 50 : 30,
+      zIndex: progress > 0 ? 50 : 30,
       clipPath: clipTop > 0 ? `inset(${clipTop}% 0% 0% 0%)` : "none",
-      borderRadius: t > 0 ? gsap.utils.interpolate(24, 20, t) : gsap.utils.interpolate(0, 10, entrance),
+      borderRadius: progress > 0 ? gsap.utils.interpolate(24, 20, t) : gsap.utils.interpolate(0, 10, entrance),
+      force3D: true,
     });
 
     const video = floater.querySelector("video");
@@ -590,31 +692,8 @@ const Section1 = () => {
     let onHeaderComplete = null;
     let metadataVideo = null;
     let onVideoMetadata = null;
-    let introHandoffDone = false;
     let heroVideoST = null;
     const videoScroll = { p: 0 };
-
-    const getFilmSnapY = () => {
-      if (!film) return 0;
-      return Math.round(window.scrollY + film.getBoundingClientRect().top);
-    };
-
-    const isFilmEntering = () => {
-      if (!film) return false;
-      const filmTop = film.getBoundingClientRect().top;
-      return filmTop > 0 && filmTop < window.innerHeight * 0.92;
-    };
-
-    const runIntroReveal = () => {
-      if (introHandoffDone || isMobileViewport() || !film || !isFilmEntering()) return;
-
-      introHandoffDone = true;
-      window.scrollTo({ top: getFilmSnapY(), behavior: "smooth" });
-    };
-
-    const resetIntroReveal = () => {
-      introHandoffDone = false;
-    };
 
     let spotlightTween = null;
     let spotlightStarted = false;
@@ -758,11 +837,20 @@ const Section1 = () => {
       gsap.set(disruptionItems, { yPercent: 110 });
       gsap.set(disruptionWordItems, { yPercent: 0, opacity: 0 });
 
-      const leftLetters = gsap.utils.toArray("[data-letter-reveal='left']", hero);
-      const rightLetters = gsap.utils.toArray("[data-letter-reveal='right']", hero);
-      const allLetters = gsap.utils.toArray("[data-letter-reveal]", hero);
-      gsap.set(leftLetters, { x: "105%" });
-      gsap.set(rightLetters, { x: "-105%" });
+      const desktopBlock = disruptionRef.current?.querySelector("[data-disruption-desktop]");
+      const mobileBlock = disruptionRef.current?.querySelector("[data-disruption-mobile]");
+      [desktopBlock, mobileBlock].forEach((block) => {
+        if (!block) return;
+        gsap.set(block.querySelectorAll("[data-letter-reveal='left']"), { x: "105%" });
+        gsap.set(block.querySelectorAll("[data-letter-reveal='right']"), { x: "-105%" });
+      });
+
+      const mobileLetters = mobileBlock
+        ? gsap.utils.toArray("[data-letter-reveal]", mobileBlock)
+        : [];
+      const mobileWordItems = mobileBlock
+        ? gsap.utils.toArray("[data-about-reveal='disruption-word']", mobileBlock)
+        : [];
 
       const playHeroEntrance = () => {
         const entrance = { value: 0 };
@@ -838,28 +926,28 @@ const Section1 = () => {
       onHeaderComplete = () => playHeroEntrance();
       window.addEventListener("header-reveal-complete", onHeaderComplete);
 
-      if (film && (introItems.length || disruptionItems.length)) {
+      if (film && isMobileViewport() && (introItems.length || disruptionItems.length)) {
         const filmTl = gsap.timeline({
           scrollTrigger: {
             trigger: film,
             start: "top 85%",
-            toggleActions: "restart reset restart reset",
+            toggleActions: "play none none none",
           },
         });
 
         introItems.forEach((item) => {
-          filmTl.to(item, { yPercent: 0, duration: 1.1, ease: "power4.out" }, 0);
+          filmTl.to(item, { yPercent: 0, duration: 1.1, ease: LETTER_REVEAL_EASE }, 0);
         });
 
         disruptionItems.forEach((item) => {
-          filmTl.to(item, { yPercent: 0, duration: 1.1, ease: "power4.out" }, ">-0.15");
+          filmTl.to(item, { yPercent: 0, duration: 1.1, ease: LETTER_REVEAL_EASE }, ">-0.15");
         });
 
-        if (allLetters.length && disruptionWordItems.length) {
-          filmTl.to(disruptionWordItems, { opacity: 1, duration: 0.01 }, "<");
+        if (mobileLetters.length && mobileWordItems.length) {
+          filmTl.to(mobileWordItems, { opacity: 1, duration: 0.01 }, "<");
           filmTl.to(
-            allLetters,
-            { x: "0%", duration: 0.55, ease: "power4.out", stagger: 0.06 },
+            mobileLetters,
+            { x: "0%", duration: 0.55, ease: LETTER_REVEAL_EASE, stagger: 0.06 },
             "<"
           );
         }
@@ -869,11 +957,12 @@ const Section1 = () => {
 
       if (film && !isMobileViewport()) {
         ScrollTrigger.create({
-          id: "intro-reveal",
+          id: "about-film-intro",
           trigger: film,
-          start: "top 92%",
-          onEnter: runIntroReveal,
-          onLeaveBack: resetIntroReveal,
+          start: "top 85%",
+          end: "top 52%",
+          scrub: 0.45,
+          onUpdate: (self) => applyFilmSectionReveal(self.progress),
         });
       }
 
@@ -883,12 +972,13 @@ const Section1 = () => {
       const videoEl = floater?.querySelector("video");
 
       const refreshVideoLayout = () => {
+        syncVideoBounds(videoEntranceRef.current >= 1);
         const scrollProgress =
           ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === slot)?.progress ?? 0;
         applyVideoProgress(scrollProgress, videoEntranceRef.current);
         applyHeroTextScroll(scrollProgress);
+        applyCreativityLetterReveal(mapVideoProgressToLetterReveal(scrollProgress));
         applyLogoPosition(1, scrollProgress);
-        ScrollTrigger.refresh();
       };
 
       if (floater && slot && heroSection && !isMobileViewport()) {
@@ -912,9 +1002,12 @@ const Section1 = () => {
             trigger: heroSection,
             start: "top top",
             endTrigger: slot,
-            end: "top 55%",
-            scrub: 1.8,
+            end: "top 38%",
+            scrub: VIDEO_SCROLL_SCRUB,
             invalidateOnRefresh: true,
+            onRefresh: () => {
+              syncVideoBounds(videoEntranceRef.current >= 1);
+            },
           },
         });
 
@@ -926,6 +1019,7 @@ const Section1 = () => {
           onUpdate: () => {
             applyVideoProgress(videoScroll.p, 1);
             applyHeroTextScroll(videoScroll.p);
+            applyCreativityLetterReveal(mapVideoProgressToLetterReveal(videoScroll.p));
             syncLogoWithScroll(videoScroll.p);
           },
         });
@@ -950,6 +1044,7 @@ const Section1 = () => {
         ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === videoSlotRef.current)?.progress ?? 0;
       applyVideoProgress(scrollProgress, videoEntranceRef.current);
       applyHeroTextScroll(scrollProgress);
+      applyCreativityLetterReveal(mapVideoProgressToLetterReveal(scrollProgress));
       applyLogoPosition(1, scrollProgress);
       if (spotlightStarted) startHeadlineSpotlight();
       ScrollTrigger.refresh();
@@ -1242,7 +1337,7 @@ const Section1 = () => {
 
         <div className="relative z-10 mt-8 flex w-full justify-center md:mt-10 lg:mt-12 xl:mt-5">
           <div ref={disruptionRef} className="flex w-full flex-col items-center text-center">
-            <div className="flex w-full flex-col items-center md:hidden">
+            <div data-disruption-mobile className="flex w-full flex-col items-center md:hidden">
               <Reveal group="disruption-word" clipYOnly className="overflow-x-visible">
                 <span className="flex justify-center overflow-x-visible">
                   <span
@@ -1299,7 +1394,7 @@ const Section1 = () => {
               </Reveal>
             </div>
 
-            <div className="hidden w-full flex-col items-center md:flex">
+            <div data-disruption-desktop className="hidden w-full flex-col items-center md:flex">
             <Reveal group="disruption-word" clipYOnly className="overflow-x-visible">
               <span className="flex justify-center overflow-x-visible">
                 <span

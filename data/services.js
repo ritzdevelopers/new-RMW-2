@@ -27,6 +27,99 @@ export const services = [
       "Conversion-focused landing experiences",
     ],
     featured: true,
+    intro: {
+      images: [
+        {
+          src: "/digital-marketing/image%201006.png",
+          width: 680,
+          height: 878,
+          aspectRatio: "79 / 102",
+        },
+        {
+          src: "/digital-marketing/image%201005%20(6).png",
+          width: 760,
+          height: 825,
+          aspectRatio: "117 / 127",
+        },
+      ],
+      eyebrow: "Taking brands where they've never been",
+      body:
+        "To connect premium brands with a new generation of digital-first consumers, we turn traditional media cues on their head — creating data-led campaigns that fuse performance and storytelling. The result? Funnel strategy that doubles as brand building, bold breaks into culture, and measurable growth across every market we touch. A launch approach that fuses product and lifestyle, sparks record-breaking engagement, and gives your brand a whole new kind of cultural relevance.",
+      sidebarLabel: "Services",
+    },
+    carousel: {
+      background: "/digital-marketing/Mask%20group%20(17).png",
+      content:
+        "Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges. Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges.",
+      slides: [
+        { src: "/digital-marketing/image%201005%20(7).png" },
+        { src: "/digital-marketing/image%201005%20(9).png" },
+        { src: "/digital-marketing/image%201005%20(8).png" },
+      ],
+    },
+    mediaSection: {
+      title: "CHANGING THE GAME",
+      video: {
+        src: "/digital-marketing/3205625-hd_1920_1080_25fps.mp4",
+        width: 561,
+        height: 342,
+      },
+      description:
+        "Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges. Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges.",
+      image: {
+        src: "/digital-marketing/image%201005%20(6).png",
+        width: 720.953,
+        height: 762.712,
+        aspectRatio: "69 / 73",
+      },
+      container: {
+        width: 1154,
+        height: 666,
+        borderRadius: 16,
+        background: "#FFFFFF",
+        leftImage: {
+          src: "/digital-marketing/image%201008.png",
+          width: 509,
+          height: 277,
+          aspectRatio: "147 / 80",
+        },
+        rightImage: {
+          src: "/digital-marketing/image%201007.png",
+          width: 509,
+        },
+      },
+      grid: {
+        items: [
+          {
+            src: "/digital-marketing/image%201005%20(10).png",
+            className: "lg:col-start-1 lg:row-start-1",
+            aspectRatio: "336 / 355",
+          },
+          {
+            src: "/digital-marketing/image%201005%20(11).png",
+            className: "lg:col-start-2 lg:row-start-1",
+            aspectRatio: "336 / 355",
+          },
+          {
+            src: "/digital-marketing/image%201005%20(12).png",
+            className: "lg:col-span-2 lg:row-start-2",
+            aspectRatio: "696 / 572",
+          },
+          {
+            src: "/digital-marketing/image%201005%20(13).png",
+            className: "lg:col-start-3 lg:row-span-2 lg:row-start-1",
+            aspectRatio: "613 / 723",
+          },
+        ],
+      },
+      imageContent: {
+        background: "/digital-marketing/image%201005%20(14).png",
+        heading:
+          "To connect Johnnie Walker Blue Label with a new generation of luxury drinkers.",
+        body:
+          "Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges. Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges.",
+      },
+    },
   },
   {
     slug: "creative-services",
