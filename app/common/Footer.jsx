@@ -297,7 +297,14 @@ const Footer = ({ overlaySection = null }) => {
         footer.style.zIndex = "1";
       };
 
-      const revealTl = gsap.timeline({
+      let revealTl = null;
+
+      const syncRevealProgress = (progress) => {
+        revealTl?.progress(progress);
+        syncConnectLinkClicks(progress);
+      };
+
+      revealTl = gsap.timeline({
         scrollTrigger: {
           trigger: stack,
           start: "top top",
@@ -307,15 +314,16 @@ const Footer = ({ overlaySection = null }) => {
           pinSpacing: true,
           invalidateOnRefresh: true,
           anticipatePin: 0,
-          onEnter: (self) => syncConnectLinkClicks(self.progress),
-          onRefresh: () => syncConnectLinkClicks(revealTl.scrollTrigger?.progress ?? 0),
+          onEnter: (self) => syncRevealProgress(self.progress),
+          onRefresh: () => syncRevealProgress(revealTl?.scrollTrigger?.progress ?? 0),
           onUpdate: (self) => syncConnectLinkClicks(self.progress),
           onLeave: () => syncConnectLinkClicks(1),
-          onEnterBack: (self) => syncConnectLinkClicks(self.progress),
+          onEnterBack: (self) => syncRevealProgress(self.progress),
+          onLeaveBack: () => syncRevealProgress(0),
         },
       });
 
-      syncConnectLinkClicks(0);
+      syncRevealProgress(0);
 
       revealTl.to(
         overlay,
