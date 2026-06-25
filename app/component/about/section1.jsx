@@ -1250,8 +1250,9 @@ const Section1 = () => {
                 <img
                   src="/logo/r-rmw-transparent.png"
                   alt=""
-                  className="block w-auto max-w-[60%] object-contain"
+                  className="block h-auto w-auto max-w-[60%] object-contain"
                   style={{
+                    maxHeight: "calc(60vw * 1259 / 1048 - 160px)",
                     filter: "brightness(3.2) contrast(1.05)",
                     opacity: 0.4,
                   }}
