@@ -35,11 +35,6 @@ const servicesHeadlineRows = [
 
 const defaultSubtext = ["From Present to Prominent."];
 
-const supportingLines = [
-  "Nine disciplines. One integrated team — built to scale your brand across every channel.",
-  "Strategy, creative, content, media, and technology — delivered as a single, seamless experience.",
-];
-
 const Reveal = ({ children, className = "", group = "headline", clipYOnly = false }) => (
   <span
     className={`block ${clipYOnly ? "overflow-x-visible overflow-y-hidden" : "overflow-hidden"} ${className}`}
@@ -152,16 +147,10 @@ const ServicesHero = ({
   variant = "default",
   headlineRows: headlineRowsProp,
   subtext = defaultSubtext,
-  supportingText = supportingLines,
   subtextItalic = true,
 }) => {
   const isSubService = variant === "subService";
   const subtextLines = normalizeSubtext(subtext);
-  const supportingCopy = isSubService
-    ? []
-    : supportingText?.length
-      ? supportingText
-      : supportingLines;
   const heroRef = useRef(null);
   const headlineRef = useRef(null);
   const headlineWrapRef = useRef(null);
@@ -472,7 +461,7 @@ const ServicesHero = ({
         className={`m-0 w-full leading-[0.95] ${
           isSubService
             ? "text-center text-[28px] sm:text-[34px] md:text-[56px] lg:text-[72px] xl:text-[82px]"
-            : "text-left text-[28px] sm:text-[34px] md:text-[72px] lg:text-[94px]"
+            : "text-left text-[36px] sm:text-[44px] md:text-[84px] lg:text-[110px]"
         }`}
       >
         <div ref={headlineSpotlightWrapRef} className="relative w-full">
@@ -507,7 +496,7 @@ const ServicesHero = ({
             className={`m-0 text-white ${
               isSubService
                 ? "text-[14px] font-normal leading-snug sm:text-[16px] md:text-[18px] lg:text-[21px]"
-                : `text-[16px] font-[300] leading-[22px] sm:text-[18px] sm:leading-[24px] md:text-[18px] md:leading-[20px] lg:text-[22px] lg:leading-[36px] xl:text-[28px] ${
+                : `text-[22px] font-[300] leading-[28px] sm:text-[24px] sm:leading-[30px] md:text-[26px] md:leading-[32px] lg:text-[32px] lg:leading-[40px] xl:text-[40px] xl:leading-[48px] ${
                     subtextItalic ? "italic" : ""
                   }`
             }`}
@@ -549,42 +538,6 @@ const ServicesHero = ({
 
           <div className="mx-auto flex w-full max-w-[920px] flex-1 flex-col items-center justify-center px-2 text-center md:max-w-[980px] lg:max-w-[1040px]">
             {subtextBlock}
-
-            <div
-              className="relative z-40 mt-6 w-full max-w-[760px] md:mt-8 lg:mt-10"
-              style={{ fontFamily: '"Sequel Sans", sans-serif' }}
-            >
-              {supportingCopy.map((line, index) => (
-                <Reveal key={`support-${index}`} group="sub" clipYOnly className={index > 0 ? "mt-3 md:mt-4" : ""}>
-                  <p className="m-0 text-[14px] font-normal leading-[22px] text-white/80 sm:text-[15px] sm:leading-[24px] md:text-[16px] md:leading-[26px] lg:text-[18px] lg:leading-[30px]">
-                    {line}
-                  </p>
-                </Reveal>
-              ))}
-            </div>
-
-            <Reveal group="sub" clipYOnly className="relative z-40 mt-8 md:mt-10 lg:mt-12">
-              <ul className="m-0 flex list-none flex-wrap items-center justify-center gap-x-5 gap-y-2 px-2 sm:gap-x-6 md:gap-x-8">
-                {[
-                  "Digital",
-                  "Creative",
-                  "Content",
-                  "Print",
-                  "Radio",
-                  "Web",
-                  "3D",
-                  "Influence",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/55 sm:text-[12px] md:text-[13px]"
-                    style={{ fontFamily: '"Sequel Sans", sans-serif' }}
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
           </div>
         </div>
       )}
