@@ -25,8 +25,10 @@ const headingStyle = {
   color: "#FFFFFF",
 };
 
-const headlineRowSpread = "flex w-full items-end justify-between gap-4";
-const headlineWordGroup = "inline-flex items-end gap-6 sm:gap-10 md:gap-16 lg:gap-24 xl:gap-32";
+const headlineRowSpread =
+  "flex w-full min-w-0 items-end justify-between gap-2 sm:gap-3 md:gap-4";
+const headlineWordGroup =
+  "inline-flex min-w-0 shrink items-end gap-2 sm:gap-4 md:gap-8 lg:gap-16 xl:gap-24";
 
 const servicesHeadlineRows = [
   { left: "SERVICES", right: ["TAILORED", "TO"] },
@@ -106,9 +108,11 @@ export function buildSubServiceHeadlineRows(title) {
 const renderHeadlineRow = (row, variant = "white") => {
   const Word = ({ text }) =>
     variant === "white" ? (
-      <span data-headline-word>{text}</span>
+      <span data-headline-word className="shrink-0 whitespace-nowrap">
+        {text}
+      </span>
     ) : (
-      <span>{text}</span>
+      <span className="shrink-0 whitespace-nowrap">{text}</span>
     );
 
   return (
@@ -156,7 +160,6 @@ const ServicesHero = ({
   const headlineWrapRef = useRef(null);
   const headlineSpotlightWrapRef = useRef(null);
   const headlineGoldRef = useRef(null);
-  const logoRef = useRef(null);
 
   const headlineRows =
     headlineRowsProp ||
@@ -296,21 +299,54 @@ const ServicesHero = ({
       spotlightStarted = true;
     };
 
+    const measureRowContentWidth = (row) => {
+      const style = window.getComputedStyle(row);
+      const gap = parseFloat(style.columnGap || style.gap) || 0;
+      const children = [...row.children];
+
+      if (!children.length) {
+        return row.scrollWidth;
+      }
+
+      return children.reduce((total, child, index) => {
+        const childWidth = child.scrollWidth || child.getBoundingClientRect().width;
+        return total + childWidth + (index > 0 ? gap : 0);
+      }, 0);
+    };
+
     const fitHeadline = () => {
       const parent = headline?.parentElement;
       if (!headline || !parent) return;
 
       headline.style.transform = "none";
+      headline.style.width = "100%";
+      headline.style.marginLeft = "0";
+      headline.style.marginBottom = "0";
+
       const rows = headline.querySelectorAll("[data-headline-row]");
       let needed = 0;
       rows.forEach((row) => {
-        needed = Math.max(needed, row.scrollWidth, row.getBoundingClientRect().width);
+        needed = Math.max(needed, measureRowContentWidth(row));
       });
-      const buffer = window.innerWidth >= 1024 ? 48 : 24;
-      const available = parent.clientWidth - buffer;
-      const scale = needed > 0 ? Math.min(1, available / needed) : 1;
-      headline.style.transform = scale < 1 ? `scale(${scale})` : "none";
-      headline.style.transformOrigin = isSubService ? "top center" : "top left";
+
+      const sectionStyles = window.getComputedStyle(hero);
+      const horizontalPadding =
+        parseFloat(sectionStyles.paddingLeft) + parseFloat(sectionStyles.paddingRight);
+      const buffer = window.innerWidth >= 1024 ? 32 : window.innerWidth >= 640 ? 24 : 12;
+      const available =
+        Math.min(window.innerWidth, parent.clientWidth) - horizontalPadding - buffer;
+      const scale = needed > 0 && available > 0 ? Math.min(1, available / needed) : 1;
+
+      if (scale < 1) {
+        headline.style.width = `${100 / scale}%`;
+        headline.style.transform = `scale(${scale})`;
+        headline.style.marginBottom = `${headline.offsetHeight * (scale - 1)}px`;
+      } else {
+        headline.style.transform = "none";
+      }
+
+      const useCenterOrigin = isSubService || window.innerWidth < 1024;
+      headline.style.transformOrigin = useCenterOrigin ? "top center" : "top left";
     };
 
     const ctx = gsap.context(() => {
@@ -319,10 +355,6 @@ const ServicesHero = ({
 
       gsap.set(headlineItems, { yPercent: -110 });
       gsap.set(subItems, { yPercent: -110, opacity: 0 });
-
-      if (logoRef.current) {
-        gsap.set(logoRef.current, { opacity: 0 });
-      }
 
       let entrancePlayed = false;
 
@@ -368,18 +400,6 @@ const ServicesHero = ({
             index === 0 ? "-=1.1" : "-=1.15",
           );
         });
-
-        if (logoRef.current) {
-          tl.to(
-            logoRef.current,
-            {
-              opacity: 1,
-              duration: 2,
-              ease: "power4.out",
-            },
-            0,
-          );
-        }
       };
 
       const onHeaderComplete = () => playEntrance();
@@ -412,6 +432,9 @@ const ServicesHero = ({
       if (headline?.parentElement && resizeObserver) {
         resizeObserver.observe(headline.parentElement);
       }
+      if (resizeObserver) {
+        resizeObserver.observe(hero);
+      }
 
       return () => {
         spotlightTween?.kill();
@@ -425,43 +448,18 @@ const ServicesHero = ({
     return () => ctx.revert();
   }, [singleLine, lineOne, isSubService, headlineRowsProp]);
 
-  const logoMark = (
-    <div
-      ref={logoRef}
-      aria-hidden
-      className={
-        isSubService
-          ? "h-[min(220px,58vw)] w-[min(180px,48vw)] lg:h-[300px] lg:w-[250px]"
-          : "h-[min(240px,62vw)] w-[min(200px,52vw)] lg:h-[339px] lg:w-[282.186px]"
-      }
-      style={{
-        background: "rgba(255, 255, 255, 0.20)",
-        WebkitMaskImage: "url(/logo/r-logo-new.png)",
-        maskImage: "url(/logo/r-logo-new.png)",
-        WebkitMaskSize: "contain",
-        maskSize: "contain",
-        WebkitMaskRepeat: "no-repeat",
-        maskRepeat: "no-repeat",
-        WebkitMaskPosition: "center",
-        maskPosition: "center",
-        transform: "rotate(-12.441deg)",
-        transformOrigin: "center center",
-      }}
-    />
-  );
-
   const headlineBlock = (
     <div
       ref={headlineWrapRef}
-      className={`relative w-full overflow-x-clip ${isSubService ? "mx-auto max-w-[1100px]" : ""}`}
+      className={`relative w-full min-w-0 max-w-full overflow-x-clip ${isSubService ? "mx-auto max-w-[1100px]" : ""}`}
     >
       <h1
         ref={headlineRef}
         style={headingStyle}
-        className={`m-0 w-full leading-[0.95] ${
+        className={`m-0 w-full max-w-full leading-[0.95] ${
           isSubService
             ? "text-center text-[28px] sm:text-[34px] md:text-[56px] lg:text-[72px] xl:text-[82px]"
-            : "text-left text-[36px] sm:text-[44px] md:text-[84px] lg:text-[110px]"
+            : "text-left text-[26px] sm:text-[36px] md:text-[58px] lg:text-[84px] xl:text-[110px]"
         }`}
       >
         <div ref={headlineSpotlightWrapRef} className="relative w-full">
@@ -496,7 +494,7 @@ const ServicesHero = ({
             className={`m-0 text-white ${
               isSubService
                 ? "text-[14px] font-normal leading-snug sm:text-[16px] md:text-[18px] lg:text-[21px]"
-                : `text-[22px] font-[300] leading-[28px] sm:text-[24px] sm:leading-[30px] md:text-[26px] md:leading-[32px] lg:text-[32px] lg:leading-[40px] xl:text-[40px] xl:leading-[48px] ${
+                : `text-[18px] font-[300] leading-[24px] sm:text-[22px] sm:leading-[28px] md:text-[26px] md:leading-[32px] lg:text-[32px] lg:leading-[40px] xl:text-[40px] xl:leading-[48px] ${
                     subtextItalic ? "italic" : ""
                   }`
             }`}
@@ -511,32 +509,22 @@ const ServicesHero = ({
   return (
     <section
       ref={heroRef}
-      className={`relative flex flex-col overflow-x-clip bg-[#0D1334] px-8 md:px-12 ${
+      className={`relative flex flex-col overflow-x-clip bg-[#0D1334] px-4 sm:px-6 md:px-10 lg:px-12 ${
         isSubService
-          ? "min-h-[280px] items-center justify-center py-10 sm:min-h-[320px] md:min-h-[360px] lg:min-h-[409px] lg:py-14"
-          : "min-h-[calc(100dvh-4.5rem)] pb-12 pt-4 md:pb-16 md:pt-6 lg:min-h-screen lg:pb-[80px]"
+          ? "min-h-[220px] items-center justify-center py-8 sm:min-h-[260px] md:min-h-[300px] lg:min-h-[340px] lg:py-12"
+          : "py-10 pt-6 sm:py-12 md:py-14 lg:py-16"
       }`}
     >
-      <div
-        className={`pointer-events-none absolute left-1/2 z-[1] -translate-x-1/2 ${
-          isSubService
-            ? "bottom-0 flex items-end justify-center"
-            : "bottom-8 sm:bottom-12 md:bottom-16 lg:bottom-0"
-        }`}
-      >
-        {logoMark}
-      </div>
-
       {isSubService ? (
         <div className="relative z-10 flex w-full max-w-[1280px] flex-col items-center gap-4 text-center sm:gap-5">
           {headlineBlock}
           {subtextBlock}
         </div>
       ) : (
-        <div className="relative z-10 flex w-full flex-1 flex-col">
+        <div className="relative z-10 flex w-full min-w-0 flex-col gap-6 sm:gap-8 md:gap-10">
           {headlineBlock}
 
-          <div className="mx-auto flex w-full max-w-[920px] flex-1 flex-col items-center justify-center px-2 text-center md:max-w-[980px] lg:max-w-[1040px]">
+          <div className="mx-auto w-full min-w-0 max-w-full px-1 text-center sm:max-w-[920px] sm:px-2 md:max-w-[980px] lg:max-w-[1040px]">
             {subtextBlock}
           </div>
         </div>
