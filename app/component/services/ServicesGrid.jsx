@@ -4,7 +4,8 @@ import React, { useLayoutEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { services, getServiceHref } from "../../../data/services";
+import { services, getServiceHref, servicesContactCta } from "../../../data/services";
+import ServiceDetailMediaButton from "./ServiceDetailMediaButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,12 +49,12 @@ function CardHeadline({ words }) {
   return (
     <div
       data-svc-headline
-      className="relative origin-bottom-left pb-1 transition-transform duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1"
+      className="relative w-max max-w-full origin-top-right overflow-visible pt-1"
     >
       <p
         data-svc-headline-compact
         style={headlineBaseStyle}
-        className="m-0 whitespace-nowrap text-[clamp(17px,3.8vw,26px)] leading-[1.05] [text-shadow:0_2px_18px_rgba(0,0,0,0.35)]"
+        className="m-0 whitespace-nowrap text-right text-[clamp(17px,3.8vw,26px)] leading-[1.05] [text-shadow:0_2px_18px_rgba(0,0,0,0.35)]"
       >
         {singleLine}
       </p>
@@ -62,13 +63,13 @@ function CardHeadline({ words }) {
         data-svc-headline-scattered
         style={headlineBaseStyle}
         aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 m-0 flex flex-col gap-y-[0.55em] text-[clamp(40px,8.5vw,56px)] leading-[1.05] opacity-0 [text-shadow:0_2px_18px_rgba(0,0,0,0.35)] lg:gap-y-[0.65em] lg:text-[clamp(48px,7.2vw,72px)] lg:leading-[1.08]"
+        className="pointer-events-none absolute top-0 right-0 z-30 m-0 flex w-max max-w-[min(92vw,560px)] flex-col items-end gap-y-[0.55em] text-[clamp(40px,8.5vw,56px)] leading-[1.05] opacity-0 [text-shadow:0_2px_18px_rgba(0,0,0,0.35)] lg:gap-y-[0.65em] lg:text-[clamp(48px,7.2vw,72px)] lg:leading-[1.08]"
       >
         <span data-svc-headline-line className="block whitespace-nowrap">
           {parts[0]}
         </span>
         {parts[1] ? (
-          <span data-svc-headline-line className="block whitespace-nowrap pl-[1.1em]">
+          <span data-svc-headline-line className="block whitespace-nowrap pr-[1.1em]">
             {parts[1]}
           </span>
         ) : null}
@@ -97,19 +98,23 @@ const ServicesGrid = () => {
         const image = card.querySelector("[data-svc-image]");
         const overlay = card.querySelector("[data-svc-overlay]");
         const bottomScrim = card.querySelector("[data-svc-bottom-scrim]");
-        const meta = card.querySelectorAll("[data-svc-meta]");
+        const meta = card.querySelector("[data-svc-meta]");
+        const category = card.querySelector("[data-svc-category]");
         const headlineCompact = card.querySelector("[data-svc-headline-compact]");
         const headlineScattered = card.querySelector("[data-svc-headline-scattered]");
         const headlineLines = card.querySelectorAll("[data-svc-headline-line]");
         const headlineWrap = card.querySelector("[data-svc-headline]");
+        const topScrim = card.querySelector("[data-svc-top-scrim]");
         const arrow = card.querySelector("[data-svc-arrow]");
 
         gsap.set(card, { opacity: 0, y: 80, scale: 0.94 });
         gsap.set(meta, { opacity: 0, y: 16 });
-        gsap.set(headlineCompact, { opacity: 0, y: 20 });
+        gsap.set(category, { opacity: 0, y: 16 });
+        gsap.set(headlineCompact, { opacity: 0, y: -20 });
         gsap.set(headlineScattered, { opacity: 0 });
-        gsap.set(headlineLines, { opacity: 0, y: 18 });
+        gsap.set(headlineLines, { opacity: 0, y: -18 });
         gsap.set(overlay, { opacity: 1 });
+        gsap.set(topScrim, { opacity: 0.45 });
         gsap.set(bottomScrim, { opacity: 0.72 });
         gsap.set(arrow, { opacity: 0, scale: 0.6, rotation: -45 });
 
@@ -136,7 +141,6 @@ const ServicesGrid = () => {
               y: 0,
               duration: 0.55,
               ease: "power3.out",
-              stagger: 0.08,
             },
             "-=0.55",
           )
@@ -149,6 +153,16 @@ const ServicesGrid = () => {
               ease: "power4.out",
             },
             "-=0.45",
+          )
+          .to(
+            category,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.55,
+              ease: "power3.out",
+            },
+            "-=0.5",
           )
           .to(
             arrow,
@@ -172,14 +186,16 @@ const ServicesGrid = () => {
               .timeline({ defaults: { ease: "power3.out", overwrite: "auto" } })
               .to(card, { y: -10, duration: 0.55 }, 0)
               .to(image, { scale: 1.08, duration: 0.85 }, 0)
+              .to(topScrim, { opacity: 0.88, duration: 0.55 }, 0)
               .to(bottomScrim, { opacity: 0.95, duration: 0.55 }, 0)
-              .to(headlineWrap, { y: -8, duration: 0.55 }, 0)
-              .to(headlineCompact, { opacity: 0, y: -10, duration: 0.35 }, 0)
+              .to(headlineWrap, { y: 12, duration: 0.55 }, 0)
+              .to(headlineCompact, { opacity: 0, y: 14, duration: 0.35 }, 0)
+              .to(category, { y: -6, duration: 0.55 }, 0)
               .set(headlineScattered, { pointerEvents: "auto" }, 0.1)
               .to(headlineScattered, { opacity: 1, duration: 0.15 }, 0.1)
               .fromTo(
                 headlineLines,
-                { y: 22, opacity: 0 },
+                { y: -22, opacity: 0 },
                 {
                   y: 0,
                   opacity: 1,
@@ -203,13 +219,15 @@ const ServicesGrid = () => {
               .timeline({ defaults: { ease: "power3.out", overwrite: "auto" } })
               .to(card, { y: 0, duration: 0.65 }, 0)
               .to(image, { scale: 1, duration: 0.75 }, 0)
+              .to(topScrim, { opacity: 0.45, duration: 0.55 }, 0)
               .to(bottomScrim, { opacity: 0.72, duration: 0.55 }, 0)
               .to(headlineWrap, { y: 0, duration: 0.55 }, 0)
+              .to(category, { y: 0, duration: 0.55 }, 0)
               .to(
                 headlineLines,
                 {
                   opacity: 0,
-                  y: 14,
+                  y: -14,
                   duration: 0.35,
                   stagger: 0.05,
                 },
@@ -235,6 +253,24 @@ const ServicesGrid = () => {
           enterTl.timeScale(1.05);
         }
       });
+
+      const contactSlot = section.querySelector("[data-svc-contact-slot]");
+      if (contactSlot) {
+        const contactItems = contactSlot.querySelectorAll("[data-svc-contact-reveal]");
+        gsap.set(contactItems, { opacity: 0, y: 32 });
+        gsap.to(contactItems, {
+          opacity: 1,
+          y: 0,
+          duration: 0.85,
+          ease: "power4.out",
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: contactSlot,
+            start: "top 90%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
 
       const sideLabel = section.querySelector("[data-svc-side-label-text]");
       if (sideLabel) {
@@ -328,13 +364,18 @@ const ServicesGrid = () => {
                 aria-hidden
               />
               <div
+                data-svc-top-scrim
+                className="pointer-events-none absolute inset-x-0 top-0 h-[48%] bg-gradient-to-b from-black/70 to-transparent"
+                aria-hidden
+              />
+              <div
                 data-svc-bottom-scrim
                 className="pointer-events-none absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-black/70 to-transparent"
                 aria-hidden
               />
 
-              <div className="relative z-10 flex h-full flex-col p-5 sm:p-6 md:p-7 lg:p-8">
-                <div className="relative z-20 flex shrink-0 items-start justify-between gap-3">
+              <div className="relative z-10 flex h-full flex-col overflow-visible p-5 sm:p-6 md:p-7 lg:p-8">
+                <div className="relative z-20 flex shrink-0 items-start justify-between gap-3 overflow-visible">
                   <span
                     data-svc-meta
                     className="text-[10px] font-medium uppercase tracking-[0.16em] text-white/90 [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] sm:text-[11px] sm:tracking-[0.18em] md:text-[12px]"
@@ -342,21 +383,21 @@ const ServicesGrid = () => {
                   >
                     No. {service.number}
                   </span>
-                  <span
-                    data-svc-meta
-                    className="max-w-[58%] text-right text-[9px] font-medium uppercase leading-tight tracking-[0.12em] text-white/80 [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] sm:max-w-none sm:text-[10px] sm:tracking-[0.14em] md:text-[11px]"
-                    style={{ fontFamily: '"Sequel Sans", sans-serif' }}
-                  >
-                    {service.category}
-                  </span>
+                  <div className="pointer-events-none max-w-[min(100%,560px)] select-none overflow-visible">
+                    <CardHeadline words={service.headline.split(/\s+/)} />
+                  </div>
                 </div>
 
                 <div className="min-h-[38%] shrink-0 sm:min-h-[42%]" aria-hidden />
 
                 <div className="relative mt-auto min-h-[88px] sm:min-h-[96px] lg:min-h-[112px]">
-                  <div className="absolute bottom-0 left-0 max-w-[calc(100%-3.5rem)] select-none sm:max-w-[calc(100%-4rem)]">
-                    <CardHeadline words={service.headline.split(/\s+/)} />
-                  </div>
+                  <span
+                    data-svc-category
+                    className="absolute bottom-0 left-0 max-w-[calc(100%-3.5rem)] text-[10px] font-medium uppercase tracking-[0.16em] text-white/90 will-change-transform [text-shadow:0_1px_14px_rgba(0,0,0,0.55)] sm:max-w-[calc(100%-4rem)] sm:text-[11px] sm:tracking-[0.18em] md:text-[12px]"
+                    style={{ fontFamily: '"Sequel Sans", sans-serif' }}
+                  >
+                    {service.category}
+                  </span>
 
                   <span
                     data-svc-arrow
@@ -368,6 +409,38 @@ const ServicesGrid = () => {
               </div>
             </Link>
           ))}
+
+          <div
+            data-svc-contact-slot
+            className="flex w-full items-center justify-center py-10 max-lg:order-last md:w-[calc(50%-1rem)] md:justify-start md:py-0 md:pl-2 lg:h-[621px] lg:pl-6"
+          >
+            <div className="flex w-full max-w-[420px] flex-col items-center px-4 text-center md:max-w-[360px] md:items-start md:px-0 md:text-left lg:max-w-[400px]">
+              <h2
+                data-svc-contact-reveal
+                className="m-0 w-full uppercase text-[24px] leading-[34px] text-[#333333] sm:text-[28px] sm:leading-[38px] md:text-[30px] md:leading-[38px] lg:text-[35px] lg:leading-[48px] xl:text-[40px] xl:leading-[52px]"
+                style={{
+                  fontFamily: '"League Spartan", sans-serif',
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                }}
+              >
+                {servicesContactCta.heading}
+              </h2>
+              <p
+                data-svc-contact-reveal
+                className="m-0 mt-5 w-full text-[16px] leading-6 text-[#333333] sm:mt-6 lg:text-[18px] lg:leading-7 xl:text-[20px] xl:leading-[28px]"
+                style={{
+                  fontFamily: "Montserrat, sans-serif",
+                  fontWeight: 400,
+                }}
+              >
+                {servicesContactCta.body}
+              </p>
+              <div data-svc-contact-reveal className="mt-8 w-full md:mt-10">
+                <ServiceDetailMediaButton className="m-0 md:justify-start" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
