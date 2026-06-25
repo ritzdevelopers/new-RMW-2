@@ -10,6 +10,11 @@ export const serviceImages = [
   "/services/3d-rendering-service.jpg",
 ];
 
+export const servicesContactCta = {
+  heading: "The Future Won't Build Itself",
+  body: "Let's create something remarkable together.",
+};
+
 export const services = [
   {
     slug: "digital-marketing",
