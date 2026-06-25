@@ -129,7 +129,7 @@ const ServiceDetailIntro = ({ intro, activeSlug }) => {
           </Reveal>
 
           <div className="mt-5 flex flex-col gap-10 md:mt-6 lg:flex-row lg:items-end lg:justify-between lg:gap-12 xl:gap-16">
-            <Reveal className="min-w-0 flex-1 lg:max-w-[780px] xl:max-w-[860px]">
+            <Reveal className="min-w-0 flex-1 ">
               <p
                 className="m-0 self-stretch capitalize text-[22px] leading-[34px] sm:text-[28px] sm:leading-[44px] md:text-[32px] md:leading-[52px] xl:text-[36px] lg:text-[26px] xl:leading-[61px] lg:leading-[40px]"
                 style={bodyTextStyle}
@@ -138,7 +138,7 @@ const ServiceDetailIntro = ({ intro, activeSlug }) => {
               </p>
             </Reveal>
 
-            <aside className="min-w-0 w-full shrink-0 lg:ml-auto lg:w-[280px] xl:w-[320px]">
+            {/* <aside className="min-w-0 w-full shrink-0 lg:ml-auto lg:w-[280px] xl:w-[320px]">
               <Reveal>
                 <p className="m-0 text-right uppercase" style={sidebarLabelStyle}>
                   {intro.sidebarLabel ?? "Services"}
@@ -160,7 +160,7 @@ const ServiceDetailIntro = ({ intro, activeSlug }) => {
                   </li>
                 ))}
               </ul>
-            </aside>
+            </aside> */}
           </div>
         </div>
       </div>

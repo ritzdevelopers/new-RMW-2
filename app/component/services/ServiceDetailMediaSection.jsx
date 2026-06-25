@@ -184,19 +184,19 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
                   {imageContent.heading}
                 </h2>
               ) : null}
-              {imageContent.body ? (
+              {/* {imageContent.body ? (
                 <p className="m-0 mt-6 w-full text-center text-[16px] leading-6 lg:text-[18px] lg:leading-7 xl:max-w-[986px] xl:text-[20px] xl:leading-[28px]" style={imageContentBodyStyle}>
                   {imageContent.body}
                 </p>
-              ) : null}
+              ) : null} */}
             </div>
-            {imageContent.background ? (
+            {/* {imageContent.background ? (
               <img
                 src={imageContent.background}
                 alt=""
                 className="mx-auto mt-8 block h-auto w-auto max-w-full xl:mt-20 md:mt-10"
               />
-            ) : null}
+            ) : null} */}
           </div>
         ) : null}
       </div>

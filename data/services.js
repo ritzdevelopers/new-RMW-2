@@ -86,13 +86,8 @@ export const services = [
         items: [
           {
             src: "/digital-marketing/image%201005%20(10).png",
-            className: "lg:col-start-1 lg:row-start-1",
-            aspectRatio: "336 / 355",
-          },
-          {
-            src: "/digital-marketing/image%201005%20(11).png",
-            className: "lg:col-start-2 lg:row-start-1",
-            aspectRatio: "336 / 355",
+            className: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
+            aspectRatio: "672 / 355",
           },
           {
             src: "/digital-marketing/image%201005%20(12).png",
@@ -102,7 +97,7 @@ export const services = [
           {
             src: "/digital-marketing/image%201005%20(13).png",
             className: "lg:col-start-3 lg:row-span-2 lg:row-start-1",
-            aspectRatio: "613 / 950",
+            aspectRatio: "613 / 965",
           },
         ],
       },
