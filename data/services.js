@@ -35,7 +35,7 @@ export const services = [
     intro: {
       images: [
         {
-          src: "/service/website%20banner-01%20(1).jpg",
+          src: "/service/website%20banner%20%5BRecovered%5D-01.jpg",
           width: 1440,
           height: 630,
           maxHeight: "50vh",
