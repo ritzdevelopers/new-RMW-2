@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const titleStyle = {
-  fontFamily: "Montserrat, sans-serif",
+  fontFamily: '"League Spartan", sans-serif',
   fontWeight: 700,
   textTransform: "uppercase",
   color: "#1D1D1B",
