@@ -38,7 +38,6 @@ export const services = [
           src: "/service/website%20banner%20%5BRecovered%5D-01.jpg",
           width: 1440,
           height: 630,
-          maxHeight: "50vh",
         },
       ],
       eyebrow: "Taking brands where they've never been",
