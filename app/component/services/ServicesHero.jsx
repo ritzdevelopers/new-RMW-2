@@ -27,8 +27,12 @@ const headingStyle = {
 
 const headlineRowSpread =
   "flex w-full min-w-0 items-end justify-between gap-2 sm:gap-3 md:gap-4";
+const subServiceHeadlineRowSpread =
+  "flex w-full min-w-0 items-end justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-10";
 const headlineWordGroup =
   "inline-flex min-w-0 shrink items-end gap-2 sm:gap-4 md:gap-8 lg:gap-16 xl:gap-24";
+const subServiceHeadlineWordGroup =
+  "inline-flex min-w-0 shrink items-end gap-3 sm:gap-4 md:gap-5";
 
 const servicesHeadlineRows = [
   { left: "SERVICES", right: ["TAILORED", "TO"] },
@@ -105,7 +109,7 @@ export function buildSubServiceHeadlineRows(title) {
   return rows;
 }
 
-const renderHeadlineRow = (row, variant = "white") => {
+const renderHeadlineRow = (row, variant = "white", isSubService = false) => {
   const Word = ({ text }) =>
     variant === "white" ? (
       <span data-headline-word className="shrink-0 whitespace-nowrap">
@@ -115,11 +119,14 @@ const renderHeadlineRow = (row, variant = "white") => {
       <span className="shrink-0 whitespace-nowrap">{text}</span>
     );
 
+  const rowClass = isSubService ? subServiceHeadlineRowSpread : headlineRowSpread;
+  const wordGroupClass = isSubService ? subServiceHeadlineWordGroup : headlineWordGroup;
+
   return (
-    <span data-headline-row className={headlineRowSpread}>
+    <span data-headline-row className={rowClass}>
       <Word text={row.left} />
       {row.right.length > 0 ? (
-        <span className={headlineWordGroup}>
+        <span className={wordGroupClass}>
           {row.right.map((word) => (
             <Word key={`${variant}-${word}`} text={word} />
           ))}
@@ -129,16 +136,23 @@ const renderHeadlineRow = (row, variant = "white") => {
   );
 };
 
-const HeadlineRows = ({ rows, variant = "white" }) => (
+const HeadlineRows = ({ rows, variant = "white", isSubService = false }) => (
   <>
     {rows.map((row, rowIndex) =>
       variant === "white" ? (
-        <Reveal key={`${row.left}-${row.right.join("-")}`} clipYOnly className={`w-full py-[2px]${rowIndex > 0 ? " mt-1 md:mt-2" : ""}`}>
-          {renderHeadlineRow(row, variant)}
+        <Reveal
+          key={`${row.left}-${row.right.join("-")}`}
+          clipYOnly
+          className={`w-full py-[2px]${rowIndex > 0 ? (isSubService ? " mt-0" : " mt-1 md:mt-2") : ""}`}
+        >
+          {renderHeadlineRow(row, variant, isSubService)}
         </Reveal>
       ) : (
-        <div key={`gold-${row.left}-${row.right.join("-")}`} className={`w-full py-[2px]${rowIndex > 0 ? " mt-1 md:mt-2" : ""}`}>
-          {renderHeadlineRow(row, variant)}
+        <div
+          key={`gold-${row.left}-${row.right.join("-")}`}
+          className={`w-full py-[2px]${rowIndex > 0 ? (isSubService ? " mt-0" : " mt-1 md:mt-2") : ""}`}
+        >
+          {renderHeadlineRow(row, variant, isSubService)}
         </div>
       ),
     )}
@@ -451,20 +465,20 @@ const ServicesHero = ({
   const headlineBlock = (
     <div
       ref={headlineWrapRef}
-      className={`relative w-full min-w-0 max-w-full overflow-x-clip ${isSubService ? "mx-auto max-w-[1100px]" : ""}`}
+      className={`relative w-full min-w-0 max-w-full overflow-x-clip ${isSubService ? "mx-auto" : ""}`}
     >
       <h1
         ref={headlineRef}
         style={headingStyle}
         className={`m-0 w-full max-w-full leading-[0.95] ${
           isSubService
-            ? "text-center text-[28px] sm:text-[34px] md:text-[56px] lg:text-[72px] xl:text-[82px]"
+            ? "text-center text-[34px] sm:text-[42px] md:text-[64px] lg:text-[80px] xl:text-[92px]"
             : "text-left text-[26px] sm:text-[36px] md:text-[58px] lg:text-[84px] xl:text-[110px]"
         }`}
       >
         <div ref={headlineSpotlightWrapRef} className="relative w-full">
           <div className="relative z-[1] w-full">
-            <HeadlineRows rows={headlineRows} />
+            <HeadlineRows rows={headlineRows} isSubService={isSubService} />
           </div>
           <div
             ref={headlineGoldRef}
@@ -474,7 +488,7 @@ const ServicesHero = ({
             style={{ ...headingStyle, color: goldColor }}
             aria-hidden
           >
-            <HeadlineRows rows={headlineRows} variant="gold" />
+            <HeadlineRows rows={headlineRows} variant="gold" isSubService={isSubService} />
           </div>
         </div>
       </h1>
@@ -516,7 +530,7 @@ const ServicesHero = ({
       }`}
     >
       {isSubService ? (
-        <div className="relative z-10 flex w-full max-w-[1280px] flex-col items-center gap-4 text-center sm:gap-5">
+        <div className="relative z-10 flex w-full max-w-[1280px] flex-col items-center gap-3 text-center sm:gap-4">
           {headlineBlock}
           {subtextBlock}
         </div>
