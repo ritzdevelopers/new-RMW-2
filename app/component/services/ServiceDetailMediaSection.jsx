@@ -10,53 +10,37 @@ const montserrat = Montserrat({
 });
 
 const titleStyle = {
-  width: "456px",
-  maxWidth: "100%",
   color: "#333333",
   textAlign: "center",
   fontFamily: '"League Spartan", sans-serif',
-  fontSize: "65px",
   fontStyle: "normal",
   fontWeight: 500,
-  lineHeight: "74px",
   textTransform: "uppercase",
 };
 
 const bodyStyle = {
-  width: "509px",
-  maxWidth: "100%",
   color: "#333333",
   textAlign: "center",
   fontFamily: "Montserrat, sans-serif",
-  fontSize: "20px",
   fontStyle: "normal",
   fontWeight: 400,
-  lineHeight: "28px",
 };
 
 const imageContentHeadingStyle = {
-  width: "1135px",
-  maxWidth: "100%",
   color: "#333333",
   textAlign: "center",
   fontFamily: '"League Spartan", sans-serif',
-  fontSize: "48px",
   fontStyle: "normal",
   fontWeight: 600,
-  lineHeight: "57px",
   textTransform: "uppercase",
 };
 
 const imageContentBodyStyle = {
-  width: "986px",
-  maxWidth: "100%",
   color: "#333333",
   textAlign: "center",
   fontFamily: "Montserrat, sans-serif",
-  fontSize: "20px",
   fontStyle: "normal",
   fontWeight: 400,
-  lineHeight: "28px",
 };
 
 const ServiceDetailMediaSection = ({ mediaSection }) => {
@@ -67,10 +51,13 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
   return (
     <section className={`${montserrat.className} overflow-x-clip bg-[#F1F1F1] py-12 md:py-16 lg:py-20`}>
       <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 md:px-[50px]">
-        <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12 xl:gap-16">
-          <div className="flex w-full max-w-[561px] flex-col items-center lg:shrink-0">
+        <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-8 xl:gap-16">
+          <div className="flex w-full min-w-0 flex-col items-center lg:max-w-[48%] xl:max-w-[561px] xl:shrink-0">
             {title ? (
-              <h2 className="m-0 uppercase" style={titleStyle}>
+              <h2
+                className="m-0 mt-0 w-full uppercase text-center text-[28px] leading-[42px] sm:text-[44px] sm:leading-[50px] lg:text-[54px] lg:leading-[62px] xl:mt-25 xl:max-w-[456px] xl:text-[65px] xl:leading-[74px]"
+                style={titleStyle}
+              >
                 {title}
               </h2>
             ) : null}
@@ -80,11 +67,8 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
                 src={video.src}
                 width={video.width ?? 561}
                 height={video.height ?? 342}
-                className="mt-6 block w-full max-w-[561px] object-cover object-center"
+                className="mt-6 block w-full max-w-full object-cover object-center lg:mt-10 xl:mt-15 xl:h-[342px] xl:w-[561px] xl:max-w-[561px]"
                 style={{
-                  width: video.width ?? 561,
-                  height: video.height ?? 342,
-                  maxWidth: "100%",
                   aspectRatio: `${video.width ?? 561} / ${video.height ?? 342}`,
                 }}
                 autoPlay
@@ -95,7 +79,7 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
             ) : null}
 
             {description ? (
-              <p className="m-0 mt-6" style={bodyStyle}>
+              <p className="m-0 mt-6 w-full text-center text-[16px] leading-6 lg:mt-9 lg:text-[18px] lg:leading-7 xl:max-w-[509px] xl:text-[20px] xl:leading-[28px]" style={bodyStyle}>
                 {description}
               </p>
             ) : null}
@@ -103,10 +87,8 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
 
           {image?.src ? (
             <div
-              className="relative w-full shrink-0 overflow-hidden lg:ml-auto"
+              className="relative w-full min-w-0 overflow-hidden lg:max-w-[48%] lg:ml-auto xl:w-[720.953px] xl:max-w-[720.953px] xl:shrink-0"
               style={{
-                maxWidth: image.width ?? 720.953,
-                width: image.width ?? 720.953,
                 aspectRatio: image.aspectRatio ?? "69 / 73",
               }}
             >
@@ -121,7 +103,7 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
           ) : null}
         </div>
 
-        {container ? (
+        {/* {container ? (
           <div
             className="relative mt-12 w-full max-w-[1154px] overflow-hidden md:mt-16"
             style={{
@@ -167,11 +149,11 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
               </div>
             ) : null}
           </div>
-        ) : null}
+        ) : null} */}
 
         {grid?.items?.length ? (
           <div
-            className="mt-12 grid w-full max-w-[1154px] grid-cols-1 gap-3 md:mt-16 lg:grid-cols-[336fr_336fr_613fr] lg:grid-rows-[auto_auto] lg:gap-[12px]"
+            className="mx-auto mt-12 grid w-full max-w-full grid-cols-1 gap-3 md:mt-16  lg:grid-cols-[336fr_336fr_613fr] lg:grid-rows-[auto_auto] xl:gap-[25px] "
           >
             {grid.items.map((item, index) => (
               <div
@@ -192,15 +174,18 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
         ) : null}
 
         {imageContent ? (
-          <div className="mx-auto mt-12 flex w-full max-w-[1135px] flex-col items-center md:mt-16">
-            <div className="flex w-full flex-col items-center px-6 sm:px-10">
+          <div className="mx-auto mt-12 flex w-full max-w-full flex-col items-center md:mt-16 xl:max-w-[1135px]">
+            <div className="flex w-full flex-col items-center px-6 sm:px-10 max-lg:px-0 max-lg:sm:px-4">
               {imageContent.heading ? (
-                <h2 className="m-0 uppercase" style={imageContentHeadingStyle}>
+                <h2
+                  className="m-0 w-full uppercase text-center text-[24px] leading-[34px]  sm:leading-[42px] lg:text-[35px] md:text-[30px] md:leading-[38px] lg:leading-[48px] xl:max-w-[1135px] xl:text-[48px] xl:leading-[57px]"
+                  style={imageContentHeadingStyle}
+                >
                   {imageContent.heading}
                 </h2>
               ) : null}
               {imageContent.body ? (
-                <p className="m-0 mt-6" style={imageContentBodyStyle}>
+                <p className="m-0 mt-6 w-full text-center text-[16px] leading-6 lg:text-[18px] lg:leading-7 xl:max-w-[986px] xl:text-[20px] xl:leading-[28px]" style={imageContentBodyStyle}>
                   {imageContent.body}
                 </p>
               ) : null}
@@ -209,7 +194,7 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
               <img
                 src={imageContent.background}
                 alt=""
-                className="mt-8 block h-auto w-full object-cover object-center md:mt-10"
+                className="mx-auto mt-8 block h-auto w-auto max-w-full xl:mt-20 md:mt-10"
               />
             ) : null}
           </div>

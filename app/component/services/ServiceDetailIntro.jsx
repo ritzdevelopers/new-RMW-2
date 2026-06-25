@@ -99,16 +99,12 @@ const ServiceDetailIntro = ({ intro, activeSlug }) => {
 
   return (
     <section ref={sectionRef} className="m-0 overflow-x-clip bg-[#F1F1F1] pt-0">
-      <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:gap-4 md:gap-5">
+      <div className="flex w-full flex-col gap-5 sm:flex-row sm:items-start">
         {introImages.map((image, index) => (
           <div
             key={`${image.src}-${index}`}
-            className="relative w-full overflow-hidden sm:min-w-0"
-            style={{
-              flex: `${image.width} 1 0`,
-              aspectRatio: image.aspectRatio,
-              maxWidth: `${image.width}px`,
-            }}
+            className="flex w-full min-w-0 items-center justify-center sm:flex-1"
+            style={image.height ? { height: `${image.height}px` } : undefined}
           >
             <img
               src={image.src}
@@ -123,7 +119,7 @@ const ServiceDetailIntro = ({ intro, activeSlug }) => {
 
       <div
         ref={contentRef}
-        className={`${montserrat.className} mx-auto flex w-full max-w-[1440px] items-center justify-center px-6 pb-1 pt-10 sm:px-10 sm:pt-12 md:px-[50px] md:pt-16`}
+        className={`${montserrat.className} mx-auto flex w-full max-w-[1440px] items-center justify-center px-6 sm:px-10  md:px-[50px] py-[35px] md:py-[70px] `}
       >
         <div className="w-full">
           <Reveal>
@@ -135,7 +131,7 @@ const ServiceDetailIntro = ({ intro, activeSlug }) => {
           <div className="mt-5 flex flex-col gap-10 md:mt-6 lg:flex-row lg:items-end lg:justify-between lg:gap-12 xl:gap-16">
             <Reveal className="min-w-0 flex-1 lg:max-w-[780px] xl:max-w-[860px]">
               <p
-                className="m-0 self-stretch capitalize text-[22px] leading-[34px] sm:text-[28px] sm:leading-[44px] md:text-[32px] md:leading-[52px] lg:text-[36px] lg:leading-[61px]"
+                className="m-0 self-stretch capitalize text-[22px] leading-[34px] sm:text-[28px] sm:leading-[44px] md:text-[32px] md:leading-[52px] xl:text-[36px] lg:text-[26px] xl:leading-[61px] lg:leading-[40px]"
                 style={bodyTextStyle}
               >
                 {bodyCopy}

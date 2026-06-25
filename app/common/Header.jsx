@@ -78,7 +78,7 @@ const Header = () => {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
-            className="shrink-0 cursor-pointer overflow-hidden"
+            className="shrink-0 cursor-pointer overflow-hidden md:hidden"
           >
             <span data-header-reveal className="inline-block">
               <Image
@@ -94,7 +94,7 @@ const Header = () => {
       </div>
 
       <div
-        className={` inset-0 z-[60] bg-black/50 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 md:hidden ${
           menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={() => setMenuOpen(false)}
@@ -102,11 +102,19 @@ const Header = () => {
       />
 
       <nav
-        className={` top-0 right-0 z-[70] flex h-full w-[280px] max-w-[80vw] flex-col gap-8 bg-[#0D1334] px-8 pb-8 pt-24 transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed top-0 right-0 z-[70] flex h-full w-[280px] max-w-[80vw] flex-col gap-8 bg-[#0D1334] px-8 pb-8 pt-24 transition-transform duration-300 ease-out md:hidden ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
         aria-hidden={!menuOpen}
       >
+        <button
+          type="button"
+          aria-label="Close menu"
+          onClick={() => setMenuOpen(false)}
+          className="absolute top-8 right-8 flex cursor-pointer items-center justify-center text-white"
+        >
+          <i className="ri-close-line text-[22px]" aria-hidden />
+        </button>
         {navLinks.map((link) => (
           <Link
             key={link.label}
