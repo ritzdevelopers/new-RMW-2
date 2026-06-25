@@ -38,7 +38,7 @@ export const services = [
       ],
       eyebrow: "Taking brands where they've never been",
       body:
-        "To connect premium brands with a new generation of digital-first consumers, we turn traditional media cues on their head — creating data-led campaigns that fuse performance and storytelling. The result? Funnel strategy that doubles as brand building, bold breaks into culture, and measurable growth across every market we touch. A launch approach that fuses product and lifestyle, sparks record-breaking engagement, and gives your brand a whole new kind of cultural relevance.",
+        "Visibility without strategy is just noise. We create data-driven digital experiences that build awareness, spark engagement, and accelerate growth. Through social media, SEO, performance marketing, and paid media, we help brands stay relevant, competitive, and impossible to ignore.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -104,9 +104,9 @@ export const services = [
       imageContent: {
         background: "/digital-marketing/image%201005%20(14).png",
         heading:
-          "To connect Johnnie Walker Blue Label with a new generation of luxury drinkers.",
+          "The Future Won't Build Itself",
         body:
-          "Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges. Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges.",
+          "Let's create something remarkable together.",
       },
     },
   },
