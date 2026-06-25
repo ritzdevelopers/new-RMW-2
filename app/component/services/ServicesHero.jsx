@@ -91,6 +91,23 @@ function buildSingleLineRows(words) {
   return rows;
 }
 
+export function buildSubServiceHeadlineRows(title) {
+  const words = title
+    .replace(/[()]/g, "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word.toUpperCase());
+
+  const rows = [];
+  for (let index = 0; index < words.length; index += 2) {
+    rows.push({
+      left: words[index],
+      right: words[index + 1] ? [words[index + 1]] : [],
+    });
+  }
+  return rows;
+}
+
 const renderHeadlineRow = (row, variant = "white") => {
   const Word = ({ text }) =>
     variant === "white" ? (
@@ -132,12 +149,19 @@ const HeadlineRows = ({ rows, variant = "white" }) => (
 const ServicesHero = ({
   lineOne = "Digital Marketing",
   singleLine = false,
+  variant = "default",
+  headlineRows: headlineRowsProp,
   subtext = defaultSubtext,
   supportingText = supportingLines,
   subtextItalic = true,
 }) => {
+  const isSubService = variant === "subService";
   const subtextLines = normalizeSubtext(subtext);
-  const supportingCopy = supportingText?.length ? supportingText : supportingLines;
+  const supportingCopy = isSubService
+    ? []
+    : supportingText?.length
+      ? supportingText
+      : supportingLines;
   const heroRef = useRef(null);
   const headlineRef = useRef(null);
   const headlineWrapRef = useRef(null);
@@ -145,9 +169,13 @@ const ServicesHero = ({
   const headlineGoldRef = useRef(null);
   const logoRef = useRef(null);
 
-  const headlineRows = singleLine
-    ? buildSingleLineRows(lineOne.split(/\s+/).filter(Boolean))
-    : servicesHeadlineRows;
+  const headlineRows =
+    headlineRowsProp ||
+    (isSubService
+      ? buildSubServiceHeadlineRows(lineOne)
+      : singleLine
+        ? buildSingleLineRows(lineOne.split(/\s+/).filter(Boolean))
+        : servicesHeadlineRows);
 
   useLayoutEffect(() => {
     const hero = heroRef.current;
@@ -293,7 +321,7 @@ const ServicesHero = ({
       const available = parent.clientWidth - buffer;
       const scale = needed > 0 ? Math.min(1, available / needed) : 1;
       headline.style.transform = scale < 1 ? `scale(${scale})` : "none";
-      headline.style.transformOrigin = "top left";
+      headline.style.transformOrigin = isSubService ? "top center" : "top left";
     };
 
     const ctx = gsap.context(() => {
@@ -406,114 +434,160 @@ const ServicesHero = ({
     }, hero);
 
     return () => ctx.revert();
-  }, [singleLine, lineOne]);
+  }, [singleLine, lineOne, isSubService, headlineRowsProp]);
+
+  const logoMark = (
+    <div
+      ref={logoRef}
+      aria-hidden
+      className={
+        isSubService
+          ? "h-[min(220px,58vw)] w-[min(180px,48vw)] lg:h-[300px] lg:w-[250px]"
+          : "h-[min(240px,62vw)] w-[min(200px,52vw)] lg:h-[339px] lg:w-[282.186px]"
+      }
+      style={{
+        background: "rgba(255, 255, 255, 0.20)",
+        WebkitMaskImage: "url(/logo/r-logo-new.png)",
+        maskImage: "url(/logo/r-logo-new.png)",
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+        transform: "rotate(-12.441deg)",
+        transformOrigin: "center center",
+      }}
+    />
+  );
+
+  const headlineBlock = (
+    <div
+      ref={headlineWrapRef}
+      className={`relative w-full overflow-x-clip ${isSubService ? "mx-auto max-w-[1100px]" : ""}`}
+    >
+      <h1
+        ref={headlineRef}
+        style={headingStyle}
+        className={`m-0 w-full leading-[0.95] ${
+          isSubService
+            ? "text-center text-[28px] sm:text-[34px] md:text-[56px] lg:text-[72px] xl:text-[82px]"
+            : "text-left text-[28px] sm:text-[34px] md:text-[72px] lg:text-[94px]"
+        }`}
+      >
+        <div ref={headlineSpotlightWrapRef} className="relative w-full">
+          <div className="relative z-[1] w-full">
+            <HeadlineRows rows={headlineRows} />
+          </div>
+          <div
+            ref={headlineGoldRef}
+            className={`pointer-events-none absolute inset-0 z-[2] w-full ${
+              isSubService ? "text-center" : "text-left"
+            }`}
+            style={{ ...headingStyle, color: goldColor }}
+            aria-hidden
+          >
+            <HeadlineRows rows={headlineRows} variant="gold" />
+          </div>
+        </div>
+      </h1>
+    </div>
+  );
+
+  const subtextBlock = (
+    <div className={`${montserrat.className} relative z-40 w-full`}>
+      {subtextLines.map((phrases, index) => (
+        <Reveal
+          key={`${phrases.join("-")}-${index}`}
+          group="sub"
+          clipYOnly
+          className={index > 0 ? "mt-1" : ""}
+        >
+          <p
+            className={`m-0 text-white ${
+              isSubService
+                ? "text-[14px] font-normal leading-snug sm:text-[16px] md:text-[18px] lg:text-[21px]"
+                : `text-[16px] font-[300] leading-[22px] sm:text-[18px] sm:leading-[24px] md:text-[18px] md:leading-[20px] lg:text-[22px] lg:leading-[36px] xl:text-[28px] ${
+                    subtextItalic ? "italic" : ""
+                  }`
+            }`}
+          >
+            {phrases.join(" ")}
+          </p>
+        </Reveal>
+      ))}
+    </div>
+  );
 
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col overflow-x-clip bg-[#0D1334] px-8 pb-12 pt-4 md:px-12 md:pb-16 md:pt-6 lg:min-h-screen lg:pb-[80px]"
+      className={`relative flex flex-col overflow-x-clip bg-[#0D1334] px-8 md:px-12 ${
+        isSubService
+          ? "min-h-[280px] items-center justify-center py-10 sm:min-h-[320px] md:min-h-[360px] lg:min-h-[409px] lg:py-14"
+          : "min-h-[calc(100dvh-4.5rem)] pb-12 pt-4 md:pb-16 md:pt-6 lg:min-h-screen lg:pb-[80px]"
+      }`}
     >
-      <div className="pointer-events-none absolute bottom-8 left-1/2 z-[1] -translate-x-1/2 sm:bottom-12 md:bottom-16 lg:bottom-0">
-        <div
-          ref={logoRef}
-          aria-hidden
-          className="h-[min(240px,62vw)] w-[min(200px,52vw)] lg:h-[339px] lg:w-[282.186px]"
-          style={{
-            background: "rgba(255, 255, 255, 0.20)",
-            WebkitMaskImage: "url(/logo/r-logo-new.png)",
-            maskImage: "url(/logo/r-logo-new.png)",
-            WebkitMaskSize: "contain",
-            maskSize: "contain",
-            WebkitMaskRepeat: "no-repeat",
-            maskRepeat: "no-repeat",
-            WebkitMaskPosition: "center",
-            maskPosition: "center",
-            transform: "rotate(-12.441deg)",
-            transformOrigin: "center center",
-          }}
-        />
+      <div
+        className={`pointer-events-none absolute left-1/2 z-[1] -translate-x-1/2 ${
+          isSubService
+            ? "bottom-0 flex items-end justify-center"
+            : "bottom-8 sm:bottom-12 md:bottom-16 lg:bottom-0"
+        }`}
+      >
+        {logoMark}
       </div>
 
-      <div className="relative z-10 flex w-full flex-1 flex-col">
-        <div ref={headlineWrapRef} className="relative w-full overflow-x-clip">
-          <h1
-            ref={headlineRef}
-            style={headingStyle}
-            className="m-0 w-full text-left text-[28px] leading-[0.95] sm:text-[34px] md:text-[72px] lg:text-[94px]"
-          >
-            <div ref={headlineSpotlightWrapRef} className="relative w-full">
-              <div className="relative z-[1] w-full">
-                <HeadlineRows rows={headlineRows} />
-              </div>
-              <div
-                ref={headlineGoldRef}
-                className="pointer-events-none absolute inset-0 z-[2] w-full text-left"
-                style={{ ...headingStyle, color: goldColor }}
-                aria-hidden
-              >
-                <HeadlineRows rows={headlineRows} variant="gold" />
-              </div>
-            </div>
-          </h1>
+      {isSubService ? (
+        <div className="relative z-10 flex w-full max-w-[1280px] flex-col items-center gap-4 text-center sm:gap-5">
+          {headlineBlock}
+          {subtextBlock}
         </div>
+      ) : (
+        <div className="relative z-10 flex w-full flex-1 flex-col">
+          {headlineBlock}
 
-        <div className="mx-auto flex w-full max-w-[920px] flex-1 flex-col items-center justify-center px-2 text-center md:max-w-[980px] lg:max-w-[1040px]">
-          <div className={`${montserrat.className} relative z-40 w-full`}>
-            {subtextLines.map((phrases, index) => (
-              <Reveal
-                key={`${phrases.join("-")}-${index}`}
-                group="sub"
-                clipYOnly
-                className={index > 0 ? "mt-1" : ""}
-              >
-                <p
-                  className={`m-0 text-[16px] font-[300] leading-[22px] text-white sm:text-[18px] sm:leading-[24px] md:text-[18px] md:leading-[20px] lg:text-[22px] lg:leading-[36px] xl:text-[28px] ${
-                    subtextItalic ? "italic" : ""
-                  }`}
-                >
-                  {phrases.join(" ")}
-                </p>
-              </Reveal>
-            ))}
-          </div>
+          <div className="mx-auto flex w-full max-w-[920px] flex-1 flex-col items-center justify-center px-2 text-center md:max-w-[980px] lg:max-w-[1040px]">
+            {subtextBlock}
 
-          <div
-            className="relative z-40 mt-6 w-full max-w-[760px] md:mt-8 lg:mt-10"
-            style={{ fontFamily: '"Sequel Sans", sans-serif' }}
-          >
-            {supportingCopy.map((line, index) => (
-              <Reveal key={`support-${index}`} group="sub" clipYOnly className={index > 0 ? "mt-3 md:mt-4" : ""}>
-                <p className="m-0 text-[14px] font-normal leading-[22px] text-white/80 sm:text-[15px] sm:leading-[24px] md:text-[16px] md:leading-[26px] lg:text-[18px] lg:leading-[30px]">
-                  {line}
-                </p>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal group="sub" clipYOnly className="relative z-40 mt-8 md:mt-10 lg:mt-12">
-            <ul className="m-0 flex list-none flex-wrap items-center justify-center gap-x-5 gap-y-2 px-2 sm:gap-x-6 md:gap-x-8">
-              {[
-                "Digital",
-                "Creative",
-                "Content",
-                "Print",
-                "Radio",
-                "Web",
-                "3D",
-                "Influence",
-              ].map((item) => (
-                <li
-                  key={item}
-                  className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/55 sm:text-[12px] md:text-[13px]"
-                  style={{ fontFamily: '"Sequel Sans", sans-serif' }}
-                >
-                  {item}
-                </li>
+            <div
+              className="relative z-40 mt-6 w-full max-w-[760px] md:mt-8 lg:mt-10"
+              style={{ fontFamily: '"Sequel Sans", sans-serif' }}
+            >
+              {supportingCopy.map((line, index) => (
+                <Reveal key={`support-${index}`} group="sub" clipYOnly className={index > 0 ? "mt-3 md:mt-4" : ""}>
+                  <p className="m-0 text-[14px] font-normal leading-[22px] text-white/80 sm:text-[15px] sm:leading-[24px] md:text-[16px] md:leading-[26px] lg:text-[18px] lg:leading-[30px]">
+                    {line}
+                  </p>
+                </Reveal>
               ))}
-            </ul>
-          </Reveal>
+            </div>
+
+            <Reveal group="sub" clipYOnly className="relative z-40 mt-8 md:mt-10 lg:mt-12">
+              <ul className="m-0 flex list-none flex-wrap items-center justify-center gap-x-5 gap-y-2 px-2 sm:gap-x-6 md:gap-x-8">
+                {[
+                  "Digital",
+                  "Creative",
+                  "Content",
+                  "Print",
+                  "Radio",
+                  "Web",
+                  "3D",
+                  "Influence",
+                ].map((item) => (
+                  <li
+                    key={item}
+                    className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/55 sm:text-[12px] md:text-[13px]"
+                    style={{ fontFamily: '"Sequel Sans", sans-serif' }}
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 };

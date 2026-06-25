@@ -105,7 +105,7 @@ const Section7 = () => {
       >
         <div className="relative min-h-[100dvh] w-full">
           <Image
-            src="/service/bg-image.png"
+            src="/service/website%20banner-01%20(1).jpg"
             alt=""
             fill
             priority
