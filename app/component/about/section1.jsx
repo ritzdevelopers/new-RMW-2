@@ -1133,7 +1133,7 @@ const Section1 = () => {
             opacity 0.4s ease;
         }
         .video-modal-panel.is-visible {
-          transform: scale(1);
+          transform: scale(1)
           opacity: 1;
         }
       `}</style>
@@ -1141,7 +1141,7 @@ const Section1 = () => {
       <div ref={heroRef} className="relative overflow-x-hidden">
       <section
         ref={heroSectionRef}
-        className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col overflow-x-hidden bg-[#0D1334] pt-35px pb-[60px] md:min-h-screen md:pt-[30px] md:pb-[48px] xl:pb-[40px]"
+        className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col overflow-x-hidden bg-[#0D1334] pt-35px pb-[60px] md:min-h-[85vh] lg:min-h-[94vh] xl:min-h-[93vh] md:pt-[30px] md:pb-[48px] xl:pb-[40px]"
       >
         <div
           ref={heroTextRef}
@@ -1250,7 +1250,7 @@ const Section1 = () => {
                 <img
                   src="/logo/r-rmw-transparent.png"
                   alt=""
-                  className="block w-auto max-w-[40%] object-contain"
+                  className="block w-auto max-w-[60%] object-contain"
                   style={{
                     filter: "brightness(3.2) contrast(1.05)",
                     opacity: 0.4,

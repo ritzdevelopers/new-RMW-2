@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useLayoutEffect, useRef } from "react";
+import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { Montserrat } from "next/font/google";
 
@@ -11,23 +11,38 @@ const montserrat = Montserrat({
 });
 
 const contentStyle = {
-  width: "100%",
-  maxWidth: "509px",
-  flexShrink: 0,
   color: "#FFFFFF",
   textAlign: "center",
   fontFamily: "Montserrat, sans-serif",
-  fontSize: "20px",
   fontWeight: 400,
-  lineHeight: "28px",
 };
 
-const ACTIVE_W = 509;
-const ACTIVE_H = 500;
-const SIDE_W = 300;
-const SIDE_H = 380;
-const SIDE_X = 370;
-const SIDE_Z = -140;
+const DESKTOP_METRICS = {
+  ACTIVE_W: 509,
+  ACTIVE_H: 500,
+  SIDE_W: 300,
+  SIDE_H: 380,
+  SIDE_X: 370,
+  SIDE_Z: -140,
+};
+
+const getCarouselMetrics = () => {
+  if (typeof window === "undefined") return DESKTOP_METRICS;
+
+  if (window.innerWidth >= 768) return DESKTOP_METRICS;
+
+  const activeW = Math.min(window.innerWidth - 32, DESKTOP_METRICS.ACTIVE_W);
+  const scale = activeW / DESKTOP_METRICS.ACTIVE_W;
+
+  return {
+    ACTIVE_W: activeW,
+    ACTIVE_H: Math.round(DESKTOP_METRICS.ACTIVE_H * scale),
+    SIDE_W: Math.round(DESKTOP_METRICS.SIDE_W * scale),
+    SIDE_H: Math.round(DESKTOP_METRICS.SIDE_H * scale),
+    SIDE_X: Math.round(DESKTOP_METRICS.SIDE_X * scale),
+    SIDE_Z: DESKTOP_METRICS.SIDE_Z,
+  };
+};
 
 const getRelativeOffset = (index, active, count) => {
   let diff = index - active;
@@ -36,14 +51,14 @@ const getRelativeOffset = (index, active, count) => {
   return diff;
 };
 
-const getCardState = (offset) => {
+const getCardState = (offset, metrics = DESKTOP_METRICS) => {
   if (offset === 0) {
     return {
       x: 0,
       z: 0,
       rotateY: 0,
-      width: ACTIVE_W,
-      height: ACTIVE_H,
+      width: metrics.ACTIVE_W,
+      height: metrics.ACTIVE_H,
       opacity: 1,
       zIndex: 30,
     };
@@ -51,11 +66,11 @@ const getCardState = (offset) => {
 
   if (offset === -1) {
     return {
-      x: -SIDE_X,
-      z: SIDE_Z,
+      x: -metrics.SIDE_X,
+      z: metrics.SIDE_Z,
       rotateY: 24,
-      width: SIDE_W,
-      height: SIDE_H,
+      width: metrics.SIDE_W,
+      height: metrics.SIDE_H,
       opacity: 0.92,
       zIndex: 20,
     };
@@ -63,22 +78,22 @@ const getCardState = (offset) => {
 
   if (offset === 1) {
     return {
-      x: SIDE_X,
-      z: SIDE_Z,
+      x: metrics.SIDE_X,
+      z: metrics.SIDE_Z,
       rotateY: -24,
-      width: SIDE_W,
-      height: SIDE_H,
+      width: metrics.SIDE_W,
+      height: metrics.SIDE_H,
       opacity: 0.92,
       zIndex: 20,
     };
   }
 
   return {
-    x: offset < 0 ? -SIDE_X * 1.6 : SIDE_X * 1.6,
-    z: SIDE_Z * 2,
+    x: offset < 0 ? -metrics.SIDE_X * 1.6 : metrics.SIDE_X * 1.6,
+    z: metrics.SIDE_Z * 2,
     rotateY: offset < 0 ? 30 : -30,
-    width: SIDE_W,
-    height: SIDE_H,
+    width: metrics.SIDE_W,
+    height: metrics.SIDE_H,
     opacity: 0,
     zIndex: 10,
   };
@@ -91,6 +106,14 @@ const ServiceDetailCarousel = ({ carousel }) => {
   const copyRefs = useRef([]);
   const activeIndexRef = useRef(0);
   const animatingRef = useRef(false);
+  const metricsRef = useRef(DESKTOP_METRICS);
+  const [stageHeight, setStageHeight] = useState(DESKTOP_METRICS.ACTIVE_H + 32);
+
+  const syncMetrics = useCallback(() => {
+    const metrics = getCarouselMetrics();
+    metricsRef.current = metrics;
+    setStageHeight(metrics.ACTIVE_H + 32);
+  }, []);
 
   const slides = carousel?.slides ?? [];
   const slideCount = slides.length;
@@ -131,7 +154,7 @@ const ServiceDetailCarousel = ({ carousel }) => {
       cardRefs.current.forEach((card, i) => {
         if (!card) return;
         const offset = getRelativeOffset(i, activeIndex, slideCount);
-        const state = getCardState(offset);
+        const state = getCardState(offset, metricsRef.current);
 
         gsap.to(card, {
           x: state.x,
@@ -175,10 +198,14 @@ const ServiceDetailCarousel = ({ carousel }) => {
     if (!slideCount) return;
 
     activeIndexRef.current = initialIndex;
+    syncMetrics();
 
     cardRefs.current.forEach((card, i) => {
       if (!card) return;
-      const state = getCardState(getRelativeOffset(i, initialIndex, slideCount));
+      const state = getCardState(
+        getRelativeOffset(i, initialIndex, slideCount),
+        metricsRef.current,
+      );
       gsap.set(card, {
         xPercent: -50,
         left: "50%",
@@ -199,10 +226,13 @@ const ServiceDetailCarousel = ({ carousel }) => {
       goTo(initialIndex, { immediate: true });
     });
 
-    const onResize = () => goTo(activeIndexRef.current, { immediate: true });
+    const onResize = () => {
+      syncMetrics();
+      goTo(activeIndexRef.current, { immediate: true });
+    };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, [slideCount, initialIndex, goTo]);
+  }, [slideCount, initialIndex, goTo, syncMetrics]);
 
   if (!carousel?.slides?.length) return null;
 
@@ -220,11 +250,11 @@ const ServiceDetailCarousel = ({ carousel }) => {
       <div className="relative mx-auto flex min-h-[100dvh] w-full max-w-[1440px] flex-col items-center justify-center px-4 py-10 sm:px-6 md:py-12">
         <div
           ref={stageRef}
-          className="relative w-full overflow-visible"
+          className="relative w-full overflow-hidden md:overflow-visible"
           style={{
             perspective: "1200px",
             perspectiveOrigin: "50% 65%",
-            height: ACTIVE_H + 32,
+            height: stageHeight,
           }}
         >
           {slides.map((slide, index) => (
@@ -235,8 +265,8 @@ const ServiceDetailCarousel = ({ carousel }) => {
               }}
               className="absolute cursor-pointer overflow-hidden rounded-[18px] bg-[#111] shadow-[0_20px_50px_rgba(0,0,0,0.4)] will-change-transform"
               style={{
-                width: SIDE_W,
-                height: SIDE_H,
+                width: metricsRef.current.SIDE_W,
+                height: metricsRef.current.SIDE_H,
                 transformStyle: "preserve-3d",
               }}
               onClick={() => goTo(index)}
@@ -251,15 +281,15 @@ const ServiceDetailCarousel = ({ carousel }) => {
                 ref={(el) => {
                   textRefs.current[index] = el;
                 }}
-                className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(0,0,0,0.92)] via-[rgba(0,0,0,0.5)] to-transparent px-5 pb-6 pt-14"
+                className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(0,0,0,0.92)] via-[rgba(0,0,0,0.5)] to-transparent px-3 pb-5 pt-10 md:px-5 md:pb-6 md:pt-14"
               >
-                <div className="mx-auto overflow-hidden px-2">
+                <div className="mx-auto w-full max-w-full overflow-hidden">
                   <p
                     ref={(el) => {
                       copyRefs.current[index] = el;
                     }}
                     data-carousel-copy
-                    className="m-0"
+                    className="m-0 w-full max-w-full text-center text-[15px] leading-[22px] md:max-w-[509px] md:text-[20px] md:leading-7"
                     style={contentStyle}
                   >
                     {slide.content ?? carousel.content}

@@ -151,10 +151,11 @@ const getBrandTargets = (wrap, ritz, mediaworld) => {
 const MediaWorldText = () => (
   <span
     data-footer-mediaworld
-    className="inline-block shrink-0 whitespace-nowrap !text-[33px] md:!text-[74px]"
+    className="inline-flex shrink-0 items-baseline gap-[10px] whitespace-nowrap !text-[33px] md:gap-2 md:!text-[74px]"
     style={brandTextStyle}
   >
-    MEDIAWORLD
+    <span>MEDIA</span>
+    <span>WORLD</span>
   </span>
 );
 

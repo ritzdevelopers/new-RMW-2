@@ -30,16 +30,10 @@ export const services = [
     intro: {
       images: [
         {
-          src: "/digital-marketing/image%201006.png",
-          width: 680,
-          height: 878,
-          aspectRatio: "79 / 102",
-        },
-        {
-          src: "/digital-marketing/image%201005%20(6).png",
-          width: 760,
-          height: 825,
-          aspectRatio: "117 / 127",
+          src: "/digital-marketing/bg-image.png",
+          width: 1440,
+          height: 630,
+          maxHeight: "50vh",
         },
       ],
       eyebrow: "Taking brands where they've never been",
@@ -108,7 +102,7 @@ export const services = [
           {
             src: "/digital-marketing/image%201005%20(13).png",
             className: "lg:col-start-3 lg:row-span-2 lg:row-start-1",
-            aspectRatio: "613 / 723",
+            aspectRatio: "613 / 950",
           },
         ],
       },
