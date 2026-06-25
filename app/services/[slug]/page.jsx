@@ -49,7 +49,11 @@ export default async function ServiceDetailPage({ params }) {
           />
         ) : null}
         {service.intro ? (
-          <ServiceDetailIntro intro={service.intro} activeSlug={service.slug} />
+          <ServiceDetailIntro
+            intro={service.intro}
+            activeSlug={service.slug}
+            title={service.title}
+          />
         ) : null}
         {service.carousel ? <ServiceDetailCarousel carousel={service.carousel} /> : null}
         {service.mediaSection ? (

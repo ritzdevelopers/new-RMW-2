@@ -26,9 +26,12 @@ const rowOffsetClasses = [
   "md:ml-[120px]",
   "md:-ml-12",
   "md:ml-[130px]",
-  "md:ml-[40px]",
+  "md:-ml-12",
   "md:-ml-12",
 ];
+
+const pairedGridRowClasses =
+  "grid w-fit max-w-full grid-cols-2 items-center gap-x-6 gap-y-2 sm:gap-x-10 md:gap-x-16 lg:gap-x-24 xl:gap-x-32";
 
 const serviceClass =
   "whitespace-nowrap uppercase leading-[100%] tracking-[0] text-[26px] sm:text-[30px] md:text-[42px] lg:text-[52px] xl:text-[60px]";
@@ -158,13 +161,17 @@ const Section7 = () => {
                   ))}
               </div>
               <div
-                className="flex w-full flex-col gap-4 sm:gap-5 md:gap-6 lg:gap-8"
+                className="hidden w-full flex-col gap-4 sm:gap-5 md:flex md:gap-6 lg:gap-8"
                 onMouseLeave={() => setHoveredService(null)}
               >
               {serviceRows.map((row, rowIndex) => (
                 <div
                   key={rowIndex}
-                  className={`flex w-full flex-wrap items-center gap-x-8 gap-y-2 lg:gap-x-16 ${rowOffsetClasses[rowIndex] ?? ""}`}
+                  className={`${
+                    rowIndex === 3 || rowIndex === 5
+                      ? pairedGridRowClasses
+                      : "flex w-full flex-nowrap items-center gap-x-8 lg:gap-x-16"
+                  } ${rowOffsetClasses[rowIndex] ?? ""}`}
                 >
                   {row.map((label, index) => {
                     const itemKey = `${rowIndex}-${index}`;

@@ -45,6 +45,14 @@ const serviceLinkStyle = {
   color: "#333333",
 };
 
+const bannerTitleStyle = {
+  fontFamily: '"League Spartan", sans-serif',
+  fontWeight: 600,
+  letterSpacing: "0",
+  textTransform: "uppercase",
+  color: "#FFFFFF",
+};
+
 const Reveal = ({ children, className = "" }) => (
   <span className={`block overflow-hidden py-[2px] ${className}`}>
     <span data-svc-intro-reveal className="block w-full">
@@ -63,7 +71,7 @@ const normalizeIntroImage = (image) =>
     ? { src: image, width: 1, height: 1, aspectRatio: "1 / 1" }
     : image;
 
-const ServiceDetailIntro = ({ intro, activeSlug }) => {
+const ServiceDetailIntro = ({ intro, activeSlug, title }) => {
   const sectionRef = useRef(null);
   const contentRef = useRef(null);
 
@@ -100,21 +108,38 @@ const ServiceDetailIntro = ({ intro, activeSlug }) => {
   return (
     <section ref={sectionRef} className="m-0 overflow-x-clip bg-[#F1F1F1] pt-0">
       <div className="flex w-full flex-col gap-5 sm:flex-row sm:items-start">
-        {introImages.map((image, index) => (
-          <div
-            key={`${image.src}-${index}`}
-            className="flex w-full min-w-0 items-center justify-center sm:flex-1"
-            style={image.height ? { height: `${image.height}px` } : undefined}
-          >
-            <img
-              src={image.src}
-              alt=""
-              width={image.width}
-              height={image.height}
-              className="block h-full w-full object-cover object-center"
-            />
-          </div>
-        ))}
+        {introImages.map((image, index) => {
+          const bannerLabel = intro.bannerTitle ?? title;
+
+          return (
+            <div
+              key={`${image.src}-${index}`}
+              className="relative w-full min-w-0 overflow-hidden"
+            >
+              <img
+                src={image.src}
+                alt=""
+                width={image.width}
+                height={image.height}
+                className="block h-auto min-h-0 w-full object-cover object-center"
+              />
+              <div
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/20"
+                aria-hidden
+              />
+              {bannerLabel ? (
+                <div className="absolute inset-0 flex items-center justify-center px-6 sm:px-10">
+                  <h1
+                    className="m-0 text-center text-[32px] leading-[1.05] sm:text-[44px] md:text-[56px] lg:text-[72px] xl:text-[82px]"
+                    style={bannerTitleStyle}
+                  >
+                    {bannerLabel}
+                  </h1>
+                </div>
+              ) : null}
+            </div>
+          );
+        })}
       </div>
 
       <div
