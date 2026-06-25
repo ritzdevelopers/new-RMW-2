@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Montserrat } from "next/font/google";
+import ServiceDetailMediaButton from "./ServiceDetailMediaButton";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -184,11 +185,12 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
                   {imageContent.heading}
                 </h2>
               ) : null}
-              {/* {imageContent.body ? (
+              {imageContent.body ? (
                 <p className="m-0 mt-6 w-full text-center text-[16px] leading-6 lg:text-[18px] lg:leading-7 xl:max-w-[986px] xl:text-[20px] xl:leading-[28px]" style={imageContentBodyStyle}>
                   {imageContent.body}
                 </p>
-              ) : null} */}
+              ) : null}
+              <ServiceDetailMediaButton />
             </div>
             {/* {imageContent.background ? (
               <img
