@@ -61,14 +61,14 @@ export const services = [
     mediaSection: {
       title: "CHANGING THE GAME",
       video: {
-        src: "/digital-marketing/3205625-hd_1920_1080_25fps.mp4",
+        src: "/digital-marketing/digital-video.mp4",
         width: 561,
         height: 342,
       },
       description:
         "Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges. Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges.",
       image: {
-        src: "/digital-marketing/image%201005%20(6).png",
+        src: "/digital-marketing/dgital-2.jpg",
         width: 720.953,
         height: 762.712,
         aspectRatio: "69 / 73",
@@ -102,7 +102,7 @@ export const services = [
             aspectRatio: "696 / 572", 
           },
           {
-            src: "/digital-marketing/image%201005%20(13).png",
+            src: "/digital-marketing/digital-1.jpg",
             className: "lg:col-start-3 lg:row-span-2 lg:row-start-1",
             aspectRatio: "613 / 965",
           },
