@@ -50,9 +50,12 @@ export const services = [
       content:
         "Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges. Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges.",
       slides: [
-        { src: "/digital-marketing/image%201005%20(7).png" },
-        { src: "/digital-marketing/image%201005%20(9).png" },
-        { src: "/digital-marketing/image%201005%20(8).png" },
+        { src: "/digital-marketing/seo1.jpg", content: "SEO" },
+        { src: "/digital-marketing/social-media.jpg", content: "Social Media" },
+        { src: "/digital-marketing/orm.jpg", content: "ORM" },
+        { src: "/digital-marketing/ppc1.jpg", content: "PPC" },
+        { src: "/digital-marketing/lead-generation.jpg", content: "Lead Generation" },
+        { src: "/digital-marketing/brand-awarness.jpg", content: "Brand Awareness" },
       ],
     },
     mediaSection: {
@@ -89,14 +92,14 @@ export const services = [
       grid: {
         items: [
           {
-            src: "/digital-marketing/image%201005%20(10).png",
+            src: "/digital-marketing/graph1.jpg",
             className: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
             aspectRatio: "672 / 355",
           },
           {
-            src: "/digital-marketing/image%201005%20(12).png",
+            src: "/digital-marketing/graph.jpg",
             className: "lg:col-span-2 lg:row-start-2",
-            aspectRatio: "696 / 572",
+            aspectRatio: "696 / 572", 
           },
           {
             src: "/digital-marketing/image%201005%20(13).png",
