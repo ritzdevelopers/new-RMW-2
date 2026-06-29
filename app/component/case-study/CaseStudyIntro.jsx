@@ -57,17 +57,17 @@ const CaseStudyIntro = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-white px-8 py-[50px] md:px-12 md:py-[80px] lg:py-[100px]"
+      className="bg-white px-8 py-[35px] md:px-12  md:py-[70px]"
     >
-      <div className="mx-auto max-w-[900px] text-center">
+      <div className="mx-auto max-w-[1000px] text-center">
         <div className={montserrat.className}>
           <Reveal>
-            <p className="m-0 text-[18px] font-[300] italic leading-[28px] text-[#1D1D1B] md:text-[24px] md:leading-[36px] lg:text-[36px] lg:leading-[44px]">
+            <p className="m-0 text-[18px] font-[300] italic leading-[28px] text-[#1D1D1B] md:text-[20px] md:leading-[36px] lg:text-[28px] xl:text-[30px] lg:leading-[44px]">
               Thought-provoking ideas, industry insights, and fresh perspectives
             </p>
           </Reveal>
           <Reveal className="mt-1">
-            <p className="m-0 text-[18px] font-[300] italic leading-[28px] text-[#1D1D1B] md:text-[24px] md:leading-[36px] lg:text-[36px] lg:leading-[44px]">
+            <p className="m-0 text-[18px] font-[300] italic leading-[28px] text-[#1D1D1B] md:text-[20px] md:leading-[36px] lg:text-[28px] xl:text-[30px] lg:leading-[44px]">
               from the world of creativity and communication.
             </p>
           </Reveal>
