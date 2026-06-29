@@ -16,8 +16,6 @@ const goldColor = "#FFD188";
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
   fontWeight: 500,
-  fontSize: "94px",
-  lineHeight: "85px",
   letterSpacing: "0",
   textTransform: "uppercase",
   color: "#FFFFFF",
@@ -41,10 +39,10 @@ const headlineRowClassWide =
 const subtextRowClass =
   "inline-flex max-w-full flex-wrap items-center justify-center gap-x-[clamp(12px,2.5vw,48px)] gap-y-2";
 
-const subtextLines = [
-  ["Fuelled by a magnetic culture of hustle and heart,", "backed by the belief that"],
-  ["great ideas change the world."],
-];
+// const subtextLines = [
+//   ["Fuelled by a magnetic culture of hustle and heart,", "backed by the belief that"],
+//   ["great ideas change the world."],
+// ];
 
 const CaseStudyHero = () => {
   const heroRef = useRef(null);
@@ -191,9 +189,9 @@ const CaseStudyHero = () => {
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen flex-col overflow-hidden overflow-x-hidden bg-[#0D1334] px-8 pb-[60px] pt-[35px] md:px-12 md:pb-[80px] md:pt-[70px]"
+      className="relative flex flex-col overflow-x-clip bg-[#0D1334] px-4 py-10 pt-6 sm:px-6 sm:py-12 md:px-10 md:py-14 lg:px-12 lg:py-16"
     >
-      <div className="pointer-events-none absolute bottom-6 left-1/2 z-[1] -translate-x-1/2 md:bottom-10 lg:bottom-12">
+      {/* <div className="pointer-events-none absolute bottom-6 left-1/2 z-[1] -translate-x-1/2 md:bottom-10 lg:bottom-12">
         <div
           ref={logoRef}
           aria-hidden
@@ -212,11 +210,15 @@ const CaseStudyHero = () => {
             transform: "rotate(-12.441deg)",
           }}
         />
-      </div>
+      </div> */}
 
       <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-1 flex-col items-center justify-center text-center">
         <div ref={headlineWrapRef} className="relative w-full overflow-x-visible px-1">
-          <h1 ref={headlineRef} style={headingStyle} className="m-0 mx-auto w-full max-w-full text-center">
+          <h1
+            ref={headlineRef}
+            style={headingStyle}
+            className="m-0 mx-auto w-full max-w-full text-center text-[26px] leading-[0.95] md:text-[58px] lg:text-[84px] xl:text-[110px]"
+          >
             <Reveal clipYOnly className="w-full">
               <span className="flex w-full justify-center overflow-x-visible">
                 <span data-headline-row className={headlineRowClass}>
@@ -239,7 +241,7 @@ const CaseStudyHero = () => {
           </h1>
         </div>
 
-        <div className={`${montserrat.className} relative z-40 mt-8 max-w-[1000px] md:mt-0 lg:mt-0 xl:mt-5`}>
+        {/* <div className={`${montserrat.className} relative z-40 mt-8 max-w-[1000px] md:mt-0 lg:mt-0 xl:mt-5`}>
           {subtextLines.map((phrases, index) => (
             <Reveal key={phrases.join("-")} group="sub" clipYOnly className={index > 0 ? "mt-1" : ""}>
               <p className="m-0 text-[14px] font-[300] italic leading-[20px] text-white md:text-[20px] md:leading-[28px] lg:text-[28px] lg:leading-[36px]">
@@ -253,7 +255,7 @@ const CaseStudyHero = () => {
               </p>
             </Reveal>
           ))}
-        </div>
+        </div> */}
       </div>
     </section>
   );
