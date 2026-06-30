@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/category/case-study",
+      "destination": "https://ritzmediaworld.com/api/category/case-study"
+    }
+  ]
+}
