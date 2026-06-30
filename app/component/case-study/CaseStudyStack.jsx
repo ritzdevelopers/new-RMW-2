@@ -15,16 +15,9 @@ const DISPLAY_FONT = '"League Spartan", sans-serif';
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 function getCaseStudyApiUrl() {
-  if (typeof window === "undefined") return `${API_BASE}${CASE_STUDY_PATH}`;
-  const { hostname, origin } = window.location;
-  const apiHost = new URL(API_BASE).hostname;
-  if (hostname === apiHost || hostname === `www.${apiHost}`) {
-    return `${API_BASE.replace(/\/$/, "")}${CASE_STUDY_PATH}`;
-  }
-  if (origin.includes("localhost") || origin.includes("127.0.0.1")) {
-    return CASE_STUDY_PATH;
-  }
-  return `${API_BASE.replace(/\/$/, "")}${CASE_STUDY_PATH}`;
+  // Same-origin path — proxied in dev (next.config rewrites) and on Vercel (vercel.json).
+  // Avoids browser CORS when calling ritzmediaworld.com directly from vercel.app.
+  return CASE_STUDY_PATH;
 }
 
 function resolveBlogImageUrl(path) {
