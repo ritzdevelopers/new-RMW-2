@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { Montserrat } from "next/font/google";
+import { getSubServiceHref } from "../../../data/sub-services";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -99,7 +101,7 @@ const getCardState = (offset, metrics = DESKTOP_METRICS) => {
   };
 };
 
-const ServiceDetailCarousel = ({ carousel }) => {
+const ServiceDetailCarousel = ({ carousel, serviceSlug }) => {
   const stageRef = useRef(null);
   const cardRefs = useRef([]);
   const textRefs = useRef([]);
@@ -257,47 +259,103 @@ const ServiceDetailCarousel = ({ carousel }) => {
             height: stageHeight,
           }}
         >
-          {slides.map((slide, index) => (
-            <div
-              key={slide.src}
-              ref={(el) => {
-                cardRefs.current[index] = el;
-              }}
-              className="absolute cursor-pointer overflow-hidden rounded-[18px] bg-[#111] shadow-[0_20px_50px_rgba(0,0,0,0.4)] will-change-transform"
-              style={{
-                width: metricsRef.current.SIDE_W,
-                height: metricsRef.current.SIDE_H,
-                transformStyle: "preserve-3d",
-              }}
-              onClick={() => goTo(index)}
-            >
-              <img
-                src={slide.src}
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover object-center"
-              />
+          {slides.map((slide, index) => {
+            const href =
+              serviceSlug && slide.subSlug
+                ? getSubServiceHref(serviceSlug, slide.subSlug)
+                : null;
 
-              <div
-                ref={(el) => {
-                  textRefs.current[index] = el;
-                }}
-                className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(0,0,0,0.92)] via-[rgba(0,0,0,0.5)] to-transparent px-3 pb-5 pt-10 md:px-5 md:pb-6 md:pt-14"
-              >
-                <div className="mx-auto w-full max-w-full overflow-hidden">
-                  <p
-                    ref={(el) => {
-                      copyRefs.current[index] = el;
-                    }}
-                    data-carousel-copy
-                    className="m-0 w-full max-w-full text-center text-[15px] leading-[22px] md:max-w-[509px] md:text-[20px] md:leading-7"
-                    style={contentStyle}
-                  >
-                    {slide.content ?? carousel.content}
-                  </p>
+            const cardClassName =
+              "carousel-card group absolute block cursor-pointer overflow-hidden rounded-[18px] bg-[#111] no-underline shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-shadow duration-300 ease-out will-change-transform hover:shadow-[0_0_0_2px_rgba(255,255,255,0.32),0_28px_64px_rgba(0,0,0,0.55)]";
+            const cardStyle = {
+              width: metricsRef.current.SIDE_W,
+              height: metricsRef.current.SIDE_H,
+              transformStyle: "preserve-3d",
+              borderRadius: 18,
+              WebkitBackfaceVisibility: "hidden",
+              backfaceVisibility: "hidden",
+            };
+            const cardContent = (
+              <>
+                <div className="absolute inset-0 overflow-hidden rounded-[18px]">
+                  <img
+                    src={slide.src}
+                    alt=""
+                    className="absolute inset-0 h-full w-full rounded-[18px] object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                  />
+                  <div className="pointer-events-none absolute inset-0 rounded-[18px] bg-black/15 transition-colors duration-300 group-hover:bg-black/5" />
+                  <div className="pointer-events-none absolute inset-0 rounded-[18px] opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[linear-gradient(120deg,transparent_0%,rgba(255,255,255,0.14)_48%,transparent_92%)]" />
                 </div>
+
+                <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center overflow-hidden rounded-[18px] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="flex translate-y-3 items-center gap-2 rounded-full border border-white/40 bg-black/55 px-5 py-2.5 text-[13px] font-medium uppercase tracking-[0.12em] text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] backdrop-blur-md transition-transform duration-300 group-hover:translate-y-0 md:text-sm">
+                    View
+                    <i className="ri-arrow-right-up-line text-[16px]" aria-hidden />
+                  </span>
+                </div>
+
+                <div
+                  ref={(el) => {
+                    textRefs.current[index] = el;
+                  }}
+                  className="absolute inset-x-0 bottom-0 z-20 overflow-hidden rounded-b-[18px] bg-gradient-to-t from-[rgba(0,0,0,0.92)] via-[rgba(0,0,0,0.5)] to-transparent px-3 pb-5 pt-10 md:px-5 md:pb-6 md:pt-14"
+                >
+                  <div className="mx-auto w-full max-w-full overflow-hidden">
+                    <p
+                      ref={(el) => {
+                        copyRefs.current[index] = el;
+                      }}
+                      data-carousel-copy
+                      className="m-0 w-full max-w-full text-center text-[15px] leading-[22px] md:max-w-[509px] md:text-[20px] md:leading-7"
+                      style={contentStyle}
+                    >
+                      {slide.content ?? carousel.content}
+                    </p>
+                  </div>
+                </div>
+              </>
+            );
+
+            if (href) {
+              return (
+                <Link
+                  key={slide.src}
+                  href={href}
+                  ref={(el) => {
+                    cardRefs.current[index] = el;
+                  }}
+                  className={cardClassName}
+                  style={cardStyle}
+                  aria-label={`View ${slide.content ?? "service"} details`}
+                >
+                  {cardContent}
+                </Link>
+              );
+            }
+
+            return (
+              <div
+                key={slide.src}
+                ref={(el) => {
+                  cardRefs.current[index] = el;
+                }}
+                className={cardClassName}
+                style={cardStyle}
+                role="button"
+                tabIndex={0}
+                aria-label={`Show ${slide.content ?? "slide"}`}
+                onClick={() => goTo(index)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    goTo(index);
+                  }
+                }}
+              >
+                {cardContent}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="mt-6 flex items-center justify-center gap-3 md:mt-8">
@@ -305,7 +363,7 @@ const ServiceDetailCarousel = ({ carousel }) => {
             type="button"
             onClick={() => goTo(activeIndexRef.current - 1)}
             aria-label="Previous slide"
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-[rgba(0,0,0,0.45)] text-white backdrop-blur-sm transition-colors duration-300 hover:bg-[rgba(0,0,0,0.65)] md:h-14 md:w-14"
+            className="flex cursor-pointer h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-[rgba(0,0,0,0.45)] text-white backdrop-blur-sm transition-colors duration-300 hover:bg-[rgba(0,0,0,0.65)] md:h-14 md:w-14"
           >
             <i className="ri-arrow-left-line text-[20px] md:text-[22px]" aria-hidden />
           </button>
@@ -313,7 +371,7 @@ const ServiceDetailCarousel = ({ carousel }) => {
             type="button"
             onClick={() => goTo(activeIndexRef.current + 1)}
             aria-label="Next slide"
-            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-[rgba(0,0,0,0.45)] text-white backdrop-blur-sm transition-colors duration-300 hover:bg-[rgba(0,0,0,0.65)] md:h-14 md:w-14"
+            className="flex cursor-pointer h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-[rgba(0,0,0,0.45)] text-white backdrop-blur-sm transition-colors duration-300 hover:bg-[rgba(0,0,0,0.65)] md:h-14 md:w-14"
           >
             <i className="ri-arrow-right-line text-[20px] md:text-[22px]" aria-hidden />
           </button>

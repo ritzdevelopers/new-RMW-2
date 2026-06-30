@@ -379,6 +379,8 @@ const Footer = ({ overlaySection = null }) => {
         : null;
     resizeObserver?.observe(footer);
     resizeObserver?.observe(overlay);
+    const mainEl = stack.closest("main");
+    if (mainEl) resizeObserver?.observe(mainEl);
 
     return () => {
       window.clearTimeout(refreshTimer);

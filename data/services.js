@@ -48,25 +48,25 @@ export const services = [
     carousel: {
       background: "/digital-marketing/Mask%20group%20(17).png",
       content:
-        "Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges. Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges.",
+        "Behind every metric is a strategy built with purpose. These results showcase how thoughtful content, targeted campaigns, and consistent optimization translate into stronger engagement, wider reach, and meaningful business growth. For us, performance isn't a promise, it's proof.",
       slides: [
-        { src: "/digital-marketing/seo1.jpg", content: "SEO" },
-        { src: "/digital-marketing/social-media.jpg", content: "Social Media" },
-        { src: "/digital-marketing/orm.jpg", content: "ORM" },
-        { src: "/digital-marketing/ppc1.jpg", content: "PPC" },
-        { src: "/digital-marketing/lead-generation.jpg", content: "Lead Generation" },
-        { src: "/digital-marketing/brand-awarness.jpg", content: "Brand Awareness" },
+        { src: "/digital-marketing/seo1.jpg", content: "SEO", subSlug: "search-engine-optimization-seo" },
+        { src: "/digital-marketing/social-media.jpg", content: "Social Media", subSlug: "social-media-management" },
+        { src: "/digital-marketing/orm.jpg", content: "ORM", subSlug: "orm-in-digital-marketing" },
+        { src: "/digital-marketing/ppc1.jpg", content: "PPC", subSlug: "ppc-google-ads-agency" },
+        { src: "/digital-marketing/lead-generation.jpg", content: "Lead Generation", subSlug: "lead-generation" },
+        { src: "/digital-marketing/brand-awarness.jpg", content: "Brand Awareness", subSlug: "brand-awareness" },
       ],
     },
     mediaSection: {
-      title: "CHANGING THE GAME",
+      title: "PROOF, NOT PROMISES",
       video: {
         src: "/digital-marketing/digital-video.mp4",
         width: 561,
         height: 342,
       },
       description:
-        "Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges. Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges.",
+        "Behind every metric is a strategy built with purpose. These results showcase how thoughtful content, targeted campaigns, and consistent optimization translate into stronger engagement, wider reach, and meaningful business growth. For us, performance isn't a promise, it's proof.",
       image: {
         src: "/digital-marketing/rmw-29.jpg    ",
         width: 720.953,

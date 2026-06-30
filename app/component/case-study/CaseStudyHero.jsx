@@ -12,6 +12,7 @@ const montserrat = Montserrat({
 });
 
 const goldColor = "#FFD188";
+const circleSpotlightDuration = 15;
 
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
@@ -48,6 +49,8 @@ const CaseStudyHero = () => {
   const heroRef = useRef(null);
   const headlineRef = useRef(null);
   const headlineWrapRef = useRef(null);
+  const headlineSpotlightWrapRef = useRef(null);
+  const headlineGoldRef = useRef(null);
   const logoRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -60,7 +63,7 @@ const CaseStudyHero = () => {
       if (!headline || !headlineWrap) return;
 
       headline.style.transform = "none";
-      const rows = headline.querySelectorAll("[data-headline-row]");
+      const rows = headline.querySelectorAll("[data-headline-primary] [data-headline-row]");
       let needed = 0;
       rows.forEach((row) => {
         needed = Math.max(needed, row.scrollWidth, row.getBoundingClientRect().width);
@@ -73,6 +76,133 @@ const CaseStudyHero = () => {
       const scale = needed > 0 && available > 0 ? Math.min(1, available / needed) : 1;
       headline.style.transform = scale < 1 ? `scale(${scale})` : "none";
       headline.style.transformOrigin = "top center";
+    };
+
+    let spotlightTween = null;
+    let spotlightStarted = false;
+
+    const getCircleRadius = () => {
+      const width = window.innerWidth;
+      if (width >= 1280) return 55;
+      if (width >= 1024) return 45;
+      if (width >= 768) return 35;
+      return 22;
+    };
+
+    const getSpotlightRowWaypoints = () => {
+      const wrap = headlineSpotlightWrapRef.current;
+      if (!wrap) return null;
+
+      const whiteLayer = wrap.firstElementChild;
+      if (!whiteLayer) return null;
+
+      const rows = whiteLayer.querySelectorAll("[data-headline-row]");
+      if (!rows.length) return null;
+
+      const wrapRect = wrap.getBoundingClientRect();
+      const circleRadius = getCircleRadius();
+
+      return [...rows]
+        .map((row) => {
+          const words = [...row.querySelectorAll("[data-headline-word]")];
+          if (!words.length) return null;
+
+          const firstRect = words[0].getBoundingClientRect();
+          const lastRect = words[words.length - 1].getBoundingClientRect();
+          const startX = firstRect.left - wrapRect.left + circleRadius;
+          const endX = lastRect.left - wrapRect.left + lastRect.width - circleRadius;
+
+          return {
+            start: {
+              x: startX,
+              y: firstRect.top - wrapRect.top + firstRect.height * 0.5,
+            },
+            end: {
+              x: Math.max(startX, endX),
+              y: lastRect.top - wrapRect.top + lastRect.height * 0.5,
+            },
+          };
+        })
+        .filter(Boolean);
+    };
+
+    const hideHeadlineGold = () => {
+      const gold = headlineGoldRef.current;
+      if (!gold) return;
+
+      const mask = "radial-gradient(circle 0px at -9999px -9999px, transparent 100%, transparent 100%)";
+      gold.style.maskImage = mask;
+      gold.style.webkitMaskImage = mask;
+    };
+
+    const startHeadlineSpotlight = () => {
+      const wrap = headlineSpotlightWrapRef.current;
+      const gold = headlineGoldRef.current;
+      if (!wrap || !gold) return;
+
+      const rowWaypoints = getSpotlightRowWaypoints();
+      if (!rowWaypoints?.length) return;
+
+      spotlightTween?.kill();
+      spotlightTween = null;
+
+      const setMaskAt = (x, y) => {
+        const radius = getCircleRadius();
+        const mask = `radial-gradient(circle ${radius}px at ${x}px ${y}px, #000 98%, transparent 100%)`;
+        gold.style.maskImage = mask;
+        gold.style.webkitMaskImage = mask;
+      };
+
+      const speed = wrap.offsetWidth / circleSpotlightDuration;
+      let maskVisible = true;
+      const proxy = {
+        x: rowWaypoints[0].start.x,
+        y: rowWaypoints[0].start.y,
+      };
+
+      const showMask = () => {
+        maskVisible = true;
+        setMaskAt(proxy.x, proxy.y);
+      };
+
+      const hideMask = () => {
+        maskVisible = false;
+        hideHeadlineGold();
+      };
+
+      const tl = gsap.timeline({
+        repeat: -1,
+        onUpdate: () => {
+          if (maskVisible) setMaskAt(proxy.x, proxy.y);
+        },
+      });
+
+      rowWaypoints.forEach((row, rowIndex) => {
+        if (rowIndex > 0) {
+          tl.call(hideMask);
+          tl.set(proxy, { x: row.start.x, y: row.start.y });
+          tl.call(showMask);
+        } else {
+          tl.set(proxy, { x: row.start.x, y: row.start.y });
+          tl.call(showMask);
+        }
+
+        const dist = Math.hypot(row.end.x - row.start.x, row.end.y - row.start.y);
+        if (!dist) return;
+
+        tl.to(proxy, {
+          x: row.end.x,
+          y: row.end.y,
+          duration: dist / speed,
+          ease: "none",
+        });
+      });
+
+      tl.call(hideMask);
+      tl.set(proxy, { x: rowWaypoints[0].start.x, y: rowWaypoints[0].start.y });
+
+      spotlightTween = tl;
+      spotlightStarted = true;
     };
 
     const ctx = gsap.context(() => {
@@ -106,7 +236,12 @@ const CaseStudyHero = () => {
         if (entrancePlayed) return;
         entrancePlayed = true;
 
-        const tl = gsap.timeline({ onComplete: fitHeadline });
+        const tl = gsap.timeline({
+          onComplete: () => {
+            fitHeadline();
+            startHeadlineSpotlight();
+          },
+        });
 
         if (logoRef.current) {
           tl.to(
@@ -165,20 +300,29 @@ const CaseStudyHero = () => {
       });
 
       fitHeadline();
-      window.addEventListener("resize", fitHeadline);
+      hideHeadlineGold();
+      const onResize = () => {
+        fitHeadline();
+        if (spotlightStarted) startHeadlineSpotlight();
+      };
+      window.addEventListener("resize", onResize);
       window.addEventListener("load", fitHeadline);
       document.fonts?.ready?.then(() => requestAnimationFrame(fitHeadline));
 
       const resizeObserver =
         typeof ResizeObserver !== "undefined"
-          ? new ResizeObserver(() => fitHeadline())
+          ? new ResizeObserver(() => {
+              fitHeadline();
+              if (spotlightStarted) startHeadlineSpotlight();
+            })
           : null;
       if (headlineWrap) resizeObserver?.observe(headlineWrap);
 
       return () => {
         window.removeEventListener("header-reveal-complete", onHeaderComplete);
-        window.removeEventListener("resize", fitHeadline);
+        window.removeEventListener("resize", onResize);
         window.removeEventListener("load", fitHeadline);
+        spotlightTween?.kill();
         resizeObserver?.disconnect();
       };
     }, hero);
@@ -219,25 +363,51 @@ const CaseStudyHero = () => {
             style={headingStyle}
             className="m-0 mx-auto w-full max-w-full text-center text-[26px] leading-[0.95] md:text-[58px] lg:text-[84px] xl:text-[110px]"
           >
-            <Reveal clipYOnly className="w-full">
-              <span className="flex w-full justify-center overflow-x-visible">
-                <span data-headline-row className={headlineRowClass}>
-                  <span>A</span>
-                  <span>HOME</span>
-                  <span>FOR</span>
-                </span>
-              </span>
-            </Reveal>
-            <Reveal clipYOnly className="mt-1 w-full md:mt-8">
-              <span className="flex w-full justify-center overflow-x-visible">
-                <span data-headline-row className={headlineRowClassWide}>
-                  <span>
-                    <span style={{ color: goldColor }}>CURIOUS</span>
+            <div ref={headlineSpotlightWrapRef} className="relative w-full overflow-x-visible">
+              <div data-headline-primary className="relative z-[1]">
+                <Reveal clipYOnly className="w-full">
+                  <span className="flex w-full justify-center overflow-x-visible">
+                    <span data-headline-row className={headlineRowClass}>
+                      <span data-headline-word>A</span>
+                      <span data-headline-word>HOME</span>
+                      <span data-headline-word>FOR</span>
+                    </span>
                   </span>
-                  <span>MINDS</span>
-                </span>
-              </span>
-            </Reveal>
+                </Reveal>
+                <Reveal clipYOnly className="mt-1 w-full md:mt-8">
+                  <span className="flex w-full justify-center overflow-x-visible">
+                    <span data-headline-row className={headlineRowClassWide}>
+                      <span data-headline-word>CURIOUS</span>
+                      <span data-headline-word>MINDS</span>
+                    </span>
+                  </span>
+                </Reveal>
+              </div>
+              <div
+                ref={headlineGoldRef}
+                className="pointer-events-none absolute inset-0 z-[2] text-center"
+                style={{ ...headingStyle, color: goldColor }}
+                aria-hidden
+              >
+                <div className="w-full">
+                  <span className="flex w-full justify-center overflow-x-visible">
+                    <span data-headline-row className={headlineRowClass}>
+                      <span>A</span>
+                      <span>HOME</span>
+                      <span>FOR</span>
+                    </span>
+                  </span>
+                </div>
+                <div className="mt-1 w-full md:mt-8">
+                  <span className="flex w-full justify-center overflow-x-visible">
+                    <span data-headline-row className={headlineRowClassWide}>
+                      <span>CURIOUS</span>
+                      <span>MINDS</span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
           </h1>
         </div>
 
