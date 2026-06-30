@@ -3,30 +3,15 @@
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // ─── Config ────────────────────────────────────────────────────────────────────
 const API_BASE = "https://ritzmediaworld.com";
 const CASE_STUDY_PATH = "/api/category/case-study";
-
-const CARD_TEMPLATES = [
-  { type: "split",       bg: "#F5F3EE", textColor: "#1D1D1B" },
-  { type: "solid",       bg: "#1D1D1B", textColor: "#FFFFFF", align: "start" },
-  { type: "image-hero",  textColor: "#FFFFFF", usesImage: true },
-  { type: "solid",       bg: "#E8542A", textColor: "#FFFFFF", align: "start" },
-  { type: "solid-arrow", bg: "#3B71E8", textColor: "#FFFFFF", align: "start" },
-  { type: "image-badge", textColor: "#FFFFFF", usesImage: true },
-  { type: "watermark",   bg: "#6B1F24", textColor: "rgba(255,255,255,0.28)" },
-];
-
-// ─── Stack 3-D constants ───────────────────────────────────────────────────────
-const CARD_HEIGHT       = 200;
-const EXPANDED_HEIGHT   = 480;
-const STACK_PEEK        = 60;
-const EXPAND_GAP        = 50;   // gap above expanded image
-const EXPAND_GAP_BELOW  = 0;   // gap below expanded image
-const TILT_X            = -32;
-const HEIGHT_SCALE      = (1 / Math.cos((Math.abs(TILT_X) * Math.PI) / 180)).toFixed(4);
-const ANIM_DURATION     = 0.55;
+const ACCENTS = ["#E8542A", "#3B71E8", "#1F8A5C", "#B32D2E", "#7A4FE0", "#D4A017"];
+const DISPLAY_FONT = '"League Spartan", sans-serif';
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 function getCaseStudyApiUrl() {
@@ -54,561 +39,232 @@ function resolveBlogImageUrl(path) {
   return `${API_BASE}/blogs/${normalized.replace(/^\/+/, "")}`;
 }
 
-function measureImageDisplayHeight(img) {
-  if (!img) return CARD_HEIGHT;
-  const rendered = img.getBoundingClientRect().height || img.offsetHeight;
-  if (rendered > 0) return Math.round(rendered);
-  const width = img.clientWidth || img.offsetWidth;
-  if (img.naturalWidth > 0 && img.naturalHeight > 0 && width > 0) {
-    return Math.round((img.naturalHeight / img.naturalWidth) * width);
-  }
-  return CARD_HEIGHT;
-}
-
-function preloadImageHeight(src, containerWidth) {
-  return new Promise((resolve) => {
-    if (!src || !containerWidth) {
-      resolve(CARD_HEIGHT);
-      return;
-    }
-    const img = new Image();
-    img.onload = () => {
-      if (img.naturalWidth > 0) {
-        resolve(Math.round((img.naturalHeight / img.naturalWidth) * containerWidth));
-      } else {
-        resolve(CARD_HEIGHT);
-      }
-    };
-    img.onerror = () => resolve(CARD_HEIGHT);
-    img.src = src;
-  });
-}
-
 function mapCaseStudyItem(item, index) {
-  const template = CARD_TEMPLATES[index % CARD_TEMPLATES.length];
-  const project = {
-    id:        item.slug,
-    slug:      item.slug,
-    title:     item.title,
-    type:      template.type,
-    textColor: template.textColor,
+  return {
+    id: item.slug,
+    slug: item.slug,
+    title: item.title,
+    image: resolveBlogImageUrl(item.blog_image),
+    accent: ACCENTS[index % ACCENTS.length],
+    index,
   };
-  if (template.bg)    project.bg    = template.bg;
-  if (template.align) project.align = template.align;
-  if (item.blog_image) {
-    project.image     = resolveBlogImageUrl(item.blog_image);
-    project.bg        = "#111"; // solid backdrop behind the image when expanded
-    project.textColor = "#FFFFFF";
-  }
-  if (template.type === "image-badge") {
-    project.badge = item.title;
-  }
-  return project;
 }
 
-function getStackLayout(count, activeIndex, openHeight) {
-  const raw = Array.from({ length: count }, (_, i) => {
-    const baseTop = i * STACK_PEEK;
+// ─── Panel ─────────────────────────────────────────────────────────────────────
 
-    if (activeIndex === null) {
-      return { top: baseTop, height: CARD_HEIGHT, zIndex: i + 1, expanded: false };
-    }
 
-    const activeTop    = activeIndex * STACK_PEEK + EXPAND_GAP;
-    const activeBottom = activeTop + openHeight;
-
-    if (i === activeIndex) {
-      return { top: activeTop, height: openHeight, zIndex: count + 20, expanded: true };
-    }
-
-    if (i < activeIndex) {
-      const stepsAbove = activeIndex - 1 - i;
-      return {
-        top:      activeTop - EXPAND_GAP - CARD_HEIGHT - stepsAbove * STACK_PEEK,
-        height:   CARD_HEIGHT,
-        zIndex:   i + 1,
-        expanded: false,
-      };
-    }
-
-    const stepsBelow = i - activeIndex - 1;
-    return {
-      top:      activeBottom + EXPAND_GAP_BELOW + stepsBelow * STACK_PEEK,
-      height:   CARD_HEIGHT,
-      zIndex:   i + 1,
-      expanded: false,
-    };
-  });
-
-  const minTop = Math.min(...raw.map((l) => l.top));
-  const offset = minTop < 0 ? -minTop : 0;
-  if (!offset) return raw;
-
-  return raw.map((l) => ({ ...l, top: l.top + offset }));
-}
-
-function getStackWrapHeight(layout) {
-  const maxBottom = Math.max(...layout.map((l) => l.top + l.height));
-  return maxBottom + 80;
-}
-
-// ─── Styles ────────────────────────────────────────────────────────────────────
-const FONT = {
-  fontFamily:    '"League Spartan", sans-serif',
-  fontWeight:    600,
-  textTransform: "uppercase",
-  letterSpacing: "0.01em",
-};
-const SIDE_LABEL_STYLE = {
-  fontFamily:    '"League Spartan", sans-serif',
-  fontWeight:    600,
-  letterSpacing: "0.08em",
-  textTransform: "uppercase",
-  color:         "#555",
-};
-
-// ─── CardInner ─────────────────────────────────────────────────────────────────
-function CardInner({ project, expanded = false, onImageLoad }) {
-  const expandedImgRef = useRef(null);
-
-  const syncExpandedImageHeight = useCallback(() => {
-    const img = expandedImgRef.current;
-    if (!img) return;
-    const height = measureImageDisplayHeight(img);
-    onImageLoad?.(height);
-  }, [onImageLoad]);
-
-  useLayoutEffect(() => {
-    if (!expanded || !project.image) return;
-    const img = expandedImgRef.current;
-    if (!img) return;
-
-    const report = () => {
-      requestAnimationFrame(() => {
-        onImageLoad?.(measureImageDisplayHeight(img));
-      });
-    };
-
-    if (img.complete) report();
-
-    const ro = new ResizeObserver(report);
-    ro.observe(img);
-    return () => ro.disconnect();
-  }, [expanded, project.image, onImageLoad, syncExpandedImageHeight]);
-
-  // ── image card (collapsed) ──────────────────────────────────────────────────
-  if (project.image && !expanded) {
-    return (
-      <>
-        <img
-          src={project.image}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover object-center"
-          draggable={false}
-        />
-        <div className="absolute inset-0 bg-black/20" />
-        <h3
-          style={{ ...FONT, color: "#fff", fontWeight: 500, fontSize: 15 }}
-          className="relative z-10 truncate px-6"
-        >
-          {project.title}
-        </h3>
-      </>
-    );
-  }
-
-  // ── image card (expanded) — show FULL image at natural aspect ratio ────────
-  if (project.image && expanded) {
-    return (
-      <div className="relative w-full leading-[0]">
-        <img
-          ref={expandedImgRef}
-          src={project.image}
-          alt={project.title}
-          className="block w-full h-auto select-none"
-          draggable={false}
-          onLoad={syncExpandedImageHeight}
-        />
-        <div className="absolute inset-0 bg-black/35 pointer-events-none" />
-        <div className="absolute inset-0 z-10 flex items-end px-6 pb-6 md:px-8 md:pb-8 pointer-events-none">
-          <h3 style={{ ...FONT, color: "#fff", fontSize: 28, lineHeight: 1.15, maxWidth: 720 }}>
-            {project.title}
-          </h3>
-        </div>
+function Panel({ project, total, isActive, onActivate }) {
+  return (
+    <div
+      className={`cs4-panel ${isActive ? "is-active" : ""}`}
+      style={{ "--accent": project.accent }}
+      onMouseEnter={onActivate}
+      onFocus={onActivate}
+      onClick={onActivate}
+      role="button"
+      tabIndex={0}
+      aria-expanded={isActive}
+      aria-label={`${project.title} case study`}
+    >
+      <div className="cs4-panel-media">
+        {project.image ? (
+          <img src={project.image} alt={project.title} draggable={false} />
+        ) : (
+          <div className="cs4-panel-fallback" style={{ background: project.accent }} />
+        )}
+        <div className="cs4-panel-veil" />
       </div>
-    );
-  }
 
-  // ── split ───────────────────────────────────────────────────────────────────
-  if (project.type === "split") {
-    return (
-      <div className="flex h-full w-full items-center justify-between px-6 gap-4">
-        <h3 style={{ ...FONT, color: project.textColor, fontSize: expanded ? 80 : 36, letterSpacing: "-0.03em", lineHeight: 1 }}>
-          {project.title}
-        </h3>
-        {project.description && (
-          <p className="text-right text-[11px] leading-relaxed opacity-60 max-w-[120px]" style={{ color: project.textColor }}>
-            {project.description}
-          </p>
+      {/* collapsed: vertical spine label */}
+      <div className="cs4-panel-spine">
+        <span className="cs4-panel-spine-index">{String(project.index + 1).padStart(2, "0")}</span>
+        <span className="cs4-panel-spine-title">{project.title}</span>
+        <span className="cs4-panel-spine-dot" />
+      </div>
+
+      {/* expanded: full content */}
+      <div className="cs4-panel-content">
+        <span className="cs4-panel-tag">
+          Case {String(project.index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+        </span>
+        <h3 className="cs4-panel-title">{project.title}</h3>
+        {project.slug && (
+          <Link
+            href={`/${project.slug}`}
+            onClick={(e) => e.stopPropagation()}
+            className="cs4-panel-cta"
+          >
+            <span>Explore</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
         )}
       </div>
-    );
-  }
-
-  // ── solid-arrow ─────────────────────────────────────────────────────────────
-  if (project.type === "solid-arrow") {
-    return (
-      <div className="flex h-full w-full items-center justify-between px-6 gap-4">
-        <h3 style={{ ...FONT, color: project.textColor, fontWeight: 500, fontSize: expanded ? 40 : 15 }}>
-          {project.title}
-        </h3>
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/10">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M3 11L11 3M11 3H5M11 3V9" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </span>
-      </div>
-    );
-  }
-
-  // ── image-badge ─────────────────────────────────────────────────────────────
-  if (project.type === "image-badge") {
-    return (
-      <div className="flex h-full w-full items-center px-6">
-        <span
-          className="inline-flex rounded-[5px] px-3 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-white"
-          style={{ background: "#B32D2E" }}
-        >
-          {project.badge}
-        </span>
-      </div>
-    );
-  }
-
-  // ── watermark ───────────────────────────────────────────────────────────────
-  if (project.type === "watermark") {
-    return (
-      <div className="flex h-full w-full items-center px-6">
-        <h3
-          style={{ ...FONT, color: project.textColor, fontSize: expanded ? 80 : 42, lineHeight: 1 }}
-          className="select-none"
-        >
-          {project.title}
-        </h3>
-      </div>
-    );
-  }
-
-  // ── solid / image-hero (text only fallback) ─────────────────────────────────
-  return (
-    <div className={`flex h-full w-full items-center px-6 ${project.align === "start" ? "justify-start" : "justify-center"}`}>
-      <h3 style={{ ...FONT, color: project.textColor, fontWeight: 500, fontSize: expanded ? 40 : 15 }}>
-        {project.title}
-      </h3>
     </div>
   );
 }
 
 // ─── Main Component ────────────────────────────────────────────────────────────
-const CaseStudyStack = () => {
-  const [projects, setProjects]       = useState([]);
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [openHeight, setOpenHeight]   = useState(CARD_HEIGHT);
+const CaseStudyAccordion = () => {
+  const [projects, setProjects] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const sectionRef = useRef(null);
+  const headRef = useRef(null);
 
-  const cardRefs       = useRef([]);
-  const stackRef       = useRef(null);
-  const isAnimatingRef = useRef(false);
-
-  // ── Fetch ──────────────────────────────────────────────────────────────────
   useEffect(() => {
     let cancelled = false;
     fetch(getCaseStudyApiUrl())
-      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(items => {
+      .then((r) => {
+        if (!r.ok) throw new Error(r.status);
+        return r.json();
+      })
+      .then((items) => {
         if (cancelled || !Array.isArray(items)) return;
         setProjects(items.map(mapCaseStudyItem));
       })
-      .catch(err => console.warn("Case study fetch failed:", err));
-    return () => { cancelled = true; };
+      .catch((err) => console.warn("Case study fetch failed:", err));
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  // ── Animate stack whenever activeIndex or openHeight changes ───────────────
   useLayoutEffect(() => {
-    const cards = cardRefs.current.filter(Boolean);
-    if (!cards.length) return;
-
-    let effectiveOpenHeight = openHeight;
-    if (activeIndex !== null) {
-      const img = cards[activeIndex]?.querySelector(".cs-card-media img");
-      const measured = img ? measureImageDisplayHeight(img) : 0;
-      if (measured > 0) {
-        effectiveOpenHeight = measured;
-        if (Math.abs(measured - openHeight) > 2) {
-          setOpenHeight(measured);
-        }
-      }
-    }
-
-    const layout = getStackLayout(cards.length, activeIndex, effectiveOpenHeight);
-    const wrapH  = getStackWrapHeight(layout);
-
-    if (stackRef.current) {
-      gsap.to(stackRef.current, {
-        height: wrapH,
-        duration: ANIM_DURATION,
-        ease: "power2.inOut",
-      });
-    }
-
-    cards.forEach((card, i) => {
-      const l = layout[i];
-      card.style.zIndex = String(l.zIndex);
-
-      if (l.expanded) {
-        gsap.killTweensOf(card, "height");
-        card.style.overflow = "visible";
-        card.style.height   = "auto";
-        gsap.to(card, {
-          top:             l.top,
-          rotateX:         0,
-          scaleY:          1,
-          transformOrigin: "50% 0%",
-          force3D:         true,
-          duration:        ANIM_DURATION,
-          ease:            "power2.inOut",
-          onComplete: () => { card.style.height = "auto"; },
-        });
-      } else {
-        card.style.overflow = "hidden";
-        gsap.to(card, {
-          top:             l.top,
-          height:          l.height,
-          rotateX:         TILT_X,
-          scaleY:          parseFloat(HEIGHT_SCALE),
-          transformOrigin: "50% 100%",
-          force3D:         true,
-          duration:        ANIM_DURATION,
-          ease:            "power2.inOut",
-        });
-      }
+    if (!sectionRef.current) return;
+    gsap.set(sectionRef.current.querySelectorAll(".cs4-panel"), { autoAlpha: 0, y: 24 });
+    gsap.to(sectionRef.current.querySelectorAll(".cs4-panel"), {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.7,
+      stagger: 0.06,
+      ease: "power3.out",
+      scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
     });
-  }, [activeIndex, openHeight, projects.length]);
+  }, [projects.length]);
 
-  // ── Image-load callback (when an expanded image finishes loading) ──────────
-  const handleImageLoad = useCallback((imgHeight) => {
-    if (!imgHeight || imgHeight < 1) return;
-    const nextHeight = Math.round(imgHeight);
-    setOpenHeight(prev => Math.abs(prev - nextHeight) > 2 ? nextHeight : prev);
+  useLayoutEffect(() => {
+    if (!headRef.current) return;
+    gsap.set(headRef.current, { autoAlpha: 0, y: 30 });
+    gsap.to(headRef.current, {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power3.out",
+      scrollTrigger: { trigger: headRef.current, start: "top 85%" },
+    });
   }, []);
-
-  // ── Select / deselect ──────────────────────────────────────────────────────
-  const selectCard = useCallback((index) => {
-    if (isAnimatingRef.current) return;
-    isAnimatingRef.current = true;
-
-    const next    = activeIndex === index ? null : index;
-    const project = projects[index];
-
-    if (next !== null) {
-      if (project?.image) {
-        const containerWidth =
-          stackRef.current?.offsetWidth ||
-          cardRefs.current[index]?.offsetWidth ||
-          0;
-        preloadImageHeight(project.image, containerWidth).then((height) => {
-          setOpenHeight((prev) => (prev > CARD_HEIGHT ? prev : height));
-        });
-      } else {
-        setOpenHeight(EXPANDED_HEIGHT);
-      }
-    } else {
-      setOpenHeight(CARD_HEIGHT);
-    }
-
-    setActiveIndex(next);
-
-    window.setTimeout(() => {
-      isAnimatingRef.current = false;
-    }, ANIM_DURATION * 1000 + 60);
-  }, [activeIndex, projects]);
-
-  // ── Escape to close ────────────────────────────────────────────────────────
-  useEffect(() => {
-    if (activeIndex === null) return;
-    const handler = (e) => { if (e.key === "Escape") selectCard(activeIndex); };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [activeIndex, selectCard]);
-
-  const initialHeight = projects.length > 0
-    ? (projects.length - 1) * STACK_PEEK + CARD_HEIGHT + 80
-    : CARD_HEIGHT + 80;
 
   return (
     <>
       <style>{`
-        .cs-scene {
-          perspective: 1400px;
-          perspective-origin: 50% 0%;
-          overflow: visible;
+        .cs4-section { background:#0f0f0e; padding: 90px 0; }
+
+        .cs4-head { max-width:1320px; margin:0 auto 48px; padding:0 24px;
+          display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+        .cs4-eyebrow { font-family:${DISPLAY_FONT}; font-weight:600; letter-spacing:.22em; text-transform:uppercase; font-size:12px; color:#E8542A; }
+        .cs4-heading { font-family:${DISPLAY_FONT}; font-weight:600; letter-spacing:-0.02em; color:#fff;
+          font-size: clamp(34px, 5vw, 60px); line-height:.95; margin-top:8px; }
+        .cs4-hint { font-family:${DISPLAY_FONT}; font-weight:500; font-size:13px; color:rgba(255,255,255,.45);
+          letter-spacing:.04em; text-transform:uppercase; }
+
+        .cs4-rail {
+          max-width:1320px; margin:0 auto; padding:0 24px;
+          display:flex; gap:8px; height: 480px;
         }
-        .cs-stack-wrap {
-          transform-style: preserve-3d;
-          position: relative;
-          overflow: visible;
+
+        .cs4-panel {
+          position:relative; border-radius: 18px; overflow:hidden; cursor:pointer;
+          background:#1a1a18; flex: 1 1 0%;
+          transition: flex-grow .6s cubic-bezier(.22,.9,.18,1), flex-basis .6s cubic-bezier(.22,.9,.18,1);
         }
-        .cs-card {
-          position: absolute;
-          left: -3px;
-          width: calc(100% + 6px);
-          height: ${CARD_HEIGHT}px;
-          cursor: pointer;
-          transform-style: preserve-3d;
-          border-radius: 0;
-          overflow: hidden;
-          -webkit-tap-highlight-color: transparent;
-          transform: rotateX(${TILT_X}deg) scaleY(${HEIGHT_SCALE});
-          transform-origin: 50% 100%;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-          will-change: top, height, transform;
+        .cs4-panel.is-active { flex-grow: 6; }
+
+        .cs4-panel-media { position:absolute; inset:0; }
+        .cs4-panel-media img {
+          position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+          filter: grayscale(70%) brightness(.7); transform: scale(1.08);
+          transition: filter .6s ease, transform .8s cubic-bezier(.22,.9,.18,1);
         }
-        /* When the card is open, flatten it and let the image dictate the height */
-        .cs-card.is-active {
-          left: 0 !important;
-          width: 100% !important;
-          overflow: visible !important;
-          height: auto !important;
-          min-height: ${CARD_HEIGHT}px;
-          transform: none !important;          /* no scaleY squish */
-          transform-origin: 50% 0%;
-          backface-visibility: visible;
-          -webkit-backface-visibility: visible;
-          box-shadow: 0 24px 60px rgba(0,0,0,0.28);
+        .cs4-panel.is-active .cs4-panel-media img { filter: grayscale(0%) brightness(1); transform: scale(1); }
+        .cs4-panel-fallback { position:absolute; inset:0; opacity:.5; }
+        .cs4-panel-veil {
+          position:absolute; inset:0;
+          background: linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.78) 100%);
         }
-        .cs-card.is-active .cs-card-media {
-          overflow: visible;
-          height: auto;
+
+        /* collapsed spine label, rotated, fades out when active */
+        .cs4-panel-spine {
+          position:absolute; inset:0; display:flex; flex-direction:column; align-items:center;
+          justify-content:flex-end; gap:14px; padding-bottom:24px; color:#fff;
+          opacity:1; transition: opacity .35s ease;
         }
-        /* Make sure the expanded image is never cropped */
-        .cs-card.is-active img {
-          display: block;
-          width: 100%;
-          height: auto;
-          max-width: 100%;
-          object-fit: contain;
+        .cs4-panel.is-active .cs4-panel-spine { opacity:0; pointer-events:none; }
+        .cs4-panel-spine-index { font-family:${DISPLAY_FONT}; font-weight:600; font-size:12px; color:var(--accent); letter-spacing:.08em; }
+        .cs4-panel-spine-title {
+          writing-mode: vertical-rl; transform:rotate(180deg);
+          font-family:${DISPLAY_FONT}; font-weight:600; font-size:14px; letter-spacing:.04em;
+          text-transform:uppercase; white-space:nowrap; max-height: 260px; overflow:hidden;
         }
-        .cs-card:not(.is-active):hover {
-          filter: brightness(1.05);
+        .cs4-panel-spine-dot { width:8px; height:8px; border-radius:999px; background:var(--accent); }
+
+        /* expanded content */
+        .cs4-panel-content {
+          position:absolute; left:0; right:0; bottom:0; padding: 28px 30px;
+          display:flex; flex-direction:column; gap:10px; color:#fff;
+          opacity:0; transform: translateY(16px);
+          transition: opacity .4s ease .12s, transform .4s ease .12s;
         }
-        .cs-card:focus-visible {
-          outline: 2px solid rgba(59,113,232,0.7);
-          outline-offset: 3px;
+        .cs4-panel.is-active .cs4-panel-content { opacity:1; transform:translateY(0); }
+        .cs4-panel-tag {
+          font-family:${DISPLAY_FONT}; font-weight:600; font-size:11px; letter-spacing:.14em;
+          text-transform:uppercase; color: var(--accent);
+        }
+        .cs4-panel-title {
+          font-family:${DISPLAY_FONT}; font-weight:600; font-size: clamp(20px, 2.6vw, 30px);
+          line-height:1.15; letter-spacing:-0.01em; max-width: 560px;
+        }
+        .cs4-panel-cta {
+          margin-top:6px; align-self:flex-start; display:inline-flex; align-items:center; gap:8px;
+          border:1.5px solid rgba(255,255,255,.5); border-radius:999px; padding:9px 18px;
+          font-family:${DISPLAY_FONT}; font-weight:600; font-size:12px; letter-spacing:.05em; text-transform:uppercase;
+          color:#fff; text-decoration:none; transition: background .25s, border-color .25s, color .25s;
+        }
+        .cs4-panel-cta:hover { background: var(--accent); border-color: var(--accent); }
+
+        @media (max-width: 860px) {
+          .cs4-rail { height: 560px; flex-wrap: nowrap; overflow-x:auto; scroll-snap-type:x mandatory; }
+          .cs4-panel { flex: 0 0 84px; scroll-snap-align:start; }
+          .cs4-panel.is-active { flex: 0 0 86%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .cs4-panel, .cs4-panel-media img, .cs4-panel-content { transition:none !important; }
         }
       `}</style>
 
-      <section className="relative bg-white px-4 pb-[35px] pt-10 md:px-8 md:pb-[70px] md:pt-16 lg:px-12">
-        <div className="mx-auto flex w-full max-w-[min(100%,1280px)] items-start gap-4 md:gap-10 lg:max-w-[1320px] lg:gap-14">
-
-          {/* Left label */}
-          <div
-            className="hidden shrink-0 self-start lg:flex"
-            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
-          >
-            <span style={SIDE_LABEL_STYLE} className="text-[14px] xl:text-[18px]">Startups</span>
+      <section ref={sectionRef} className="cs4-section">
+        <div className="cs4-head" ref={headRef}>
+          <div>
+            <span className="cs4-eyebrow">Selected Work</span>
+            <h2 className="cs4-heading">Case Studies</h2>
           </div>
+          <span className="cs4-hint">Hover to expand →</span>
+        </div>
 
-          {/* 3-D Scene */}
-          <div className="cs-scene min-w-0 flex-1">
-            <div
-              ref={stackRef}
-              className="cs-stack-wrap mx-auto w-full"
-              style={{ height: initialHeight }}
-            >
-              {projects.map((project, index) => {
-                const isActive = activeIndex === index;
-                const shadow = isActive
-                  ? "0 24px 60px rgba(0,0,0,0.28)"
-                  : `0 -1px 0 rgba(0,0,0,${(0.08 + index * 0.012).toFixed(3)}), 0 ${2 + index}px ${8 + index * 2}px rgba(0,0,0,${(0.12 + index * 0.015).toFixed(3)})`;
-
-                return (
-                  <article
-                    key={project.id}
-                    ref={(el) => { cardRefs.current[index] = el; }}
-                    className={`cs-card${isActive ? " is-active" : ""}`}
-                    role="button"
-                    tabIndex={0}
-                    aria-expanded={isActive}
-                    aria-label={`${isActive ? "Close" : "Open"} case study: ${project.title}`}
-                    style={{
-                      top:        index * STACK_PEEK,
-                      zIndex:     index + 1,
-                      boxShadow:  shadow,
-                      background: project.bg || "#1D1D1B",
-                    }}
-                    onClick={() => selectCard(index)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        selectCard(index);
-                      }
-                    }}
-                  >
-                    {/* Card content */}
-                    <div className={`cs-card-media relative w-full ${isActive ? "" : "h-full overflow-hidden"}`}>
-                      <CardInner
-                        project={project}
-                        expanded={isActive}
-                        onImageLoad={isActive ? handleImageLoad : undefined}
-                      />
-                    </div>
-
-                    {/* Controls shown only when expanded */}
-                    {isActive && (
-                      <>
-                        <button
-                          type="button"
-                          onClick={(e) => { e.stopPropagation(); selectCard(index); }}
-                          aria-label="Close case study"
-                          className="absolute right-4 top-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-white/30 bg-black/40 text-white backdrop-blur-sm hover:bg-black/60 transition-colors duration-200"
-                        >
-                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M3 3L13 13M13 3L3 13" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
-                          </svg>
-                        </button>
-
-                        {project.slug && (
-                          <Link
-                            href={`/${project.slug}`}
-                            onClick={(e) => e.stopPropagation()}
-                            className="absolute bottom-4 right-4 z-20 inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/40 px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-white backdrop-blur-sm hover:bg-black/60 transition-colors duration-200"
-                            style={{ fontFamily: '"Montserrat", sans-serif' }}
-                          >
-                            Read More
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                              <path d="M2 12L12 2M12 2H5M12 2V9" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          </Link>
-                        )}
-                      </>
-                    )}
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Right label */}
-          <div
-            className="hidden shrink-0 self-start lg:flex"
-            style={{ writingMode: "vertical-rl" }}
-          >
-            <span style={SIDE_LABEL_STYLE} className="text-[14px] xl:text-[18px]">Projects</span>
-          </div>
+        <div className="cs4-rail">
+          {projects.map((project, i) => (
+            <Panel
+              key={project.id}
+              project={project}
+              total={projects.length}
+              isActive={activeIndex === i}
+              onActivate={() => setActiveIndex(i)}
+            />
+          ))}
         </div>
       </section>
     </>
   );
 };
 
-export default CaseStudyStack;
+export default CaseStudyAccordion;

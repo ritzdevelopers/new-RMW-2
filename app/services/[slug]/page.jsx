@@ -55,7 +55,9 @@ export default async function ServiceDetailPage({ params }) {
             title={service.title}
           />
         ) : null}
-        {service.carousel ? <ServiceDetailCarousel carousel={service.carousel} /> : null}
+        {service.carousel ? (
+          <ServiceDetailCarousel carousel={service.carousel} serviceSlug={service.slug} />
+        ) : null}
         {service.mediaSection ? (
           <ServiceDetailMediaSection mediaSection={service.mediaSection} />
         ) : null}
