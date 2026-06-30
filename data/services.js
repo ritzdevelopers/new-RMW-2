@@ -68,7 +68,7 @@ export const services = [
       description:
         "Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges. Today's drinkers are more expressive, diverse – and female. Women now make up a third of whisky consumers, leaving the cigar lounges.",
       image: {
-        src: "/digital-marketing/dgital-2.jpg",
+        src: "/digital-marketing/rmw-29.jpg    ",
         width: 720.953,
         height: 762.712,
         aspectRatio: "69 / 73",
