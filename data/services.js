@@ -35,7 +35,7 @@ export const services = [
     intro: {
       images: [
         {
-          src: "/services/website%20banner%20%5BRecovered%5D-08.jpg",
+          src: "/digital-marketing/digital-banner.jpg",
           width: 1440,
           height: 630,
         },
@@ -46,7 +46,7 @@ export const services = [
       sidebarLabel: "Services",
     },
     carousel: {
-      background: "/digital-marketing/Mask%20group%20(17).png",
+      background: "/digital-marketing/bg-image.jpg",
       content:
         "Behind every metric is a strategy built with purpose. These results showcase how thoughtful content, targeted campaigns, and consistent optimization translate into stronger engagement, wider reach, and meaningful business growth. For us, performance isn't a promise, it's proof.",
       slides: [
@@ -92,7 +92,7 @@ export const services = [
       grid: {
         items: [
           {
-            src: "/digital-marketing/graph1.jpg",
+            src: "/digital-marketing/two.jpg",
             className: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
             aspectRatio: "672 / 355",
           },
