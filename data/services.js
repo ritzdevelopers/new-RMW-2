@@ -145,8 +145,10 @@ export const services = [
         },
       ],
       eyebrow: "Design that defies convention",
-      body:
-        "Great brands are not built by chance, they are designed with purpose. From brand identity and visual design to compelling campaigns and creative storytelling, we craft experiences that capture attention and leave a lasting impression. Every element we create is driven by strategy, shaped by creativity, and designed to make your brand stand apart in a crowded marketplace.",
+      body: [
+        "Great brands are not built by chance, they are designed with purpose. From brand identity and visual design to compelling campaigns and creative storytelling, we craft experiences that capture attention and leave a lasting impression.",
+        "Every element we create is driven by strategy, shaped by creativity, and designed to make your brand stand apart in a crowded marketplace.",
+      ],
       sidebarLabel: "Services",
     },
     carousel: {

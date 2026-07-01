@@ -103,7 +103,7 @@ const ServiceDetailIntro = ({ intro, activeSlug, title }) => {
   if (!intro) return null;
 
   const introImages = intro.images.map(normalizeIntroImage);
-  const bodyCopy = Array.isArray(intro.body) ? intro.body.join(" ") : intro.body;
+  const bodyParagraphs = Array.isArray(intro.body) ? intro.body : [intro.body];
 
   return (
     <section ref={sectionRef} className="m-0 overflow-x-clip bg-[#F1F1F1] pt-0">
@@ -168,12 +168,15 @@ const ServiceDetailIntro = ({ intro, activeSlug, title }) => {
 
           <div className="mt-5 flex flex-col gap-10 md:mt-6 lg:flex-row lg:items-end lg:justify-between lg:gap-12 xl:gap-16">
             <Reveal className="min-w-0 flex-1 ">
-              <p
-                className="m-0 self-stretch capitalize text-[22px] leading-[34px] sm:text-[28px] sm:leading-[44px] md:text-[32px] md:leading-[52px] xl:text-[36px] lg:text-[26px] xl:leading-[61px] lg:leading-[40px]"
-                style={bodyTextStyle}
-              >
-                {bodyCopy}
-              </p>
+              {bodyParagraphs.map((paragraph, index) => (
+                <p
+                  key={index}
+                  className={`m-0 self-stretch capitalize text-[22px] leading-[34px] sm:text-[28px] sm:leading-[44px] md:text-[32px] md:leading-[52px] xl:text-[36px] lg:text-[26px] xl:leading-[61px] lg:leading-[40px]${index > 0 ? " mt-5 md:mt-6" : ""}`}
+                  style={bodyTextStyle}
+                >
+                  {paragraph}
+                </p>
+              ))}
             </Reveal>
 
             {/* <aside className="min-w-0 w-full shrink-0 lg:ml-auto lg:w-[280px] xl:w-[320px]">
