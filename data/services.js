@@ -36,6 +36,7 @@ export const services = [
       images: [
         {
           src: "/digital-marketing/digital-banner.jpg",
+          mobileSrc: "/digital-marketing/digital-marketing-banner.jpg",
           width: 1440,
           height: 630,
         },
@@ -137,7 +138,8 @@ export const services = [
     intro: {
       images: [
         {
-          src: "/creative-services/digital-banner.jpg",
+          src: "/creative-services/creative-banner.jpg",
+          mobileSrc: "/creative-services/creative-mobile.jpg",
           width: 1440,
           height: 630,
         },

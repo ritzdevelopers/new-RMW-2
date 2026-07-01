@@ -116,13 +116,26 @@ const ServiceDetailIntro = ({ intro, activeSlug, title }) => {
               key={`${image.src}-${index}`}
               className="relative h-[550px] w-full min-w-0 overflow-hidden md:h-auto"
             >
-              <img
-                src={image.src}
-                alt=""
-                width={image.width}
-                height={image.height}
-                className="block h-full min-h-0 w-full object-cover object-center md:h-auto"
-              />
+              {image.mobileSrc ? (
+                <picture>
+                  <source media="(min-width: 768px)" srcSet={image.src} />
+                  <img
+                    src={image.mobileSrc}
+                    alt=""
+                    width={image.width}
+                    height={image.height}
+                    className="block h-full min-h-0 w-full object-cover object-center md:h-auto"
+                  />
+                </picture>
+              ) : (
+                <img
+                  src={image.src}
+                  alt=""
+                  width={image.width}
+                  height={image.height}
+                  className="block h-full min-h-0 w-full object-cover object-center md:h-auto"
+                />
+              )}
               <div
                 className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/20"
                 aria-hidden
