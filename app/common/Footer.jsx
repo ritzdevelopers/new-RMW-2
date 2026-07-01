@@ -67,7 +67,6 @@ const serviceTextClassName = "text-[14px] md:text-[12px] lg:text-[13px] xl:text-
 const brandTextStyle = {
   fontFamily: sequelFontFamily,
   fontWeight: 420,
-  fontSize: "74px",
   lineHeight: "100%",
   letterSpacing: "0",
   textAlign: "center",
@@ -151,7 +150,7 @@ const getBrandTargets = (wrap, ritz, mediaworld) => {
 const MediaWorldText = () => (
   <span
     data-footer-mediaworld
-    className="inline-flex shrink-0 items-baseline gap-[10px] whitespace-nowrap !text-[33px] md:gap-2 md:!text-[74px]"
+    className="inline-flex shrink-0 items-baseline gap-[6px] whitespace-nowrap !text-[28px] md:gap-2 md:!text-[74px]"
     style={brandTextStyle}
   >
     <span>MEDIA</span>
@@ -207,11 +206,13 @@ const Footer = ({ overlaySection = null }) => {
 
       ScrollTrigger.addEventListener("refreshInit", onRefreshInit);
 
-      gsap
-        .timeline({ scrollTrigger: scrollConfig })
-        .to(services, { opacity: 0, ease: "none", duration: 1 }, 0)
-        .to(ritz, { x: () => targets.ritzX, ease: "none", duration: 1 }, 0)
-        .to(mediaworld, { x: () => targets.mwX, ease: "none", duration: 1 }, 0);
+      if (window.matchMedia("(min-width: 768px)").matches) {
+        gsap
+          .timeline({ scrollTrigger: scrollConfig })
+          .to(services, { opacity: 0, ease: "none", duration: 1 }, 0)
+          .to(ritz, { x: () => targets.ritzX, ease: "none", duration: 1 }, 0)
+          .to(mediaworld, { x: () => targets.mwX, ease: "none", duration: 1 }, 0);
+      }
     }, banner);
 
     const refresh = () => ScrollTrigger.refresh();
@@ -541,7 +542,7 @@ const Footer = ({ overlaySection = null }) => {
           data-footer-brand-wrap
           className="relative mx-auto grid min-h-[130px] w-full max-w-[1500px] grid-cols-1 overflow-hidden px-8 md:min-h-[110px] md:px-12 lg:min-h-[90px]"
         >
-          <div className="relative z-[1] col-start-1 row-start-1 flex flex-col items-center justify-center gap-2 self-center py-2 text-center pointer-events-none">
+          <div className="relative z-[1] col-start-1 row-start-1 flex flex-col items-center justify-center gap-2 self-center py-2 text-center pointer-events-none opacity-25 md:opacity-100">
             <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
               {servicesRow1.map((service, index) => (
                 <React.Fragment key={service}>
@@ -560,16 +561,18 @@ const Footer = ({ overlaySection = null }) => {
             </p>
           </div>
 
-          <span
-            data-footer-ritz
-            style={brandTextStyle}
-            className="relative z-[3] col-start-1 row-start-1 inline-block shrink-0 justify-self-start self-end !text-[33px] md:!text-[74px]"
-          >
-            RITZ
-          </span>
+          <div className="relative z-[3] col-start-1 row-start-1 flex w-full items-end justify-between gap-2 self-end py-1 md:contents">
+            <span
+              data-footer-ritz
+              style={brandTextStyle}
+              className="inline-block shrink-0 !text-[28px] md:col-start-1 md:row-start-1 md:justify-self-start md:self-end md:!text-[74px]"
+            >
+              RITZ
+            </span>
 
-          <div className="relative z-[3] col-start-1 row-start-1 shrink-0 justify-self-end self-end">
-            <MediaWorldText />
+            <div className="shrink-0 md:col-start-1 md:row-start-1 md:justify-self-end md:self-end">
+              <MediaWorldText />
+            </div>
           </div>
         </div>
       </div>
