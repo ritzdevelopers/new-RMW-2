@@ -157,28 +157,28 @@ export const services = [
         "Every visual we create is built with intent — from brand identity to campaign films. These highlights showcase how strong design, storytelling, and craft come together to elevate brands and leave a lasting impression.",
       slides: [
         {
-          src: "/navbar/creative-services/branding-identity-development.jpg",
-          content: "Branding & Identity",
+          src: "/creative-services/branding.jpg",
+          content: "Branding & identity development",
           subSlug: "branding-and-identity-development",
         },
         {
-          src: "/navbar/creative-services/graphic-desinger.jpg",
-          content: "Graphic Design",
+          src: "/creative-services/graphic-designer.jpg",
+          content: "Graphic design",
           subSlug: "graphic-designing",
         },
         {
-          src: "/navbar/creative-services/logo-design.jpg",
-          content: "Logo Design",
+          src: "/creative-services/logo-design.jpg",
+          content: "Logo design",
           subSlug: "logo-design",
         },
         {
-          src: "/navbar/creative-services/print-advertising-design.jpg",
-          content: "Print Advertising",
+          src: "/creative-services/print-advertising.jpg",
+          content: "Print advertising design",
           subSlug: "print-advertisement-design",
         },
         {
-          src: "/navbar/creative-services/packaging-design.jpg",
-          content: "Packaging Design",
+          src: "/creative-services/packaging-design.jpg",
+          content: "Packaging design",
           subSlug: "packaging-design",
         },
       ],
