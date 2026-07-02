@@ -7,8 +7,10 @@ import ServiceDetailIntro from "../../component/services/ServiceDetailIntro";
 import ServiceDetailCarousel from "../../component/services/ServiceDetailCarousel";
 import ServiceDetailMediaSection from "../../component/services/ServiceDetailMediaSection";
 import ServiceDetailContent from "../../component/services/ServiceDetailContent";
+import ThreeDRenderingSlider from "../../component/services/ThreeDRenderingSlider";
 import Section7 from "../../component/about/Section7";
 import { getServiceBySlug, services } from "../../../data/services";
+import { threeDRenderingSubServices } from "../../../data/sub-services";
 
 export function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
@@ -34,6 +36,18 @@ export default async function ServiceDetailPage({ params }) {
 
   if (!service) {
     notFound();
+  }
+
+  if (slug === "3d-rendering") {
+    return (
+      <>
+        <Header />
+        <div className="relative overflow-x-hidden">
+          <ThreeDRenderingSlider subServices={threeDRenderingSubServices} />
+        </div>
+        <Footer overlaySection={<Section7 />} />
+      </>
+    );
   }
 
   return (
