@@ -4,6 +4,7 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
+import { services, getServiceHref } from "../../data/services";
 
 const navLinks = [
   { label: "WORK", href: "/case-study" },
@@ -16,6 +17,7 @@ const linkClass =
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
   const headerRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -50,7 +52,7 @@ const Header = () => {
             <Image
               src="/logo/rmw.logo.png"
               alt="Ritz Media World"
-              width={180}
+              width={180}  
               height={72}
               className="h-12 w-auto md:h-14"
               priority
@@ -60,7 +62,44 @@ const Header = () => {
 
         <div className="flex items-center gap-8 text-right md:gap-10">
           <nav className="hidden items-center gap-8 md:flex md:gap-10">
-            {navLinks.map((link) => (
+            <Link
+              href="/case-study"
+              className={`${linkClass} overflow-hidden`}
+            >
+              <span data-header-reveal className="inline-block">
+                WORK
+              </span>
+            </Link>
+
+            <div className="group relative">
+              <button
+                type="button"
+                className={`${linkClass} overflow-hidden`}
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span data-header-reveal className="inline-flex items-center gap-1.5">
+                  SERVICES
+                  <i className="ri-arrow-down-s-line text-lg transition-transform duration-200 group-hover:rotate-180" aria-hidden />
+                </span>
+              </button>
+
+              <div className="pointer-events-none invisible absolute left-0 top-full z-50 pt-3 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100">
+                <div className="min-w-[300px] border border-white/10 bg-[#0D1334] py-2 shadow-xl">
+                  {services.map((service) => (
+                    <Link
+                      key={service.slug}
+                      href={getServiceHref(service.slug)}
+                      className="block px-5 py-2.5 font-sequel text-sm font-[310] uppercase leading-snug tracking-normal text-white transition-colors hover:bg-white/10"
+                    >
+                      {service.title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {navLinks.slice(1).map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
@@ -110,12 +149,58 @@ const Header = () => {
         <button
           type="button"
           aria-label="Close menu"
-          onClick={() => setMenuOpen(false)}
+          onClick={() => {
+            setMenuOpen(false);
+            setServicesOpen(false);
+          }}
           className="absolute top-8 right-8 flex cursor-pointer items-center justify-center text-white"
         >
           <i className="ri-close-line text-[22px]" aria-hidden />
         </button>
-        {navLinks.map((link) => (
+        <Link
+          href="/case-study"
+          className={linkClass}
+          onClick={() => setMenuOpen(false)}
+        >
+          WORK
+        </Link>
+
+        <div>
+          <button
+            type="button"
+            className={`${linkClass} flex w-full items-center justify-between`}
+            aria-expanded={servicesOpen}
+            onClick={() => setServicesOpen((open) => !open)}
+          >
+            SERVICES
+            <i
+              className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
+              aria-hidden
+            />
+          </button>
+
+          <div
+            className={`mt-3 flex flex-col gap-3 overflow-hidden pl-3 transition-all duration-300 ${
+              servicesOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            {services.map((service) => (
+              <Link
+                key={service.slug}
+                href={getServiceHref(service.slug)}
+                className="font-sequel text-sm font-[310] uppercase leading-snug tracking-normal text-white/90 transition-colors hover:text-white"
+                onClick={() => {
+                  setMenuOpen(false);
+                  setServicesOpen(false);
+                }}
+              >
+                {service.title}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {navLinks.slice(1).map((link) => (
           <Link
             key={link.label}
             href={link.href}

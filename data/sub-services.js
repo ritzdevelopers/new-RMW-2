@@ -469,31 +469,33 @@ export const threeDRenderingSubServices = [
     heroTitle: "3D Exterior Rendering",
     metaTitle: "3D Exterior Rendering Services in India | Ritz Media World",
     metaDescription:
-      "Photorealistic 3D exterior renders for residential, commercial, and township projects — built to sell the vision before construction begins.",
+      "Get to experience the architecture, facade materials, landscaping, and site of the building through photo-realistic exterior renderings that provide unmatched clarity.",
     cards: [
       {
-        title: "Facade & Elevation Renders",
+        title: "3D Exterior Rendering",
         description:
-          "High-impact exterior visualizations that showcase building facades, materials, and architectural character with photorealistic clarity for sales galleries and marketing.",
-        image: "/3d-rendering/rmw-29.jpg",
+          "Get to experience the architecture, facade materials, landscaping, and site of the building through photo-realistic exterior renderings that provide unmatched clarity. The right option for pre-launch marketing, investor portfolio and collateral.",
+        image: "/services/3drendring/F8.png",
       },
       {
-        title: "Day & Dusk Views",
-        description:
-          "Multiple lighting scenarios — bright daylight and warm dusk — that help buyers experience how a project looks across different times and moods.",
-        image: "/3d-rendering/architectural.jpg",
+        title: "Residential Apartments",
+        description: "Residential Apartments",
+        image: "/services/3drendring/processicon/service1/service1.png",
       },
       {
-        title: "Street-Level Perspectives",
-        description:
-          "Ground-level camera angles that show entry experiences, drop-offs, retail frontages, and how the building sits within its immediate surroundings.",
-        image: "/3d-rendering/two.jpg",
+        title: "Villas Bungalows",
+        description: "Villas Bungalows",
+        image: "/services/3drendring/processicon/service1/service2.png",
       },
       {
-        title: "Context & Surroundings",
-        description:
-          "Site-accurate renders with roads, landscaping, and neighbouring context so stakeholders can evaluate massing, visibility, and overall project presence.",
-        image: "/3d-rendering/digital-1.jpg",
+        title: "Commercial Towers",
+        description: "Commercial Towers",
+        image: "/services/3drendring/processicon/service1/service3.png",
+      },
+      {
+        title: "Townships",
+        description: "Townships",
+        image: "/services/3drendring/processicon/service1/service4.png",
       },
     ],
   },
@@ -503,65 +505,69 @@ export const threeDRenderingSubServices = [
     heroTitle: "3D Interior Rendering",
     metaTitle: "3D Interior Rendering Services in India | Ritz Media World",
     metaDescription:
-      "Detailed interior 3D renders with accurate materials, lighting, and furnishings that help clients experience spaces before they are built.",
+      "Real-to-life living and dining rooms, master bedrooms, kitchens and commercial spaces depicted through interiors with proper lighting, materials, furniture and décor.",
     cards: [
       {
-        title: "Living & Bedroom Visualizations",
+        title: "3D Interior Rendering",
         description:
-          "Warm, lived-in interior renders for apartments and villas that highlight layout flow, finishes, and furniture styling buyers can connect with emotionally.",
-        image: "/3d-rendering/two.jpg",
+          "Real-to-life living & dining rooms, master bedrooms, kitchens and commercial spaces are vividly depicted through interiors that display proper lighting, texture of material, furniture and décor. A prime service for luxury and high-end residences.",
+        image: "/services/3drendring/interior.png",
       },
       {
-        title: "Kitchen & Dining Spaces",
-        description:
-          "Functional kitchen and dining visualizations with realistic cabinetry, appliances, and surface materials that support premium positioning and faster decisions.",
-        image: "/3d-rendering/material.jpg",
+        title: "Living Dining Spaces",
+        description: "Living Dining Spaces",
+        image: "/services/3drendring/processicon/service2/service1.png",
       },
       {
-        title: "Lobby & Common Areas",
-        description:
-          "Grand entrance lobbies, corridors, and shared spaces rendered with accurate lighting and material palettes that reflect the project's brand standard.",
-        image: "/3d-rendering/architectural.jpg",
+        title: "Master Bedrooms",
+        description: "Master Bedrooms",
+        image: "/services/3drendring/processicon/service2/service2.png",
       },
       {
-        title: "Material & Finish Selection",
-        description:
-          "Close attention to textures, veneers, stone, and lighting design so every interior render feels polished, believable, and ready for client presentations.",
-        image: "/3d-rendering/graph.jpg",
+        title: "Kitchens Bathrooms",
+        description: "Kitchens Bathrooms",
+        image: "/services/3drendring/processicon/service2/service3.png",
+      },
+      {
+        title: "Office Interiors",
+        description: "Office Interiors",
+        image: "/services/3drendring/processicon/service2/service4.png",
       },
     ],
   },
   {
-    slug: "aerial-and-township",
+    slug: "aerial-township",
     title: "Aerial & Township",
     heroTitle: "Aerial & Township",
     metaTitle: "Aerial & Township 3D Rendering Services | Ritz Media World",
     metaDescription:
-      "Bird's-eye and masterplan 3D renders for townships, mixed-use developments, and large-scale projects across Delhi NCR and Pan India.",
+      "3D master plans and bird's-eye view renderings that depict the overall planning, grandeur and scale of plots, mixed-use developments and entire townships.",
     cards: [
       {
-        title: "Aerial Masterplan Views",
+        title: "Aerial & Township",
         description:
-          "High-altitude renders that show full township layouts, phase planning, and green zones — ideal for investor decks and large-format marketing.",
-        image: "/3d-rendering/digital-1.jpg",
+          "3D Master plans and bird's-eye view renderings will effectively and realistically depict the overall planning, grandeur and scale of plots, mixed use development projects and entire townships. An excellent tool for the government submissions, investor pitch and RERA filing.",
+        image: "/services/3drendring/Site%20f2.jpeg",
       },
       {
-        title: "Township Flythrough Frames",
-        description:
-          "Cinematic aerial perspectives that guide viewers across roads, towers, amenities, and open spaces in one cohesive visual story.",
-        image: "/3d-rendering/graph.jpg",
+        title: "Master Plan Views",
+        description: "Master Plan Views",
+        image: "/services/3drendring/processicon/service3/service1.png",
       },
       {
-        title: "Mixed-Use Development Renders",
-        description:
-          "Integrated visualizations for residential, retail, and commercial zones within a single master development — built for clarity at scale.",
-        image: "/3d-rendering/graph1.jpg",
+        title: "Aerial Perspectives",
+        description: "Aerial Perspectives",
+        image: "/services/3drendring/processicon/service3/service2.png",
       },
       {
-        title: "Site & Infrastructure Context",
-        description:
-          "Accurate site surroundings, access roads, and infrastructure cues that help authorities, partners, and buyers understand the full project footprint.",
-        image: "/3d-rendering/rmw-292.jpg",
+        title: "Site Layout Renders",
+        description: "Site Layout Renders",
+        image: "/services/3drendring/processicon/service3/service3.png",
+      },
+      {
+        title: "Township Visualization",
+        description: "Township Visualization",
+        image: "/services/3drendring/processicon/service3/service4.png",
       },
     ],
   },
@@ -571,65 +577,69 @@ export const threeDRenderingSubServices = [
     heroTitle: "3D Floor Plan Rendering",
     metaTitle: "3D Floor Plan Rendering Services in India | Ritz Media World",
     metaDescription:
-      "Clear, dimensionally accurate 3D floor plan renders that turn 2D layouts into easy-to-understand spatial visualizations for sales and approvals.",
+      "Simplified 3D floor plans that depict layout, furnishing and texture — suitable for unit floor plans, cut-away views, furnished layouts, and commercial space plans.",
     cards: [
       {
-        title: "3D Floor Plan Views",
+        title: "3D Floor Plan Rendering",
         description:
-          "Top-down and isometric floor plan renders that make room sizes, circulation, and layout logic instantly clear for buyers and brokers.",
-        image: "/3d-rendering/product.jpg",
+          "The most simplified and easily understandable form of floor plan design is the 3D floor plan which helps avoid ambiguity on the site during a site visit by depicting the layout, furnishing and texture. Suitable for unit floor plans, 3D cut-away views, furnished layouts, and commercial space plans.",
+        image: "/services/3drendring/Floor-Plan-new.png",
       },
       {
-        title: "Furnished Layout Options",
-        description:
-          "Furniture-planned versions of the same unit type to show livability, storage, and functional zoning without needing a full interior render.",
-        image: "/3d-rendering/two.jpg",
+        title: "Unit Floor Plans",
+        description: "Unit Floor Plans",
+        image: "/services/3drendring/processicon/service4/service1.png",
       },
       {
-        title: "Multi-Unit Comparisons",
-        description:
-          "Side-by-side 3D floor plans for 2BHK, 3BHK, and premium variants — helping sales teams explain differences quickly and confidently.",
-        image: "/3d-rendering/graph.jpg",
+        title: "3D Cut-Away Views",
+        description: "3D Cut-Away Views",
+        image: "/services/3drendring/processicon/service4/service2.png",
       },
       {
-        title: "Sales Collateral Ready",
-        description:
-          "Clean, branded floor plan visuals formatted for brochures, websites, and WhatsApp sharing so every lead gets a clear spatial understanding.",
-        image: "/3d-rendering/digital-1.jpg",
+        title: "Furnished Layouts",
+        description: "Furnished Layouts",
+        image: "/services/3drendring/processicon/service4/service3.png",
+      },
+      {
+        title: "Commercial Space Plans",
+        description: "Commercial Space Plans",
+        image: "/services/3drendring/processicon/service4/service4.png",
       },
     ],
   },
   {
-    slug: "amenity-and-landscape-rendering",
+    slug: "amenity-landscape-rendering",
     title: "Amenity & Landscape Rendering",
     heroTitle: "Amenity & Landscape Rendering",
     metaTitle: "Amenity & Landscape 3D Rendering Services | Ritz Media World",
     metaDescription:
-      "Photorealistic amenity, clubhouse, pool, and landscape renders that showcase lifestyle value across residential and township projects.",
+      "Exclusive renderings of clubhouses, swimming pools, manicured gardens, play zones, gyms and rooftops — a major draw for residential projects.",
     cards: [
       {
-        title: "Clubhouse & Amenity Zones",
+        title: "Amenity & Landscape Rendering",
         description:
-          "Detailed renders of clubhouses, gyms, lounges, and recreation areas that communicate lifestyle benefits beyond the apartment itself.",
-        image: "/3d-rendering/animation.jpg",
+          "The best selling tool for any residential project, be it the exclusive renderings of club houses, swimming pools, manicured gardens, play zones, gyms and rooftops which are a major draw.",
+        image: "/services/3drendring/f3.jpeg",
       },
       {
-        title: "Pool & Water Features",
-        description:
-          "Resort-style pool decks, fountains, and water landscapes rendered with realistic reflections, planting, and ambient lighting.",
-        image: "/3d-rendering/material.jpg",
+        title: "Clubhouse Renders",
+        description: "Clubhouse Renders",
+        image: "/services/3drendring/processicon/service5/service1.png",
       },
       {
-        title: "Landscape & Green Spaces",
-        description:
-          "Parks, jogging tracks, children's play areas, and podium gardens visualized with mature planting and human scale for believable outdoor scenes.",
-        image: "/3d-rendering/graph1.jpg",
+        title: "Pool Landscape",
+        description: "Pool Landscape",
+        image: "/services/3drendring/processicon/service5/service2.png",
       },
       {
-        title: "Lifestyle Storytelling",
-        description:
-          "Amenity renders designed for campaign use — helping developers sell not just square footage, but the everyday experience of living in the project.",
-        image: "/3d-rendering/rmw-29.jpg",
+        title: "Gym Co-working",
+        description: "Gym Co-working",
+        image: "/services/3drendring/processicon/service5/service3.png",
+      },
+      {
+        title: "Rooftop Terrace",
+        description: "Rooftop Terrace",
+        image: "/services/3drendring/processicon/service5/service4.png",
       },
     ],
   },
