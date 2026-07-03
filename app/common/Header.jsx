@@ -55,7 +55,7 @@ const Header = () => {
               width={180}  
               height={72}
               className="h-12 w-auto md:h-14"
-              priority
+              priority 
             />
           </span>
         </Link>

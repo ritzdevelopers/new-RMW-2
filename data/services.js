@@ -186,7 +186,7 @@ export const services = [
     mediaSection: {
       title: "CRAFT, NOT COMPROMISE",
       video: {
-        src: "/creative-services/digital-video.mp4",
+        src: "/creative-services/creative-service-video.mp4",
         width: 561,
         height: 342,
       },
