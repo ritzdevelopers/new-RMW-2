@@ -70,7 +70,7 @@ const Header = () => {
                 WORK
               </span>
             </Link>
-
+{/* 
             <div className="group relative">
               <button
                 type="button"
@@ -97,7 +97,7 @@ const Header = () => {
                   ))}
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {navLinks.slice(1).map((link) => (
               <Link

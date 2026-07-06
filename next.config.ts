@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
         source: "/api/category/case-study",
         destination: `${API_BASE}/api/category/case-study`,
       },
+      {
+        source: "/api/my-sql/find-blogs-using-key/:keyword*",
+        destination: `${API_BASE}/api/my-sql/find-blogs-using-key/:keyword*`,
+      },
+      {
+        source: "/api/blog/:slug*",
+        destination: `${API_BASE}/api/blog/:slug*`,
+      },
     ];
   },
 };

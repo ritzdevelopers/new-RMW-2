@@ -1,0 +1,169 @@
+import React from "react";
+import { resolveBlogImageUrl } from "../../../lib/caseStudyApi";
+import CaseStudySidebar from "./CaseStudySidebar";
+
+const DISPLAY_FONT = '"League Spartan", sans-serif';
+const BODY_FONT = '"Montserrat", sans-serif';
+
+function formatDate(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+export default function CaseStudyDetail({ blog, sidebar }) {
+  const title = blog?.title || "";
+  const image = resolveBlogImageUrl(blog?.blog_image || blog?.banner);
+  const description = blog?.description || "";
+  const createdAt = formatDate(blog?.created_at);
+
+  return (
+    <>
+      <style>{`
+        .csd-hero {
+          position: relative;
+          background: #0D1334;
+          padding: 72px 0 56px;
+        }
+        .csd-eyebrow {
+          font-family: ${DISPLAY_FONT};
+          font-weight: 600;
+          font-size: 12px;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: #E8542A;
+        }
+        .csd-title {
+          margin: 12px 0 0;
+          font-family: ${DISPLAY_FONT};
+          font-weight: 600;
+          font-size: clamp(28px, 4.5vw, 52px);
+          line-height: 1.08;
+          letter-spacing: -0.02em;
+          color: #fff;
+        }
+        .csd-content {
+          background: #fff;
+          padding: 48px 0 80px;
+        }
+        .csd-featured-wrap {
+          margin-bottom: 32px;
+          padding-bottom: 24px;
+          border-bottom: 1px solid #D9D9D9;
+        }
+        .csd-featured-image {
+          position: relative;
+          width: 100%;
+          border-radius: 5px;
+        }
+        .csd-featured-image img {
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+          display: block;
+        }
+        .csd-body {
+          font-family: ${BODY_FONT};
+          font-size: 16px;
+          line-height: 1.75;
+          color: #1D1D1B;
+          text-align: left;
+        }
+        .csd-body h2,
+        .csd-body h3,
+        .csd-body h4 {
+          font-family: ${DISPLAY_FONT};
+          font-weight: 600;
+          color: #0D1334;
+          margin: 1.6em 0 0.6em;
+          line-height: 1.25;
+        }
+        .csd-body h2 { font-size: clamp(22px, 3vw, 30px); }
+        .csd-body h3 { font-size: clamp(18px, 2.4vw, 24px); }
+        .csd-body p { margin: 0 0 1em; }
+        .csd-body img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 12px;
+          margin: 1.5em 0;
+        }
+        .csd-body a { color: #3B71E8; text-decoration: underline; }
+        .csd-body ul,
+        .csd-body ol { margin: 0 0 1em 1.25em; }
+        .csd-body table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 1.5em 0;
+          display: block;
+          overflow-x: auto;
+        }
+        .csd-body th,
+        .csd-body td {
+          border: 1px solid #e5e5e5;
+          padding: 10px 12px;
+          text-align: left;
+        }
+      `}</style>
+
+      <section className="csd-hero">
+        <div className="mx-auto w-full max-w-8xl px-8 text-left md:px-12">
+          <span className="csd-eyebrow">Case Study</span>
+          <h1 className="csd-title">{title}</h1>
+        </div>
+      </section>
+
+      <section className="csd-content">
+        <div className="mx-auto w-full max-w-8xl px-8 text-left md:px-12">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10 xl:gap-14">
+            <div className="min-w-0 lg:col-span-8">
+              {image ? (
+                <div className="csd-featured-wrap">
+                  <div className="csd-featured-image">
+                    <img src={image} alt={title} />
+                  </div>
+                  {createdAt ? (
+                    <div className="mt-3 flex flex-wrap items-center gap-3 sm:mt-4 sm:gap-4">
+                      <p
+                        className="text-[14px] font-normal sm:text-[15px] xl:text-[16px]"
+                        style={{ fontFamily: BODY_FONT }}
+                      >
+                        {createdAt}
+                      </p>
+                      <div className="h-[5px] w-[5px] rounded-full bg-[#0F1640]" />
+                      <p
+                        className="text-[12px] font-normal sm:text-[13px] xl:text-[14px]"
+                        style={{ fontFamily: BODY_FONT }}
+                      >
+                        Case Study
+                      </p>
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+              {description ? (
+                <div
+                  className="csd-body"
+                  dangerouslySetInnerHTML={{ __html: description }}
+                />
+              ) : null}
+            </div>
+
+            <div className="lg:col-span-4">
+              <CaseStudySidebar
+                allBlogs={sidebar?.allBlogs || []}
+                categories={sidebar?.categories || []}
+                keywords={sidebar?.keywords || []}
+                relatedBlogs={sidebar?.relatedBlogs || []}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
