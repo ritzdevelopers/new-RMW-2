@@ -158,6 +158,9 @@ const MediaWorldText = () => (
   </span>
 );
 
+/**
+ * @param {{ overlaySection?: import("react").ReactNode | null }} props
+ */
 const Footer = ({ overlaySection = null }) => {
   const stackRef = useRef(null);
   const overlayRef = useRef(null);
