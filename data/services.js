@@ -550,7 +550,7 @@ export const services = [
     mediaSection: {
       title: "STORIES THAT CONVERT",
       video: {
-        src: "/contents-marketing/digital-video.mp4",
+        src: "/content-marketing/content-marketiing-video.mp4",
         width: 561,
         height: 342,
       },
