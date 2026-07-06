@@ -249,7 +249,10 @@ const ServiceDetailCarousel = ({ carousel, serviceSlug, onSubServiceClick }) => 
         aria-hidden
       />
 
-      <div className="relative mx-auto flex min-h-[100dvh] w-full max-w-[1440px] flex-col items-center justify-center px-4 py-10 sm:px-6 md:py-12">
+      <div
+        className="relative mx-auto flex min-h-[100dvh] w-full max-w-[1440px] flex-col items-center justify-center bg-cover bg-center bg-no-repeat px-4 py-10 sm:px-6 md:py-12"
+        style={{ backgroundImage: "url('/digital-marketing/bg-image.jpg')" }}
+      >
         <div
           ref={stageRef}
           className="relative w-full overflow-hidden md:overflow-visible"
