@@ -128,7 +128,17 @@ const Section5 = () => {
     <section className="bg-[#FAFAFA] px-8 py-[35px] md:px-12 md:py-[70px]">
       <div className="mx-auto grid w-full max-w-8xl grid-cols-1 gap-10 overflow-hidden lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14 xl:gap-20">
         <div className="min-w-0">
-          <h2 className="m-0" style={headingStyle}>
+          <h2
+            className="m-0 text-[30px] md:text-[clamp(36px,5vw,56px)] text-center md:text-left"
+            style={{
+              fontFamily: headingStyle.fontFamily,
+              fontWeight: headingStyle.fontWeight,
+              lineHeight: headingStyle.lineHeight,
+              letterSpacing: headingStyle.letterSpacing,
+              textTransform: headingStyle.textTransform,
+              color: headingStyle.color,
+            }}
+          >
             WHAT CLIENTS SAY
           </h2>
 
@@ -145,7 +155,15 @@ const Section5 = () => {
             />
 
             <div ref={contentRef}>
-              <p className="m-0 mt-0 max-w-[900px]" style={quoteStyle}>
+              <p
+                className="m-0 mt-0 max-w-[900px] text-[16px] leading-[22px] md:text-[22px] md:leading-[30px]"
+                style={{
+                  fontFamily: quoteStyle.fontFamily,
+                  fontWeight: quoteStyle.fontWeight,
+                  letterSpacing: quoteStyle.letterSpacing,
+                  color: quoteStyle.color,
+                }}
+              >
                 {slide.quote}
               </p>
 
