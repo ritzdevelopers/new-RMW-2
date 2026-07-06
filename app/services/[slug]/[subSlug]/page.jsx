@@ -9,6 +9,7 @@ import {
   getAllSubServiceParams,
   getSubServiceBySlug,
   getSubServiceHeroTitle,
+  threeDRenderingSubServices,
 } from "../../../../data/sub-services";
 import { getSubServiceMeta, getSubServicePageData } from "../../../../lib/subServiceApi";
 
@@ -43,6 +44,22 @@ export default async function SubServicePage({ params }) {
 
   const pageData = await getSubServicePageData(slug, subSlug);
   const heroTitle = getSubServiceHeroTitle(slug, subSlug, pageData.heading);
+  const cards =
+    slug === "3d-rendering"
+      ? threeDRenderingSubServices
+          .map((service, index) => {
+            const card = service.cards?.[0];
+            if (!card) return null;
+
+            return {
+              id: `${service.slug}-${index}`,
+              title: card.title,
+              description: card.description || "",
+              image: card.image,
+            };
+          })
+          .filter(Boolean)
+      : pageData.cards;
 
   return (
     <div className="overflow-x-clip">
@@ -53,7 +70,7 @@ export default async function SubServicePage({ params }) {
         subtext={["Committed to Delivering Top-Quality Services"]}
         subtextItalic={false}
       />
-      <SubServiceSections cards={pageData.cards} />
+      <SubServiceSections cards={cards} />
       <Footer overlaySection={<Section7 />} />
     </div>
   );

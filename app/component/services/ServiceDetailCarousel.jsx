@@ -101,7 +101,7 @@ const getCardState = (offset, metrics = DESKTOP_METRICS) => {
   };
 };
 
-const ServiceDetailCarousel = ({ carousel, serviceSlug }) => {
+const ServiceDetailCarousel = ({ carousel, serviceSlug, onSubServiceClick }) => {
   const stageRef = useRef(null);
   const cardRefs = useRef([]);
   const textRefs = useRef([]);
@@ -260,8 +260,9 @@ const ServiceDetailCarousel = ({ carousel, serviceSlug }) => {
           }}
         >
           {slides.map((slide, index) => {
+            const useSubServiceClick = Boolean(onSubServiceClick && slide.subSlug);
             const href =
-              serviceSlug && slide.subSlug
+              !useSubServiceClick && serviceSlug && slide.subSlug
                 ? getSubServiceHref(serviceSlug, slide.subSlug)
                 : null;
 
@@ -315,6 +316,31 @@ const ServiceDetailCarousel = ({ carousel, serviceSlug }) => {
                 </div>
               </>
             );
+
+            if (useSubServiceClick) {
+              return (
+                <div
+                  key={slide.src}
+                  ref={(el) => {
+                    cardRefs.current[index] = el;
+                  }}
+                  className={cardClassName}
+                  style={cardStyle}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`View ${slide.content ?? "service"} details`}
+                  onClick={() => onSubServiceClick(slide.subSlug)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      onSubServiceClick(slide.subSlug);
+                    }
+                  }}
+                >
+                  {cardContent}
+                </div>
+              );
+            }
 
             if (href) {
               return (

@@ -3,6 +3,14 @@
     {
       "source": "/api/category/case-study",
       "destination": "https://ritzmediaworld.com/api/category/case-study"
+    },
+    {
+      "source": "/api/my-sql/find-blogs-using-key/:keyword*",
+      "destination": "https://ritzmediaworld.com/api/my-sql/find-blogs-using-key/:keyword*"
+    },
+    {
+      "source": "/api/blog/:slug*",
+      "destination": "https://ritzmediaworld.com/api/blog/:slug*"
     }
   ]
 }

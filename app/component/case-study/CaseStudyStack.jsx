@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,6 +12,7 @@ const API_BASE = "https://ritzmediaworld.com";
 const CASE_STUDY_PATH = "/api/category/case-study";
 const ACCENTS = ["#E8542A", "#3B71E8", "#1F8A5C", "#B32D2E", "#7A4FE0", "#D4A017"];
 const DISPLAY_FONT = '"League Spartan", sans-serif';
+const DROPDOWN_YEARS = [2025];
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 function getCaseStudyApiUrl() {
@@ -32,12 +33,40 @@ function resolveBlogImageUrl(path) {
   return `${API_BASE}/blogs/${normalized.replace(/^\/+/, "")}`;
 }
 
+function getCaseStudyHref(slug) {
+  if (!slug) return "";
+  return `/${String(slug).replace(/^\/+/, "")}`;
+}
+
+function getYearFromImagePath(path) {
+  const match = String(path || "").match(/^(\d{4})\//);
+  return match ? Number(match[1]) : null;
+}
+
+async function enrichCaseStudyYear(item) {
+  const pathYear = getYearFromImagePath(item.blog_image);
+  if (pathYear) return pathYear;
+
+  try {
+    const response = await fetch(`/api/blog/${encodeURIComponent(item.slug)}`);
+    if (!response.ok) return null;
+    const data = await response.json();
+    const createdAt = data?.blog?.created_at;
+    if (!createdAt) return null;
+    const year = new Date(createdAt).getFullYear();
+    return Number.isNaN(year) ? null : year;
+  } catch {
+    return null;
+  }
+}
+
 function mapCaseStudyItem(item, index) {
   return {
     id: item.slug,
     slug: item.slug,
     title: item.title,
     image: resolveBlogImageUrl(item.blog_image),
+    year: getYearFromImagePath(item.blog_image),
     accent: ACCENTS[index % ACCENTS.length],
     index,
   };
@@ -47,13 +76,19 @@ function mapCaseStudyItem(item, index) {
 
 
 function Panel({ project, total, isActive, onActivate }) {
+  const handlePanelClick = () => {
+    if (project.slug) {
+      window.location.href = getCaseStudyHref(project.slug);
+    }
+  };
+
   return (
     <div
       className={`cs4-panel ${isActive ? "is-active" : ""}`}
       style={{ "--accent": project.accent }}
       onMouseEnter={onActivate}
       onFocus={onActivate}
-      onClick={onActivate}
+      onClick={handlePanelClick}
       role="button"
       tabIndex={0}
       aria-expanded={isActive}
@@ -83,7 +118,7 @@ function Panel({ project, total, isActive, onActivate }) {
         <h3 className="cs4-panel-title">{project.title}</h3>
         {project.slug && (
           <Link
-            href={`/${project.slug}`}
+            href={getCaseStudyHref(project.slug)}
             onClick={(e) => e.stopPropagation()}
             className="cs4-panel-cta"
           >
@@ -100,10 +135,29 @@ function Panel({ project, total, isActive, onActivate }) {
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 const CaseStudyAccordion = () => {
-  const [projects, setProjects] = useState([]);
+  const [allProjects, setAllProjects] = useState([]);
+  const [selectedYear, setSelectedYear] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRef = useRef(null);
   const headRef = useRef(null);
+
+  const years = useMemo(() => {
+    const yearSet = new Set(
+      allProjects.map((project) => project.year).filter((year) => year != null),
+    );
+    DROPDOWN_YEARS.forEach((year) => yearSet.add(year));
+    return [...yearSet].sort((a, b) => b - a);
+  }, [allProjects]);
+
+  const projects = useMemo(() => {
+    if (!selectedYear || selectedYear === "all") return allProjects;
+    const year = Number(selectedYear);
+    return allProjects.filter((project) => project.year === year);
+  }, [allProjects, selectedYear]);
+
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [selectedYear]);
 
   useEffect(() => {
     let cancelled = false;
@@ -112,9 +166,27 @@ const CaseStudyAccordion = () => {
         if (!r.ok) throw new Error(r.status);
         return r.json();
       })
-      .then((items) => {
+      .then(async (items) => {
         if (cancelled || !Array.isArray(items)) return;
-        setProjects(items.map(mapCaseStudyItem));
+        const mapped = items.map(mapCaseStudyItem);
+        const enriched = await Promise.all(
+          mapped.map(async (project, index) => {
+            if (project.year != null) return project;
+            const year = await enrichCaseStudyYear(items[index]);
+            return { ...project, year };
+          }),
+        );
+        if (!cancelled) {
+          setAllProjects(enriched);
+          const yearSet = new Set(
+            enriched.map((project) => project.year).filter((year) => year != null),
+          );
+          DROPDOWN_YEARS.forEach((year) => yearSet.add(year));
+          const sortedYears = [...yearSet].sort((a, b) => b - a);
+          if (sortedYears.length > 0) {
+            setSelectedYear(String(sortedYears[0]));
+          }
+        }
       })
       .catch((err) => console.warn("Case study fetch failed:", err));
     return () => {
@@ -159,6 +231,19 @@ const CaseStudyAccordion = () => {
           font-size: clamp(34px, 5vw, 60px); line-height:.95; margin-top:8px; }
         .cs4-hint { font-family:${DISPLAY_FONT}; font-weight:500; font-size:13px; color:rgba(255,255,255,.45);
           letter-spacing:.04em; text-transform:uppercase; }
+        .cs4-head-actions { display:flex; flex-direction:column; align-items:flex-end; gap:12px; }
+        .cs4-year-filter {
+          font-family:${DISPLAY_FONT}; font-weight:600; font-size:13px; letter-spacing:.04em;
+          text-transform:uppercase; color:#fff; background:transparent;
+          border:1px solid rgba(255,255,255,.35); border-radius:999px;
+          padding:9px 36px 9px 16px; cursor:pointer; appearance:none;
+          background-image: linear-gradient(45deg, transparent 50%, rgba(255,255,255,.7) 50%),
+            linear-gradient(135deg, rgba(255,255,255,.7) 50%, transparent 50%);
+          background-position: calc(100% - 18px) calc(50% + 2px), calc(100% - 12px) calc(50% + 2px);
+          background-size: 6px 6px, 6px 6px;
+          background-repeat: no-repeat;
+        }
+        .cs4-year-filter option { color:#0f0f0e; background:#fff; }
 
         .cs4-rail {
           max-width:1320px; margin:0 auto; padding:0 24px;
@@ -241,14 +326,31 @@ const CaseStudyAccordion = () => {
             <span className="cs4-eyebrow">Selected Work</span>
             <h2 className="cs4-heading">Case Studies</h2>
           </div>
-          <span className="cs4-hint">Hover to expand →</span>
+          <div className="cs4-head-actions">
+            {years.length > 0 ? (
+              <select
+                className="cs4-year-filter"
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
+                aria-label="Filter case studies by year"
+              >
+                <option value="all">All Years</option>
+                {years.map((year) => (
+                  <option key={year} value={String(year)}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            ) : null}
+            {/* <span className="cs4-hint">Hover to expand →</span> */}
+          </div>
         </div>
 
         <div className="cs4-rail">
           {projects.map((project, i) => (
             <Panel
               key={project.id}
-              project={project}
+              project={{ ...project, index: i }}
               total={projects.length}
               isActive={activeIndex === i}
               onActivate={() => setActiveIndex(i)}
