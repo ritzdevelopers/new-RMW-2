@@ -517,7 +517,7 @@ export const services = [
       ],
       eyebrow: "Content with purpose",
       body:
-        "Content without strategy is mere decoration. We develop content marketing strategies that not only inform but also persuade, inspire, and convert — across SEO content, social media, email, video, infographics, and promotional activity built for engagement and results.",
+        "Content without strategy is mere decoration. We develop content marketing strategies that not only inform but also persuade, inspire, and convert - across SEO content, social media, email, video, infographics, and promotional activity built for engagement and results.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -555,7 +555,7 @@ export const services = [
         height: 342,
       },
       description:
-        "Great content marketing is more than publishing — it is strategy, craft, and distribution working together. From editorial planning to asset creation and promotion, our work helps brands build trust, earn attention, and turn ideas into their most profitable asset.",
+        "Great content marketing is more than publishing - it is strategy, craft, and distribution working together. From editorial planning to asset creation and promotion, our work helps brands build trust, earn attention, and turn ideas into their most profitable asset.",
       image: {
         src: "/content-marketing/content-marketing-image-1.jpg",
         width: 720.953,
@@ -631,7 +631,7 @@ export const services = [
       ],
       eyebrow: "Built for performance and conversion",
       body:
-        "Your website is your brand's digital front door. We design and develop fast, beautiful, and conversion-focused websites and digital products — from UI/UX and custom builds to e-commerce, landing pages, and WordPress sites engineered for performance and growth.",
+        "Your website is your brand's digital front door. We design and develop fast, beautiful, and conversion-focused websites and digital products - from UI/UX and custom builds to e-commerce, landing pages, and WordPress sites engineered for performance and growth.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -674,7 +674,7 @@ export const services = [
         height: 342,
       },
       description:
-        "A great website is more than aesthetics — it is usability, speed, and conversion working in harmony. From UI/UX to custom development and e-commerce builds, our work helps brands launch digital experiences that feel polished, purposeful, and built to perform.",
+        "A great website is more than aesthetics - it is usability, speed, and conversion working in harmony. From UI/UX to custom development and e-commerce builds, our work helps brands launch digital experiences that feel polished, purposeful, and built to perform.",
       image: {
         src: "/web-designing-and-development/rmw-29.jpg",
         width: 720.953,
@@ -876,7 +876,7 @@ export const services = [
       ],
       eyebrow: "Trust over hype",
       body:
-        "Influencer marketing goes beyond hype — it is about trust, reach, and results. We connect brands with the right creators through partnerships that engage audiences, build credibility, and deliver measurable impact across every campaign.",
+        "Influencer marketing goes beyond hype - it is about trust, reach, and results. We connect brands with the right creators through partnerships that engage audiences, build credibility, and deliver measurable impact across every campaign.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -924,7 +924,7 @@ export const services = [
         height: 342,
       },
       description:
-        "Great influencer marketing is more than follower counts — it is the right voice, the right message, and the right integration. From creator identification to campaign rollout, our work helps brands earn attention that turns into real business growth.",
+        "Great influencer marketing is more than follower counts - it is the right voice, the right message, and the right integration. From creator identification to campaign rollout, our work helps brands earn attention that turns into real business growth.",
       image: {
         src: "/influencer-marketing-agency-in-india/rmw-29.jpg",
         width: 720.953,
@@ -1001,7 +1001,7 @@ export const services = [
       eyebrow: "Services",
       bannerTitle: "3D Rendering Services",
       body:
-        "See It Before It Exists. Sell It Before It's Built. All innovations start as an idea — but they sell when viewed. At Ritz Media World, the vision is crystal clear: to produce imagery which enhances value and influence choice. Our 3D architecture rendering and real estate visualization approach goes above and beyond — seamlessly merging photorealistic 3D renders, walkthroughs and interior and exterior design visuals, coupled with high-quality CGI, to produce visuals that inspire decision-making and deliver tangible results. At Ritz Media World, technology and architecture collide. The outcome is far beyond an image; instead, these high-impact visuals have been developed to improve presentation, attract attention and ensure conversions quicker. Experience cutting-edge 3D + AI walkthroughs at 5X speed and 5X lower cost, now available at Ritz Media World — bringing your projects to life faster and more affordably than ever.",
+        "See It Before It Exists. Sell It Before It's Built. All innovations start as an idea — but they sell when viewed. At Ritz Media World, the vision is crystal clear: to produce imagery which enhances value and influence choice. Our 3D architecture rendering and real estate visualization approach goes above and beyond - seamlessly merging photorealistic 3D renders, walkthroughs and interior and exterior design visuals, coupled with high-quality CGI, to produce visuals that inspire decision-making and deliver tangible results. At Ritz Media World, technology and architecture collide. The outcome is far beyond an image; instead, these high-impact visuals have been developed to improve presentation, attract attention and ensure conversions quicker. Experience cutting-edge 3D + AI walkthroughs at 5X speed and 5X lower cost, now available at Ritz Media World — bringing your projects to life faster and more affordably than ever.",
       sidebarLabel: "Services",
     },
     carousel: {

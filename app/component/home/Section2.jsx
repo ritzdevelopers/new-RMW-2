@@ -4,7 +4,6 @@ import Link from "next/link";
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
   fontWeight: 700,
-  fontSize: "48px",
   lineHeight: "100%",
   letterSpacing: "0",
   textTransform: "uppercase",
@@ -38,14 +37,25 @@ const Section2 = () => {
       style={{ backgroundImage: "url('/home/home-page-section2-bg.png')" }}
     >
       <div className="mx-auto w-full max-w-8xl">
-        <div className="flex items-start justify-between gap-6">
-          <h2 className="m-0 min-w-0 flex-1" style={headingStyle}>
+        <div className="grid grid-cols-1 justify-items-center md:grid-cols-[1fr_auto] md:items-start md:justify-items-stretch md:gap-x-6">
+          <h2
+            className="m-0 min-w-0 w-full text-center text-[28px] md:col-start-1 md:row-start-1 md:text-left md:text-[30px] lg:text-[48px]"
+            style={headingStyle}
+          >
             WE create desire through
           </h2>
 
+          <p
+            className="m-0 mt-5 w-full text-center md:col-span-2 md:row-start-2 md:text-left xl:max-w-[1150px] lg:max-w-[800px] md:max-w-[800px]"
+            style={bodyStyle}
+          >
+            The world&apos;s largest independent brand agency. We drive growth, standout and
+            fandom for the world&apos;s most desirable brands.
+          </p>
+
           <Link
             href="/about"
-            className="flex shrink-0 cursor-pointer items-center gap-2 rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
+            className="mt-5 flex shrink-0 cursor-pointer items-center gap-2 rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:col-start-2 md:row-start-1 md:mt-0 md:justify-self-end md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
           >
             <span style={aboutButtonTextStyle}>About US</span>
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
@@ -53,11 +63,6 @@ const Section2 = () => {
             </span>
           </Link>
         </div>
-
-        <p className="m-0 mt-5 max-w-[1150px]" style={bodyStyle}>
-          The world&apos;s largest independent brand agency. We drive growth, standout and
-          fandom for the world&apos;s most desirable brands.
-        </p>
       </div>
     </section>
   );
