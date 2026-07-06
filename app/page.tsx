@@ -1,9 +1,22 @@
-import Image from "next/image";
+import Header from "./common/Header";
+import Footer from "./common/Footer";
+import Section7 from "./component/about/Section7";
+import Section1 from "./component/home/Section1";
+import Section2 from "./component/home/Section2";
+import Section3 from "./component/home/Section3";
+import Section4 from "./component/home/Section4";
+import Section5 from "./component/home/Section5";
 
 export default function Home() {
   return (
 <>
-<h1 className="font-mixta text-3xl font-bold underline">Hello World</h1>
+<Header />
+<Section1 />
+<Section2 />
+<Section3 />
+<Section4 />
+<Section5 />
+<Footer overlaySection={<Section7 />} />
 </>
   );
 }
