@@ -152,7 +152,7 @@ export const services = [
       sidebarLabel: "Services",
     },
     carousel: {
-      background: "/creative-services/bg-image.jpg",
+      background: "/digital-marketing/bg-image.jpg",
       content:
         "Every visual we create is built with intent — from brand identity to campaign films. These highlights showcase how strong design, storytelling, and craft come together to elevate brands and leave a lasting impression.",
       slides: [
@@ -272,7 +272,7 @@ export const services = [
       sidebarLabel: "Services",
     },
     carousel: {
-      background: "/print-advertising/bg-image.jpg",
+      background: "/digital-marketing/bg-image.jpg",
       content:
         "From newspaper spreads to magazine inserts, every print placement we manage is built with intent. These highlights showcase how strong design, sharp copy, and smart media buying come together to deliver visibility, credibility, and results that digital alone cannot replicate.",
       slides: [
@@ -397,7 +397,7 @@ export const services = [
       sidebarLabel: "Services",
     },
     carousel: {
-      background: "/radio-advertising/bg-image.jpg",
+      background: "/digital-marketing/bg-image.jpg",
       content:
         "Every radio spot we produce is built to be heard, remembered, and acted on. These highlights showcase how strong concepts, sharp scripts, and smart media buying come together to deliver reach, recall, and results on air.",
       slides: [
@@ -521,7 +521,7 @@ export const services = [
       sidebarLabel: "Services",
     },
     carousel: {
-      background: "/contents-marketing/bg-image.jpg",
+      background: "/digital-marketing/bg-image.jpg",
       content:
         "Every piece of content we create is designed to earn attention and drive action. These highlights showcase how strategy, storytelling, and distribution come together to build credibility, engagement, and measurable business growth.",
       slides: [
@@ -635,7 +635,7 @@ export const services = [
       sidebarLabel: "Services",
     },
     carousel: {
-      background: "/web-designing-and-development/bg-image.jpg",
+      background: "/digital-marketing/bg-image.jpg",
       content:
         "Every website we build is shaped by strategy and refined by craft. These highlights showcase how user-centric design, clean development, and performance-focused thinking come together to create digital experiences that convert.",
       slides: [
@@ -755,7 +755,7 @@ export const services = [
       sidebarLabel: "Services",
     },
     carousel: {
-      background: "/celebrity-endorsements/bg-image.jpg",
+      background: "/digital-marketing/bg-image.jpg",
       content:
         "Every celebrity partnership we build is strategic, authentic, and designed for impact. These highlights showcase how identification, negotiation, and integration come together to amplify brands across every channel.",
       slides: [
@@ -880,7 +880,7 @@ export const services = [
       sidebarLabel: "Services",
     },
     carousel: {
-      background: "/influencer-marketing-agency-in-india/bg-image.jpg",
+      background: "/digital-marketing/bg-image.jpg",
       content:
         "Every influencer campaign we manage is built for authenticity and performance. These highlights showcase how identification, negotiation, and creative collaboration drive awareness, engagement, and conversions.",
       slides: [
@@ -1005,7 +1005,7 @@ export const services = [
       sidebarLabel: "Services",
     },
     carousel: {
-      background: "/services/3drendring/3d1.png",
+      background: "/digital-marketing/bg-image.jpg",
       content:
         "We create your ideas into 3D visualizations and make your projects valuable, attract buyers and drive faster sales.",
       slides: [
