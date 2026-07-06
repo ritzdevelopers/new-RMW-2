@@ -509,7 +509,8 @@ export const services = [
     intro: {
       images: [
         {
-          src: "/contents-marketing/digital-banner.jpg",
+          src: "/content-marketing/content-marketing-banner.jpg",
+          mobileSrc: "/content-marketing/content-marketing-mobile-banner.jpg",
           width: 1440,
           height: 630,
         },
@@ -525,22 +526,22 @@ export const services = [
         "Every piece of content we create is designed to earn attention and drive action. These highlights showcase how strategy, storytelling, and distribution come together to build credibility, engagement, and measurable business growth.",
       slides: [
         {
-          src: "/navbar/content-marketing/customized-content-strategy.jpg",
+          src: "/content-marketing/content-stretagy.jpg",
           content: "Content Strategy",
           subSlug: "content-marketing",
         },
         {
-          src: "/navbar/content-marketing/email-and-newsletters-marketing.jpg",
+          src: "/content-marketing/email.jpg",
           content: "Email & Newsletters",
           subSlug: "email-and-newsletters-marketing",
         },
         {
-          src: "/navbar/content-marketing/asset-creation-infographics.jpg",
+          src: "/content-marketing/assest.jpg",
           content: "Assets & Infographics",
           subSlug: "asset-creation-and-infographics",
         },
         {
-          src: "/navbar/content-marketing/content-promotion-optimization.jpg",
+          src: "/content-marketing/promotion.jpg",
           content: "Promotion & Optimization",
           subSlug: "content-promotion-and-optimization",
         },
@@ -556,7 +557,7 @@ export const services = [
       description:
         "Great content marketing is more than publishing — it is strategy, craft, and distribution working together. From editorial planning to asset creation and promotion, our work helps brands build trust, earn attention, and turn ideas into their most profitable asset.",
       image: {
-        src: "/contents-marketing/rmw-29.jpg",
+        src: "/content-marketing/content-marketing-image-1.jpg",
         width: 720.953,
         height: 762.712,
         aspectRatio: "69 / 73",
@@ -580,17 +581,17 @@ export const services = [
       grid: {
         items: [
           {
-            src: "/contents-marketing/two.jpg",
+            src: "/content-marketing/content-marketing-2.jpg",
             className: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
             aspectRatio: "672 / 355",
           },
           {
-            src: "/contents-marketing/graph.jpg",
+            src: "/content-marketing/content-marketing-3.jpg",
             className: "lg:col-span-2 lg:row-start-2",
             aspectRatio: "696 / 572",
           },
           {
-            src: "/contents-marketing/digital-1.jpg",
+            src: "/content-marketing/content-marketing-4.jpg",
             className: "lg:col-start-3 lg:row-span-2 lg:row-start-1",
             aspectRatio: "613 / 965",
           },

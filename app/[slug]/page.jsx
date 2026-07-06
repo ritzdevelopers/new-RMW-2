@@ -4,10 +4,10 @@ import Header from "../common/Header";
 import Footer from "../common/Footer";
 import Section7 from "../component/about/Section7";
 import CaseStudyDetail from "../component/case-study/CaseStudyDetail";
-import { getBlogBySlug, getCaseStudySidebarData, getCaseStudySlugs } from "../../lib/caseStudyApi";
+import { getAllBlogSlugs, getBlogBySlug, getCaseStudySidebarData } from "../../lib/caseStudyApi";
 
 export async function generateStaticParams() {
-  const slugs = await getCaseStudySlugs();
+  const slugs = await getAllBlogSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 

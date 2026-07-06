@@ -38,12 +38,12 @@ export default function BlogListingGrid({
               key={blog.slug}
               className="flex h-full flex-col overflow-hidden rounded-[8px] border border-[#E3E0E0] bg-white"
             >
-              <div className="relative h-[200px] w-full overflow-hidden bg-[#E8EBFF]">
+              <div className="relative flex w-full items-center justify-center bg-[#E8EBFF] md:h-[243px] md:overflow-hidden">
                 {image ? (
                   <img
                     src={image}
                     alt={blog.title}
-                    className="h-full w-full object-cover"
+                    className="h-auto w-full object-contain md:h-full md:max-h-[243px]"
                   />
                 ) : null}
               </div>
@@ -56,10 +56,14 @@ export default function BlogListingGrid({
                 </h3>
                 <Link
                   href={`/${blog.slug}`}
-                  className="mt-auto inline-flex items-center justify-center gap-2 self-center rounded-full bg-[#6ea2ee] px-5 py-2 text-[13px] font-semibold uppercase tracking-wide text-black"
-                  style={{ fontFamily: BODY_FONT }}
+                  className="mt-auto flex cursor-pointer items-center gap-2 self-center rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
                 >
-                  Read more <span aria-hidden>→</span>
+                  <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[14px]">
+                    Read more
+                  </span>
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
+                    <i className="ri-arrow-right-up-line text-[14px] md:text-[16px]" aria-hidden />
+                  </span>
                 </Link>
               </div>
             </article>
@@ -76,9 +80,14 @@ export default function BlogListingGrid({
             type="button"
             onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
             disabled={currentPage <= 1}
-            className="rounded-full bg-[#6ea2ee] px-5 py-2 text-sm font-semibold text-black disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex cursor-pointer items-center gap-2 rounded-full bg-white py-2.5 pl-2 pr-5 shadow-[0_6px_24px_rgba(0,0,0,0.22)] disabled:cursor-not-allowed disabled:opacity-50 md:gap-2.5 md:py-2 md:pl-2 md:pr-6"
           >
-            Previous
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
+              <i className="ri-arrow-left-line text-[14px] md:text-[16px]" aria-hidden />
+            </span>
+            <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[14px]">
+              Previous
+            </span>
           </button>
           <span className="text-sm text-[#666]">
             Page {currentPage} of {totalPages}
@@ -87,9 +96,14 @@ export default function BlogListingGrid({
             type="button"
             onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
             disabled={currentPage >= totalPages}
-            className="rounded-full bg-[#6ea2ee] px-5 py-2 text-sm font-semibold text-black disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex cursor-pointer items-center gap-2 rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] disabled:cursor-not-allowed disabled:opacity-50 md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
           >
-            Next
+            <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[14px]">
+              Next
+            </span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
+              <i className="ri-arrow-right-up-line text-[14px] md:text-[16px]" aria-hidden />
+            </span>
           </button>
         </nav>
       ) : null}
