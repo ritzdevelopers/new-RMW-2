@@ -3,6 +3,7 @@
 import React, { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -162,6 +163,7 @@ const MediaWorldText = () => (
  * @param {{ overlaySection?: import("react").ReactNode | null }} props
  */
 const Footer = ({ overlaySection = null }) => {
+  const pathname = usePathname();
   const stackRef = useRef(null);
   const overlayRef = useRef(null);
   const footerRef = useRef(null);
@@ -231,7 +233,7 @@ const Footer = ({ overlaySection = null }) => {
       }
       ctx.revert();
     };
-  }, [overlaySection]);
+  }, [overlaySection, pathname]);
 
   useLayoutEffect(() => {
     if (!overlaySection || !stackRef.current || !overlayRef.current || !footerRef.current) {
@@ -262,7 +264,7 @@ const Footer = ({ overlaySection = null }) => {
       const getRevealDistance = () =>
         Math.max(footer.offsetHeight, overlay.offsetHeight, overlay.scrollHeight);
 
-      gsap.set(overlay, { y: 0, zIndex: 2, force3D: true });
+      gsap.set(overlay, { y: 0, zIndex: 10, force3D: true });
       gsap.set(footer, { zIndex: 1 });
 
       const banner = brandBannerRef.current;
@@ -298,7 +300,7 @@ const Footer = ({ overlaySection = null }) => {
 
         overlay.style.pointerEvents = footerInteractive ? "none" : "auto";
         footer.style.pointerEvents = footerInteractive ? "auto" : "none";
-        overlay.style.zIndex = "2";
+        overlay.style.zIndex = "10";
         footer.style.zIndex = "1";
       };
 
@@ -370,6 +372,7 @@ const Footer = ({ overlaySection = null }) => {
     requestAnimationFrame(refresh);
     window.addEventListener("load", refresh);
     window.addEventListener("resize", refresh);
+    window.addEventListener("rmw:footer-refresh", refresh);
     const refreshTimer = window.setTimeout(refresh, 800);
     const lateRefreshTimer = window.setTimeout(refresh, 2000);
 
@@ -392,13 +395,14 @@ const Footer = ({ overlaySection = null }) => {
       window.clearTimeout(resizeRefreshTimer);
       window.removeEventListener("load", refresh);
       window.removeEventListener("resize", refresh);
+      window.removeEventListener("rmw:footer-refresh", refresh);
       resizeObserver?.disconnect();
       if (onBrandRefreshInit) {
         ScrollTrigger.removeEventListener("refreshInit", onBrandRefreshInit);
       }
       ctx.revert();
     };
-  }, [overlaySection]);
+  }, [overlaySection, pathname]);
 
   const footerClassName =
     "relative w-full max-w-full overflow-x-clip bg-[#0E1125] px-8 pb-8 pt-0 md:px-12 md:pb-4 md:pt-8";
@@ -600,7 +604,7 @@ const Footer = ({ overlaySection = null }) => {
           </footer>
           <div
             ref={overlayRef}
-            className="relative z-[2] max-md:order-1 w-full will-change-transform md:col-start-1 md:row-start-1 md:self-stretch isolate"
+            className="relative z-[10] max-md:order-1 min-h-[100dvh] w-full will-change-transform md:col-start-1 md:row-start-1 md:min-h-screen md:self-stretch isolate"
           >
             {overlaySection}
           </div>

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import BlogListingGrid from "./BlogListingGrid";
 import { fetchCategoryBlogsClient, formatCategoryTitle } from "../../../lib/caseStudyApi";
+import { refreshFooterScroll } from "../../../lib/footerRefresh";
 
 export default function CategoryPageClient({ categorypage }) {
   const [blogs, setBlogs] = useState([]);
@@ -28,6 +29,13 @@ export default function CategoryPageClient({ categorypage }) {
       cancelled = true;
     };
   }, [categorypage]);
+
+  useEffect(() => {
+    if (loading) return;
+    refreshFooterScroll();
+    const timer = window.setTimeout(refreshFooterScroll, 400);
+    return () => window.clearTimeout(timer);
+  }, [loading, blogs]);
 
   return (
     <>

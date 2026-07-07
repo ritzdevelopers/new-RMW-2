@@ -4,6 +4,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import BlogListingGrid from "./BlogListingGrid";
 import { formatTagTitle, normalizeBlogItem } from "../../../lib/caseStudyApi";
+import { refreshFooterScroll } from "../../../lib/footerRefresh";
 
 function TagsContent({ keyword }) {
   const [blogs, setBlogs] = useState([]);
@@ -41,6 +42,13 @@ function TagsContent({ keyword }) {
       cancelled = true;
     };
   }, [keyword]);
+
+  useEffect(() => {
+    if (loading) return;
+    refreshFooterScroll();
+    const timer = window.setTimeout(refreshFooterScroll, 400);
+    return () => window.clearTimeout(timer);
+  }, [loading, blogs]);
 
   return (
     <>

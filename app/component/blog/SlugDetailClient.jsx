@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import BlogDetail from "./BlogDetail";
 import CaseStudyDetail from "../case-study/CaseStudyDetail";
@@ -10,6 +10,7 @@ import {
   fetchBlogSidebarDataClient,
   fetchCaseStudySidebarDataClient,
 } from "../../../lib/caseStudyApi";
+import { refreshFooterScroll } from "../../../lib/footerRefresh";
 
 export default function SlugDetailClient({ slug }) {
   const [loading, setLoading] = useState(true);
@@ -19,10 +20,9 @@ export default function SlugDetailClient({ slug }) {
 
   useEffect(() => {
     let cancelled = false;
+    setLoading(true);
 
     async function loadDetail() {
-      setLoading(true);
-
       try {
         const blogData = await fetchBlogBySlugClient(slug);
         if (cancelled) return;
@@ -58,14 +58,32 @@ export default function SlugDetailClient({ slug }) {
     };
   }, [slug]);
 
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+    refreshFooterScroll();
+  }, [slug]);
+
+  useEffect(() => {
+    if (loading) return;
+    refreshFooterScroll();
+    const timer = window.setTimeout(refreshFooterScroll, 400);
+    const lateTimer = window.setTimeout(refreshFooterScroll, 1200);
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(lateTimer);
+    };
+  }, [loading, blog]);
+
   if (loading) {
     return (
-      <p
-        className="py-20 text-center text-[16px] text-[#666]"
-        style={{ fontFamily: '"Montserrat", sans-serif' }}
-      >
-        Loading...
-      </p>
+      <div className="flex min-h-[70vh] items-center justify-center">
+        <p
+          className="text-center text-[16px] text-[#666]"
+          style={{ fontFamily: '"Montserrat", sans-serif' }}
+        >
+          Loading...
+        </p>
+      </div>
     );
   }
 
