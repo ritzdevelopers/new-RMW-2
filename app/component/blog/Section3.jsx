@@ -18,6 +18,7 @@ const eyebrowStyle = {
   color: "#FFFFFF",
 };
 
+
 const headingStyle = {
   fontFamily: "Montserrat, sans-serif",
   fontWeight: 600,
