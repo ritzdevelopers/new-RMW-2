@@ -2,7 +2,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { League_Spartan } from "next/font/google";
+import { getServiceHref } from "../../../data/services";
 
 const leagueSpartan = League_Spartan({
   subsets: ["latin"],
@@ -36,6 +38,20 @@ const pairedGridRowClasses =
 const serviceClass =
   "whitespace-nowrap uppercase leading-[100%] tracking-[0] text-[26px] sm:text-[30px] md:text-[42px] lg:text-[52px] xl:text-[60px]";
 
+const serviceSlugMap = {
+  "Digital Marketing": "digital-marketing",
+  "Creative Service": "creative-services",
+  "Print Advertisement": "print-advertising",
+  "Radio Advertisement": "radio-advertising",
+  "Content Marketing": "contents-marketing",
+  "Web Development": "web-designing-and-development",
+  "Influencer Marketing": "influencer-marketing-agency-in-india",
+  "Celebrity Endorsement": "celebrity-endorsements",
+};
+
+const getServiceLink = (label) =>
+  serviceSlugMap[label] ? getServiceHref(serviceSlugMap[label]) : "#";
+
 const contactInfo = {
   address: [
     "402 - 404, 4th floor, Corporate Park , Tower A1, Sector 142,",
@@ -47,13 +63,14 @@ const contactInfo = {
 
 const Section7 = () => {
   const sectionRef = useRef(null);
+  const router = useRouter();
   const [showContact, setShowContact] = useState(false);
   const [selectedService, setSelectedService] = useState("");
   const [hoveredService, setHoveredService] = useState(null);
 
   const handleServiceClick = (label) => {
-    setSelectedService(label);
-    setShowContact(true);
+    const href = getServiceLink(label);
+    if (href !== "#") router.push(href);
   };
 
   useEffect(() => {
