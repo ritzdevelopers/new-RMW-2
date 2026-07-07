@@ -4,7 +4,14 @@ import Header from "../common/Header";
 import Footer from "../common/Footer";
 import Section7 from "../component/about/Section7";
 import CaseStudyDetail from "../component/case-study/CaseStudyDetail";
-import { getAllBlogSlugs, getBlogBySlug, getCaseStudySidebarData } from "../../lib/caseStudyApi";
+import BlogDetail from "../component/blog/BlogDetail";
+import {
+  getAllBlogSlugs,
+  getBlogBySlug,
+  getBlogSidebarData,
+  getCaseStudySidebarData,
+  isCaseStudySlug,
+} from "../../lib/caseStudyApi";
 
 export async function generateStaticParams() {
   const slugs = await getAllBlogSlugs();
@@ -14,18 +21,20 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
+  const caseStudy = await isCaseStudySlug(slug);
+  const fallbackTitle = caseStudy ? "Case Study | Ritz Media World" : "Blog | Ritz Media World";
 
   if (!blog) {
-    return { title: "Case Study | Ritz Media World" };
+    return { title: fallbackTitle };
   }
 
   return {
-    title: blog.meta_title || blog.title || "Case Study | Ritz Media World",
+    title: blog.meta_title || blog.title || fallbackTitle,
     description: blog.meta_description || undefined,
   };
 }
 
-export default async function CaseStudyDetailPage({ params }) {
+export default async function SlugDetailPage({ params }) {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
 
@@ -33,13 +42,29 @@ export default async function CaseStudyDetailPage({ params }) {
     notFound();
   }
 
-  const sidebar = await getCaseStudySidebarData(slug, blog);
+  const caseStudy = await isCaseStudySlug(slug);
+
+  if (caseStudy) {
+    const sidebar = await getCaseStudySidebarData(slug, blog);
+
+    return (
+      <>
+        <Header />
+        <main>
+          <CaseStudyDetail blog={blog} sidebar={sidebar} />
+        </main>
+        <Footer overlaySection={<Section7 />} />
+      </>
+    );
+  }
+
+  const sidebar = await getBlogSidebarData(slug, blog);
 
   return (
     <>
       <Header />
       <main>
-        <CaseStudyDetail blog={blog} sidebar={sidebar} />
+        <BlogDetail blog={blog} sidebar={sidebar} />
       </main>
       <Footer overlaySection={<Section7 />} />
     </>
