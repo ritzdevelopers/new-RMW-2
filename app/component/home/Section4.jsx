@@ -43,15 +43,15 @@ const linkRowClass =
   "inline-flex items-baseline justify-center gap-4 md:gap-6 lg:gap-10";
 
 const services = [
-  { number: "01", title: "GULSHAN", slug: "gulshan", image: SLIDER_IMAGE },
-  { number: "02", title: "VEDVAN", slug: "vedvan", image: HOVER_IMAGE },
-  { number: "03", title: "EXOTICA", slug: "exotica", image: SLIDER_IMAGE },
+  { number: "01", title: "GULSHAN", slug: "gulshan", image: "/home/gulshan.png" },
+  { number: "02", title: "VEDVAN", slug: "vedvan", image: "/home/vedvan.jpg" },
+  { number: "03", title: "EXOTICA", slug: "exotica", image: "/home/exotica.jpg" },
   { number: "04", title: "SPLENDOR ONYX", slug: "splendor-onyx", image: HOVER_IMAGE },
   { number: "05", title: "LUMORA", slug: "lumora", image: SLIDER_IMAGE },
   { number: "06", title: "SANSKAR", slug: "sanskar", image: HOVER_IMAGE },
-  { number: "07", title: "VVIP MADHUBAN", slug: "vvip-madhuban", image: SLIDER_IMAGE },
-  { number: "08", title: "GHD", slug: "ghd", image: HOVER_IMAGE },
-  { number: "09", title: "MANSHA GROUP", slug: "mansha-group", image: SLIDER_IMAGE },
+  { number: "07", title: "VVIP MADHUBAN", slug: "vvip-madhuban", image: "/home/vvip.jpg" },
+  { number: "08", title: "GHD", slug: "ghd", image: "/home/GHD.jpg" },
+  { number: "09", title: "MANSHA GROUP", slug: "mansha-group", image: "/home/mansha.jpg" },
   { number: "10", title: "EON FAIRFOX", slug: "eon-fairfox", image: HOVER_IMAGE },
 ];
 

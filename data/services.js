@@ -624,7 +624,8 @@ export const services = [
     intro: {
       images: [
         {
-          src: "/web-designing-and-development/digital-banner.jpg",
+          src: "/web-designing-and-development/web-devlopment-1.jpg",
+          mobileSrc: "/web-designing-and-development/web-developer-mobile-banner.jpg",
           width: 1440,
           height: 630,
         },
@@ -640,27 +641,27 @@ export const services = [
         "Every website we build is shaped by strategy and refined by craft. These highlights showcase how user-centric design, clean development, and performance-focused thinking come together to create digital experiences that convert.",
       slides: [
         {
-          src: "/navbar/web-development/uiux-design.jpg",
+          src: "/web-designing-and-development/ui-ux.jpg",
           content: "UI/UX Design",
           subSlug: "ui-ux-design",
         },
         {
-          src: "/navbar/web-development/custom-design-development.jpg",
+          src: "/web-designing-and-development/custom-development.jpg",
           content: "Custom Development",
           subSlug: "custom-design-development",
         },
         {
-          src: "/navbar/web-development/ecommerce-website-development.jpg",
+          src: "/web-designing-and-development/e-commerce.jpg",
           content: "E-Commerce",
           subSlug: "e-commerce-web-designing",
         },
         {
-          src: "/navbar/web-development/landing-page-development.jpg",
+          src: "/web-designing-and-development/landing-page-development.jpg",
           content: "Landing Pages",
           subSlug: "landing-page-development-services",
         },
         {
-          src: "/navbar/web-development/wordpress-web-design.jpg",
+          src: "/web-designing-and-development/word-press.jpg",
           content: "WordPress",
           subSlug: "wordpress-web-designing",
         },
