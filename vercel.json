@@ -1,28 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/category/case-study",
-      "destination": "https://ritzmediaworld.com/api/category/case-study"
-    },
-    {
-      "source": "/api/my-sql/find-blogs-using-key/:keyword*",
-      "destination": "https://ritzmediaworld.com/api/my-sql/find-blogs-using-key/:keyword*"
-    },
-    {
-      "source": "/api/blog/categories",
-      "destination": "https://ritzmediaworld.com/api/blog/categories"
-    },
-    {
-      "source": "/api/blog/:slug*",
-      "destination": "https://ritzmediaworld.com/api/blog/:slug*"
-    },
-    {
-      "source": "/api/get_all_blogs",
-      "destination": "https://ritzmediaworld.com/api/get_all_blogs"
-    },
-    {
-      "source": "/api/ritz_blogs/get-single-blog/:slug*",
-      "destination": "https://ritzmediaworld.com/api/ritz_blogs/get-single-blog/:slug*"
+      "source": "/api/:path*",
+      "destination": "https://ritzmediaworld.com/api/:path*"
     }
   ]
 }
