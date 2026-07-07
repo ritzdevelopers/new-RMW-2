@@ -367,7 +367,7 @@ const Section2 = () => {
             ) : null}
           </div>
 
-          <aside className="min-w-0 xl:col-span-6 lg:col-span-4">
+          <aside className="min-w-0 xl:col-span-6 lg:col-span-4 lg:sticky lg:top-8 lg:self-start">
             <p className="m-0" style={categoriesHeadingStyle}>
               Categories
             </p>
