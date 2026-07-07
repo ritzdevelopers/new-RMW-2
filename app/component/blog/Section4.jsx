@@ -1,7 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { Montserrat, Inter } from "next/font/google";
+import {
+  fetchCategoryBlogsClient,
+  normalizeBlogItem,
+  resolveBlogImageUrl,
+  sortBlogsByDateDesc,
+} from "../../../lib/caseStudyApi";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -119,37 +126,135 @@ const sidebarButtonStyle = {
   color: "#000000",
 };
 
-const categoryTabs = [
-  "Data Science & Analytics",
-  "Digital Transformation",
-  "Business Intelligence",
-  "AR/VR Development",
-];
+function slugifyCategoryLink(name) {
+  return String(name || "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
 
-const listPosts = [
-  {
-    category: "Data Science And Analytics",
-    title: "How Data Analytics Works in FinTech Enterprises?",
-    author: "Nayan",
-    image: "/blog/vertor-2.png",
-  },
-  {
-    category: "Data Science And Analytics",
-    title: "How Data Analytics Works in FinTech Enterprises?",
-    author: "Nayan",
-    image: "/blog/vertor-2.png",
-  },
-  {
-    category: "Data Science And Analytics",
-    title: "How Data Analytics Works in FinTech Enterprises?",
-    author: "Nayan",
-    image: "/blog/vertor-2.png",
-  },
-];
+function stripHtml(html) {
+  return String(html || "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getExcerpt(blog, maxLength = 120) {
+  const text = stripHtml(blog?.description || "");
+  if (!text) return "";
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength)}...`;
+}
+
+function formatAuthorLine(blog) {
+  if (!blog?.created_at) return "Ritz Media World";
+  const date = new Date(blog.created_at);
+  if (Number.isNaN(date.getTime())) return "Ritz Media World";
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function mapBlogToSection4Post(blog, categoryName) {
+  return {
+    slug: blog.slug,
+    category: categoryName,
+    title: blog.title,
+    excerpt: getExcerpt(blog),
+    author: formatAuthorLine(blog),
+    image: resolveBlogImageUrl(blog.banner) || "/blog/vector-1.png",
+  };
+}
 
 const Section4 = () => {
+  const [categories, setCategories] = useState([]);
+  const [activeCategoryLink, setActiveCategoryLink] = useState("");
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadCategories() {
+      try {
+        const response = await fetch("/api/blog/categories");
+        if (!response.ok) throw new Error(String(response.status));
+        const data = await response.json();
+        if (!Array.isArray(data)) return;
+
+        const items = data
+          .map((category) => ({
+            name: category.name,
+            link: slugifyCategoryLink(category.name),
+          }))
+          .filter((category) => category.name && category.link)
+          .slice(0, 4);
+
+        if (!cancelled && items.length) {
+          setCategories(items);
+          setActiveCategoryLink(items[0].link);
+        }
+      } catch {
+        if (!cancelled) {
+          setCategories([]);
+          setActiveCategoryLink("");
+        }
+      }
+    }
+
+    loadCategories();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!activeCategoryLink) {
+      setBlogs([]);
+      setLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+    setLoading(true);
+
+    fetchCategoryBlogsClient(activeCategoryLink)
+      .then((items) => {
+        if (!cancelled) {
+          setBlogs(sortBlogsByDateDesc(items));
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setBlogs([]);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [activeCategoryLink]);
+
+  const activeCategoryName =
+    categories.find((category) => category.link === activeCategoryLink)?.name || "";
+
+  const { featuredPost, listPosts } = useMemo(() => {
+    const posts = blogs.map((blog) => mapBlogToSection4Post(blog, activeCategoryName));
+    return {
+      featuredPost: posts[0] || null,
+      listPosts: posts.slice(1, 4),
+    };
+  }, [blogs, activeCategoryName]);
+
   return (
-    <section className={`${montserrat.className}  py-12 md:py-16 lg:py-20`}>
+    <section className={`${montserrat.className} py-[35px] md:py-[70px]`}>
       <div className="mx-auto w-full max-w-8xl px-8 md:px-12">
         <h2
           className="m-0 text-[22px] leading-[32px] md:text-[32px] md:leading-[48px] lg:text-[46px] lg:leading-[69px] text-[#000000]"
@@ -160,80 +265,96 @@ const Section4 = () => {
 
         <div className="mt-6 pb-4 md:mt-8">
           <div className="inline-flex max-w-full flex-wrap gap-x-6 gap-y-3 border-b border-[#D9D9D9] pb-4 md:gap-x-8 lg:gap-x-10">
-            {categoryTabs.map((tab) => (
+            {categories.map((category) => (
               <button
-                key={tab}
+                key={category.link}
                 type="button"
+                onClick={() => setActiveCategoryLink(category.link)}
                 className="cursor-pointer border-0 bg-transparent p-0 transition-opacity hover:opacity-70"
                 style={tabStyle}
               >
-                {tab}
+                {category.name}
               </button>
             ))}
           </div>
         </div>
 
         <div className="mt-10 grid grid-cols-1 gap-8 lg:mt-15 lg:grid-cols-12 lg:gap-x-10 lg:gap-y-6">
-          <article className="flex flex-col items-start lg:col-span-3">
-            <div className="w-[340px] max-w-full">
-              <div className="xl:h-[200px] overflow-hidden rounded-2xl">
-                <img
-                  src="/blog/vector-1.png"
-                  alt=""
-                  className="block h-full w-full object-cover object-center"
-                />
-              </div>
-
-              <p className="m-0 mt-3" style={postCategoryStyle}>
-                Guides
-              </p>
-
-              <h3 className="m-0 mt-2 xl:line-clamp-none lg:line-clamp-2" style={featuredTitleStyle}>
-                A Complete Guide on Data Science & Analytics for Businesses
-              </h3>
-
-              <p className="m-0 mt-2 xl:line-clamp-none lg:line-clamp-3" style={featuredExcerptStyle}>
-                Data science is the domain that couples data-bound analytical techniques along...
-              </p>
-
-              <p className={`m-0 mt-3 ${inter.className}`} style={featuredAuthorStyle}>
-                Sudeep Srivastava
-              </p>
-            </div>
-          </article>
-
-          <div className="flex flex-col lg:col-span-5 xl:pl-[60px]">
-            <div className="flex w-full max-w-full flex-col">
-            {listPosts.map((post, index) => (
-              <article
-                key={`${post.title}-${index}`}
-                className={`flex flex-col gap-3 sm:flex-row sm:gap-4 ${index > 0 ? "mt-10 border-t border-[#D9D9D9] pt-10" : ""}`}
+          {loading ? (
+            <p className="m-0 text-[16px] text-[#666] lg:col-span-8">Loading...</p>
+          ) : featuredPost ? (
+            <>
+              <Link
+                href={`/${featuredPost.slug}`}
+                className="flex flex-col items-start no-underline lg:col-span-3"
               >
-                <div className="w-full sm:h-[120px] sm:w-[160px] sm:shrink-0">
-                  <img
-                    src={post.image}
-                    alt=""
-                    className="block h-auto w-full rounded-lg object-cover object-center sm:h-full"
-                  />
-                </div>
+                <div className="w-[340px] max-w-full">
+                  <div className="overflow-hidden rounded-2xl xl:h-[200px]">
+                    <img
+                      src={featuredPost.image}
+                      alt={featuredPost.title}
+                      className="block h-full w-full object-cover object-center"
+                    />
+                  </div>
 
-                <div className="min-w-0 flex-1 lg:py-4 xl:py-4">
-                  <p className="m-0" style={listCategoryStyle}>
-                    {post.category}
+                  <p className="m-0 mt-3" style={postCategoryStyle}>
+                    {featuredPost.category}
                   </p>
 
-                  <h3 className="m-0 mt-2 text-[19px] leading-[21.8px] sm:text-[14px] sm:leading-[16.8px]" style={listTitleStyle}>
-                    {post.title}
+                  <h3 className="m-0 mt-2 lg:line-clamp-2 xl:line-clamp-none" style={featuredTitleStyle}>
+                    {featuredPost.title}
                   </h3>
 
-                  <p className="m-0 mt-3" style={listAuthorStyle}>
-                    {post.author}
+                  <p className="m-0 mt-2 lg:line-clamp-3 xl:line-clamp-none" style={featuredExcerptStyle}>
+                    {featuredPost.excerpt}
+                  </p>
+
+                  <p className={`m-0 mt-3 ${inter.className}`} style={featuredAuthorStyle}>
+                    {featuredPost.author}
                   </p>
                 </div>
-              </article>
-            ))}
-            </div>
-          </div>
+              </Link>
+
+              <div className="flex flex-col lg:col-span-5 xl:pl-[60px]">
+                <div className="flex w-full max-w-full flex-col">
+                  {listPosts.map((post, index) => (
+                    <Link
+                      key={post.slug}
+                      href={`/${post.slug}`}
+                      className={`flex flex-col gap-3 no-underline sm:flex-row sm:gap-4 ${index > 0 ? "mt-10 border-t border-[#D9D9D9] pt-10" : ""}`}
+                    >
+                      <div className="w-full sm:h-[120px] sm:w-[160px] sm:shrink-0">
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="block h-auto w-full rounded-lg object-cover object-center sm:h-full"
+                        />
+                      </div>
+
+                      <div className="min-w-0 flex-1 lg:py-4 xl:py-4">
+                        <p className="m-0" style={listCategoryStyle}>
+                          {post.category}
+                        </p>
+
+                        <h3
+                          className="m-0 mt-2 text-[19px] leading-[21.8px] sm:text-[14px] sm:leading-[16.8px]"
+                          style={listTitleStyle}
+                        >
+                          {post.title}
+                        </h3>
+
+                        <p className="m-0 mt-3" style={listAuthorStyle}>
+                          {post.author}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <p className="m-0 text-[16px] text-[#666] lg:col-span-8">No blogs found.</p>
+          )}
 
           <aside className="flex w-full max-w-full flex-col items-start overflow-hidden bg-[#0092FF] lg:col-span-4 lg:ml-auto lg:w-[326px]">
             <img
@@ -243,22 +364,25 @@ const Section4 = () => {
             />
 
             <div className="w-full px-6 pb-8 pt-6 sm:px-8 sm:pb-10 sm:pt-7">
-            <h3 className="xl:mt-10 mt-0 w-full text-left text-[28px] leading-[36px] lg:text-[24px] lg:leading-[26px] xl:text-[28px] xl:leading-[36px]" style={sidebarTitleStyle}>
-              How to become a successful app entrepreneur
-            </h3>
+              <h3
+                className="mt-0 w-full text-left text-[28px] leading-[36px] lg:text-[24px] lg:leading-[26px] xl:mt-10 xl:text-[28px] xl:leading-[36px]"
+                style={sidebarTitleStyle}
+              >
+                How to become a successful app entrepreneur
+              </h3>
 
-            <p className="m-0 mt-8 w-full text-left  lg:line-clamp-2 xl:line-clamp-none" style={sidebarBodyStyle}>
-              Learn more about how to take the journey of transition from being a full time employee to an app entrepreneur.
-            </p>
+              <p className="m-0 mt-8 w-full text-left lg:line-clamp-2 xl:line-clamp-none" style={sidebarBodyStyle}>
+                Learn more about how to take the journey of transition from being a full time employee to an app entrepreneur.
+              </p>
 
-            <button
-              type="button"
-              className="xl:mt-2 mt-6 inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border-0 bg-white px-6 py-3 transition-opacity hover:opacity-90"
-              style={sidebarButtonStyle}
-            >
-              Download now
-              <i className="ri-download-line text-[20px]" aria-hidden />
-            </button>
+              <button
+                type="button"
+                className="mt-6 inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border-0 bg-white px-6 py-3 transition-opacity hover:opacity-90 xl:mt-2"
+                style={sidebarButtonStyle}
+              >
+                Download now
+                <i className="ri-download-line text-[20px]" aria-hidden />
+              </button>
             </div>
           </aside>
         </div>
