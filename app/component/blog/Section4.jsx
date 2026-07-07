@@ -387,7 +387,7 @@ const Section4 = () => {
           </aside>
         </div>
 
-        <div className="mt-10 flex justify-center lg:mt-12">
+        {/* <div className="mt-10 flex justify-center lg:mt-12">
           <button
             type="button"
             className="inline-flex cursor-pointer items-center gap-2 border-0 bg-transparent p-0 text-[14px] font-normal leading-none text-[#00000099] transition-opacity hover:opacity-70"
@@ -395,7 +395,7 @@ const Section4 = () => {
             View All
             <i className="ri-arrow-right-up-line text-[16px]" aria-hidden />
           </button>
-        </div>
+        </div> */}
       </div>
     </section>
   );

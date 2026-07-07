@@ -153,7 +153,7 @@ export default function BlogDetail({ blog, sidebar }) {
               ) : null}
             </div>
 
-            <div className="lg:col-span-4">
+            <div className="lg:col-span-4 lg:sticky lg:top-8 lg:self-start">
               <CaseStudySidebar
                 allBlogs={sidebar?.allBlogs || []}
                 categories={sidebar?.categories || []}
