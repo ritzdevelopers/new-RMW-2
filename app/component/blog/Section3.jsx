@@ -27,7 +27,7 @@ const headingStyle = {
 
 const Section3 = () => {
   return (
-    <div className={`${montserrat.className} bg-[#F1F1F1] pb-[35px] md:pb-[70px]`}>
+    <div className={`${montserrat.className} bg-[#FAFAFA] pb-[35px] md:pb-[70px]`}>
 
     <section className={`${montserrat.className} bg-[#0B0E23] py-8 sm:h-[300px] sm:overflow-hidden sm:py-0`}>
       <div className="mx-auto flex h-full w-full max-w-[1440px] flex-col items-center justify-center gap-3 px-6 sm:flex-row sm:items-center sm:gap-8 sm:px-10 md:gap-12 md:px-[50px] lg:gap-16 xl:gap-20">
