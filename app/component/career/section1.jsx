@@ -40,9 +40,10 @@ const circleSpotlightDuration = 15;
 const inputLineDuration = 0.9;
 const inputClass =
   "w-full bg-transparent py-2 text-sm text-white outline-none placeholder:text-white/40";
+const fileInputClass =
+  "w-full cursor-pointer bg-transparent py-2 text-sm text-white/70 outline-none file:mr-4 file:border-0 file:bg-transparent file:text-xs file:uppercase file:tracking-[1.2px] file:text-white/60";
 const inputLineClass =
   "pointer-events-none absolute bottom-0 left-0 block h-px w-full origin-left scale-x-0 bg-[#FFFFFF33]";
-const selectClass = `${inputClass} appearance-none cursor-pointer`;
 
 const Field = ({ label, children }) => (
   <div>
@@ -54,23 +55,7 @@ const Field = ({ label, children }) => (
   </div>
 );
 
-const SelectField = ({ label, placeholder, options }) => (
-  <Field label={label}>
-    <div className="relative">
-      <select className={selectClass} defaultValue="">
-        <option value="">{placeholder}</option>
-        {options.map((option) => (
-          <option key={option} value={option} className="bg-[#0D1334] text-white">
-            {option}
-          </option>
-        ))}
-      </select>
-      <i className="ri-arrow-down-s-line pointer-events-none absolute right-0 bottom-2 text-lg text-white/60" />
-    </div>
-  </Field>
-);
-
-const headingWords = ["WE", "WOULD", "BE", "HAPPY", "TO"];
+const headingWords = ["JOIN", "OUR", "TEAM"];
 
 const renderHeadingWord = (color) =>
   headingWords.map((item) => (
@@ -182,14 +167,14 @@ const AnimatedHeadingLine = () => {
   }, []);
 
   return (
-    <h1 style={headingStyle} className={`${headingSizeClass} m-0 w-full`}>
-      <div ref={wrapRef} className="relative w-full">
-        <div className="relative z-[1] flex w-full justify-between">
+    <h1 style={headingStyle} className={`${headingSizeClass} m-0 w-full overflow-visible`}>
+      <div ref={wrapRef} className="relative w-full overflow-visible">
+        <div className="relative z-[1] flex w-full justify-center gap-4 md:gap-[100px] lg:gap-[90px] xl:gap-[150px]">
           {renderHeadingWord()}
         </div>
         <div
           ref={goldRef}
-          className="pointer-events-none absolute inset-0 z-[2] flex w-full justify-between"
+          className="pointer-events-none absolute inset-0 z-[2] flex w-full justify-center gap-4 md:gap-[100px] lg:gap-[90px] xl:gap-[150px] overflow-visible"
           style={{ ...headingStyle, color: "#FFD188" }}
           aria-hidden
         >
@@ -316,7 +301,7 @@ const section1 = () => {
   return (
     <section className="bg-[#0D1334] px-8 py-[0px] pb-[35px] md:px-12 md:pt-[20px] md:pb-[70px] ">
       <div className="mx-auto max-w-8xl mx-auto max-w-[1500px]">
-        <div ref={heroRef}>
+        <div ref={heroRef} className="overflow-x-visible">
           <AnimatedHeadingLine />
 
           <div className="-mt-3 flex flex-col md:gap-6 gap-1 lg:-mt-5 lg:flex-row lg:items-start lg:justify-between">
@@ -340,11 +325,10 @@ const section1 = () => {
             </div>
 
             <p
-              className={`${mixtaPro} order-2 mt-[0px] max-w-[700px] self-start overflow-hidden text-[16px] md:text-[28px] leading-[20px] md:leading-[32px] font-[300] italic md:leading-snug text-white normal-case md:mt-0 lg:mt-[60px] lg:text-[20px] lg:self-center lg:text-center xl:mt-[90px] xl:-translate-x-[40px] xl:text-[28px] `}
+              className={`${mixtaPro} order-2 mx-auto mt-[0px] w-full max-w-[700px] self-center overflow-hidden text-center text-[16px] font-[300] italic leading-[20px] text-white normal-case md:mt-0 md:text-[28px] md:leading-[32px] md:leading-snug lg:mt-[50px] lg:self-center lg:text-center lg:text-[20px] xl:mt-[50px] xl:-translate-x-[40px] xl:text-[28px]`}
             >
               <span data-hero-reveal className="block">
-                Got a project brewing, an RFP to share or something you want to
-                ask? Drop your details and we&apos;ll get you to the right person
+              Got a project brewing, an RFP to share or something you want to ask? Drop your details here
               </span>
             </p>
           </div>
@@ -355,47 +339,28 @@ const section1 = () => {
             <Field label="FIRST NAME*">
               <input type="text" className={inputClass} />
             </Field>
-            <Field label="LAST NAME*">
+            <Field label=" EMAIL ADDRESS*">
               <input type="text" className={inputClass} />
             </Field>
           </div>
 
           <div className="mt-8 grid grid-cols-1 xl:gap-5 gap-8 md:mt-10 md:grid-cols-2 md:gap-x-10">
-            <Field label="EMAIL ADDRESS*">
+            <Field label="PHONE NUMBER*">
               <input type="text" className={inputClass} />
             </Field>
-            <Field label="PHONE NUMBER">
+            <Field label="Apply For*">
               <input type="text" className={inputClass} />
             </Field>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-8 md:mt-10 md:grid-cols-3 md:gap-x-10">
-            <SelectField
-              label="REASON FOR INQUIRY*"
-              placeholder="Select an option"
-              options={[
-                "General Inquiry",
-                "New Project",
-                "RFP Submission",
-                "Partnership",
-              ]}
-            />
-            <SelectField
-              label="REGION*"
-              placeholder="Select your region"
-              options={["North America", "Europe", "Asia Pacific", "Other"]}
-            />
-            <SelectField
-              label="HOW DID YOU HEAR ABOUT US?"
-              placeholder="Select an option"
-              options={[
-                "Search Engine",
-                "Social Media",
-                "Referral",
-                "Advertisement",
-                "Other",
-              ]}
-            />
+          <div className="mt-8 md:mt-10">
+            <Field label="UPLOAD RESUME*">
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx"
+                className={fileInputClass}
+              />
+            </Field>
           </div>
 
           <div className="mt-8 md:mt-10">
