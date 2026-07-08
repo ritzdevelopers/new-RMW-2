@@ -128,7 +128,7 @@ const Section2 = () => {
       >
         <div className="shrink-0">
           <div
-            className={`${montserrat.className} mx-auto max-w-[1200px] px-6 text-center md:px-10`}
+            className={`${montserrat.className}  max-w-[1200px] px-6 md:text-left text-center md:px-10`}
           >
             <p
               style={headingStyle}
