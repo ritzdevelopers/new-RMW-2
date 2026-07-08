@@ -7,31 +7,71 @@ const HOME_VIDEO_SRC =
 
 const Section1 = () => {
   const videoRef = useRef(null);
+  const isMutedRef = useRef(false);
   const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = false;
-    video.volume = 1;
-    video.play().catch(() => {
-      video.muted = true;
-      setIsMuted(true);
+    let unlockBound = false;
+
+    const playVideo = () => {
       video.play().catch(() => {});
-    });
+    };
+
+    const unlockSound = () => {
+      if (isMutedRef.current) return;
+      video.muted = false;
+      video.volume = 1;
+      playVideo();
+    };
+
+    const bindUnlockListeners = () => {
+      if (unlockBound || isMutedRef.current) return;
+      unlockBound = true;
+      ["pointerdown", "click", "touchstart", "keydown"].forEach((eventName) => {
+        document.addEventListener(eventName, unlockSound, { once: true, capture: true });
+      });
+    };
+
+    const startPlayback = async () => {
+      video.volume = 1;
+      video.muted = false;
+
+      try {
+        await video.play();
+      } catch {
+        video.muted = true;
+        playVideo();
+        bindUnlockListeners();
+      }
+    };
+
+    startPlayback();
+    video.addEventListener("loadeddata", playVideo);
+    video.addEventListener("canplay", playVideo);
+
+    return () => {
+      video.removeEventListener("loadeddata", playVideo);
+      video.removeEventListener("canplay", playVideo);
+      ["pointerdown", "click", "touchstart", "keydown"].forEach((eventName) => {
+        document.removeEventListener(eventName, unlockSound, { capture: true });
+      });
+    };
   }, []);
 
   const toggleMute = () => {
     const video = videoRef.current;
     if (!video) return;
 
-    const nextMuted = !video.muted;
+    const nextMuted = !isMuted;
     video.muted = nextMuted;
     if (!nextMuted) {
       video.volume = 1;
       video.play().catch(() => {});
     }
+    isMutedRef.current = nextMuted;
     setIsMuted(nextMuted);
   };
 
