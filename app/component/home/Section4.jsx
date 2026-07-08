@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useLayoutEffect, useRef, useState } from "react";
@@ -46,13 +47,13 @@ const services = [
   { number: "01", title: "GULSHAN", slug: "gulshan", image: "/home/gulshan.png" },
   { number: "02", title: "VEDVAN", slug: "vedvan", image: "/home/vedvan.jpg" },
   { number: "03", title: "EXOTICA", slug: "exotica", image: "/home/exotica.jpg" },
-  { number: "04", title: "SPLENDOR ONYX", slug: "splendor-onyx", image: HOVER_IMAGE },
-  { number: "05", title: "LUMORA", slug: "lumora", image: SLIDER_IMAGE },
-  { number: "06", title: "SANSKAR", slug: "sanskar", image: HOVER_IMAGE },
+  { number: "04", title: "SPLENDOR ONYX", slug: "splendor-onyx", image: "/home/onyx.png" },
+  { number: "05", title: "LUMORA", slug: "lumora", image: "/home/lumora.jpg" },
+  { number: "06", title: "SANSKAR", slug: "sanskar", image: "/home/SANSKAR.jpg" },
   { number: "07", title: "VVIP MADHUBAN", slug: "vvip-madhuban", image: "/home/vvip.jpg" },
   { number: "08", title: "GHD", slug: "ghd", image: "/home/GHD.jpg" },
   { number: "09", title: "MANSHA GROUP", slug: "mansha-group", image: "/home/mansha.jpg" },
-  { number: "10", title: "EON FAIRFOX", slug: "eon-fairfox", image: HOVER_IMAGE },
+  { number: "10", title: "EON FAIRFOX", slug: "eon-fairfox", image: "/home/FAIRFOX.jpg" },
 ];
 
 const Section4 = () => {

@@ -89,7 +89,6 @@ const Letter = ({ children, from }) => (
   </span>
 );
 
-const VIDEO_SRC = "/about/video-about.mp4";
 const VIDEO_SCROLL_SCRUB = 2.2;
 const LETTER_REVEAL_VIDEO_START = 0.5;
 const LETTER_REVEAL_VIDEO_END = 0.98;
@@ -98,156 +97,23 @@ const LETTER_REVEAL_STAGGER = 0.72;
 const LETTER_REVEAL_DURATION = 0.34;
 const LETTER_REVEAL_EASE = "power4.out";
 
-const VideoFullscreenModal = ({ open, onClose }) => {
-  const videoRef = useRef(null);
-  const [isEntered, setIsEntered] = useState(false);
-
-  useEffect(() => {
-    if (!open) {
-      setIsEntered(false);
-      return;
-    }
-
-    const frame = requestAnimationFrame(() => {
-      requestAnimationFrame(() => setIsEntered(true));
-    });
-
-    return () => cancelAnimationFrame(frame);
-  }, [open]);
-
-  useEffect(() => {
-    if (!open) return;
-
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") onClose();
-    };
-
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", handleKeyDown);
-
-    const video = videoRef.current;
-    if (video) {
-      video.currentTime = 0;
-      video.play().catch(() => {});
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKeyDown);
-      if (video) video.pause();
-    };
-  }, [open, onClose]);
-
-  if (!open) return null;
-
-  return (
-    <div
-      className={`video-modal-backdrop fixed inset-0 z-[200] flex cursor-pointer items-center justify-center bg-black/92 p-4 md:p-8 ${isEntered ? "is-visible" : ""}`}
-      onClick={onClose}
-      role="presentation"
-    >
-      <div
-        className={`video-modal-panel relative w-full max-w-[1200px] ${isEntered ? "is-visible" : ""}`}
-        onClick={(event) => event.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Watch video"
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close video"
-          className="absolute -top-10 right-0 flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white transition-opacity hover:opacity-80 md:-top-12"
-        >
-          <i className="ri-close-line text-[22px]" aria-hidden />
-        </button>
-        <video
-          ref={videoRef}
-          controls
-          playsInline
-          className="block max-h-[85vh] w-full rounded-[12px] bg-black object-contain"
-          src={VIDEO_SRC}
-        />
-      </div>
-    </div>
-  );
-};
-
-const WatchNowOverlay = ({ className = "", onWatch }) => {
-  const overlayRef = useRef(null);
-  const [position, setPosition] = useState({ x: 50, y: 50 });
-  const [isHovering, setIsHovering] = useState(false);
-
-  const handleMouseMove = (event) => {
-    const overlay = overlayRef.current;
-    if (!overlay) return;
-
-    const rect = overlay.getBoundingClientRect();
-    setPosition({
-      x: ((event.clientX - rect.left) / rect.width) * 100,
-      y: ((event.clientY - rect.top) / rect.height) * 100,
-    });
-    setIsHovering(true);
-  };
-
-  const handleMouseLeave = () => {
-    setPosition({ x: 50, y: 50 });
-    setIsHovering(false);
-  };
-
-  return (
-    <div
-      ref={overlayRef}
-      className={`pointer-events-auto absolute inset-0 z-20 cursor-pointer ${className}`}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onClick={onWatch}
-      onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") onWatch?.();
-      }}
-      role="button"
-      tabIndex={0}
-      aria-label="Watch now"
-    >
-      <button
-        type="button"
-        aria-label="Watch now"
-        className={`watch-now-btn pointer-events-none absolute flex items-center ${
-          isHovering
-            ? "gap-1.5 rounded-full bg-white py-1.5 pl-3.5 pr-1.5 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2 md:py-2 md:pl-4 md:pr-1.5"
-            : "rounded-full"
-        }`}
-        style={{
-          left: isHovering ? `${position.x}%` : "50%",
-          top: isHovering ? `${position.y}%` : "50%",
-          transform: "translate(-50%, -50%)",
-          transition: isHovering
-            ? "left 0.14s ease-out, top 0.14s ease-out, transform 0.25s ease"
-            : "left 0.5s cubic-bezier(0.22, 1, 0.36, 1), top 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.25s ease",
-        }}
-      >
-        {isHovering ? (
-          <>
-            <span className="font-league-spartan text-[10px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[11px]">
-              Watch Now
-            </span>
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-7 md:w-7">
-              <i className="ri-play-fill text-[11px] md:text-[12px]" aria-hidden />
-            </span>
-          </>
-        ) : (
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1D1D1B] text-white shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:h-11 md:w-11">
-            <i className="ri-play-fill text-[14px] md:text-[15px]" aria-hidden />
-          </span>
-        )}
-      </button>
-    </div>
-  );
-};
+const VideoMuteButton = ({ isMuted, onToggle }) => (
+  <button
+    type="button"
+    onClick={onToggle}
+    aria-label={isMuted ? "Unmute video" : "Mute video"}
+    className="pointer-events-auto absolute right-4 top-5 z-30 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition-colors hover:bg-black/65 md:right-6 md:h-10 md:w-10"
+  >
+    <i
+      className={`text-lg md:text-xl ${isMuted ? "ri-volume-mute-line" : "ri-volume-down-line"}`}
+      aria-hidden
+    />
+  </button>
+);
 
 const Section1 = () => {
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const isMutedRef = useRef(false);
   const heroRef = useRef(null);
   const headlineRef = useRef(null);
   const headlineSpotlightWrapRef = useRef(null);
@@ -1084,8 +950,96 @@ const Section1 = () => {
     };
   }, []);
 
-  const openVideoModal = () => setIsVideoModalOpen(true);
-  const closeVideoModal = () => setIsVideoModalOpen(false);
+  useEffect(() => {
+    const getVideos = () => {
+      const videos = Array.from(heroRef.current?.querySelectorAll("video") ?? []);
+      const floatVideo = videoFloatRef.current?.querySelector("video");
+      if (floatVideo && !videos.includes(floatVideo)) {
+        videos.push(floatVideo);
+      }
+      return videos;
+    };
+
+    const playHandlers = new Map();
+    let unlockBound = false;
+
+    const setVideosMuted = (muted) => {
+      getVideos().forEach((video) => {
+        video.muted = muted;
+        video.volume = 1;
+        video.play().catch(() => {});
+      });
+    };
+
+    const unlockSound = () => {
+      if (isMutedRef.current) return;
+      setVideosMuted(false);
+    };
+
+    const bindUnlockListeners = () => {
+      if (unlockBound || isMutedRef.current) return;
+      unlockBound = true;
+      const events = ["pointerdown", "click", "touchstart", "keydown"];
+      events.forEach((eventName) => {
+        document.addEventListener(eventName, unlockSound, { once: true, capture: true });
+      });
+    };
+
+    const ensureAutoplay = async (video) => {
+      const playVideo = () => {
+        video.play().catch(() => {});
+      };
+
+      video.volume = 1;
+      video.muted = false;
+
+      try {
+        await video.play();
+      } catch {
+        video.muted = true;
+        playVideo();
+        bindUnlockListeners();
+      }
+
+      video.addEventListener("loadeddata", playVideo);
+      video.addEventListener("canplay", playVideo);
+      playHandlers.set(video, playVideo);
+    };
+
+    getVideos().forEach((video) => {
+      ensureAutoplay(video);
+    });
+
+    return () => {
+      playHandlers.forEach((playVideo, video) => {
+        video.removeEventListener("loadeddata", playVideo);
+        video.removeEventListener("canplay", playVideo);
+      });
+      ["pointerdown", "click", "touchstart", "keydown"].forEach((eventName) => {
+        document.removeEventListener(eventName, unlockSound, { capture: true });
+      });
+    };
+  }, []);
+
+  const toggleMute = () => {
+    const nextMuted = !isMuted;
+    const videos = heroRef.current?.querySelectorAll("video") ?? [];
+    const floatVideo = videoFloatRef.current?.querySelector("video");
+    const allVideos = [...videos];
+    if (floatVideo && !allVideos.includes(floatVideo)) {
+      allVideos.push(floatVideo);
+    }
+
+    allVideos.forEach((video) => {
+      video.muted = nextMuted;
+      if (!nextMuted) {
+        video.volume = 1;
+        video.play().catch(() => {});
+      }
+    });
+    isMutedRef.current = nextMuted;
+    setIsMuted(nextMuted);
+  };
 
   return (
     <>
@@ -1241,7 +1195,6 @@ const Section1 = () => {
               <video
                 autoPlay
                 loop
-                muted
                 playsInline
                 className="block h-auto w-full"
                 src="/about/video-about.mp4"
@@ -1258,7 +1211,7 @@ const Section1 = () => {
                   }}
                 />
               </div>
-              <WatchNowOverlay onWatch={openVideoModal} />
+              <VideoMuteButton isMuted={isMuted} onToggle={toggleMute} />
             </div>
           </div>
         </div>
@@ -1272,12 +1225,11 @@ const Section1 = () => {
         <video
           autoPlay
           loop
-          muted
           playsInline
           className="block h-full w-full origin-center object-cover"
           src="/about/video-about.mp4"
         />
-        <WatchNowOverlay onWatch={openVideoModal} />
+        <VideoMuteButton isMuted={isMuted} onToggle={toggleMute} />
       </div>
       <div
         ref={logoFloatRef}
@@ -1357,12 +1309,11 @@ const Section1 = () => {
                 <video
                   autoPlay
                   loop
-                  muted
                   playsInline
                   className="block h-auto w-full"
                   src="/about/video-about.mp4"
                 />
-                <WatchNowOverlay onWatch={openVideoModal} />
+                <VideoMuteButton isMuted={isMuted} onToggle={toggleMute} />
               </div>
 
               <Reveal group="disruption-word" clipYOnly className="overflow-x-visible">
@@ -1439,7 +1390,6 @@ const Section1 = () => {
         </div>
       </section>
       </div>
-      <VideoFullscreenModal open={isVideoModalOpen} onClose={closeVideoModal} />
     </>
   );
 };
