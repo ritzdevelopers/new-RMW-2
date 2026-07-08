@@ -386,7 +386,8 @@ export const services = [
     intro: {
       images: [
         {
-          src: "/radio-advertising/digital-banner.jpg",
+          src: "/radio-advertising/radio-banner.jpg",
+          mobileSrc: "/radio-advertising/radio-mobile-banner.jpg",
           width: 1440,
           height: 630,
         },
@@ -994,7 +995,8 @@ export const services = [
     intro: {
       images: [
         {
-          src: "/services/3drendring/bannerdesktop.jpg",
+          src: "/3d-rendering/render-3d-banner.jpg",
+          mobileSrc: "/3d-rendering/mobile-size-banner.jpg",
           width: 1440,
           height: 630,
         },
@@ -1011,27 +1013,27 @@ export const services = [
         "We create your ideas into 3D visualizations and make your projects valuable, attract buyers and drive faster sales.",
       slides: [
         {
-          src: "/services/3drendring/F8.png",
+          src: "/3d-rendering/exterior.jpg",
           content: "3D Exterior Rendering",
           subSlug: "3d-exterior-rendering",
         },
         {
-          src: "/services/3drendring/interior.png",
+          src: "/3d-rendering/interior.jpg",
           content: "3D Interior Rendering",
           subSlug: "3d-interior-rendering",
         },
         {
-          src: "/services/3drendring/Site%20f2.jpeg",
+          src: "/3d-rendering/aerial-and-townership.jpg",
           content: "Aerial & Township",
           subSlug: "aerial-township",
         },
         {
-          src: "/services/3drendring/Floor-Plan-new.png",
+          src: "/3d-rendering/layout.jpg",
           content: "3D Floor Plan Rendering",
           subSlug: "3d-floor-plan-rendering",
         },
         {
-          src: "/services/3drendring/f3.jpeg",
+          src: "/3d-rendering/amenites.jpg",
           content: "Amenity & Landscape Rendering",
           subSlug: "amenity-landscape-rendering",
         },
@@ -1047,7 +1049,7 @@ export const services = [
       description:
         "We create your ideas into 3D visualizations and make your projects valuable, attract buyers and drive faster sales.",
       image: {
-        src: "/services/3drendring/F8.png",
+        src: "/3d-rendering/3d-randering-4.jpg",
         width: 720.953,
         height: 762.712,
         aspectRatio: "69 / 73",
@@ -1071,17 +1073,17 @@ export const services = [
       grid: {
         items: [
           {
-            src: "/services/3drendring/3d4.png",
+            src: "/3d-rendering/3d-rendering-1.jpg",
             className: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
             aspectRatio: "672 / 355",
           },
           {
-            src: "/services/3drendring/3d5.png",
+            src: "/3d-rendering/3d-randering-3.jpg",
             className: "lg:col-span-2 lg:row-start-2",
             aspectRatio: "696 / 572",
           },
           {
-            src: "/services/3drendring/3d6.png",
+            src: "/3d-rendering/3d-rendering-2.jpg",
             className: "lg:col-start-3 lg:row-span-2 lg:row-start-1",
             aspectRatio: "613 / 965",
           },
