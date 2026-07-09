@@ -93,13 +93,26 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
                 aspectRatio: image.aspectRatio ?? "69 / 73",
               }}
             >
-              <img
-                src={image.src}
-                alt=""
-                width={image.width ?? 720.953}
-                height={image.height ?? 762.712}
-                className="block h-full w-full object-cover object-center"
-              />
+              {image.src.includes(".mp4") ? (
+                <video
+                  src={image.src}
+                  width={image.width ?? 720.953}
+                  height={image.height ?? 762.712}
+                  className="block h-full w-full object-cover object-center"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
+              ) : (
+                <img
+                  src={image.src}
+                  alt=""
+                  width={image.width ?? 720.953}
+                  height={image.height ?? 762.712}
+                  className="block h-full w-full object-cover object-center"
+                />
+              )}
             </div>
           ) : null}
         </div>
@@ -164,11 +177,22 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
                   aspectRatio: item.aspectRatio,
                 }}
               >
-                <img
-                  src={item.src}
-                  alt=""
-                  className="block h-full w-full object-cover object-center"
-                />
+                {item.src.includes(".mp4") ? (
+                  <video
+                    src={item.src}
+                    className="block h-full w-full object-cover object-center"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  />
+                ) : (
+                  <img
+                    src={item.src}
+                    alt=""
+                    className="block h-full w-full object-cover object-center"
+                  />
+                )}
               </div>
             ))}
           </div>

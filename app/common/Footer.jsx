@@ -98,6 +98,7 @@ const mainNavLinks = [
   { label: "WORK", href: "/case-study" },
   { label: "ABOUT", href: "/about" },
   { label: "BLOGS", href: "/blog" },
+  { label: "CAREER", href: "/career" },
 ];
 
 const partnerLogos

@@ -8,7 +8,7 @@ import gsap from "gsap";
 const workLinks = [
   { label: "Portfolio", href: "/gallery" },
   { label: "Case Studies", href: "/case-study" },
-  { label: "Clients", href: "/clients" },
+  { label: "Web Stories", href: "/web-stories" },
 ];
 
 const navLinks = [
