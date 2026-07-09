@@ -871,7 +871,8 @@ export const services = [
     intro: {
       images: [
         {
-          src: "/influencer-marketing-agency-in-india/digital-banner.jpg",
+          src: "/influencer-marketing-agency-in-india/Influencer-Marketing-banner.jpg",
+          mobileSrc: "/influencer-marketing-agency-in-india/Influencer-Marketing-mobile-banner.jpg",
           width: 1440,
           height: 630,
         },

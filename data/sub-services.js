@@ -323,11 +323,19 @@ export const celebrityEndorsementsSubServices = [
   },
 ];
 
+export const influencerMarketingBanner = {
+  src: "/influencer-marketing-agency-in-india/Influencer-Marketing-banner.jpg",
+  mobileSrc: "/influencer-marketing-agency-in-india/Influencer-Marketing-mobile-banner.jpg",
+  width: 1440,
+  height: 630,
+};
+
 export const influencerMarketingSubServices = [
   {
     slug: "identification-influence-marketing-agency",
     title: "Influencer Identification",
     heroTitle: "Influencer Identification",
+    banner: influencerMarketingBanner,
     metaTitle: "Influencer Identification Services | Find Your Perfect Brand Match",
     metaDescription:
       "Discover the right influencers for your brand. We help identify authentic voices that drive engagement and conversions.",
@@ -336,6 +344,7 @@ export const influencerMarketingSubServices = [
     slug: "cost-benefit-analysis",
     title: "Cost-Benefit Analysis",
     heroTitle: "Cost-Benefit Analysis",
+    banner: influencerMarketingBanner,
     metaTitle: "Influencer ROI & Cost-Benefit Analysis | Maximize Your Campaign Impact",
     metaDescription:
       "Make data-driven decisions with influencer cost-benefit analysis. Maximize ROI with targeted investments.",
@@ -344,6 +353,7 @@ export const influencerMarketingSubServices = [
     slug: "terms-negotiations",
     title: "Terms Negotiations",
     heroTitle: "Terms Negotiations",
+    banner: influencerMarketingBanner,
     metaTitle: "Terms Negotiation Services | Fair & Transparent Influencer Deals",
     metaDescription:
       "We negotiate influencer terms that benefit your brand. Ensure clarity, compliance, and fair deliverables.",
@@ -352,6 +362,7 @@ export const influencerMarketingSubServices = [
     slug: "creative-collaboration",
     title: "Creative Collaboration",
     heroTitle: "Creative Collaboration",
+    banner: influencerMarketingBanner,
     metaTitle: "Creative Collaboration with Influencers | Grow Your Brand with Ritz Media World",
     metaDescription:
       "Boost brand impact with creative influencer collaborations. Ritz Media World delivers strategic storytelling, content creation, and high-performing campaigns in India.",
@@ -397,6 +408,7 @@ export const influencerMarketingSubServices = [
     slug: "campaign-integration",
     title: "Campaign Integration",
     heroTitle: "Campaign Integration",
+    banner: influencerMarketingBanner,
     metaTitle: "Influencer Campaign Integration | Align Your Brand Across Channels",
     metaDescription:
       "Integrate influencer efforts into your brand campaigns for consistent messaging and greater impact across platforms.",
@@ -456,6 +468,7 @@ export const influencerMarketingSubServices = [
     slug: "messaging-optimization",
     title: "Messaging Optimization",
     heroTitle: "Messaging Optimization",
+    banner: influencerMarketingBanner,
     metaTitle: "Influencer Messaging Optimization | Sharpen Your Brand Voice",
     metaDescription:
       "Refine influencer messaging to match your brand tone and goals. Boost relevance and campaign performance.",

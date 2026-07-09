@@ -123,7 +123,7 @@ const Section4 = () => {
         const first = itemRefs.current[0];
         if (!first) return 0;
 
-        return pin.offsetHeight / 2 - (first.offsetTop + first.offsetHeight / 2);
+        return pin.offsetHeight * 0.38 - (first.offsetTop + first.offsetHeight / 2);
       };
 
       const applyStartY = () => {
@@ -165,7 +165,7 @@ const Section4 = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-white px-8 py-[35px] md:px-12 md:py-[0px]"
+      className="bg-white px-8 py-[20px] md:px-12 md:py-[0px]"
     >
       <style>{`
         @media (min-width: 768px) {
@@ -220,7 +220,7 @@ const Section4 = () => {
                       {service.number}
                     </span>
                     <span
-                      className="text-[30px] transition-colors duration-300 md:text-[50px] lg:text-[60px] xl:text-[96px]"
+                      className="text-[30px] transition-colors duration-300 md:text-[50px] lg:text-[70px] xl:text-[106px]"
                       style={{
                         ...titleStyle,
                         color: isActive ? "#000000" : "#00000033",
@@ -250,7 +250,7 @@ const Section4 = () => {
                           {service.number}
                         </span>
                         <span
-                          className="text-[30px] md:text-[50px] lg:text-[60px] xl:text-[96px]"
+                          className="text-[30px] md:text-[50px] lg:text-[70px] xl:text-[106px]"
                           style={{
                             ...titleStyle,
                             ...imageOverlayTextStyle,
