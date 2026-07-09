@@ -558,7 +558,7 @@ export const services = [
       description:
         "Great content marketing is more than publishing - it is strategy, craft, and distribution working together. From editorial planning to asset creation and promotion, our work helps brands build trust, earn attention, and turn ideas into their most profitable asset.",
       image: {
-        src: "/content-marketing/content-marketing-image-1.jpg",
+        src: "/content-marketing/content-first.jpg",
         width: 720.953,
         height: 762.712,
         aspectRatio: "69 / 73",

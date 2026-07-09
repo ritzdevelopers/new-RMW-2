@@ -4,6 +4,7 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
+import { services } from "../../data/services";
 
 const workLinks = [
   { label: "Portfolio", href: "/gallery" },
@@ -74,14 +75,46 @@ const Header = () => {
               </span>
             </Link>
 
-            <Link
-              href="/services"
-              className={`${linkClass} overflow-hidden`}
-            >
-              <span data-header-reveal className="inline-block">
-                SERVICES
-              </span>
-            </Link>
+            <div className="group relative">
+              <Link
+                href="/services"
+                className={`${linkClass} overflow-hidden`}
+              >
+                <span data-header-reveal className="inline-flex items-center gap-1.5">
+                  SERVICES
+                  <i className="ri-arrow-down-s-line text-lg transition-transform duration-200 group-hover:rotate-180" aria-hidden />
+                </span>
+              </Link>
+
+              <div className="pointer-events-none invisible absolute left-1/2 top-full z-50 -ml-[200px] -translate-x-1/2 translate-y-1 pt-2 opacity-0 transition-all duration-300 ease-out group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                <div className="flex min-w-max flex-col overflow-hidden border border-white/10 bg-[#0D1334] shadow-xl">
+                  <div className="flex items-stretch border-b border-white/10">
+                    {services.slice(0, 5).map((service, index) => (
+                      <Link
+                        key={service.slug}
+                        href={`/services/${service.slug}`}
+                        style={{ transitionDelay: `${80 + index * 40}ms` }}
+                        className="whitespace-nowrap border-r border-white/10 px-4 py-3 font-sequel text-sm font-[310] uppercase leading-snug tracking-normal text-white opacity-0 transition-all duration-300 ease-out last:border-r-0 hover:bg-white/10 group-hover:opacity-100"
+                      >
+                        {service.title}
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="flex items-stretch">
+                    {services.slice(5).map((service, index) => (
+                      <Link
+                        key={service.slug}
+                        href={`/services/${service.slug}`}
+                        style={{ transitionDelay: `${280 + index * 40}ms` }}
+                        className="whitespace-nowrap border-r border-white/10 px-4 py-3 font-sequel text-sm font-[310] uppercase leading-snug tracking-normal text-white opacity-0 transition-all duration-300 ease-out last:border-r-0 hover:bg-white/10 group-hover:opacity-100"
+                      >
+                        {service.title}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div className="group relative">
               <button
@@ -96,14 +129,14 @@ const Header = () => {
                 </span>
               </button>
 
-              <div className="pointer-events-none invisible absolute left-1/2 top-full z-50 -translate-x-1/2 translate-y-1 pt-2 opacity-0 transition-all duration-300 ease-out group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-                <div className="min-w-[180px] origin-top overflow-hidden border border-white/10 bg-[#0D1334] py-2 text-center shadow-xl">
+              <div className="pointer-events-none invisible absolute right-0 top-full z-50 translate-y-1 pt-2 opacity-0 transition-all duration-300 ease-out group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                <div className="flex min-w-max origin-top items-stretch overflow-hidden border border-white/10 bg-[#0D1334] shadow-xl">
                   {workLinks.map((item, index) => (
                     <Link
                       key={item.href}
                       href={item.href}
                       style={{ transitionDelay: `${80 + index * 60}ms` }}
-                      className="block translate-y-2 px-5 py-2.5 font-sequel text-sm font-[310] uppercase leading-snug tracking-normal text-white opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 hover:bg-white/10"
+                      className="whitespace-nowrap border-r border-white/10 px-5 py-3 font-sequel text-sm font-[310] uppercase leading-snug tracking-normal text-white opacity-0 transition-all duration-300 ease-out last:border-r-0 group-hover:opacity-100 hover:bg-white/10"
                     >
                       {item.label}
                     </Link>
