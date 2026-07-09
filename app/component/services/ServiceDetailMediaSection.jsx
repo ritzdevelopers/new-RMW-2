@@ -3,6 +3,7 @@
 import React from "react";
 import { Montserrat } from "next/font/google";
 import ServiceDetailMediaButton from "./ServiceDetailMediaButton";
+import ServiceDetailFourGallery from "./ServiceDetailFourGallery";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -47,6 +48,10 @@ const imageContentBodyStyle = {
 const ServiceDetailMediaSection = ({ mediaSection }) => {
   if (!mediaSection) return null;
 
+  if (mediaSection.layout === "fourGallery") {
+    return <ServiceDetailFourGallery mediaSection={mediaSection} />;
+  }
+
   const { title, video, description, image, container, grid, imageContent } = mediaSection;
 
   return (
@@ -64,19 +69,32 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
             ) : null}
 
             {video?.src ? (
-              <video
-                src={video.src}
-                width={video.width ?? 561}
-                height={video.height ?? 342}
-                className="mt-6 block w-full max-w-full object-cover object-center lg:mt-10 xl:mt-15 xl:h-[342px] xl:w-[561px] xl:max-w-[561px]"
-                style={{
-                  aspectRatio: `${video.width ?? 561} / ${video.height ?? 342}`,
-                }}
-                autoPlay
-                loop
-                muted
-                playsInline
-              />
+              video.src.includes(".mp4") ? (
+                <video
+                  src={video.src}
+                  width={video.width ?? 561}
+                  height={video.height ?? 342}
+                  className="mt-6 block w-full max-w-full object-cover object-center lg:mt-10 xl:mt-15 xl:h-[342px] xl:w-[561px] xl:max-w-[561px]"
+                  style={{
+                    aspectRatio: `${video.width ?? 561} / ${video.height ?? 342}`,
+                  }}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
+              ) : (
+                <img
+                  src={video.src}
+                  alt=""
+                  width={video.width ?? 561}
+                  height={video.height ?? 342}
+                  className="mt-6 block w-full max-w-full object-cover object-center lg:mt-10 xl:mt-15 xl:h-[342px] xl:w-[561px] xl:max-w-[561px]"
+                  style={{
+                    aspectRatio: `${video.width ?? 561} / ${video.height ?? 342}`,
+                  }}
+                />
+              )
             ) : null}
 
             {description ? (

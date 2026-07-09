@@ -437,14 +437,14 @@ export const services = [
     mediaSection: {
       title: "HEARD, NOT SKIPPED",
       video: {
-        src: "/radio-advertising/digital-video.mp4",
+        src: "/radio-advertising/radio-video-image.jpg",
         width: 561,
         height: 342,
       },
       description:
         "Radio advertising is about more than a voice on air — it demands the right script, the right talent, and the right placement. From concept to production and media buying, our work helps brands sound credible, confident, and unmistakably on-message.",
       image: {
-        src: "/radio-advertising/rmw-29.jpg",
+        src: "/radio-advertising/radio-image-1.jpg",
         width: 720.953,
         height: 762.712,
         aspectRatio: "69 / 73",
@@ -468,17 +468,17 @@ export const services = [
       grid: {
         items: [
           {
-            src: "/radio-advertising/two.jpg",
+            src: "/radio-advertising/radio-image-2.jpg",
             className: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
             aspectRatio: "672 / 355",
           },
           {
-            src: "/radio-advertising/graph.jpg",
+            src: "/radio-advertising/radio-image-3.jpg",
             className: "lg:col-span-2 lg:row-start-2",
             aspectRatio: "696 / 572",
           },
           {
-            src: "/radio-advertising/digital-1.jpg",
+            src: "/radio-advertising/radio-image-4.jpg",
             className: "lg:col-start-3 lg:row-span-2 lg:row-start-1",
             aspectRatio: "613 / 965",
           },
@@ -919,55 +919,36 @@ export const services = [
       ],
     },
     mediaSection: {
+      layout: "fourGallery",
       title: "REACH THAT CONVERTS",
-      video: {
-        src: "/influencer-marketing-agency-in-india/digital-video.mp4",
-        width: 561,
-        height: 342,
-      },
       description:
         "Great influencer marketing is more than follower counts - it is the right voice, the right message, and the right integration. From creator identification to campaign rollout, our work helps brands earn attention that turns into real business growth.",
-      image: {
-        src: "/influencer-marketing-agency-in-india/rmw-29.jpg",
-        width: 720.953,
-        height: 762.712,
-        aspectRatio: "69 / 73",
-      },
-      container: {
-        width: 1154,
-        height: 666,
-        borderRadius: 16,
-        background: "#FFFFFF",
-        leftImage: {
-          src: "/influencer-marketing-agency-in-india/image%201008.png",
-          width: 509,
-          height: 277,
-          aspectRatio: "147 / 80",
+      gallery: [
+        {
+          src: "/influencer-marketing-agency-in-india/rmw-29.jpg",
+          label: "Creator Reach",
+          className: "lg:col-span-6 lg:row-span-2 lg:row-start-1 lg:col-start-1",
+          aspectRatio: "4 / 5",
         },
-        rightImage: {
-          src: "/influencer-marketing-agency-in-india/image%201007.png",
-          width: 509,
+        {
+          src: "/influencer-marketing-agency-in-india/two.jpg",
+          label: "Brand Story",
+          className: "lg:col-span-6 lg:row-start-1 lg:col-start-7",
+          aspectRatio: "16 / 10",
         },
-      },
-      grid: {
-        items: [
-          {
-            src: "/influencer-marketing-agency-in-india/two.jpg",
-            className: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
-            aspectRatio: "672 / 355",
-          },
-          {
-            src: "/influencer-marketing-agency-in-india/graph.jpg",
-            className: "lg:col-span-2 lg:row-start-2",
-            aspectRatio: "696 / 572",
-          },
-          {
-            src: "/influencer-marketing-agency-in-india/digital-1.jpg",
-            className: "lg:col-start-3 lg:row-span-2 lg:row-start-1",
-            aspectRatio: "613 / 965",
-          },
-        ],
-      },
+        {
+          src: "/influencer-marketing-agency-in-india/graph.jpg",
+          label: "Campaign Data",
+          className: "lg:col-span-3 lg:row-start-2 lg:col-start-7",
+          aspectRatio: "1 / 1",
+        },
+        {
+          src: "/influencer-marketing-agency-in-india/digital-1.jpg",
+          label: "Social Impact",
+          className: "lg:col-span-3 lg:row-start-2 lg:col-start-10",
+          aspectRatio: "1 / 1",
+        },
+      ],
       imageContent: {
         background: "/influencer-marketing-agency-in-india/image%201005%20(14).png",
         heading: "The Future Won't Build Itself",
@@ -1042,7 +1023,7 @@ export const services = [
     mediaSection: {
       title: "OUR 3D RENDERING SERVICES",
       video: {
-        src: "/3d-rendering/digital-video.mp4",
+        src: "/3d-rendering/3d-rendering-video.mp4",
         width: 561,
         height: 342,
       },
