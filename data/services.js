@@ -888,32 +888,32 @@ export const services = [
         "Every influencer campaign we manage is built for authenticity and performance. These highlights showcase how identification, negotiation, and creative collaboration drive awareness, engagement, and conversions.",
       slides: [
         {
-          src: "/navbar/influender-marketing/influencer-identification.jpg",
+          src: "/influencer-marketing-agency-in-india/influencer-identification.jpg",
           content: "Influencer Identification",
           subSlug: "identification-influence-marketing-agency",
         },
         {
-          src: "/navbar/influender-marketing/cost-benefit-analysis.jpg",
+          src: "/influencer-marketing-agency-in-india/cost-benefit.jpg",
           content: "Cost-Benefit Analysis",
           subSlug: "cost-benefit-analysis",
         },
         {
-          src: "/navbar/influender-marketing/terms-negotiations.jpg",
+          src: "/influencer-marketing-agency-in-india/negotians.jpg",
           content: "Terms Negotiations",
           subSlug: "terms-negotiations",
         },
         {
-          src: "/navbar/influender-marketing/creative-collaboration.jpg",
+          src: "/influencer-marketing-agency-in-india/creative-collaborartion.jpg",
           content: "Creative Collaboration",
           subSlug: "creative-collaboration",
         },
         {
-          src: "/navbar/influender-marketing/compaign-integration.jpg",
+          src: "/influencer-marketing-agency-in-india/campaign-integration.jpg",
           content: "Campaign Integration",
           subSlug: "campaign-integration",
         },
         {
-          src: "/navbar/influender-marketing/messaging-optimization.jpg",
+          src: "/influencer-marketing-agency-in-india/message.jpg",
           content: "Messaging Optimization",
           subSlug: "messaging-optimization",
         },
