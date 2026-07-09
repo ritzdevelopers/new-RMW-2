@@ -403,32 +403,32 @@ export const services = [
         "Every radio spot we produce is built to be heard, remembered, and acted on. These highlights showcase how strong concepts, sharp scripts, and smart media buying come together to deliver reach, recall, and results on air.",
       slides: [
         {
-          src: "/navbar/radio-advertising/advertising-concept-development.jpg",
+          src: "/radio-advertising/advertising-concept.jpg",
           content: "Concept Development",
           subSlug: "advertisement-concept-development",
         },
         {
-          src: "/navbar/radio-advertising/scriptwriting.jpg",
+          src: "/radio-advertising/services-scriptwriting.jpg",
           content: "Scriptwriting",
           subSlug: "scriptwriting",
         },
         {
-          src: "/navbar/radio-advertising/voice-casting.jpg",
+          src: "/radio-advertising/voice-over-casting.jpg",
           content: "Voiceover Casting",
           subSlug: "voiceover-casting",
         },
         {
-          src: "/navbar/radio-advertising/recording-production.jpg",
+          src: "/radio-advertising/rcording-production.jpg",
           content: "Recording & Production",
           subSlug: "recording-and-production",
         },
         {
-          src: "/navbar/radio-advertising/media-planning-buying.jpg",
+          src: "/radio-advertising/media-planning.jpg",
           content: "Media Planning",
           subSlug: "media-planning-and-buying",
         },
         {
-          src: "/navbar/radio-advertising/cost-negotiations.jpg",
+          src: "/radio-advertising/cost-negotion.jpg",
           content: "Cost Negotiations",
           subSlug: "radio-cost-negotiation-india",
         },
@@ -671,14 +671,14 @@ export const services = [
     mediaSection: {
       title: "DESIGN THAT DELIVERS",
       video: {
-        src: "/web-designing-and-development/digital-video.mp4",
+        src: "https://otherassets.blob.core.windows.net/rmw/561px%20x%20342px.mp4",
         width: 561,
         height: 342,
       },
       description:
         "A great website is more than aesthetics - it is usability, speed, and conversion working in harmony. From UI/UX to custom development and e-commerce builds, our work helps brands launch digital experiences that feel polished, purposeful, and built to perform.",
       image: {
-        src: "/web-designing-and-development/rmw-29.jpg",
+        src: "https://otherassets.blob.core.windows.net/rmw/720px%20x%20762px.mp4",
         width: 720.953,
         height: 762.712,
         aspectRatio: "69 / 73",
@@ -702,17 +702,17 @@ export const services = [
       grid: {
         items: [
           {
-            src: "/web-designing-and-development/two.jpg",
+            src: "https://otherassets.blob.core.windows.net/rmw/699px%20x%20369px.mp4",
             className: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
             aspectRatio: "672 / 355",
           },
           {
-            src: "/web-designing-and-development/graph.jpg",
+            src: "https://otherassets.blob.core.windows.net/rmw/699px%20x%20574px.mp4",
             className: "lg:col-span-2 lg:row-start-2",
             aspectRatio: "696 / 572",
           },
           {
-            src: "/web-designing-and-development/digital-1.jpg",
+            src: "https://otherassets.blob.core.windows.net/rmw/615px%20x%20968px.mp4",
             className: "lg:col-start-3 lg:row-span-2 lg:row-start-1",
             aspectRatio: "613 / 965",
           },
