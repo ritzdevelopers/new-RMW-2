@@ -927,26 +927,18 @@ export const services = [
         {
           src: "/influencer-marketing-agency-in-india/rmw-29.jpg",
           label: "Creator Reach",
-          className: "lg:col-span-6 lg:row-span-2 lg:row-start-1 lg:col-start-1",
-          aspectRatio: "4 / 5",
         },
         {
           src: "/influencer-marketing-agency-in-india/two.jpg",
           label: "Brand Story",
-          className: "lg:col-span-6 lg:row-start-1 lg:col-start-7",
-          aspectRatio: "16 / 10",
         },
         {
           src: "/influencer-marketing-agency-in-india/graph.jpg",
           label: "Campaign Data",
-          className: "lg:col-span-3 lg:row-start-2 lg:col-start-7",
-          aspectRatio: "1 / 1",
         },
         {
           src: "/influencer-marketing-agency-in-india/digital-1.jpg",
           label: "Social Impact",
-          className: "lg:col-span-3 lg:row-start-2 lg:col-start-10",
-          aspectRatio: "1 / 1",
         },
       ],
       imageContent: {
