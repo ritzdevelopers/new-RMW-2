@@ -42,15 +42,14 @@ const Section2 = () => {
             className="m-0 min-w-0 w-full text-center text-[28px] md:col-start-1 md:row-start-1 md:text-left md:text-[30px] lg:text-[48px]"
             style={headingStyle}
           >
-            WE create desire through
+           WE CREATE IMPACT THROUGH EXPERIENCE
           </h2>
 
           <p
             className="m-0 mt-5 w-full text-center md:col-span-2 md:row-start-2 md:text-left xl:max-w-[1150px] lg:max-w-[800px] md:max-w-[800px]"
             style={bodyStyle}
           >
-            The world&apos;s largest independent brand agency. We drive growth, standout and
-            fandom for the world&apos;s most desirable brands.
+            18 years of digital marketing expertise. We drive growth, visibility and results for the world's most ambitious brands.
           </p>
 
           <Link

@@ -261,7 +261,8 @@ export const services = [
     intro: {
       images: [
         {
-          src: "/print-advertising/digital-banner.jpg",
+          src: "/print-advertising/Print-advertising-desktop-banner.jpg",
+          mobileSrc: "/print-advertising/print-advertising-mobile-banner.jpg",
           width: 1440,
           height: 630,
         },

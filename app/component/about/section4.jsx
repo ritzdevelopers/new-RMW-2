@@ -40,7 +40,7 @@ const Section4 = () => {
     <section className="bg-white px-8 py-[35px] md:px-12  md:py-[70px]">
       <div className="mx-auto w-full max-w-[1200px]">
         <h2 className="m-0 text-center font-league-spartan xl:text-[48px] lg:text-[40px] md:text-[32px] text-[20px] font-[500] uppercase md:leading-[100%] tracking-[0] text-[#333333] leading-[25px]">
-          17 Years. Countless Stories. One Legacy.
+          18 Years. Countless Stories. One Legacy.
         </h2>
 
         <p
