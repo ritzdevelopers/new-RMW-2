@@ -22,7 +22,36 @@ const linkClass =
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [workOpen, setWorkOpen] = useState(false);
+  const [servicesMenuOpen, setServicesMenuOpen] = useState(false);
+  const [isXl, setIsXl] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(88);
   const headerRef = useRef(null);
+  const headerBarRef = useRef(null);
+  const servicesCloseTimer = useRef(null);
+
+  const openServicesMenu = () => {
+    if (servicesCloseTimer.current) {
+      clearTimeout(servicesCloseTimer.current);
+      servicesCloseTimer.current = null;
+    }
+    setServicesMenuOpen(true);
+  };
+
+  const closeServicesMenu = () => {
+    if (servicesCloseTimer.current) clearTimeout(servicesCloseTimer.current);
+    servicesCloseTimer.current = setTimeout(() => {
+      setServicesMenuOpen(false);
+      servicesCloseTimer.current = null;
+    }, 120);
+  };
+
+  const toggleServicesMenu = () => {
+    if (servicesCloseTimer.current) {
+      clearTimeout(servicesCloseTimer.current);
+      servicesCloseTimer.current = null;
+    }
+    setServicesMenuOpen((open) => !open);
+  };
 
   useLayoutEffect(() => {
     const header = headerRef.current;
@@ -48,9 +77,71 @@ const Header = () => {
     return () => ctx.revert();
   }, []);
 
+  useLayoutEffect(() => {
+    return () => {
+      if (servicesCloseTimer.current) clearTimeout(servicesCloseTimer.current);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const bar = headerBarRef.current;
+    if (!bar) return;
+
+    const updateHeight = () => {
+      setHeaderHeight(bar.getBoundingClientRect().height);
+    };
+
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
+
+  useLayoutEffect(() => {
+    const media = window.matchMedia("(min-width: 1280px)");
+    const syncXl = () => setIsXl(media.matches);
+
+    syncXl();
+    media.addEventListener("change", syncXl);
+    return () => media.removeEventListener("change", syncXl);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!servicesMenuOpen) return;
+
+    const scrollY = window.scrollY;
+    const { body, documentElement } = document;
+    const previousOverflow = body.style.overflow;
+    const previousPosition = body.style.position;
+    const previousTop = body.style.top;
+    const previousWidth = body.style.width;
+    const previousPaddingRight = body.style.paddingRight;
+    const scrollbarGap = window.innerWidth - documentElement.clientWidth;
+
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+    if (scrollbarGap > 0) {
+      body.style.paddingRight = `${scrollbarGap}px`;
+    }
+
+    return () => {
+      body.style.overflow = previousOverflow;
+      body.style.position = previousPosition;
+      body.style.top = previousTop;
+      body.style.width = previousWidth;
+      body.style.paddingRight = previousPaddingRight;
+      window.scrollTo(0, scrollY);
+    };
+  }, [servicesMenuOpen]);
+
   return (
-    <header className="relative z-50 w-full bg-[#0D1334]">
-      <div ref={headerRef} className="mx-auto flex w-full max-w-8xl items-center justify-between px-8 py-5 md:px-12">
+    <header className="relative z-50 w-full">
+      <div ref={headerBarRef} className="relative z-[90] w-full bg-[#0D1334]">
+        <div
+          ref={headerRef}
+          className="mx-auto flex w-full max-w-8xl items-center justify-between px-8 py-5 md:px-12"
+        >
         <Link href="/" className="shrink-0 overflow-hidden">
           <span data-header-reveal className="inline-block">
             <Image
@@ -75,45 +166,31 @@ const Header = () => {
               </span>
             </Link>
 
-            <div className="group relative">
+            <div
+              className="relative"
+              onMouseEnter={isXl ? openServicesMenu : undefined}
+              onMouseLeave={isXl ? closeServicesMenu : undefined}
+            >
               <Link
                 href="/services"
                 className={`${linkClass} overflow-hidden`}
+                aria-haspopup="true"
+                aria-expanded={servicesMenuOpen}
+                onClick={(event) => {
+                  if (!isXl) {
+                    event.preventDefault();
+                    toggleServicesMenu();
+                  }
+                }}
               >
                 <span data-header-reveal className="inline-flex items-center gap-1.5">
                   SERVICES
-                  <i className="ri-arrow-down-s-line text-lg transition-transform duration-200 group-hover:rotate-180" aria-hidden />
+                  <i
+                    className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${servicesMenuOpen ? "rotate-180" : ""}`}
+                    aria-hidden
+                  />
                 </span>
               </Link>
-
-              <div className="pointer-events-none invisible absolute left-1/2 top-full z-50 -ml-[200px] -translate-x-1/2 translate-y-1 pt-2 opacity-0 transition-all duration-300 ease-out group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-                <div className="flex min-w-max flex-col overflow-hidden border border-white/10 bg-[#0D1334] shadow-xl">
-                  <div className="flex items-stretch border-b border-white/10">
-                    {services.slice(0, 5).map((service, index) => (
-                      <Link
-                        key={service.slug}
-                        href={`/services/${service.slug}`}
-                        style={{ transitionDelay: `${80 + index * 40}ms` }}
-                        className="whitespace-nowrap border-r border-white/10 px-4 py-3 font-sequel text-sm font-[310] uppercase leading-snug tracking-normal text-white opacity-0 transition-all duration-300 ease-out last:border-r-0 hover:bg-white/10 group-hover:opacity-100"
-                      >
-                        {service.title}
-                      </Link>
-                    ))}
-                  </div>
-                  <div className="flex items-stretch">
-                    {services.slice(5).map((service, index) => (
-                      <Link
-                        key={service.slug}
-                        href={`/services/${service.slug}`}
-                        style={{ transitionDelay: `${280 + index * 40}ms` }}
-                        className="whitespace-nowrap border-r border-white/10 px-4 py-3 font-sequel text-sm font-[310] uppercase leading-snug tracking-normal text-white opacity-0 transition-all duration-300 ease-out last:border-r-0 hover:bg-white/10 group-hover:opacity-100"
-                      >
-                        {service.title}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div className="group relative">
@@ -176,6 +253,7 @@ const Header = () => {
             </span>
           </button>
         </div>
+        </div>
       </div>
 
       <div
@@ -211,13 +289,22 @@ const Header = () => {
           ABOUT
         </Link>
 
-        <Link
-          href="/services"
-          className={linkClass}
-          onClick={() => setMenuOpen(false)}
+        <button
+          type="button"
+          className={`${linkClass} flex w-full items-center justify-between text-left`}
+          aria-haspopup="true"
+          aria-expanded={servicesMenuOpen}
+          onClick={() => {
+            setMenuOpen(false);
+            toggleServicesMenu();
+          }}
         >
           SERVICES
-        </Link>
+          <i
+            className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${servicesMenuOpen ? "rotate-180" : ""}`}
+            aria-hidden
+          />
+        </button>
 
         <div>
           <button
@@ -265,6 +352,85 @@ const Header = () => {
           </Link>
         ))}
       </nav>
+
+      <div
+        className={`fixed inset-x-0 bottom-0 z-[80] ${
+          servicesMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+        style={{ top: headerHeight }}
+        onMouseEnter={isXl ? openServicesMenu : undefined}
+        onMouseLeave={isXl ? closeServicesMenu : undefined}
+        aria-hidden={!servicesMenuOpen}
+      >
+        <div
+          className={`absolute inset-0 bg-[#0D1334]/85 backdrop-blur-md transition-opacity duration-500 ${
+            servicesMenuOpen ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
+        <div
+          className={`relative flex h-full w-full flex-col overflow-hidden transition-all duration-500 ease-out md:flex-row ${
+            servicesMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
+          }`}
+        >
+          <button
+            type="button"
+            aria-label="Close services menu"
+            onClick={() => setServicesMenuOpen(false)}
+            className="absolute top-[14px] right-6 z-10 flex h-12 w-12 cursor-pointer items-center justify-center text-[#c99237] transition-transform duration-300 hover:rotate-90 md:right-10 xl:top-[-10px]"
+          >
+            <i className="ri-close-line text-[42px] leading-none" aria-hidden />
+          </button>
+
+          <div className="flex w-full shrink-0 flex-col justify-between px-6 pb-6 pt-14 md:w-[38%] md:px-8 md:py-14 lg:w-[42%] lg:px-14 xl:px-20 xl:py-16">
+            <p
+              className="m-0 max-w-[420px] text-[24px] leading-[1.15] text-white md:text-[26px] lg:text-[36px] xl:text-[44px]"
+              style={{ fontFamily: '"League Spartan", sans-serif', fontWeight: 600 }}
+            >
+              We craft brands that{" "}
+              <span className="text-[#c99237]">get noticed</span>.
+            </p>
+            <div className="mt-8 md:mt-0">
+              <p
+                className="m-0 text-[11px] uppercase tracking-[0.18em] text-white/55"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Explore our services
+              </p>
+              <Link
+                href="/services"
+                onClick={() => setServicesMenuOpen(false)}
+                className="mt-3 inline-flex items-center gap-2 font-sequel text-sm font-[310] uppercase tracking-normal text-white transition-colors hover:text-[#c99237]"
+              >
+                View all services
+                <i className="ri-arrow-right-up-line text-base" aria-hidden />
+              </Link>
+            </div>
+          </div>
+
+          <nav className="flex min-w-0 flex-1 flex-col items-end justify-center gap-2 overflow-y-auto px-6 pb-10 pt-4 text-right md:gap-3 md:px-8 md:py-14 lg:gap-4 lg:px-14 xl:gap-5 xl:px-20">
+            {services.map((service, index) => (
+              <Link
+                key={service.slug}
+                href={`/services/${service.slug}`}
+                onClick={() => setServicesMenuOpen(false)}
+                style={{
+                  transitionDelay: servicesMenuOpen ? `${80 + index * 35}ms` : "0ms",
+                  fontFamily: '"League Spartan", sans-serif',
+                  fontWeight: 600,
+                }}
+                className={`block w-full max-w-full text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${
+                  servicesMenuOpen
+                    ? "translate-x-0 opacity-100"
+                    : "translate-x-4 opacity-0 md:translate-x-8"
+                }`}
+              >
+                {service.title}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </div>
     </header>
   );
 };
