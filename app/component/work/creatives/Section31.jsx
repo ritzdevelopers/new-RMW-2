@@ -15,7 +15,7 @@ const AI_VIDEO_IMAGES = [
   "/work/creatives/s2/i3.jpg",
 ];
 
-function Section2() {
+function Section31() {
   const sectionRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -96,13 +96,12 @@ function Section2() {
   return (
     <section ref={sectionRef} className="w-full flex justify-center items-center">
       {/* Centered Align Container  */}
-      <div className="w-full max-w-[1340px] flex flex-col gap-[60px] pb-[56px] border-b-2 border-[#E8E8E8] max-xl:px-6 max-md:px-4 max-md:gap-[40px] max-md:pb-[40px]">
-    
+      <div className="w-full max-w-[1340px] flex flex-col gap-[60px] max-xl:px-6 max-md:px-4 max-md:gap-[40px] ">
         {/* Row 2  */}
         <div className="w-full flex flex-col gap-[50px] max-xl:gap-[40px] max-md:gap-[28px]">
           <div data-creatives-header>
             <p className="font-league-spartan font-[600] text-[36px] max-xl:text-[30px] max-lg:text-[26px] max-md:text-[22px] max-sm:text-[20px]">
-            Stationary Creatives
+              Stationary Creatives
             </p>
           </div>
 
@@ -131,4 +130,4 @@ function Section2() {
   );
 }
 
-export default Section2;
+export default Section31;
