@@ -6,8 +6,14 @@ import Link from "next/link";
 import gsap from "gsap";
 import { services } from "../../data/services";
 
+const portfolioSubLinks = [
+  { label: "Websites & Landing Pages", href: "/gallery" },
+  { label: "Creatives & AI Videos", href: "/gallery" },
+  { label: "Logo", href: "/gallery" },
+];
+
 const workLinks = [
-  { label: "Portfolio", href: "/gallery" },
+  { label: "Portfolio", href: "/gallery", children: portfolioSubLinks },
   { label: "Case Studies", href: "/case-study" },
   { label: "Web Stories", href: "/web-stories" },
 ];
@@ -21,19 +27,26 @@ const linkClass =
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [workOpen, setWorkOpen] = useState(false);
   const [servicesMenuOpen, setServicesMenuOpen] = useState(false);
+  const [workMenuOpen, setWorkMenuOpen] = useState(false);
+  const [portfolioSubOpen, setPortfolioSubOpen] = useState(false);
   const [isXl, setIsXl] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(88);
   const headerRef = useRef(null);
   const headerBarRef = useRef(null);
   const servicesCloseTimer = useRef(null);
+  const workCloseTimer = useRef(null);
 
   const openServicesMenu = () => {
     if (servicesCloseTimer.current) {
       clearTimeout(servicesCloseTimer.current);
       servicesCloseTimer.current = null;
     }
+    if (workCloseTimer.current) {
+      clearTimeout(workCloseTimer.current);
+      workCloseTimer.current = null;
+    }
+    setWorkMenuOpen(false);
     setServicesMenuOpen(true);
   };
 
@@ -50,8 +63,50 @@ const Header = () => {
       clearTimeout(servicesCloseTimer.current);
       servicesCloseTimer.current = null;
     }
+    if (workCloseTimer.current) {
+      clearTimeout(workCloseTimer.current);
+      workCloseTimer.current = null;
+    }
+    setWorkMenuOpen(false);
     setServicesMenuOpen((open) => !open);
   };
+
+  const openWorkMenu = () => {
+    if (workCloseTimer.current) {
+      clearTimeout(workCloseTimer.current);
+      workCloseTimer.current = null;
+    }
+    if (servicesCloseTimer.current) {
+      clearTimeout(servicesCloseTimer.current);
+      servicesCloseTimer.current = null;
+    }
+    setServicesMenuOpen(false);
+    setWorkMenuOpen(true);
+  };
+
+  const closeWorkMenu = () => {
+    if (workCloseTimer.current) clearTimeout(workCloseTimer.current);
+    workCloseTimer.current = setTimeout(() => {
+      setWorkMenuOpen(false);
+      setPortfolioSubOpen(false);
+      workCloseTimer.current = null;
+    }, 120);
+  };
+
+  const toggleWorkMenu = () => {
+    if (workCloseTimer.current) {
+      clearTimeout(workCloseTimer.current);
+      workCloseTimer.current = null;
+    }
+    if (servicesCloseTimer.current) {
+      clearTimeout(servicesCloseTimer.current);
+      servicesCloseTimer.current = null;
+    }
+    setServicesMenuOpen(false);
+    setWorkMenuOpen((open) => !open);
+  };
+
+  const megaMenuOpen = servicesMenuOpen || workMenuOpen;
 
   useLayoutEffect(() => {
     const header = headerRef.current;
@@ -80,6 +135,7 @@ const Header = () => {
   useLayoutEffect(() => {
     return () => {
       if (servicesCloseTimer.current) clearTimeout(servicesCloseTimer.current);
+      if (workCloseTimer.current) clearTimeout(workCloseTimer.current);
     };
   }, []);
 
@@ -106,7 +162,7 @@ const Header = () => {
   }, []);
 
   useLayoutEffect(() => {
-    if (!servicesMenuOpen) return;
+    if (!megaMenuOpen) return;
 
     const scrollY = window.scrollY;
     const { body, documentElement } = document;
@@ -133,7 +189,7 @@ const Header = () => {
       body.style.paddingRight = previousPaddingRight;
       window.scrollTo(0, scrollY);
     };
-  }, [servicesMenuOpen]);
+  }, [megaMenuOpen]);
 
   return (
     <header className="relative z-50 w-full">
@@ -193,33 +249,28 @@ const Header = () => {
               </Link>
             </div>
 
-            <div className="group relative">
+            <div
+              className="relative"
+              onMouseEnter={isXl ? openWorkMenu : undefined}
+              onMouseLeave={isXl ? closeWorkMenu : undefined}
+            >
               <button
                 type="button"
                 className={`${linkClass} overflow-hidden`}
                 aria-haspopup="true"
-                aria-expanded="false"
+                aria-expanded={workMenuOpen}
+                onClick={() => {
+                  if (!isXl) toggleWorkMenu();
+                }}
               >
                 <span data-header-reveal className="inline-flex items-center gap-1.5">
                   WORK
-                  <i className="ri-arrow-down-s-line text-lg transition-transform duration-200 group-hover:rotate-180" aria-hidden />
+                  <i
+                    className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${workMenuOpen ? "rotate-180" : ""}`}
+                    aria-hidden
+                  />
                 </span>
               </button>
-
-              <div className="pointer-events-none invisible absolute right-0 top-full z-50 translate-y-1 pt-2 opacity-0 transition-all duration-300 ease-out group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-                <div className="flex min-w-max origin-top items-stretch overflow-hidden border border-white/10 bg-[#0D1334] shadow-xl">
-                  {workLinks.map((item, index) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      style={{ transitionDelay: `${80 + index * 60}ms` }}
-                      className="whitespace-nowrap border-r border-white/10 px-5 py-3 font-sequel text-sm font-[310] uppercase leading-snug tracking-normal text-white opacity-0 transition-all duration-300 ease-out last:border-r-0 group-hover:opacity-100 hover:bg-white/10"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
             </div>
 
             {navLinks.map((link) => (
@@ -275,7 +326,7 @@ const Header = () => {
           aria-label="Close menu"
           onClick={() => {
             setMenuOpen(false);
-            setWorkOpen(false);
+            setWorkMenuOpen(false);
           }}
           className="absolute top-8 right-8 flex cursor-pointer items-center justify-center text-white"
         >
@@ -306,40 +357,22 @@ const Header = () => {
           />
         </button>
 
-        <div>
-          <button
-            type="button"
-            className={`${linkClass} flex w-full items-center justify-between`}
-            aria-expanded={workOpen}
-            onClick={() => setWorkOpen((open) => !open)}
-          >
-            WORK
-            <i
-              className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${workOpen ? "rotate-180" : ""}`}
-              aria-hidden
-            />
-          </button>
-
-          <div
-            className={`mt-3 flex flex-col gap-3 overflow-hidden pl-3 transition-all duration-300 ${
-              workOpen ? "max-h-[200px] opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            {workLinks.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="font-sequel text-sm font-[310] uppercase leading-snug tracking-normal text-white/90 transition-colors hover:text-white"
-                onClick={() => {
-                  setMenuOpen(false);
-                  setWorkOpen(false);
-                }}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </div>
+        <button
+          type="button"
+          className={`${linkClass} flex w-full items-center justify-between text-left`}
+          aria-haspopup="true"
+          aria-expanded={workMenuOpen}
+          onClick={() => {
+            setMenuOpen(false);
+            toggleWorkMenu();
+          }}
+        >
+          WORK
+          <i
+            className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${workMenuOpen ? "rotate-180" : ""}`}
+            aria-hidden
+          />
+        </button>
 
         {navLinks.map((link) => (
           <Link
@@ -382,15 +415,15 @@ const Header = () => {
             <i className="ri-close-line text-[42px] leading-none" aria-hidden />
           </button>
 
-          <div className="flex w-full shrink-0 flex-col justify-between px-6 pb-6 pt-14 md:w-[38%] md:px-8 md:py-14 lg:w-[42%] lg:px-14 xl:px-20 xl:py-16">
+          <div className="order-2 flex w-full shrink-0 flex-col justify-start px-6 pb-8 pt-6 md:order-1 md:w-[38%] md:justify-between md:px-8 md:py-14 lg:w-[42%] lg:px-14 xl:px-20 xl:py-16">
             <p
-              className="m-0 max-w-[420px] text-[24px] leading-[1.15] text-white md:text-[26px] lg:text-[36px] xl:text-[44px]"
+              className="m-0 max-w-[420px] text-[24px] leading-[1.15] text-white md:text-[40px] lg:text-[55px] xl:text-[80px]"
               style={{ fontFamily: '"League Spartan", sans-serif', fontWeight: 600 }}
             >
               We craft brands that{" "}
               <span className="text-[#c99237]">get noticed</span>.
             </p>
-            <div className="mt-8 md:mt-0">
+            <div className="mt-6 md:mt-0">
               <p
                 className="m-0 text-[11px] uppercase tracking-[0.18em] text-white/55"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -408,7 +441,7 @@ const Header = () => {
             </div>
           </div>
 
-          <nav className="flex min-w-0 flex-1 flex-col items-end justify-center gap-2 overflow-y-auto px-6 pb-10 pt-4 text-right md:gap-3 md:px-8 md:py-14 lg:gap-4 lg:px-14 xl:gap-5 xl:px-20">
+          <nav className="order-1 flex min-w-0 flex-none flex-col items-end justify-start gap-2 overflow-y-auto px-6 pb-4 pt-14 text-right md:order-2 md:flex-1 md:justify-center md:gap-3 md:px-8 md:py-14 lg:gap-4 lg:px-14 xl:gap-5 xl:px-20">
             {services.map((service, index) => (
               <Link
                 key={service.slug}
@@ -427,6 +460,150 @@ const Header = () => {
               >
                 {service.title}
               </Link>
+            ))}
+          </nav>
+        </div>
+      </div>
+
+      <div
+        className={`fixed inset-x-0 bottom-0 z-[80] ${
+          workMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+        style={{ top: headerHeight }}
+        onMouseEnter={isXl ? openWorkMenu : undefined}
+        onMouseLeave={isXl ? closeWorkMenu : undefined}
+        aria-hidden={!workMenuOpen}
+      >
+        <div
+          className={`absolute inset-0 bg-[#0D1334]/85 backdrop-blur-md transition-opacity duration-500 ${
+            workMenuOpen ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
+        <div
+          className={`relative flex h-full w-full flex-col overflow-hidden transition-all duration-500 ease-out md:flex-row ${
+            workMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
+          }`}
+        >
+          <button
+            type="button"
+            aria-label="Close work menu"
+            onClick={() => {
+              setWorkMenuOpen(false);
+              setPortfolioSubOpen(false);
+            }}
+            className="absolute top-[14px] right-6 z-10 flex h-12 w-12 cursor-pointer items-center justify-center text-[#c99237] transition-transform duration-300 hover:rotate-90 md:right-10 xl:top-[-10px]"
+          >
+            <i className="ri-close-line text-[42px] leading-none" aria-hidden />
+          </button>
+
+          <div className="order-2 flex w-full shrink-0 flex-col justify-start px-6 pb-8 pt-6 md:order-1 md:w-[38%] md:justify-between md:px-8 md:py-14 lg:w-[42%] lg:px-14 xl:px-20 xl:py-16">
+            <p
+              className="m-0 max-w-[420px] text-[24px] leading-[1.15] text-white md:text-[40px] lg:text-[55px] xl:text-[80px]"
+              style={{ fontFamily: '"League Spartan", sans-serif', fontWeight: 600 }}
+            >
+              We create work that{" "}
+              <span className="text-[#c99237]">stands out</span>.
+            </p>
+            <div className="mt-6 md:mt-0">
+              <p
+                className="m-0 text-[11px] uppercase tracking-[0.18em] text-white/55"
+                style={{ fontFamily: "Montserrat, sans-serif" }}
+              >
+                Explore our work
+              </p>
+              <Link
+                href="/gallery"
+                onClick={() => {
+              setWorkMenuOpen(false);
+              setPortfolioSubOpen(false);
+            }}
+                className="mt-3 inline-flex items-center gap-2 font-sequel text-sm font-[310] uppercase tracking-normal text-white transition-colors hover:text-[#c99237]"
+              >
+                View portfolio
+                <i className="ri-arrow-right-up-line text-base" aria-hidden />
+              </Link>
+            </div>
+          </div>
+
+          <nav className="order-1 flex min-w-0 flex-none flex-col items-end justify-start gap-2 overflow-y-auto px-6 pb-4 pt-14 text-right md:order-2 md:flex-1 md:justify-start md:gap-3 md:px-8 md:pt-14 md:pb-14 lg:gap-4 lg:px-14 xl:gap-5 xl:px-20">
+            {workLinks.map((item, index) => (
+              <div
+                key={item.href}
+                className="relative w-full"
+                onMouseEnter={() => {
+                  if (item.children) setPortfolioSubOpen(true);
+                }}
+                onMouseLeave={() => {
+                  if (item.children) setPortfolioSubOpen(false);
+                }}
+              >
+                <Link
+                  href={item.href}
+                  onClick={(e) => {
+                    if (item.children) {
+                      if (!isXl) {
+                        e.preventDefault();
+                        setPortfolioSubOpen((open) => !open);
+                        return;
+                      }
+                      setPortfolioSubOpen(true);
+                    }
+                    setWorkMenuOpen(false);
+                  }}
+                  style={{
+                    transitionDelay: workMenuOpen ? `${80 + index * 35}ms` : "0ms",
+                    fontFamily: '"League Spartan", sans-serif',
+                    fontWeight: 600,
+                  }}
+                  className={`block w-full max-w-full text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${
+                    workMenuOpen
+                      ? "translate-x-0 opacity-100"
+                      : "translate-x-4 opacity-0 md:translate-x-8"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+
+                {item.children ? (
+                  <div
+                    className={`grid w-full transition-[grid-template-rows,margin,opacity] duration-500 ease-out ${
+                      portfolioSubOpen
+                        ? "mt-3 grid-rows-[1fr] opacity-100 md:mt-4"
+                        : "mt-0 grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="flex w-full flex-col items-end gap-2 md:gap-3">
+                        {item.children.map((subItem, subIndex) => (
+                          <Link
+                            key={subItem.label}
+                            href={subItem.href}
+                            onClick={() => {
+                              setPortfolioSubOpen(false);
+                              setWorkMenuOpen(false);
+                            }}
+                            style={{
+                              transitionDelay: portfolioSubOpen
+                                ? `${60 + subIndex * 45}ms`
+                                : "0ms",
+                              fontFamily: '"League Spartan", sans-serif',
+                              fontWeight: 500,
+                            }}
+                            className={`block w-full max-w-full text-[16px] uppercase leading-[1.1] tracking-[-0.01em] text-white/75 transition-all duration-500 ease-out hover:text-[#c99237] md:text-[22px] lg:text-[26px] xl:text-[30px] ${
+                              portfolioSubOpen
+                                ? "translate-y-0 opacity-100"
+                                : "-translate-y-2 opacity-0"
+                            }`}
+                          >
+                            {subItem.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
             ))}
           </nav>
         </div>
