@@ -927,19 +927,19 @@ export const services = [
         "Great influencer marketing is more than follower counts - it is the right voice, the right message, and the right integration. From creator identification to campaign rollout, our work helps brands earn attention that turns into real business growth.",
       gallery: [
         {
-          src: "/influencer-marketing-agency-in-india/rmw-29.jpg",
+          src: "/influencer-marketing-agency-in-india/influencer-video-1.mp4",
           label: "Creator Reach",
         },
         {
-          src: "/influencer-marketing-agency-in-india/two.jpg",
+          src: "/influencer-marketing-agency-in-india/influencer-video-2.mp4",
           label: "Brand Story",
         },
         {
-          src: "/influencer-marketing-agency-in-india/graph.jpg",
+          src: "/influencer-marketing-agency-in-india/influencer-video-3.mp4",
           label: "Campaign Data",
         },
         {
-          src: "/influencer-marketing-agency-in-india/digital-1.jpg",
+          src: "/influencer-marketing-agency-in-india/influencer-video-4.mp4",
           label: "Social Impact",
         },
       ],
