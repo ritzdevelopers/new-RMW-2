@@ -312,7 +312,7 @@ export const services = [
     mediaSection: {
       title: "IMPACT, NOT IMPRESSIONS",
       video: {
-        src: "/print-advertising/digital-video.mp4",
+        src: "/print-advertising/print-advertising-video.mp4",
         width: 561,
         height: 342,
       },
