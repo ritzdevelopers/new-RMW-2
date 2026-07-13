@@ -7,16 +7,23 @@ import gsap from "gsap";
 import { services } from "../../data/services";
 
 const portfolioSubLinks = [
-  { label: "Websites & Landing Pages", href: "/work/portfolio" },
+  {
+    label: "Websites & Landing Pages",
+    href: "/work/portfolio/websites-and-landing-pages",
+  },
   {
     label: "Creatives & AI Videos",
-    href: "/work/portfolio/creatives-&-aI-videos",
+    href: "/work/portfolio/creatives-and-ai-videos",
   },
   { label: "Logo", href: "/work/portfolio/logo" },
 ];
 
 const workLinks = [
-  { label: "Portfolio", href: "/work/portfolio", children: portfolioSubLinks },
+  {
+    label: "Portfolio",
+    href: "/work/portfolio/websites-and-landing-pages",
+    children: portfolioSubLinks,
+  },
   { label: "Case Studies", href: "/case-study" },
   { label: "Web Stories", href: "/web-stories" },
 ];
@@ -87,6 +94,7 @@ const Header = () => {
     }
     setServicesMenuOpen(false);
     setWorkMenuOpen(true);
+    setPortfolioSubOpen(true);
   };
 
   const closeWorkMenu = () => {
@@ -108,7 +116,11 @@ const Header = () => {
       servicesCloseTimer.current = null;
     }
     setServicesMenuOpen(false);
-    setWorkMenuOpen((open) => !open);
+    setWorkMenuOpen((open) => {
+      const next = !open;
+      setPortfolioSubOpen(next);
+      return next;
+    });
   };
 
   const megaMenuOpen = servicesMenuOpen || workMenuOpen;
@@ -526,7 +538,7 @@ const Header = () => {
                 Explore our work
               </p>
               <Link
-                href="/work/portfolio"
+                href="/work/portfolio/websites-and-landing-pages"
                 onClick={() => {
               setWorkMenuOpen(false);
               setPortfolioSubOpen(false);
@@ -553,15 +565,8 @@ const Header = () => {
               >
                 <Link
                   href={item.href}
-                  onClick={(e) => {
-                    if (item.children) {
-                      if (!isDesktop) {
-                        e.preventDefault();
-                        setPortfolioSubOpen((open) => !open);
-                        return;
-                      }
-                      setPortfolioSubOpen(true);
-                    }
+                  onClick={() => {
+                    setPortfolioSubOpen(false);
                     setWorkMenuOpen(false);
                   }}
                   style={{
