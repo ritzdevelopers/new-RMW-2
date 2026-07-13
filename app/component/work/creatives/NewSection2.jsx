@@ -16,18 +16,18 @@ const BRAND_FILM_SLIDES = [
     alt: "Brand film 1",
     video:
       "https://otherassets.blob.core.windows.net/rmw/VVIP%20GROUP%20EK%20BAAR%20PHIR-1.mp4",
-    title: "Architectural Storytelling",
+    title: "REFINED ELEGANCE",
     description:
-      "A cinematic brand film that transforms real estate vision into emotion — blending aerial perspectives, lifestyle narratives, and premium finishing for maximum impact.",
+      "Crafted with a luxurious visual language, this brand film celebrates elegance as an attitude rather than a moment. Through cinematic storytelling and refined aesthetics, it captures the spirit of those who lead with confidence.",
     cta: { label: "Get In Touch", href: "/contact" },
   },
   {
     src: "https://otherassets.blob.core.windows.net/rmw/VVIP_Music%20option%202.mp4",
     alt: "Brand film 2",
     video: "https://otherassets.blob.core.windows.net/rmw/VVIP_Music%20option%202.mp4",
-    title: "Luxury Living Experience",
+    title: "ARTFUL ASPIRATIONS",
     description:
-      "Showcase aspirational living through motion, light, and detail. We craft films that help audiences feel the space before they step inside.",
+      "A visually poetic brand film that transforms art into aspiration through symbolic storytelling and seamless visual transitions. Every frame is crafted to evoke wonder while reflecting the timeless elegance of the VVIP brand.",
     cta: { label: "Start A Project", href: "/contact" },
   },
   {
@@ -35,9 +35,9 @@ const BRAND_FILM_SLIDES = [
     alt: "Brand film 3",
     video:
       "https://otherassets.blob.core.windows.net/rmw/document_6152301752554102660.mp4",
-    title: "Urban Development Story",
+    title: "CREATIVE ECOSYSTEM",
     description:
-      "From blueprint to skyline — dynamic storytelling for large-scale developments that communicates scale, trust, and long-term value.",
+      "A visually compelling brand film that showcases the creative thinking, strategic expertise, and integrated services that define Ritz Media World. Every frame reflects our commitment to crafting extraordinary brand experiences.",
     cta: { label: "View Our Work", href: "/case-study" },
   },
   {
@@ -45,27 +45,27 @@ const BRAND_FILM_SLIDES = [
     alt: "Brand film 4",
     video:
       "https://otherassets.blob.core.windows.net/rmw/document_6260379940223459024.mp4",
-    title: "Heritage Reimagined",
+    title: "NEW BEGINNINGS",
     description:
-      "Heritage properties deserve films with soul. We balance tradition and modernity in every frame to elevate brand perception.",
+      "A cinematic brand film crafted to capture the emotion of new beginnings. Through compelling storytelling, refined visuals and authentic performances, the film brings the VVIP brand to life with elegance and emotional depth.",
     cta: { label: "Get In Touch", href: "/contact" },
   },
   {
     src: "https://otherassets.blob.core.windows.net/rmw/IMG_1242.MP4",
     alt: "Brand film 5",
     video: "https://otherassets.blob.core.windows.net/rmw/IMG_1242.MP4",
-    title: "Sustainable Living",
+    title: "SUSTAINABLE LIVING",
     description:
-      "Sustainable living deserves films with purpose. We craft films that help audiences feel the space before they step inside.",
+      "A cinematic brand film that captures the harmony between nature, mindful living, and modern aspirations. Through evocative storytelling and immersive visuals, the film presents a vision of the future where life unfolds in perfect balance.",
     cta: { label: "Start A Project", href: "/contact" },
   },
   {
     src: "https://otherassets.blob.core.windows.net/rmw/Northwind_4.mp4",
     alt: "Brand film 6",
     video: "https://otherassets.blob.core.windows.net/rmw/Northwind_4.mp4",
-    title: "Urban Development Story",
+    title: "WHERE TWO WORLDS MEET",
     description:
-      "From blueprint to skyline — dynamic storytelling for large-scale developments that communicates scale, trust, and long-term value.",
+      "A cinematic brand film that brings the timeless essence of Switzerland closer through evocative storytelling and breathtaking visuals. Blending culture, craftsmanship and nature, the film creates an immersive narrative that celebrates a shared spirit beyond borders.",
     cta: { label: "View Our Work", href: "/case-study" },
   },
 ];
