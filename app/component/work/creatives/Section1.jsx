@@ -47,7 +47,7 @@ function Section1() {
         {/* Row 1  */}
         <div ref={titleRef} className="w-full">
           <h1 className="font-league-spartan font-[600] text-[56px] uppercase max-xl:text-[44px] max-lg:text-[36px] max-md:text-[28px] max-sm:text-[24px]">
-            Creatives
+          Portfolio
           </h1>
         </div>
         {/* Row 2  */}

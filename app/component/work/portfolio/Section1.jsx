@@ -11,7 +11,7 @@ const Section1 = () => {
         <div>
           <BottomRevealText
             as="h1"
-            text="Websites & Landing Pages"
+            text="Portfolio"
             className="font-league-spartan font-[600] uppercase text-[56px] max-xl:text-[44px] max-lg:text-[36px] max-md:text-[28px] max-sm:text-[24px]"
           />
         </div>

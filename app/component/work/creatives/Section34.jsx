@@ -209,7 +209,7 @@ function Section34() {
               data-creatives-header
               className="font-league-spartan font-[600] text-[36px] max-xl:text-[30px] max-lg:text-[26px] max-md:text-[22px] max-sm:text-[20px]"
             >
-              Stationary Creatives
+             Digital Branding Creatives
             </p>
           </div>
 
