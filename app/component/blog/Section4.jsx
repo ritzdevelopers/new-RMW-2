@@ -260,7 +260,7 @@ const Section4 = () => {
           className="m-0 text-[22px] leading-[32px] md:text-[32px] md:leading-[48px] lg:text-[46px] lg:leading-[69px] text-[#000000]"
           style={sectionTitleStyle}
         >
-          Enterprise Software development
+          Marketing Insights & Trends
         </h2>
 
         <div className="mt-6 pb-4 md:mt-8">

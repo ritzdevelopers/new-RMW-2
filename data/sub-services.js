@@ -92,11 +92,19 @@ export const creativeServicesSubServices = [
   },
 ];
 
+export const printAdvertisingBanner = {
+  src: "/print-advertising/Print-advertising-desktop-banner.jpg",
+  mobileSrc: "/print-advertising/print-advertising-mobile-banner.jpg",
+  width: 1440,
+  height: 630,
+};
+
 export const printAdvertisingSubServices = [
   {
     slug: "advertisement-designing",
     title: "Advertisement Design",
     heroTitle: "Advertisement Design",
+    banner: printAdvertisingBanner,
     metaTitle: "Advertisement Design Services in India | Creative Newspaper & Magazine Ads",
     metaDescription:
       "Get custom advertisement designs for newspapers, magazines, and hoardings. Eye-catching visuals and compelling layouts that drive results.",
@@ -105,6 +113,7 @@ export const printAdvertisingSubServices = [
     slug: "ad-placements",
     title: "Ad Placement",
     heroTitle: "Ad Placement",
+    banner: printAdvertisingBanner,
     metaTitle: "Ad Placement Services in India | Strategic Media Buying Solutions",
     metaDescription:
       "Maximize your ad impact with smart newspaper and magazine placements. Our team ensures high visibility in top publications.",
@@ -113,6 +122,7 @@ export const printAdvertisingSubServices = [
     slug: "copywriting",
     title: "Copywriting",
     heroTitle: "Copywriting",
+    banner: printAdvertisingBanner,
     metaTitle: "Print Ad Copywriting Services | Persuasive & High-Converting Content",
     metaDescription:
       "Drive action with powerful ad copy that sells. Tailored messaging for newspapers, brochures & billboards.",
@@ -121,6 +131,7 @@ export const printAdvertisingSubServices = [
     slug: "negotiating-rates",
     title: "Cost Negotiation",
     heroTitle: "Cost Negotiation",
+    banner: printAdvertisingBanner,
     metaTitle: "Print Advertising Cost Negotiation Services | Save on Ad Budgets",
     metaDescription:
       "Negotiate better ad rates across top publications. Save more while ensuring your ads reach the right audience.",
@@ -129,6 +140,7 @@ export const printAdvertisingSubServices = [
     slug: "ad-size-optimization",
     title: "Ad Size Optimization",
     heroTitle: "Ad Size Optimization",
+    banner: printAdvertisingBanner,
     metaTitle: "Ad Size Optimization for Print Ads | Maximize Visibility & ROI",
     metaDescription:
       "Optimize ad dimensions for better visual impact and budget efficiency in newspapers, magazines, and flyers.",
@@ -137,6 +149,7 @@ export const printAdvertisingSubServices = [
     slug: "advertisement-scheduling",
     title: "Ad Scheduling",
     heroTitle: "Ad Scheduling",
+    banner: printAdvertisingBanner,
     metaTitle: "Print Ad Scheduling Services in India | Right Time, Right Audience",
     metaDescription:
       "Schedule your print campaigns strategically for maximum visibility and response across key dates and editions.",

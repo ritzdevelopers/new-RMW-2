@@ -63,32 +63,26 @@ const slides = [
   },
   {
     quote:
-      "Ritz Media World brought clarity to our marketing spend. Their team explained every step, aligned campaigns with our goals, and helped us reach the right audience without wasting budget on channels that did not work for us.",
-    author: "DLF Limited",
-    role: "Chief Marketing Officer",
+      "If there is one thing serving as a full service digital agency for more than a decade taught us, it has to be the value of relationships. Therefore, our relationship with our clients is both a priority and a point of pride to us.",
+    author: "FAIRFOX - EON",
+    role: "Marketing Head",
     image: SLIDER_IMAGE,
   },
   {
     quote:
-      "From creative direction to media planning, the partnership felt strategic from day one. They do not just execute briefs — they challenge assumptions and recommend what is genuinely best for the brand.",
-    author: "M3M India",
-    role: "Head of Brand Communications",
+      "To me, advertising my brand was merely a means to ensure my elongated presence in the market. Thanks to ritz Media world, my advertisements not only ensured my brand’s sustenance but have also got me a great number of quality leads.",
+    author: "Madhusudan Ghee",
+    role: "Managing Director",
     image: SLIDER_IMAGE,
   },
   {
     quote:
-      "What stood out was transparency. We always knew where our money was going, what results to expect, and what needed to change. That level of honesty is rare in this industry.",
-    author: "Godrej Properties",
-    role: "Vice President, Marketing",
+      "I must admit that RMW and its team of professionals are always on my favourite list. They have always delivered the best services to me even if they had to put in extra efforts and their team has always been available for extensive support.",
+    author: "Escorts Tractor",
+    role: "Chief Communication Officer",
     image: SLIDER_IMAGE,
   },
-  {
-    quote:
-      "Their content and digital campaigns helped us build stronger recall in a crowded market. The team is responsive, detail-oriented, and consistently delivers work that feels premium and purposeful.",
-    author: "Signature Global",
-    role: "Director, Sales & Marketing",
-    image: SLIDER_IMAGE,
-  },
+  
 ];
 
 const Section5 = () => {
