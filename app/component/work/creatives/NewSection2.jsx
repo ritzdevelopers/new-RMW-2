@@ -10,45 +10,63 @@ import "swiper/css";
 import "swiper/css/effect-cube";
 import "swiper/css/navigation";
 
-const PLACEHOLDER_VIDEO =
-  "https://otherassets.blob.core.windows.net/rmw/home-website.mp4";
-
 const BRAND_FILM_SLIDES = [
   {
-    src: "/work/creatives/s2/video.jpg",
+    src: "https://otherassets.blob.core.windows.net/rmw/VVIP%20GROUP%20EK%20BAAR%20PHIR-1.mp4",
     alt: "Brand film 1",
-    video: PLACEHOLDER_VIDEO,
+    video:
+      "https://otherassets.blob.core.windows.net/rmw/VVIP%20GROUP%20EK%20BAAR%20PHIR-1.mp4",
     title: "Architectural Storytelling",
     description:
       "A cinematic brand film that transforms real estate vision into emotion — blending aerial perspectives, lifestyle narratives, and premium finishing for maximum impact.",
     cta: { label: "Get In Touch", href: "/contact" },
   },
   {
-    src: "/work/creatives/s2/i1.jpg",
+    src: "https://otherassets.blob.core.windows.net/rmw/VVIP_Music%20option%202.mp4",
     alt: "Brand film 2",
-    video: PLACEHOLDER_VIDEO,
+    video: "https://otherassets.blob.core.windows.net/rmw/VVIP_Music%20option%202.mp4",
     title: "Luxury Living Experience",
     description:
       "Showcase aspirational living through motion, light, and detail. We craft films that help audiences feel the space before they step inside.",
     cta: { label: "Start A Project", href: "/contact" },
   },
   {
-    src: "/work/creatives/s2/i2.jpg",
+    src: "https://otherassets.blob.core.windows.net/rmw/document_6152301752554102660.mp4",
     alt: "Brand film 3",
-    video: PLACEHOLDER_VIDEO,
+    video:
+      "https://otherassets.blob.core.windows.net/rmw/document_6152301752554102660.mp4",
     title: "Urban Development Story",
     description:
       "From blueprint to skyline — dynamic storytelling for large-scale developments that communicates scale, trust, and long-term value.",
     cta: { label: "View Our Work", href: "/case-study" },
   },
   {
-    src: "/work/creatives/s2/i3.jpg",
+    src: "https://otherassets.blob.core.windows.net/rmw/document_6260379940223459024.mp4",
     alt: "Brand film 4",
-    video: PLACEHOLDER_VIDEO,
+    video:
+      "https://otherassets.blob.core.windows.net/rmw/document_6260379940223459024.mp4",
     title: "Heritage Reimagined",
     description:
       "Heritage properties deserve films with soul. We balance tradition and modernity in every frame to elevate brand perception.",
     cta: { label: "Get In Touch", href: "/contact" },
+  },
+  {
+    src: "https://otherassets.blob.core.windows.net/rmw/IMG_1242.MP4",
+    alt: "Brand film 5",
+    video: "https://otherassets.blob.core.windows.net/rmw/IMG_1242.MP4",
+    title: "Sustainable Living",
+    description:
+      "Sustainable living deserves films with purpose. We craft films that help audiences feel the space before they step inside.",
+    cta: { label: "Start A Project", href: "/contact" },
+  },
+  {
+    src: "https://otherassets.blob.core.windows.net/rmw/Northwind_4.mp4",
+    alt: "Brand film 6",
+    video: "https://otherassets.blob.core.windows.net/rmw/Northwind_4.mp4",
+    title: "Urban Development Story",
+    description:
+      "From blueprint to skyline — dynamic storytelling for large-scale developments that communicates scale, trust, and long-term value.",
+    cta: { label: "View Our Work", href: "/case-study" },
   },
 ];
 
@@ -98,12 +116,20 @@ function PlayButton({ onClick, playBtnRef }) {
   );
 }
 
-function BrandFilmModal({ slide, onClose, backdropRef, panelRef, videoRef }) {
+function BrandFilmModal({
+  slide,
+  onClose,
+  backdropRef,
+  panelRef,
+  videoRef,
+  index = 0,
+  total = 1,
+}) {
   if (!slide) return null;
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-end justify-center sm:items-center sm:p-5 md:p-8"
+      className="fixed inset-0 z-[9999] flex items-end justify-center sm:items-center sm:p-4 md:p-6 lg:p-8"
       role="dialog"
       aria-modal="true"
       aria-labelledby="brand-film-modal-title"
@@ -112,74 +138,96 @@ function BrandFilmModal({ slide, onClose, backdropRef, panelRef, videoRef }) {
         ref={backdropRef}
         aria-hidden
         onClick={onClose}
-        className="absolute inset-0 bg-[#0b1520]/75 backdrop-blur-[6px]"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(13,111,170,0.18)_0%,_rgba(5,20,32,0.88)_55%,_rgba(3,10,16,0.94)_100%)] backdrop-blur-[10px]"
       />
 
       <div
         ref={panelRef}
-        className="relative z-10 flex w-full max-w-[1120px] max-h-[94vh] flex-col overflow-hidden rounded-t-[18px] bg-white shadow-[0_32px_80px_-20px_rgba(0,0,0,0.45)] sm:rounded-[18px] lg:max-h-[min(88vh,720px)] lg:flex-row"
+        className="relative z-10 flex w-full max-w-[1180px] max-h-[94vh] flex-col overflow-hidden rounded-t-[22px] border border-white/10 bg-[#071018] shadow-[0_40px_100px_-24px_rgba(0,0,0,0.7),0_0_0_1px_rgba(13,111,170,0.12)] sm:rounded-[22px] lg:max-h-[min(90vh,760px)] lg:flex-row"
       >
-        <div className="relative w-full shrink-0 bg-[#0a1620] lg:w-[58%]">
-          <div className="aspect-[1920/1080] w-full lg:absolute lg:inset-0 lg:aspect-auto">
+        {/* Ambient glow */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[#0D6FAA]/20 blur-[90px]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-20 -right-16 h-56 w-56 rounded-full bg-[#0D6FAA]/12 blur-[80px]"
+        />
+
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-3 top-3 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/45 text-white/85 backdrop-blur-md transition hover:border-white/35 hover:bg-black/65 hover:text-white sm:right-4 sm:top-4 sm:h-11 sm:w-11"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="h-4 w-4"
+            aria-hidden="true"
+          >
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+
+        <div className="relative flex w-full shrink-0 items-center justify-center bg-[#03080d] lg:w-[62%] lg:min-h-0">
+          <div className="pointer-events-none absolute inset-0 z-[1] ring-1 ring-inset ring-white/10" />
+          <div className="relative w-full aspect-[1920/1080]">
             <video
               ref={videoRef}
               src={slide.video}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain bg-black"
               playsInline
               controls
+              controlsList="nodownload"
             />
           </div>
-          <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-transparent to-[#0a1620]/20 lg:block" />
         </div>
 
-        <div className="relative flex flex-1 flex-col justify-center gap-5 overflow-y-auto p-6 sm:p-8 lg:p-10">
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close"
-            className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-[#E8E8E8] bg-white text-[#333] transition hover:border-[#0D6FAA] hover:text-[#0D6FAA] sm:right-5 sm:top-5"
+        <div className="relative flex flex-1 flex-col justify-center gap-5 overflow-y-auto px-6 pb-7 pt-6 sm:px-8 sm:pb-9 sm:pt-8 lg:px-10 lg:py-12">
+          <div
+            data-modal-reveal
+            className="flex items-center gap-3"
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="h-4 w-4"
-              aria-hidden="true"
-            >
-              <path d="M6 6l12 12M18 6L6 18" />
-            </svg>
-          </button>
-
-          <div data-modal-reveal>
-            <p className="font-league-spartan text-[12px] font-[600] uppercase tracking-[0.28em] text-[#0D6FAA]">
+            <span className="inline-flex items-center rounded-full border border-[#0D6FAA]/35 bg-[#0D6FAA]/12 px-3 py-1 font-league-spartan text-[11px] font-[600] uppercase tracking-[0.22em] text-[#7ec4e8]">
               Brand Film
-            </p>
+            </span>
+            <span className="font-league-spartan text-[12px] tracking-[0.2em] text-white/35">
+              {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+            </span>
           </div>
 
-          <h3
-            id="brand-film-modal-title"
-            data-modal-reveal
-            className="pr-10 font-league-spartan text-[30px] font-[700] capitalize leading-[1.12] text-[#111111] max-md:text-[26px] max-sm:text-[22px]"
-          >
-            {slide.title}
-          </h3>
+          <div data-modal-reveal>
+            <h3
+              id="brand-film-modal-title"
+              className="pr-10 font-league-spartan text-[32px] font-[700] capitalize leading-[1.1] text-white max-md:text-[26px] max-sm:text-[22px]"
+            >
+              {slide.title}
+            </h3>
+            <span
+              aria-hidden
+              className="mt-4 block h-[2px] w-12 origin-left bg-gradient-to-r from-[#0D6FAA] to-[#0D6FAA]/20"
+            />
+          </div>
 
           <p
             data-modal-reveal
-            className="font-montserrat text-[15px] leading-[1.7] text-[#555555] max-sm:text-[14px]"
+            className="max-w-[38ch] font-montserrat text-[15px] leading-[1.75] text-white/65 max-sm:text-[14px]"
           >
             {slide.description}
           </p>
 
-          <div data-modal-reveal className="pt-2">
+          <div data-modal-reveal className="pt-1">
             <Link
               href={slide.cta.href}
-              className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-[#0D6FAA] py-2.5 pl-6 pr-2.5 shadow-[0_8px_24px_rgba(13,111,170,0.32)] transition-shadow hover:shadow-[0_12px_28px_rgba(13,111,170,0.42)] max-sm:py-2 max-sm:pl-5"
+              className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-[#0D6FAA] py-2.5 pl-6 pr-2.5 shadow-[0_10px_30px_rgba(13,111,170,0.4)] transition-shadow hover:shadow-[0_14px_36px_rgba(13,111,170,0.55)] max-sm:py-2 max-sm:pl-5"
             >
               <span
                 aria-hidden
-                className="absolute inset-0 origin-left scale-x-0 rounded-full bg-[#052C44] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100"
+                className="absolute inset-0 origin-left scale-x-0 rounded-full bg-[#1490d4] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100"
               />
               <span className="relative z-10 font-league-spartan text-[13px] font-medium uppercase tracking-[0.08em] text-white max-sm:text-[12px]">
                 {slide.cta.label}
@@ -192,6 +240,13 @@ function BrandFilmModal({ slide, onClose, backdropRef, panelRef, videoRef }) {
               </span>
             </Link>
           </div>
+
+          <p
+            data-modal-reveal
+            className="mt-auto hidden pt-6 font-league-spartan text-[11px] uppercase tracking-[0.18em] text-white/25 lg:block"
+          >
+            Press Esc to close
+          </p>
         </div>
       </div>
     </div>
@@ -209,6 +264,7 @@ function NewSection2() {
   const backdropRef = useRef(null);
   const panelRef = useRef(null);
   const videoRef = useRef(null);
+  const previewVideoRefs = useRef([]);
   const closingRef = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [modalIndex, setModalIndex] = useState(null);
@@ -217,6 +273,19 @@ function NewSection2() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    previewVideoRefs.current.forEach((video, index) => {
+      if (!video) return;
+
+      if (modalIndex !== null || index !== activeIndex) {
+        video.pause();
+        return;
+      }
+
+      video.play().catch(() => {});
+    });
+  }, [activeIndex, modalIndex]);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
@@ -306,7 +375,8 @@ function NewSection2() {
       })
       .to(panel, {
         opacity: 0,
-        y: 24,
+        y: 28,
+        scale: 0.98,
         duration: 0.35,
         ease: "power2.in",
       })
@@ -333,20 +403,30 @@ function NewSection2() {
 
     if (backdrop && panel) {
       gsap.set(backdrop, { opacity: 0 });
-      gsap.set(panel, { opacity: 0, y: 32 });
-      gsap.set(contentItems, { opacity: 0, y: 16 });
+      gsap.set(panel, { opacity: 0, y: 40, scale: 0.97 });
+      gsap.set(contentItems, { opacity: 0, y: 18 });
 
       gsap
         .timeline()
-        .to(backdrop, { opacity: 1, duration: 0.4, ease: "power2.out" })
-        .to(panel, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, "-=0.22")
+        .to(backdrop, { opacity: 1, duration: 0.45, ease: "power2.out" })
+        .to(
+          panel,
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.55,
+            ease: "power3.out",
+          },
+          "-=0.24"
+        )
         .to(
           contentItems,
           {
             opacity: 1,
             y: 0,
             duration: 0.45,
-            stagger: 0.08,
+            stagger: 0.07,
             ease: "power3.out",
           },
           "-=0.28"
@@ -492,14 +572,21 @@ function NewSection2() {
               {BRAND_FILM_SLIDES.map((slide, index) => (
                 <SwiperSlide
                   key={`${slide.src}-${index}`}
-                  className="!bg-[#0a0a0a] overflow-hidden rounded-[6px] shadow-[0_35px_70px_-20px_rgba(13,111,170,0.45)]"
+                  className="!bg-[#0a0a0a] overflow-hidden rounded-[6px] shadow-[0_35px_70px_-20px_rgba(13,111,170,0.45)] cursor-pointer"
+                  onClick={() => openModal(index)}
                 >
                   <div className="relative h-full w-full overflow-hidden">
-                    <img
+                    <video
+                      ref={(el) => {
+                        previewVideoRefs.current[index] = el;
+                      }}
                       src={slide.src}
-                      alt={slide.alt}
-                      className="h-full w-full object-cover"
-                      loading={index === 0 ? "eager" : "lazy"}
+                      className="h-full w-full object-contain bg-black pointer-events-none"
+                      muted
+                      loop
+                      playsInline
+                      preload={index === 0 ? "auto" : "metadata"}
+                      aria-label={slide.alt}
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
                   </div>
@@ -572,6 +659,8 @@ function NewSection2() {
             backdropRef={backdropRef}
             panelRef={panelRef}
             videoRef={videoRef}
+            index={modalIndex}
+            total={BRAND_FILM_SLIDES.length}
           />,
           document.body
         )}
