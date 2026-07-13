@@ -32,7 +32,7 @@ const Header = () => {
   const [servicesMenuOpen, setServicesMenuOpen] = useState(false);
   const [workMenuOpen, setWorkMenuOpen] = useState(false);
   const [portfolioSubOpen, setPortfolioSubOpen] = useState(false);
-  const [isXl, setIsXl] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(88);
   const headerRef = useRef(null);
   const headerBarRef = useRef(null);
@@ -57,7 +57,7 @@ const Header = () => {
     servicesCloseTimer.current = setTimeout(() => {
       setServicesMenuOpen(false);
       servicesCloseTimer.current = null;
-    }, 120);
+    }, 200);
   };
 
   const toggleServicesMenu = () => {
@@ -92,7 +92,7 @@ const Header = () => {
       setWorkMenuOpen(false);
       setPortfolioSubOpen(false);
       workCloseTimer.current = null;
-    }, 120);
+    }, 200);
   };
 
   const toggleWorkMenu = () => {
@@ -155,12 +155,19 @@ const Header = () => {
   }, []);
 
   useLayoutEffect(() => {
-    const media = window.matchMedia("(min-width: 1280px)");
-    const syncXl = () => setIsXl(media.matches);
+    // Hover menus only on real desktop pointers; touch/tablet uses click
+    const media = window.matchMedia(
+      "(min-width: 768px) and (hover: hover) and (pointer: fine)"
+    );
+    const syncDesktop = () => setIsDesktop(media.matches);
 
-    syncXl();
-    media.addEventListener("change", syncXl);
-    return () => media.removeEventListener("change", syncXl);
+    syncDesktop();
+    if (media.addEventListener) {
+      media.addEventListener("change", syncDesktop);
+      return () => media.removeEventListener("change", syncDesktop);
+    }
+    media.addListener(syncDesktop);
+    return () => media.removeListener(syncDesktop);
   }, []);
 
   useLayoutEffect(() => {
@@ -194,8 +201,8 @@ const Header = () => {
   }, [megaMenuOpen]);
 
   return (
-    <header className="relative z-50 w-full">
-      <div ref={headerBarRef} className="relative z-[90] w-full bg-[#0D1334]">
+    <header className="relative z-[100] w-full">
+      <div ref={headerBarRef} className="relative z-[110] w-full bg-[#0D1334]">
         <div
           ref={headerRef}
           className="mx-auto flex w-full max-w-8xl items-center justify-between px-8 py-5 md:px-12"
@@ -226,8 +233,8 @@ const Header = () => {
 
             <div
               className="relative"
-              onMouseEnter={isXl ? openServicesMenu : undefined}
-              onMouseLeave={isXl ? closeServicesMenu : undefined}
+              onMouseEnter={isDesktop ? openServicesMenu : undefined}
+              onMouseLeave={isDesktop ? closeServicesMenu : undefined}
             >
               <Link
                 href="/services"
@@ -235,7 +242,7 @@ const Header = () => {
                 aria-haspopup="true"
                 aria-expanded={servicesMenuOpen}
                 onClick={(event) => {
-                  if (!isXl) {
+                  if (!isDesktop) {
                     event.preventDefault();
                     toggleServicesMenu();
                   }
@@ -253,16 +260,17 @@ const Header = () => {
 
             <div
               className="relative"
-              onMouseEnter={isXl ? openWorkMenu : undefined}
-              onMouseLeave={isXl ? closeWorkMenu : undefined}
+              onMouseEnter={isDesktop ? openWorkMenu : undefined}
+              onMouseLeave={isDesktop ? closeWorkMenu : undefined}
             >
               <button
                 type="button"
                 className={`${linkClass} overflow-hidden`}
                 aria-haspopup="true"
                 aria-expanded={workMenuOpen}
-                onClick={() => {
-                  if (!isXl) toggleWorkMenu();
+                onClick={(event) => {
+                  event.preventDefault();
+                  toggleWorkMenu();
                 }}
               >
                 <span data-header-reveal className="inline-flex items-center gap-1.5">
@@ -389,12 +397,12 @@ const Header = () => {
       </nav>
 
       <div
-        className={`fixed inset-x-0 bottom-0 z-[80] ${
+        className={`fixed inset-x-0 bottom-0 z-[105] ${
           servicesMenuOpen ? "pointer-events-auto" : "pointer-events-none"
         }`}
         style={{ top: headerHeight }}
-        onMouseEnter={isXl ? openServicesMenu : undefined}
-        onMouseLeave={isXl ? closeServicesMenu : undefined}
+        onMouseEnter={isDesktop ? openServicesMenu : undefined}
+        onMouseLeave={isDesktop ? closeServicesMenu : undefined}
         aria-hidden={!servicesMenuOpen}
       >
         <div
@@ -468,12 +476,12 @@ const Header = () => {
       </div>
 
       <div
-        className={`fixed inset-x-0 bottom-0 z-[80] ${
+        className={`fixed inset-x-0 bottom-0 z-[105] ${
           workMenuOpen ? "pointer-events-auto" : "pointer-events-none"
         }`}
         style={{ top: headerHeight }}
-        onMouseEnter={isXl ? openWorkMenu : undefined}
-        onMouseLeave={isXl ? closeWorkMenu : undefined}
+        onMouseEnter={isDesktop ? openWorkMenu : undefined}
+        onMouseLeave={isDesktop ? closeWorkMenu : undefined}
         aria-hidden={!workMenuOpen}
       >
         <div
@@ -544,7 +552,7 @@ const Header = () => {
                   href={item.href}
                   onClick={(e) => {
                     if (item.children) {
-                      if (!isXl) {
+                      if (!isDesktop) {
                         e.preventDefault();
                         setPortfolioSubOpen((open) => !open);
                         return;
