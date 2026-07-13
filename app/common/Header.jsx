@@ -8,8 +8,11 @@ import { services } from "../../data/services";
 
 const portfolioSubLinks = [
   { label: "Websites & Landing Pages", href: "/work/portfolio" },
-  { label: "Creatives & AI Videos", href: "/work/creatives-&-aI-videos" },
-  { label: "Logo", href: "/gallery" },
+  {
+    label: "Creatives & AI Videos",
+    href: "/work/portfolio/creatives-&-aI-videos",
+  },
+  { label: "Logo", href: "/work/portfolio/logo" },
 ];
 
 const workLinks = [
