@@ -278,32 +278,32 @@ export const services = [
         "From newspaper spreads to magazine inserts, every print placement we manage is built with intent. These highlights showcase how strong design, sharp copy, and smart media buying come together to deliver visibility, credibility, and results that digital alone cannot replicate.",
       slides: [
         {
-          src: "/navbar/print-services/advertizement-design.jpg",
+          src: "/print-advertising/Advertisement-design.jpg",
           content: "Advertisement Design",
           subSlug: "advertisement-designing",
         },
         {
-          src: "/navbar/print-services/ad-placement.jpg",
+          src: "/print-advertising/Ad-placement.jpg",
           content: "Ad Placement",
           subSlug: "ad-placements",
         },
         {
-          src: "/navbar/print-services/copywriting.jpg",
+          src: "/print-advertising/copywriting.jpg",
           content: "Copywriting",
           subSlug: "copywriting",
         },
         {
-          src: "/navbar/print-services/cost-negotiation.jpg",
+          src: "/print-advertising/cost-negotiations.jpg",
           content: "Cost Negotiation",
           subSlug: "negotiating-rates",
         },
         {
-          src: "/navbar/print-services/ad-size-optimization.jpg",
+          src: "/print-advertising/ad-size-optimization.jpg",
           content: "Ad Size Optimization",
           subSlug: "ad-size-optimization",
         },
         {
-          src: "/navbar/print-services/ad-size-scheduling.jpg",
+          src: "/print-advertising/ad-scheduling.jpg",
           content: "Ad Scheduling",
           subSlug: "advertisement-scheduling",
         },
