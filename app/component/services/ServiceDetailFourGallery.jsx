@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ServiceDetailMediaButton from "./ServiceDetailMediaButton";
@@ -104,10 +104,183 @@ function CardHeadline({ words }) {
   );
 }
 
+function GalleryCardMedia({ src, index, activeAudioIndex, onActivateAudio }) {
+  const videoRef = useRef(null);
+  const isVideo = typeof src === "string" && src.includes(".mp4");
+  const isActive = activeAudioIndex === index;
+  const [isMuted, setIsMuted] = useState(!isActive);
+
+  useEffect(() => {
+    if (!isVideo) return;
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    let unlockBound = false;
+
+    const playVideo = () => {
+      video.play().catch(() => {});
+    };
+
+    const unlockSound = () => {
+      if (index !== 0) return;
+      onActivateAudio(0);
+      video.muted = false;
+      video.volume = 1;
+      setIsMuted(false);
+      playVideo();
+    };
+
+    const bindUnlockListeners = () => {
+      if (unlockBound || index !== 0) return;
+      unlockBound = true;
+      ["pointerdown", "click", "touchstart", "keydown"].forEach((eventName) => {
+        document.addEventListener(eventName, unlockSound, { once: true, capture: true });
+      });
+    };
+
+    const startPlayback = async () => {
+      video.volume = 1;
+
+      if (index !== 0) {
+        video.muted = true;
+        setIsMuted(true);
+        playVideo();
+        return;
+      }
+
+      video.muted = false;
+
+      try {
+        await video.play();
+        setIsMuted(false);
+        onActivateAudio(0);
+      } catch {
+        video.muted = true;
+        setIsMuted(true);
+        playVideo();
+        bindUnlockListeners();
+      }
+    };
+
+    startPlayback();
+    video.addEventListener("loadeddata", playVideo);
+    video.addEventListener("canplay", playVideo);
+
+    return () => {
+      video.removeEventListener("loadeddata", playVideo);
+      video.removeEventListener("canplay", playVideo);
+      ["pointerdown", "click", "touchstart", "keydown"].forEach((eventName) => {
+        document.removeEventListener(eventName, unlockSound, { capture: true });
+      });
+    };
+  }, [isVideo, src, index, onActivateAudio]);
+
+  useEffect(() => {
+    if (!isVideo) return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isActive) {
+      video.muted = false;
+      video.volume = 1;
+      setIsMuted(false);
+      video.play().catch(() => {});
+    } else {
+      video.muted = true;
+      setIsMuted(true);
+    }
+  }, [isActive, isVideo]);
+
+  const toggleMute = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Click any sound icon: currently-on mutes, clicked one turns on.
+    // Click already-on icon: mute it.
+    if (isActive) {
+      onActivateAudio(null, true);
+      video.muted = true;
+      setIsMuted(true);
+      return;
+    }
+
+    onActivateAudio(index, true);
+    video.muted = false;
+    video.volume = 1;
+    video.play().catch(() => {});
+    setIsMuted(false);
+  };
+
+  if (!isVideo) {
+    return (
+      <img
+        data-svc-image
+        src={src}
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover object-top will-change-transform"
+        draggable={false}
+      />
+    );
+  }
+
+  return (
+    <>
+      <video
+        ref={videoRef}
+        data-svc-image
+        src={src}
+        className="absolute inset-0 h-full w-full object-cover object-top will-change-transform"
+        autoPlay
+        loop
+        playsInline
+        muted={index !== 0}
+      />
+      <button
+        type="button"
+        onClick={toggleMute}
+        aria-label={isMuted ? "Unmute video" : "Mute video"}
+        className="absolute left-4 top-14 z-30 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition-colors hover:bg-black/65 md:left-5 md:top-16 md:h-10 md:w-10"
+      >
+        <i
+          className={`text-lg md:text-xl ${isMuted ? "ri-volume-mute-line" : "ri-volume-down-line"}`}
+          aria-hidden
+        />
+      </button>
+    </>
+  );
+}
+
 const ServiceDetailFourGallery = ({ mediaSection }) => {
   const sectionRef = useRef(null);
   const { title, description, gallery, imageContent } = mediaSection;
   const galleryItems = gallery?.slice(0, 4) ?? [];
+  const [activeAudioIndex, setActiveAudioIndex] = useState(0);
+  const userPickedAudioRef = useRef(false);
+
+  const onActivateAudio = useCallback((nextIndex, fromUser = false) => {
+    if (fromUser) userPickedAudioRef.current = true;
+    setActiveAudioIndex(nextIndex);
+  }, []);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        if (userPickedAudioRef.current) return;
+        setActiveAudioIndex(0);
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -294,30 +467,29 @@ const ServiceDetailFourGallery = ({ mediaSection }) => {
                   index % 2 === 1 ? "md:mt-12 lg:mt-12" : ""
                 }`}
               >
-                <img
-                  data-svc-image
+                <GalleryCardMedia
                   src={item.src}
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover object-top will-change-transform"
-                  draggable={false}
+                  index={index}
+                  activeAudioIndex={activeAudioIndex}
+                  onActivateAudio={onActivateAudio}
                 />
                 <div
                   data-svc-overlay
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-transparent"
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-transparent opacity-0"
                   aria-hidden
                 />
                 <div
                   data-svc-top-scrim
-                  className="pointer-events-none absolute inset-x-0 top-0 h-[48%] bg-gradient-to-b from-black/70 to-transparent"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-[48%] bg-gradient-to-b from-black/70 to-transparent opacity-0"
                   aria-hidden
                 />
                 <div
                   data-svc-bottom-scrim
-                  className="pointer-events-none absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-black/70 to-transparent"
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-[42%] bg-gradient-to-t from-black/70 to-transparent opacity-0"
                   aria-hidden
                 />
 
-                <div className="relative z-10 flex h-full flex-col overflow-visible p-5 sm:p-6 md:p-7 lg:p-8">
+                <div className="relative z-10 hidden h-full flex-col overflow-visible p-5 sm:p-6 md:p-7 lg:p-8">
                   <div className="relative z-20 flex shrink-0 items-start justify-between gap-3 overflow-visible">
                     <span
                       data-svc-meta
