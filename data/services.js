@@ -763,32 +763,32 @@ export const services = [
         "Every celebrity partnership we build is strategic, authentic, and designed for impact. These highlights showcase how identification, negotiation, and integration come together to amplify brands across every channel.",
       slides: [
         {
-          src: "/navbar/celebrity-endorsements/celebirty-identification.jpg",
+          src: "/celebrity-endorsements/celebrity-identification.jpg",
           content: "Celebrity Identification",
           subSlug: "celebrity-identification-services",
         },
         {
-          src: "/navbar/celebrity-endorsements/contract-negotiations.jpg",
+          src: "/celebrity-endorsements/contract-negotiations.jpg",
           content: "Contract Negotiations",
           subSlug: "negotiating-contracts",
         },
         {
-          src: "/navbar/celebrity-endorsements/creative-collaboration.jpg",
+          src: "/celebrity-endorsements/creative-collaboration.jpg",
           content: "Creative Collaboration",
           subSlug: "creative-collaboration",
         },
         {
-          src: "/navbar/celebrity-endorsements/compaign-integration.jpg",
+          src: "/celebrity-endorsements/campaign-integration.jpg",
           content: "Campaign Integration",
           subSlug: "campaign-integration",
         },
         {
-          src: "/navbar/celebrity-endorsements/public-relations.jpg",
+          src: "/celebrity-endorsements/public-relations.jpg",
           content: "Public Relations",
           subSlug: "public-relations",
         },
         {
-          src: "/navbar/celebrity-endorsements/legal-compliance.jpg",
+          src: "/celebrity-endorsements/legal-complaince.jpg",
           content: "Legal Compliance",
           subSlug: "legal-compliance",
         },
