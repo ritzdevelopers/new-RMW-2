@@ -574,13 +574,21 @@ const Header = () => {
                     fontFamily: '"League Spartan", sans-serif',
                     fontWeight: 600,
                   }}
-                  className={`block w-full max-w-full text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${
+                  className={`inline-flex w-full max-w-full items-center justify-end gap-1.5 text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${
                     workMenuOpen
                       ? "translate-x-0 opacity-100"
                       : "translate-x-4 opacity-0 md:translate-x-8"
                   }`}
                 >
                   {item.label}
+                  {item.children ? (
+                    <i
+                      className={`ri-arrow-down-s-line text-[0.7em] transition-transform duration-200 ${
+                        portfolioSubOpen ? "rotate-180" : ""
+                      }`}
+                      aria-hidden
+                    />
+                  ) : null}
                 </Link>
 
                 {item.children ? (
@@ -608,7 +616,7 @@ const Header = () => {
                               fontFamily: '"League Spartan", sans-serif',
                               fontWeight: 500,
                             }}
-                            className={`block w-full max-w-full text-[16px] uppercase leading-[1.1] tracking-[-0.01em] text-white/75 transition-all duration-500 ease-out hover:text-[#c99237] md:text-[22px] lg:text-[26px] xl:text-[30px] ${
+                            className={`block w-full max-w-full text-[11px] uppercase leading-[1.1] tracking-[-0.01em] text-white/75 transition-all duration-500 ease-out hover:text-[#c99237] md:text-[17px] lg:text-[18px] xl:text-[22px] ${
                               portfolioSubOpen
                                 ? "translate-y-0 opacity-100"
                                 : "-translate-y-2 opacity-0"
