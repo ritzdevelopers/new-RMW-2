@@ -120,7 +120,7 @@ function BrandFilmModal({ slide, onClose, backdropRef, panelRef, videoRef }) {
         className="relative z-10 flex w-full max-w-[1120px] max-h-[94vh] flex-col overflow-hidden rounded-t-[18px] bg-white shadow-[0_32px_80px_-20px_rgba(0,0,0,0.45)] sm:rounded-[18px] lg:max-h-[min(88vh,720px)] lg:flex-row"
       >
         <div className="relative w-full shrink-0 bg-[#0a1620] lg:w-[58%]">
-          <div className="aspect-video w-full lg:absolute lg:inset-0 lg:aspect-auto">
+          <div className="aspect-[1920/1080] w-full lg:absolute lg:inset-0 lg:aspect-auto">
             <video
               ref={videoRef}
               src={slide.video}
@@ -487,7 +487,7 @@ function Section4() {
               }}
               onAutoplayPause={() => progressTweenRef.current?.pause()}
               onAutoplayResume={() => progressTweenRef.current?.resume()}
-              className="brand-films-swiper w-full aspect-[1340/538] max-xl:aspect-[16/7] max-lg:aspect-[16/9] max-md:aspect-[4/3] max-sm:aspect-[3/2] overflow-visible"
+              className="brand-films-swiper w-full aspect-[1920/1080] overflow-visible"
             >
               {BRAND_FILM_SLIDES.map((slide, index) => (
                 <SwiperSlide
