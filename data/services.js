@@ -889,7 +889,7 @@ export const services = [
         "Every influencer campaign we manage is built for authenticity and performance. These highlights showcase how identification, negotiation, and creative collaboration drive awareness, engagement, and conversions.",
       slides: [
         {
-          src: "/influencer-marketing-agency-in-india/influencer-identification.jpg",
+          src: "/influencer-marketing-agency-in-india/Influencer-Identification.jpg",
           content: "Influencer Identification",
           subSlug: "identification-influence-marketing-agency",
         },
