@@ -1,0 +1,1814 @@
+[33mcommit e0ceb4a0d9319d296a8225e3f78e04485c87da98[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32marhan[m[33m)[m
+Merge: f8468b7 bc99726
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Mon Jul 13 15:37:22 2026 +0530
+
+    Merge branch 'main' of https://github.com/ritzdevelopers/new-RMW-2 into arhan
+
+[33mcommit f8468b7f261561b0dcc51beefb2d0bd99c6f54f1[m
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Mon Jul 13 15:37:15 2026 +0530
+
+    deploye videos in creative page
+
+[33mcommit bc99726933b6cecd3a014886ca828c3d00c9a50d[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 074c78a 66de99a
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 13 15:05:44 2026 +0530
+
+    Merge pull request #100 from ritzdevelopers/varun
+    
+    fix the issue in section-4
+
+[33mcommit 66de99a9717a579cdbcc92165c043120ee130137[m[33m ([m[1;31morigin/varun[m[33m)[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 13 15:05:20 2026 +0530
+
+    fix the issue in section-4
+
+[33mcommit 074c78a83d4473dce8dd1c28834f84f5083efe89[m
+Merge: 8fe51e0 4c59680
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 13 14:48:51 2026 +0530
+
+    Merge pull request #99 from ritzdevelopers/arhan
+    
+    Arhan
+
+[33mcommit 4c5968089a5faca9b92774248109ccbcddc79957[m[33m ([m[1;31morigin/arhan[m[33m)[m
+Merge: 8055b62 8fe51e0
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Mon Jul 13 14:44:11 2026 +0530
+
+    Merge branch 'main' of https://github.com/ritzdevelopers/new-RMW-2 into arhan
+
+[33mcommit 8055b62df0000c4b5d4ab75ec29e26a3355b21f8[m
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Mon Jul 13 14:44:02 2026 +0530
+
+    update 3d video slider height and width
+
+[33mcommit 8fe51e0228f97a4e268cd1064943ce94b106e8ac[m
+Merge: b2cd1e7 947a1d9
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 13 12:46:09 2026 +0530
+
+    Merge pull request #98 from ritzdevelopers/varun
+    
+    add the video in print advertising
+
+[33mcommit 947a1d9ba875eeeae253d470e2dc4070a6cb6c3c[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 13 12:44:53 2026 +0530
+
+    add the video in print advertising
+
+[33mcommit b2cd1e77190c639be992ec04a45462f282477482[m
+Merge: 3d8dffa a7b0868
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 13 12:31:45 2026 +0530
+
+    Merge pull request #97 from ritzdevelopers/varun
+    
+    add the image print adevrtisiment
+
+[33mcommit a7b086882528cd2fb08030876bf0f4419d3aa276[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 13 12:30:51 2026 +0530
+
+    add the image print adevrtisiment
+
+[33mcommit 3d8dffa4855ab30b626d341fb006322dc4d72781[m
+Merge: ac76f65 512893d
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 13 12:25:17 2026 +0530
+
+    Merge pull request #96 from ritzdevelopers/arhan
+    
+    Arhan
+
+[33mcommit 512893d242d67266b8bf4b6a4d137ac531358380[m
+Merge: aa0ed77 ac76f65
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Mon Jul 13 12:23:37 2026 +0530
+
+    Merge branch 'main' of https://github.com/ritzdevelopers/new-RMW-2 into arhan
+
+[33mcommit aa0ed771bb42142853bcae0689644783d2dc34f8[m
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Mon Jul 13 12:23:24 2026 +0530
+
+    fix routing links hierarchy of portfolio pages
+
+[33mcommit ac76f6531ff2a4a8f5d2460c7d591255a8362a80[m
+Merge: aac5610 6a5f463
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 13 12:10:37 2026 +0530
+
+    Merge pull request #93 from ritzdevelopers/varun
+    
+    Push latest code on live server
+
+[33mcommit 6a5f463acd80dd51a28b0a33afa0f7eb2ea5bb4f[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 13 12:03:00 2026 +0530
+
+    add the image influnevcer
+
+[33mcommit 3fe1bc623a130001492ea72d6282e89757a53801[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 13 11:53:15 2026 +0530
+
+    add the video in inf;unevce r
+
+[33mcommit aac56100c1100f1f7b23b2859676d9c1d872951f[m
+Merge: 7dac64c b740b87
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 13 11:41:04 2026 +0530
+
+    Merge pull request #95 from ritzdevelopers/arhan
+    
+    Update Some Text
+
+[33mcommit b740b87b3fc2a00b10a6c3706b3d746d34d14421[m
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Mon Jul 13 11:39:47 2026 +0530
+
+    Update Some Text
+
+[33mcommit 4638a6386a0a33f7cd40f9106b17896b5d30f1d4[m
+Merge: 3d79f45 7dac64c
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 13 11:26:26 2026 +0530
+
+    fix the issue
+
+[33mcommit 7dac64c171c9fe68bd0a078ba4d16f2ea8d3bfb7[m
+Merge: c9cf94a 370b984
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 13 11:23:06 2026 +0530
+
+    Merge pull request #94 from ritzdevelopers/arhan
+    
+    Arhan
+
+[33mcommit 370b984e623ea69dcab567dc95c47d76d2a8c808[m
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Mon Jul 13 11:21:58 2026 +0530
+
+    add the portfolio pages routing in header
+
+[33mcommit 3d79f45ab13173cfb74b1de2f1607308c819db10[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 13 11:18:36 2026 +0530
+
+    fix the issue
+
+[33mcommit c9cf94ada668b051117d8df1b2d8e9915a6159f1[m
+Merge: fe932da fb78349
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 13 11:15:08 2026 +0530
+
+    Merge pull request #91 from ritzdevelopers/varun
+    
+    influencer marketing image chnage
+
+[33mcommit 035d73d025263773033820389523c96266d06c3d[m
+Merge: 9718aa4 c9cf94a
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Mon Jul 13 11:14:58 2026 +0530
+
+    Merge branch 'main' of https://github.com/ritzdevelopers/new-RMW-2 into arhan
+
+[33mcommit 9718aa4c73aefb11e4d4ed36b5088bbd774be598[m
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Mon Jul 13 11:11:12 2026 +0530
+
+    add 3d animations in logo, creative and portfolio page
+
+[33mcommit 9881c4d6084f8b1abca6219bfbe7d485bfa374c3[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 13 10:29:05 2026 +0530
+
+    Push latest code on live server
+
+[33mcommit fb7834968d8cf4fde4ea83e537a79cf569b5db7b[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 13 09:53:39 2026 +0530
+
+    check
+
+[33mcommit 56517bf1b6db62357638a9f37b2c768e698ad4f8[m
+Merge: 67f1803 fe932da
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 13 09:51:03 2026 +0530
+
+    Merge branch 'main' of https://github.com/ritzdevelopers/new-RMW-2 into varun
+
+[33mcommit dde74fbee00346f95e084885ed986fa8c06b3e2e[m
+Merge: 2bbec71 fe932da
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Mon Jul 13 09:50:39 2026 +0530
+
+    Merge branch 'main' of https://github.com/ritzdevelopers/new-RMW-2 into arhan
+
+[33mcommit 67f1803b8b7fe52ccedece26e339161eb38793e8[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 13 09:29:09 2026 +0530
+
+    check
+
+[33mcommit 2bbec7136fdbb52f485c607f79df732f85d513f2[m
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Fri Jul 10 18:24:47 2026 +0530
+
+    implemented 3d video slider
+
+[33mcommit fe932daa5ee156f6bb86a7263d3281cfe9c03536[m
+Merge: ddeee6c 0d4a3d8
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Fri Jul 10 15:42:23 2026 +0530
+
+    Merge pull request #92 from ritzdevelopers/arhan
+    
+    Arhan
+
+[33mcommit 0d4a3d891935729ad00786a39f99dd1e3cea1b9e[m
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Fri Jul 10 15:37:37 2026 +0530
+
+    developed creative page
+
+[33mcommit ac1ad63708eed40a37781838132a97a47ec3cab4[m
+Author: itzz-aryan-121 <arhanrizvi9@gmail.com>
+Date:   Fri Jul 10 14:12:07 2026 +0530
+
+    developed and make responsive portfolio page with animations
+
+[33mcommit ae430cdec80c2eb5124b7be2800907eec508d4f9[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Fri Jul 10 13:51:48 2026 +0530
+
+    influencer marketing image chnage
+
+[33mcommit ddeee6c78610d41a7b6ceda4f049a195a8aaab4b[m
+Merge: 837f7f1 d4f1ecb
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Fri Jul 10 12:08:15 2026 +0530
+
+    Merge pull request #90 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit d4f1ecbe5a2e8e4b8db9d623f21a2dd9a54424f0[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Fri Jul 10 12:07:38 2026 +0530
+
+    influencer marketing image chnage
+
+[33mcommit 117675e756da0021f1099d56bd9db3265bcb8f72[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Fri Jul 10 11:48:47 2026 +0530
+
+    header side menu
+
+[33mcommit 837f7f17b2da7f15c8ba38c6530de45d7594932f[m[33m ([m[1;32mmain[m[33m)[m
+Merge: a3bd7da c42bd55
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jul 9 17:10:50 2026 +0530
+
+    Merge pull request #89 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit c42bd55ba0417da788831ab3021b94ee8db66d6a[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jul 9 17:10:18 2026 +0530
+
+    influnecer sub service page
+
+[33mcommit a979da3e792370c35db496ecc31339caa0d9ecc0[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jul 9 16:26:49 2026 +0530
+
+    text
+
+[33mcommit a3bd7da7d73069d7d05c8b34c04984b926dfb8d4[m
+Merge: 5481e3c 0f13e2d
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jul 9 15:02:40 2026 +0530
+
+    Merge pull request #88 from ritzdevelopers/varun
+    
+    influneerce page
+
+[33mcommit 0f13e2daaa459fa843320e27321428160224a58c[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jul 9 15:01:42 2026 +0530
+
+    influneerce page
+
+[33mcommit 5481e3ce843f1c26eaf4becb3b4e9ec4550ccca2[m
+Merge: ed89f72 1e3692b
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jul 9 14:56:06 2026 +0530
+
+    Merge pull request #87 from ritzdevelopers/varun
+    
+    influneerce page
+
+[33mcommit 1e3692b3f5314a52515a85517fd26ce6d4459694[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jul 9 14:54:25 2026 +0530
+
+    influneerce page
+
+[33mcommit ed89f72be8c9cb88f6c700159e72b88b5196f933[m
+Merge: 74c892c 05074bc
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jul 9 14:30:36 2026 +0530
+
+    Merge pull request #86 from ritzdevelopers/varun
+    
+    influneerce page
+
+[33mcommit 05074bcd05d46dff078205f800a446d2d3f59a23[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jul 9 14:25:20 2026 +0530
+
+    influneerce page
+
+[33mcommit 74c892c251860c0240a81b8f8b46c6d4680fc14b[m
+Merge: 89ef738 c3e09a5
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jul 9 13:18:26 2026 +0530
+
+    Merge pull request #85 from ritzdevelopers/varun
+    
+    influneerce page
+
+[33mcommit c3e09a533a5c403d6ec7f98d348ee0bba387e342[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jul 9 13:17:54 2026 +0530
+
+    influneerce page
+
+[33mcommit 89ef7389626707ffa2704a8d8f617a610a1705f7[m
+Merge: b4cd259 eb7e48b
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jul 9 12:38:35 2026 +0530
+
+    Merge pull request #84 from ritzdevelopers/varun
+    
+    home page client image add
+
+[33mcommit eb7e48be3e9a0ee3535f2149acb3a7d8689e7baf[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jul 9 12:36:07 2026 +0530
+
+    home page client image add
+
+[33mcommit b4cd2595be2fe9e0d9a0ca9bbb930f371642fb54[m
+Merge: 897d588 20e39cd
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jul 9 12:03:23 2026 +0530
+
+    Merge pull request #83 from ritzdevelopers/varun
+    
+    home page client image add
+
+[33mcommit 20e39cd2bb4dfba726937c35d2e2c79f99ed6319[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jul 9 12:02:50 2026 +0530
+
+    home page client image add
+
+[33mcommit 897d5889442653011b90c0f420987607701147a0[m
+Merge: 814eae5 87ba01a
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jul 8 18:24:26 2026 +0530
+
+    Merge pull request #82 from ritzdevelopers/varun
+    
+    home page client image add
+
+[33mcommit 87ba01a20be6645bd6883e9860d85ddbc93379ef[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jul 8 18:22:27 2026 +0530
+
+    home page client image add
+
+[33mcommit 814eae513efb31acd82607c3153b6f5bafb40c74[m
+Merge: 1e65bd9 6659f7d
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jul 8 15:11:11 2026 +0530
+
+    Merge pull request #81 from ritzdevelopers/varun
+    
+    vidoe sound
+
+[33mcommit 6659f7da1e1a6894c8819765fa64c175f11c0e4a[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jul 8 15:09:18 2026 +0530
+
+    vidoe sound
+
+[33mcommit 1e65bd9888ad0746dedf52acca405cb50e855d33[m
+Merge: b990fd5 4a04284
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jul 8 12:59:12 2026 +0530
+
+    Merge pull request #80 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit 4a0428410d4a8ff4a8bbbb2db971ff26a0e4669f[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jul 8 12:58:32 2026 +0530
+
+    gallery page
+
+[33mcommit 93a52830b544b6e1e599e2d6fc0502c81dcc386e[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jul 8 09:52:06 2026 +0530
+
+    gallery page
+
+[33mcommit b990fd56b8931b03cb137cba50cd4b3b7d1c7bf5[m
+Merge: 20e9624 727588e
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jul 7 18:24:51 2026 +0530
+
+    Merge pull request #79 from ritzdevelopers/varun
+    
+    home page done
+
+[33mcommit 727588e94fc02236634b3374732996fd9a7cd7f5[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jul 7 18:14:30 2026 +0530
+
+    home page done
+
+[33mcommit 20e962465d81021f51611d1de99c5a1b632de4ea[m
+Merge: 1bfce0c b6b60c5
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jul 7 15:16:45 2026 +0530
+
+    Merge pull request #78 from ritzdevelopers/varun
+    
+    home page image
+
+[33mcommit b6b60c5774ef28989e607de2b4acf7f25724b451[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jul 7 15:15:39 2026 +0530
+
+    home page image
+
+[33mcommit 1bfce0cd9acb51b6490e33aadffca2302f6b22e6[m
+Merge: 0d606f5 40c14a2
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jul 7 14:18:29 2026 +0530
+
+    Merge pull request #77 from ritzdevelopers/varun
+    
+    make it stricky
+
+[33mcommit 40c14a2929ac13df8b92a5a182d006871c413c96[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jul 7 14:15:40 2026 +0530
+
+    make it stricky
+
+[33mcommit 0d606f53d312151c705a5f34bf5ba527f9a694f0[m
+Merge: 759741f d8b0f46
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jul 7 13:13:11 2026 +0530
+
+    Merge pull request #76 from ritzdevelopers/varun
+    
+    fix section -7 and footer section scroll issue
+
+[33mcommit d8b0f461d8769c177134325f0ee7d62bf5e9b45a[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jul 7 13:11:14 2026 +0530
+
+    fix section -7 and footer section scroll issue
+
+[33mcommit 759741f164e2ea7fe0984eb5e917082c030a09bc[m
+Merge: 7946f34 19f9920
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jul 7 12:32:37 2026 +0530
+
+    Merge pull request #75 from ritzdevelopers/varun
+    
+    fix live blog category tags API proxy
+
+[33mcommit 19f9920d99eb33e3f0dccd1eb012dd78e70c2144[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jul 7 12:30:01 2026 +0530
+
+    fix live blog category tags API proxy
+
+[33mcommit 7946f346474fc4df2b759f8845427677c4638fcc[m
+Merge: d456808 2a5202b
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jul 7 12:08:42 2026 +0530
+
+    Merge pull request #74 from ritzdevelopers/varun
+    
+    fix issue in blog deployment
+
+[33mcommit 2a5202b44982393e6db52e0d03696da5d2aa1a60[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jul 7 12:07:11 2026 +0530
+
+    fix issue in blog deployment
+
+[33mcommit d45680805c9dc716a3cd80f8a83fc8655dc08f74[m
+Merge: 79d35df fec7721
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jul 7 11:36:47 2026 +0530
+
+    Merge pull request #73 from ritzdevelopers/varun
+    
+    complete 2 section in bloh page
+
+[33mcommit fec7721fc3863a2461fb1f5ec97acebae8af64b3[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jul 7 11:34:31 2026 +0530
+
+    complete 2 section in bloh page
+
+[33mcommit 79d35dfe77f52e1db99dd326afb96876dc9d62e5[m
+Merge: b910859 f02fd91
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 6 18:10:36 2026 +0530
+
+    Merge pull request #72 from ritzdevelopers/varun
+    
+    bg add
+
+[33mcommit f02fd91931adc5ac947a3e6c2748e71d335ebd66[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 6 18:08:14 2026 +0530
+
+    bg add
+
+[33mcommit b910859fcaabcc12fb746edd270878bae2af08b8[m
+Merge: f7d766f 3487c22
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 6 17:22:59 2026 +0530
+
+    Merge pull request #71 from ritzdevelopers/varun
+    
+    content-marketing video update
+
+[33mcommit 3487c22ed491050b70fe347f9bea40303efd08fa[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 6 17:21:04 2026 +0530
+
+    content-marketing video update
+
+[33mcommit f7d766fa41f2b3ba1196344893ab58dae038e61f[m
+Merge: 2f4789d cc96b37
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 6 17:15:24 2026 +0530
+
+    Merge pull request #70 from ritzdevelopers/varun
+    
+    home page
+
+[33mcommit cc96b3729800c8488208deecb40b69b625b7d4be[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 6 17:12:13 2026 +0530
+
+    home page
+
+[33mcommit 2f4789deb66ba8db294f08f75958ec55df4974a7[m
+Merge: 8bcce91 201a0cb
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 6 15:32:48 2026 +0530
+
+    Merge pull request #69 from ritzdevelopers/varun
+    
+    content marketing image chnage
+
+[33mcommit 201a0cb9bd973abf7ba90cfed8b00283db880141[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 6 15:32:08 2026 +0530
+
+    content marketing image chnage
+
+[33mcommit 8bcce91ecf84ac092c2ca9d06a2c209155bc2b20[m
+Merge: 551a879 5009c3a
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 6 14:32:55 2026 +0530
+
+    Merge pull request #68 from ritzdevelopers/varun
+    
+    footer fix issue
+
+[33mcommit 5009c3acac45979b92a8f26abea3899eaaadf0a9[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 6 14:32:02 2026 +0530
+
+    footer fix issue
+
+[33mcommit 551a8792f4e950aa01835c28419683d07a0cf100[m
+Merge: 79d5a65 5b8d761
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 6 14:25:09 2026 +0530
+
+    Merge pull request #67 from ritzdevelopers/varun
+    
+    CONTENT MARKETING IMAGE UPDATE
+
+[33mcommit 5b8d7617e76801229b4fc39797a443aee4bcc492[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 6 14:24:35 2026 +0530
+
+    CONTENT MARKETING IMAGE UPDATE
+
+[33mcommit 79d5a65cae41aaa5557cc80f2100482c21fbc4c8[m
+Merge: 31f0240 b7575d5
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jul 6 10:20:49 2026 +0530
+
+    Merge pull request #66 from ritzdevelopers/varun
+    
+    creative video
+
+[33mcommit b7575d56ce308c7421a8fed1a717495570328efc[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jul 6 09:56:36 2026 +0530
+
+    creative video
+
+[33mcommit 31f024024096f1829bd03235c9eed1e26ee034ba[m[33m ([m[1;31morigin/aryan[m[33m)[m
+Merge: 216ec1b b6a9f61
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Fri Jul 3 10:17:53 2026 +0530
+
+    Merge pull request #65 from ritzdevelopers/varun
+    
+    creative video
+
+[33mcommit b6a9f6191d9e93263917a3063c8e41338ae1cf1b[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Fri Jul 3 10:16:42 2026 +0530
+
+    creative video
+
+[33mcommit 216ec1ba247c9c9ccb3730aa98fb144133c93995[m
+Merge: f47d81f d1b7623
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jul 2 16:03:15 2026 +0530
+
+    Merge pull request #64 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit d1b762396d81302c11085c5dca5d619e6e41e796[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jul 2 16:00:26 2026 +0530
+
+    creative serivce image upadte
+
+[33mcommit a100539f103501aee0f2fcba0ebc5689c536d168[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jul 2 10:22:19 2026 +0530
+
+    banner
+
+[33mcommit f47d81f6752e1fdcd9ed6352234f41a635b085f2[m
+Merge: 732dc07 cc4350c
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jul 1 17:52:06 2026 +0530
+
+    Merge pull request #63 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit cc4350c490b5d6334744e4121fc1f5b6e2e961d3[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jul 1 17:51:36 2026 +0530
+
+    creative serivce sub serive page image update
+
+[33mcommit 2cb4c1cf2498af5b6d2583e0f2be50341935f3dc[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jul 1 17:14:11 2026 +0530
+
+    creative serivce sub service image update
+
+[33mcommit 732dc0732249ea0728d6f783a5bb46cac270150f[m
+Merge: 76d57c7 ab5b48d
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jul 1 17:07:16 2026 +0530
+
+    Merge pull request #62 from ritzdevelopers/varun
+    
+    creative serivce
+
+[33mcommit ab5b48d3c8d3f9cb3aa7eb8b413bcb6e0bb444f4[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jul 1 17:06:44 2026 +0530
+
+    creative serivce
+
+[33mcommit 76d57c717241fb6bf99594b783af083535db24c7[m
+Merge: c390118 ed7b64f
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jul 1 16:51:17 2026 +0530
+
+    Merge pull request #61 from ritzdevelopers/varun
+    
+    creative serivce
+
+[33mcommit ed7b64f89323de8378ea973cefa58efd05880390[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jul 1 16:50:12 2026 +0530
+
+    creative serivce
+
+[33mcommit c390118863212755a72c5e67d237ce3135b7a287[m
+Merge: 1c28fb2 45dcbbb
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jul 1 16:44:08 2026 +0530
+
+    Merge pull request #60 from ritzdevelopers/varun
+    
+    creative serivce
+
+[33mcommit 45dcbbb012498b87c1ccdc1c939347cc0c7cd6b2[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jul 1 16:43:01 2026 +0530
+
+    creative serivce
+
+[33mcommit 1c28fb20da4cf64a142211a81cbea0f7b18b09dd[m
+Merge: 5610088 c57c164
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jul 1 15:54:00 2026 +0530
+
+    Merge pull request #59 from ritzdevelopers/varun
+    
+    sub service
+
+[33mcommit c57c16454ad752a59c454b6cf6543080b72c12a7[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jul 1 15:52:32 2026 +0530
+
+    sub service
+
+[33mcommit 5610088c8a8a40e2735e6a3f0e1113c3348fc87f[m
+Merge: b3ed4c5 73b8126
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jul 1 10:03:15 2026 +0530
+
+    Merge pull request #58 from ritzdevelopers/varun
+    
+    update image in digital page
+
+[33mcommit 73b8126381cd1911defb545955473f5fd717d0b5[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jul 1 10:02:41 2026 +0530
+
+    update image in digital page
+
+[33mcommit b3ed4c56c68cde09c02f349721261b877e655689[m
+Merge: d55df36 57fc75d
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jun 30 16:28:20 2026 +0530
+
+    Merge pull request #57 from ritzdevelopers/varun
+    
+    add the LIVE
+
+[33mcommit 57fc75dfebd286ee38482b08c77896eddafc1391[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 30 16:26:21 2026 +0530
+
+    add the LIVE
+
+[33mcommit d55df3697bdc5eb67c0b02a28188033ab0493e96[m
+Merge: 1f731ba 676e35a
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jun 30 15:24:50 2026 +0530
+
+    Merge pull request #56 from ritzdevelopers/varun
+    
+    add the interlink in digital marketing page
+
+[33mcommit 676e35af71615d6507a2dadb59c4641263427bab[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 30 15:23:46 2026 +0530
+
+    add the interlink in digital marketing page
+
+[33mcommit 1f731ba164f1d9ffccc1ab0961a3367f4467b07d[m
+Merge: 9191abd f11b35a
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jun 30 10:13:51 2026 +0530
+
+    Merge pull request #55 from ritzdevelopers/varun
+    
+    update the image image and vidoe in digital page
+
+[33mcommit f11b35ab9ccc713988018e49bd634c9628a70599[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 30 10:13:10 2026 +0530
+
+    update the image image and vidoe in digital page
+
+[33mcommit 9191abd304eeea7a58e3a7bae895b1cff2c848c4[m
+Merge: 9cfb38f 9cd854f
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 29 17:04:56 2026 +0530
+
+    Merge pull request #54 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit 9cd854f19f315fa6903b711a8b00cc6ccd12ed03[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 29 17:03:44 2026 +0530
+
+    update the image image and vidoe in digital page
+
+[33mcommit 7a1654fd61f958155a92b2042c96a7f087eb4513[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 29 13:13:40 2026 +0530
+
+    image uodate in service digital marketing page
+
+[33mcommit b989881be47347c55d8b544baf9fcb2cff5508d3[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 29 10:25:57 2026 +0530
+
+    image uodate in service digital marketing page
+
+[33mcommit 9cfb38fe6cd2edf791d741e484ba7639699ccd03[m
+Merge: 71f928e c4c44d8
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jun 25 23:48:15 2026 +0530
+
+    Merge pull request #53 from ritzdevelopers/aryan
+    
+    new changes
+
+[33mcommit c4c44d838c20c0fe1577cd55cf24ef6a9b35b205[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Thu Jun 25 23:47:40 2026 +0530
+
+    new changes
+
+[33mcommit 71f928eb15362c8001c1254ae3bc5c55b41f9189[m
+Merge: c278e26 b72c2d2
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jun 25 14:57:55 2026 +0530
+
+    Merge pull request #52 from ritzdevelopers/aryan
+    
+    new changes
+
+[33mcommit b72c2d2a67108ba7c85cfa4042bd5419939ac093[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Thu Jun 25 14:56:52 2026 +0530
+
+    new changes
+
+[33mcommit c278e26823d302b471b38eea8d532f00ee50af77[m
+Merge: 4af856e 80e6fa9
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jun 25 14:46:36 2026 +0530
+
+    Merge pull request #51 from ritzdevelopers/aryan
+    
+    new changes
+
+[33mcommit 80e6fa9bcf108761a0ae3fb9a0483d20203573b3[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Thu Jun 25 14:45:57 2026 +0530
+
+    new changes
+
+[33mcommit 4af856e750b47f6ffd165d5761b65103cebdf052[m
+Merge: d16f8a0 778358a
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jun 25 14:26:44 2026 +0530
+
+    Merge pull request #50 from ritzdevelopers/aryan
+    
+    new changes
+
+[33mcommit 778358ab6f350d060d4db87e68428e2d14d7a59b[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Thu Jun 25 14:25:43 2026 +0530
+
+    new changes
+
+[33mcommit d16f8a09facf0d2f3add1908cf2561841b1178da[m
+Merge: a267c95 dce0437
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jun 25 13:07:34 2026 +0530
+
+    Merge pull request #49 from ritzdevelopers/aryan
+    
+    new changes
+
+[33mcommit dce0437e9446be4ae4f8773848db5636d11b6bbe[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Thu Jun 25 13:07:01 2026 +0530
+
+    new changes
+
+[33mcommit a267c95abd9c03f01b9669fbbd2eda22dfe0ba74[m
+Merge: 55977da 44ffcc0
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jun 25 12:45:22 2026 +0530
+
+    Merge pull request #48 from ritzdevelopers/aryan
+    
+    new changes
+
+[33mcommit 44ffcc060cb47846edf7a2203998cf57635abd38[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Thu Jun 25 12:44:36 2026 +0530
+
+    new changes
+
+[33mcommit 55977dacdf4a45e7e3b78ad240ce7628d74fb924[m
+Merge: 714a8a4 efc8ea6
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jun 25 12:14:57 2026 +0530
+
+    Merge pull request #47 from ritzdevelopers/aryan
+    
+    new changes
+
+[33mcommit efc8ea67bdf0418f70c31c170d03bf262597c49b[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Thu Jun 25 12:14:28 2026 +0530
+
+    new changes
+
+[33mcommit 714a8a4db3152aded270e017c7bf119b911be986[m
+Merge: dff55ba bf1ea8e
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jun 25 11:59:01 2026 +0530
+
+    Merge pull request #46 from ritzdevelopers/varun
+    
+    conntact us buton
+
+[33mcommit bf1ea8e29b2b95db906c0ddab358afa849ccbe5c[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 25 11:58:04 2026 +0530
+
+    conntact us buton
+
+[33mcommit dff55bab837d5b6dc69fbe95b16cdf0a77324f0b[m
+Merge: aaa7af6 b7dc694
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jun 25 10:38:49 2026 +0530
+
+    Merge pull request #45 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit b7dc6941b0ca5dbcf5c0326b54a8864491e333a1[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 25 10:38:17 2026 +0530
+
+    about page logo fix
+
+[33mcommit 6ed20c70bcb6aff2ed4e3c8b68dfa752a1e369d3[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 25 10:34:42 2026 +0530
+
+    footer fix in digital service page
+
+[33mcommit aaa7af6f313836ab9ae6eb9ca52d6640eee43b59[m
+Merge: f440dc3 7d67cbc
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jun 25 10:02:39 2026 +0530
+
+    Merge pull request #44 from ritzdevelopers/varun
+    
+    footer fix in digital service page
+
+[33mcommit 7d67cbc391dc6163c82886c00dfe00328375b30b[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 25 10:01:22 2026 +0530
+
+    footer fix in digital service page
+
+[33mcommit f440dc30b1115b3a80c24d3ce155bf5be4e696d2[m
+Merge: ba7446c a544604
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jun 24 11:49:04 2026 +0530
+
+    Merge pull request #43 from ritzdevelopers/varun
+    
+    footer fix in about page
+
+[33mcommit a544604be6307ee277ab2d6fe4fb60f1cdc3110d[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jun 24 11:48:32 2026 +0530
+
+    footer fix in about page
+
+[33mcommit ba7446cb3fbe8005768b685957b5070a98620376[m
+Merge: bfccc5d 5e0021d
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jun 24 09:38:30 2026 +0530
+
+    Merge pull request #42 from ritzdevelopers/aryan
+    
+    Aryan
+
+[33mcommit 5e0021dcf39a4fb10a3bda5cc6eed737563a0ba7[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Tue Jun 23 14:53:11 2026 +0530
+
+    new changes
+
+[33mcommit aa56128be49944d27c28d5706080fc4b8986fc9e[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Tue Jun 23 11:22:18 2026 +0530
+
+    new changes
+
+[33mcommit bfccc5de8625dc10c66fb820de77cb72ae2940d1[m
+Merge: 80b89cb a7a81a1
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jun 23 10:03:06 2026 +0530
+
+    Merge pull request #41 from ritzdevelopers/varun
+    
+    new changes
+
+[33mcommit a7a81a1fd7607fde89c7935dc588cb6ee78f021f[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 23 10:02:05 2026 +0530
+
+    new changes
+
+[33mcommit 80b89cb6ba9e375e7face880355957d246696668[m
+Merge: fb826ce f7c80e4
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 18:31:04 2026 +0530
+
+    Merge pull request #40 from ritzdevelopers/aryan
+    
+    new changes
+
+[33mcommit f7c80e45b071fb030730819aae98ee10d25da444[m
+Merge: ce98b01 fb826ce
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 18:30:50 2026 +0530
+
+    Merge branch 'main' into aryan
+
+[33mcommit ce98b01c5c694f9690e6c8fde3be04b85594b876[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Mon Jun 22 18:29:55 2026 +0530
+
+    new changes
+
+[33mcommit fb826ce70be145e37473764b13f944c7a79c4c16[m
+Merge: 403056e ef0f1bb
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 18:13:51 2026 +0530
+
+    Merge pull request #39 from ritzdevelopers/varun
+    
+    chnage fix
+
+[33mcommit ef0f1bbbe78eab03c9f439f8e615d215c730ac44[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 22 18:12:11 2026 +0530
+
+    chnage fix
+
+[33mcommit 403056e8e78cb64071f7768bff7010fea541e213[m
+Merge: db1924e 378cde8
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 18:11:29 2026 +0530
+
+    Merge pull request #38 from ritzdevelopers/aryan
+    
+    new changes
+
+[33mcommit 378cde87d15da0da360721dbbc087bf117128b2a[m
+Merge: 39be15d db1924e
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 18:11:19 2026 +0530
+
+    Merge branch 'main' into aryan
+
+[33mcommit 39be15d38a8ce840e800951aeb0e41ca8ac53fc7[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Mon Jun 22 18:09:37 2026 +0530
+
+    new changes
+
+[33mcommit db1924e7ddd099df304487a8c3b520aca9b97209[m
+Merge: b63e84c b5a6aae
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 17:41:48 2026 +0530
+
+    Merge pull request #37 from ritzdevelopers/varun
+    
+    logo fix
+
+[33mcommit b5a6aaeef7801f016fcf36fc09c5c689faecc504[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 22 17:41:25 2026 +0530
+
+    logo fix
+
+[33mcommit b63e84c21c4c05c76b318fc1ac45b4ddd343784e[m
+Merge: f7ba8c1 61c189d
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 17:35:30 2026 +0530
+
+    Merge pull request #36 from ritzdevelopers/varun
+    
+    chnage
+
+[33mcommit 61c189d1ad9d5ddf3077bc6aeb991e41bea2e36b[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 22 17:35:05 2026 +0530
+
+    chnage
+
+[33mcommit f7ba8c1b31bb336f783a79432f1297a95a32d464[m
+Merge: 417cf85 6a9d166
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 15:47:41 2026 +0530
+
+    Merge pull request #35 from ritzdevelopers/varun
+    
+    footer
+
+[33mcommit 6a9d16690ca7d67d6b8aa0e43cc76c0238749b3d[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 22 15:47:12 2026 +0530
+
+    footer
+
+[33mcommit 417cf854923ac8c6753258e7c76e09afb84571c6[m
+Merge: f2c0a76 ddd24d9
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 15:36:43 2026 +0530
+
+    Merge pull request #34 from ritzdevelopers/varun
+    
+    footer
+
+[33mcommit ddd24d9daec7f3075703d741705fc11f13d06347[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 22 15:36:10 2026 +0530
+
+    footer
+
+[33mcommit f2c0a76cef92aa2e7caaf150d0c13ac6f2228ff4[m
+Merge: d3dafa2 4cfc6c9
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 15:07:21 2026 +0530
+
+    Merge pull request #33 from ritzdevelopers/varun
+    
+    hydration
+
+[33mcommit 4cfc6c9bea91265c20b327a162785d7c9dc45c67[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 22 15:06:28 2026 +0530
+
+    hydration
+
+[33mcommit d3dafa2f64c4252821dbbac0d87c2f0d741fd726[m
+Merge: 14696cf acad90e
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 13:32:34 2026 +0530
+
+    Merge pull request #32 from ritzdevelopers/varun
+    
+    footer scroll bar
+
+[33mcommit acad90ef76e6aa23fb153c0f8325d44af396bc13[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 22 13:32:04 2026 +0530
+
+    footer scroll bar
+
+[33mcommit 14696cf767057be98f927b3c65a418c08cdbe801[m
+Merge: 21be0ca c458d82
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 11:14:49 2026 +0530
+
+    Merge pull request #31 from ritzdevelopers/varun
+    
+    fix the video section
+
+[33mcommit c458d821f6dd9799e805966ff9375490efb38123[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 22 11:14:14 2026 +0530
+
+    fix the video section
+
+[33mcommit 21be0ca5fa126a0f410d51fca4aa0fa49bf2d21b[m
+Merge: e8e72b3 d8c1a92
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 22 10:47:22 2026 +0530
+
+    Merge pull request #30 from ritzdevelopers/varun
+    
+    award section
+
+[33mcommit d8c1a92b083e5e1a8d861c9a79f938b5ab384c89[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 22 10:45:49 2026 +0530
+
+    award section
+
+[33mcommit e8e72b3b21752725a320f499e1d5bee31f2b4dad[m
+Merge: aecb95f 9027817
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Fri Jun 19 18:26:08 2026 +0530
+
+    Merge pull request #29 from ritzdevelopers/varun
+    
+    niche scroll fix kr diya hai
+
+[33mcommit 90278171cc155992b26a0a3d42e2c69725649344[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Fri Jun 19 18:25:37 2026 +0530
+
+    niche scroll fix kr diya hai
+
+[33mcommit aecb95f3fdafeba985ee20302484ff080e118713[m
+Merge: cedbaa3 7407336
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Fri Jun 19 16:31:30 2026 +0530
+
+    Merge pull request #28 from ritzdevelopers/aryan
+    
+    Aryan
+
+[33mcommit cedbaa3796123b9391b8903b321688784c24742a[m
+Merge: d25e79e 4d398c2
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Fri Jun 19 16:31:04 2026 +0530
+
+    Merge pull request #27 from ritzdevelopers/varun
+    
+    setion 2image cnage
+
+[33mcommit 4d398c2ded873dcbb67b66cb4ec2d698d139a5d9[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Fri Jun 19 16:30:34 2026 +0530
+
+    setion 2image cnage
+
+[33mcommit 74073360b00cea8fab280c221c15edaedceb7eb7[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Fri Jun 19 15:29:07 2026 +0530
+
+    new changes
+
+[33mcommit e9372023d85215d8219d3125656f49655d790f7f[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Fri Jun 19 15:17:40 2026 +0530
+
+    new changes
+
+[33mcommit d25e79ec0dbd68ce756a8b1356d77d347f39457e[m
+Merge: 1aa46fc 040cc06
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Fri Jun 19 14:59:45 2026 +0530
+
+    Merge pull request #26 from ritzdevelopers/varun
+    
+    add scroll
+
+[33mcommit 040cc062bcb0826a6f5db358f8bac57692520953[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Fri Jun 19 14:59:05 2026 +0530
+
+    add scroll
+
+[33mcommit 1aa46fccac928314d6c0e2fdd02dd4d7b7c3e705[m
+Merge: 193d411 cd3bfa7
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Fri Jun 19 12:44:41 2026 +0530
+
+    Merge pull request #25 from ritzdevelopers/aryan
+    
+    Aryan
+
+[33mcommit 193d4114a7a58f5633ad83639445c0b7ff9f0551[m
+Merge: ffe5f58 72531d1
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Fri Jun 19 12:43:01 2026 +0530
+
+    Merge pull request #24 from ritzdevelopers/varun
+    
+    add award image
+
+[33mcommit cd3bfa7f885db57092156f0ef5db8c80c4a2855c[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Fri Jun 19 12:40:49 2026 +0530
+
+    new changes
+
+[33mcommit 86cc5724c80a6c6952aec21ea199a83e074d227e[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Fri Jun 19 12:25:54 2026 +0530
+
+    new changes
+
+[33mcommit 6c144fb4be493b1daf2ebe8f251cce7033277c4d[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Fri Jun 19 12:08:17 2026 +0530
+
+    new changes
+
+[33mcommit 006078b8b757df02586ec056edf182eb03c6db4b[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Fri Jun 19 12:01:47 2026 +0530
+
+    new changes
+
+[33mcommit 72531d121facbf096b4e0b34a6142a9bc1b3d3dd[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Fri Jun 19 11:49:31 2026 +0530
+
+    add award image
+
+[33mcommit 41e5fb97d43466fad5e2cf74caf30b2712f84fb9[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Fri Jun 19 11:49:14 2026 +0530
+
+    new changes
+
+[33mcommit 36337540f66f3e4853c95fe75ade435de6afe7a5[m
+Author: itzz-aryan-121 <aryan.22b0131042@abes.ac.in>
+Date:   Fri Jun 19 11:29:55 2026 +0530
+
+    new changes
+
+[33mcommit ffe5f5855ecbb2655a71eacfddbf38fe68af5e86[m
+Merge: 0902d58 6dc372a
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Fri Jun 19 10:51:25 2026 +0530
+
+    Merge pull request #23 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit 6dc372a309ad27444c65b65fea76f7390969a829[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Fri Jun 19 10:12:03 2026 +0530
+
+    section2 hover effect
+
+[33mcommit 587630431af40780ecebd33adfc031313383c6da[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Fri Jun 19 09:59:26 2026 +0530
+
+    responisve all screen
+
+[33mcommit 747f71acab671f9878da252072c3a92f6bc25497[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 20:20:24 2026 +0530
+
+    fix the issue in section-7
+
+[33mcommit 0902d586be0800e0258a6b039c4a02736485ce33[m
+Merge: 923f1d5 9dac196
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jun 18 18:22:04 2026 +0530
+
+    Merge pull request #22 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit 9dac196767cb7bdd181f150f184d979d2089bc2d[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 18:21:37 2026 +0530
+
+    deskatop
+
+[33mcommit dd3372c3ae462323567beb8f3521f9a4fb7609bc[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 17:53:59 2026 +0530
+
+    animated the text
+
+[33mcommit 1bfb425101e34280b5301ae79983ebf27c4a9044[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 17:35:55 2026 +0530
+
+    image update scroll section
+
+[33mcommit 8f3798e3e28a3c6f1d5fbc711e9888014228c680[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 17:16:26 2026 +0530
+
+    image update
+
+[33mcommit 923f1d52ab5580dc44d127c5ea6c33fae77d6751[m
+Merge: d588311 787ecff
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Thu Jun 18 15:24:35 2026 +0530
+
+    Merge pull request #21 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit 787ecff071b0baca28775cdc49b9c33a9fbe3899[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 15:20:43 2026 +0530
+
+    section 1 vidoe animation done
+
+[33mcommit dc6569a66a469d7631883c046b3fe4527453877c[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 14:51:34 2026 +0530
+
+    bss text or showb krne hai
+
+[33mcommit d72a5f28f1aec846358951c3bf5b8236804b7a26[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 14:42:26 2026 +0530
+
+    section1 vidoe bss text or video scroll bacha hai
+
+[33mcommit dfdb2890451a78c3a896dbc63a16af32875bd441[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 13:45:28 2026 +0530
+
+    contact
+
+[33mcommit 80f3cbc4d35946f98cf93f832d0f23d19036a89f[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 12:23:44 2026 +0530
+
+    contact
+
+[33mcommit 6f999760db339ab708afad1f288f2c478a3f0819[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 11:03:10 2026 +0530
+
+    scroll section done
+
+[33mcommit 7d5705bbc25b0f221e1a362ab353cb54a7212b2c[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 11:00:17 2026 +0530
+
+    scroll section done
+
+[33mcommit f2277709fe320af2ca543585639669052051771c[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Thu Jun 18 09:25:21 2026 +0530
+
+    deskstopm page
+
+[33mcommit d588311bac13d38b8819499912a6f6dcb9013e54[m
+Merge: b840b02 f399c13
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jun 17 14:41:59 2026 +0530
+
+    Merge pull request #20 from ritzdevelopers/varun
+    
+    chnage in footer30
+
+[33mcommit f399c133c9c789e1826f559a796d0b51425416f3[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jun 17 14:41:01 2026 +0530
+
+    chnage in footer30
+
+[33mcommit b840b02861b7ff20e7d9781c1ed8aeb98a8ef92e[m
+Merge: 135bcea 6174f15
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jun 17 14:38:57 2026 +0530
+
+    Merge pull request #19 from ritzdevelopers/varun
+    
+    chnage in footer60
+
+[33mcommit 6174f15db244fd999a79112ad41ae0a351ad020e[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jun 17 14:38:26 2026 +0530
+
+    chnage in footer60
+
+[33mcommit 135bcea9e7235af5a2c1b5f0294f4c15ea12cefb[m
+Merge: 37100e9 4da2431
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jun 17 14:37:32 2026 +0530
+
+    Merge pull request #18 from ritzdevelopers/varun
+    
+    chnage in footer200
+
+[33mcommit 4da24316b72ebbbafa8de1d8e049e04f7d9541c3[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jun 17 14:36:32 2026 +0530
+
+    chnage in footer200
+
+[33mcommit 37100e935f1cd942acbb3ca44ec1ffd14641ed54[m
+Merge: abe6030 bc61519
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jun 17 14:35:19 2026 +0530
+
+    Merge pull request #17 from ritzdevelopers/varun
+    
+    chnage in footer200
+
+[33mcommit bc61519d416b0629bc5897331b78df2b311dd5ab[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jun 17 14:34:44 2026 +0530
+
+    chnage in footer200
+
+[33mcommit abe603053e8dfb9aa2eecaef2ec72f4721900d0b[m
+Merge: 5492a0d ad6b7e5
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jun 17 14:33:23 2026 +0530
+
+    Merge pull request #16 from ritzdevelopers/varun
+    
+    chnage in footer160
+
+[33mcommit ad6b7e5efd8189748538bb43738abf590a89f6c0[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jun 17 14:32:35 2026 +0530
+
+    chnage in footer160
+
+[33mcommit 5492a0dc492eecd1c2396beb6694bdaccfabf203[m
+Merge: c1e5a04 5ba30d1
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jun 17 14:29:00 2026 +0530
+
+    Merge pull request #15 from ritzdevelopers/varun
+    
+    chnage in footer140
+
+[33mcommit 5ba30d141b737444c629479627b03c45030188df[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jun 17 14:27:41 2026 +0530
+
+    chnage in footer140
+
+[33mcommit c1e5a0496b3c5c212b51de508e57e66a959cf7b4[m
+Merge: fbdca7a 1617b6e
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jun 17 14:26:17 2026 +0530
+
+    Merge pull request #14 from ritzdevelopers/varun
+    
+    chnage in footer
+
+[33mcommit 1617b6e571127b98e454527dc095c4c68b3e3ea3[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jun 17 14:25:35 2026 +0530
+
+    chnage in footer
+
+[33mcommit fbdca7ac48705c5c4f8986466c1ac22d7ce22f6e[m
+Merge: ad06af4 017b9aa
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jun 17 14:21:21 2026 +0530
+
+    Merge pull request #13 from ritzdevelopers/varun
+    
+    chnage in footer
+
+[33mcommit 017b9aabfadfe6fb9aa9ab55330e5e681b616235[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jun 17 14:20:51 2026 +0530
+
+    chnage in footer
+
+[33mcommit ad06af43888a795cedd14ac4ddf7ee5e2afc33a7[m
+Merge: ac9740e 2aa9500
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Wed Jun 17 13:34:06 2026 +0530
+
+    Merge pull request #12 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit 2aa950065bce4cd999e8b0c318e788c3cd38658d[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jun 17 12:56:56 2026 +0530
+
+    about section 1
+
+[33mcommit 0c08e3fc2782a03ad59a4b908b807d94c157d938[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Wed Jun 17 10:49:54 2026 +0530
+
+    update the logo
+
+[33mcommit ac9740eb03c168fd6944e96796f4dddfe9da89ec[m
+Merge: 11a389c a2bc6e0
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jun 16 16:51:07 2026 +0530
+
+    Merge pull request #11 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit a2bc6e0def5f4a05b635100b51e6793a00668217[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 16 16:49:47 2026 +0530
+
+    add text animation continue in section 2
+
+[33mcommit 5522b04a0c881676d2d8a4ea8ebf0c549f6714fa[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 16 16:00:44 2026 +0530
+
+    done scroll bar'
+
+[33mcommit 11a389c4a063b440803eb394a883292fe863301e[m
+Merge: 0f1fa96 0cb5e59
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jun 16 15:51:12 2026 +0530
+
+    Merge pull request #10 from ritzdevelopers/varun
+    
+    rtest scroll bar
+
+[33mcommit 0cb5e5959c1e4a19abb4e7244b74363331feb779[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 16 15:50:00 2026 +0530
+
+    rtest scroll bar
+
+[33mcommit 0f1fa96f8520d6b719338a3d7d0aa6ed35e7bf6d[m
+Merge: 2f81635 7b1d925
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jun 16 15:46:20 2026 +0530
+
+    Merge pull request #9 from ritzdevelopers/varun
+    
+    fix the font weight
+
+[33mcommit 7b1d925fa7ff5b9fea25da18bb581b55ebbb72d0[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 16 15:45:34 2026 +0530
+
+    fix the font weight
+
+[33mcommit 2f8163596f7b768dff0917e4991a4e9d6139bb84[m
+Merge: e4d6ef3 794378b
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jun 16 14:53:56 2026 +0530
+
+    Merge pull request #8 from ritzdevelopers/varun
+    
+    fix the txt gap oo 1441 screen
+
+[33mcommit 794378bdaac806945a5a16fcefe719070192ca95[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 16 14:53:26 2026 +0530
+
+    fix the txt gap oo 1441 screen
+
+[33mcommit e4d6ef31580c3d0eebb71d8c9f5a4f4e6c6f0743[m
+Merge: 675d48a 79b8598
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jun 16 14:29:57 2026 +0530
+
+    Merge pull request #7 from ritzdevelopers/varun
+    
+    alihn the text
+
+[33mcommit 79b85985ace619d29f05f40192c2cb46c9193921[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 16 14:28:59 2026 +0530
+
+    alihn the text
+
+[33mcommit 675d48ab60a8510df95d339bd86d4b4fbb747ef3[m
+Merge: 14f1e7c 7555953
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jun 16 14:15:38 2026 +0530
+
+    Merge pull request #6 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit 7555953d38bddd7d6967d44088f4598004bc5702[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 16 14:15:06 2026 +0530
+
+    footer animation
+
+[33mcommit 60a9b392ccbafbff54d0cb8028c913b82530aa33[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 16 13:02:22 2026 +0530
+
+    footer animation
+
+[33mcommit 14f1e7c3b45f1edeb70aa21afba8ea03f557b098[m
+Merge: 8cb2882 ae72b44
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Tue Jun 16 11:42:37 2026 +0530
+
+    Merge pull request #5 from ritzdevelopers/varun
+    
+    Varun
+
+[33mcommit ae72b44aae42097f8decdd806f79181f10263615[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 16 11:41:50 2026 +0530
+
+    footer animation
+
+[33mcommit 22a2834049316d609ccb0ac5ddedd4f14295e285[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 16 10:21:33 2026 +0530
+
+    animation
+
+[33mcommit 8cb288272684c47c2c05057e748daf0971f0641a[m
+Merge: 93e7c02 29222d3
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 15 16:28:06 2026 +0530
+
+    Merge pull request #4 from ritzdevelopers/varun
+    
+    animation
+
+[33mcommit 29222d3bbf4b93f17c32dcc8a97b2e2c73566f96[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 15 16:27:09 2026 +0530
+
+    animation
+
+[33mcommit 93e7c024391ab207e22101194b4f9d3b1ef9d7d4[m
+Merge: a89c2e6 9ff93d0
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 15 15:39:30 2026 +0530
+
+    Merge pull request #3 from ritzdevelopers/varun
+    
+    animation
+
+[33mcommit 9ff93d0d0239f3e520ce412d54366915096e2396[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 15 15:38:05 2026 +0530
+
+    animation
+
+[33mcommit a89c2e648ecd34c5e89985977bd17b8f1aa65344[m
+Merge: 821dbb7 cac2c44
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 15 14:29:56 2026 +0530
+
+    Merge pull request #2 from ritzdevelopers/varun
+    
+    conntact page text animation
+
+[33mcommit cac2c44c1f6646fc827f3cf13e4a9237a71f96f4[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 15 14:29:10 2026 +0530
+
+    conntact page text animation
+
+[33mcommit 821dbb7076cc2e75e9fcfd5d62c46e6aba7e3a7e[m
+Merge: 6bbc756 2ff15da
+Author: ritzdevelopers <web@ritzmediaworld.com>
+Date:   Mon Jun 15 10:42:18 2026 +0530
+
+    Merge pull request #1 from ritzdevelopers/varun
+    
+    text
+
+[33mcommit 2ff15da1644484d3fd21f6a700fa7b2be41eed40[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 15 10:40:51 2026 +0530
+
+    text
+
+[33mcommit 6bbc756514fc4e81f266e83349552a369a08cfe3[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Mon Jun 15 10:30:21 2026 +0530
+
+    contact page
+
+[33mcommit 2b4ddff1fda2b8c6efbc0c68abc4d585bf2825c8[m
+Author: varunmathur19 <varunmathur817@gmail.com>
+Date:   Tue Jun 9 15:44:36 2026 +0530
+
+    Initial commit from Create Next App
