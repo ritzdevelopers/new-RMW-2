@@ -6,20 +6,20 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PORTFOLIO_IMAGES = [
-  "/work/portfolio/s1/saya.jpg",
-  "/work/portfolio/s1/ashtech.jpg",
-  "/work/portfolio/s1/saya.jpg",
-  "/work/portfolio/s1/ashtech.jpg",
-  "/work/portfolio/s1/saya.jpg",
-  "/work/portfolio/s1/ashtech.jpg",
+const AI_VIDEO_IMAGES = [
+  "/work/creatives/s2/i1.jpg",
+  "/work/creatives/s2/i2.jpg",
+  "/work/creatives/s2/i3.jpg",
+  "/work/creatives/s2/i1.jpg",
+  "/work/creatives/s2/i2.jpg",
+  "/work/creatives/s2/i3.jpg",
 ];
 
 // splits a header's text into word spans wrapped in overflow-hidden masks
 function splitIntoWords(el) {
-  const text = el.textContent;
+  const text = el.textContent.trim();
   el.innerHTML = text
-    .split(" ")
+    .split(/\s+/)
     .map(
       (word) =>
         `<span class="inline-block overflow-hidden pb-[4px] align-top"><span class="inline-block will-change-transform" data-word>${word}</span></span>`
@@ -28,7 +28,7 @@ function splitIntoWords(el) {
   return el.querySelectorAll("[data-word]");
 }
 
-const Section2 = () => {
+function Section33() {
   const sectionRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -42,11 +42,11 @@ const Section2 = () => {
     const pointerCleanups = [];
 
     const ctx = gsap.context(() => {
-      const header = section.querySelector("[data-portfolio-header]");
-      const cards = gsap.utils.toArray("[data-portfolio-card]", section);
+      const headers = gsap.utils.toArray("[data-creatives-header]", section);
+      const cards = gsap.utils.toArray("[data-creatives-card]", section);
 
       if (prefersReducedMotion) {
-        gsap.set([header, ...cards], {
+        gsap.set([...headers, ...cards], {
           clearProps: "all",
           opacity: 1,
           y: 0,
@@ -58,9 +58,8 @@ const Section2 = () => {
       }
 
       // ---------- HEADER: masked word reveal with 3D flip ----------
-      if (header) {
-        const heading = header.querySelector("h3");
-        const words = heading ? splitIntoWords(heading) : [header];
+      headers.forEach((header) => {
+        const words = splitIntoWords(header);
 
         gsap.set(words, { yPercent: 120, rotateX: -60, opacity: 0 });
 
@@ -78,46 +77,31 @@ const Section2 = () => {
             toggleActions: "play none none reverse",
           },
         });
-
-        // subtle border-line draw under the heading
-        gsap.fromTo(
-          header,
-          { "--line-scale": 0 },
-          {
-            "--line-scale": 1,
-            duration: 1.2,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: header,
-              start: "top 90%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      }
+      });
 
       // ---------- CARDS: 3D fan reveal + continuous parallax + pointer tilt ----------
-      const columns = 2;
+      const columns = 3;
 
       cards.forEach((card, index) => {
-        const image = card.querySelector("[data-portfolio-image]");
+        const image = card.querySelector("[data-creatives-image]");
         const col = index % columns;
-        // fan direction: left column tilts in from the left, right column from the right
-        const rotateYFrom = col === 0 ? -16 : 16;
+        // fan direction: left column tilts from left, right column from right
+        const rotateYFrom = col === 0 ? -22 : col === columns - 1 ? 22 : 0;
+        const rotateXFrom = 18;
 
         gsap.set(card, {
           opacity: 0,
-          y: 120,
-          scale: 0.92,
-          rotateX: 10,
+          y: 100,
+          scale: 0.88,
+          rotateX: rotateXFrom,
           rotateY: rotateYFrom,
-          transformPerspective: 1400,
+          transformPerspective: 1200,
           transformOrigin: "center bottom",
         });
 
         gsap.set(image, {
-          scale: 1.18,
-          yPercent: -6,
+          scale: 1.25,
+          yPercent: -8,
           filter: "blur(6px)",
         });
 
@@ -138,12 +122,12 @@ const Section2 = () => {
             rotateY: 0,
             duration: 1.3,
             ease: "expo.out",
-            delay: col * 0.12,
+            delay: (index % columns) * 0.12,
           })
           .to(
             image,
             {
-              scale: 1.03,
+              scale: 1.05,
               filter: "blur(0px)",
               duration: 1.4,
               ease: "power3.out",
@@ -151,9 +135,9 @@ const Section2 = () => {
             "<0.05"
           );
 
-        // continuous scroll-linked parallax on the image
+        // continuous scroll-linked parallax on the image (separate from entrance)
         gsap.to(image, {
-          yPercent: 6,
+          yPercent: 8,
           ease: "none",
           scrollTrigger: {
             trigger: card,
@@ -163,17 +147,17 @@ const Section2 = () => {
           },
         });
 
-        // interactive pointer tilt — kept gentle since these cards are very tall
+        // interactive pointer tilt for a premium hover feel
         const quickRotX = gsap.quickTo(card, "rotateX", {
-          duration: 0.7,
+          duration: 0.6,
           ease: "power3.out",
         });
         const quickRotY = gsap.quickTo(card, "rotateY", {
-          duration: 0.7,
+          duration: 0.6,
           ease: "power3.out",
         });
         const quickScale = gsap.quickTo(card, "scale", {
-          duration: 0.7,
+          duration: 0.6,
           ease: "power3.out",
         });
 
@@ -181,9 +165,9 @@ const Section2 = () => {
           const rect = card.getBoundingClientRect();
           const relX = (e.clientX - rect.left) / rect.width - 0.5;
           const relY = (e.clientY - rect.top) / rect.height - 0.5;
-          quickRotY(relX * 6);
-          quickRotX(-relY * 4);
-          quickScale(1.01);
+          quickRotY(relX * 12);
+          quickRotX(-relY * 12);
+          quickScale(1.02);
         };
 
         const handlePointerLeave = () => {
@@ -205,7 +189,7 @@ const Section2 = () => {
     }, section);
 
     return () => {
-      pointerCleanups.forEach((fn) => fn());
+      pointerCleanups.forEach((cleanup) => cleanup());
       ctx.revert();
     };
   }, []);
@@ -214,42 +198,42 @@ const Section2 = () => {
     <section
       ref={sectionRef}
       className="w-full flex justify-center items-center"
-      style={{ perspective: "1600px" }}
+      style={{ perspective: "1500px" }}
     >
       {/* Centered Align Container  */}
-      <div className="w-full max-w-[1340px] flex flex-col gap-[40px] max-xl:px-6 max-md:px-4 max-md:gap-[28px]">
-        {/* Top Row  */}
-        <div
-          data-portfolio-header
-          className="w-full pb-[45px] border-b-2 border-[#E8E8E8] max-md:pb-[28px] relative"
-        >
-          <h3 className="font-league-spartan font-[700] text-[38px] uppercase max-xl:text-[32px] max-lg:text-[28px] max-md:text-[24px] max-sm:text-[20px]">
-            Websites
-          </h3>
-        </div>
+      <div className="w-full max-w-[1340px] flex flex-col gap-[60px] max-xl:px-6 max-md:px-4 max-md:gap-[40px]">
+        {/* Row 2  */}
+        <div className="w-full flex flex-col gap-[50px] max-xl:gap-[40px] max-md:gap-[28px]">
+          <div>
+            <p
+              data-creatives-header
+              className="font-league-spartan font-[600] text-[36px] max-xl:text-[30px] max-lg:text-[26px] max-md:text-[22px] max-sm:text-[20px]"
+            >
+              Stationary Creatives
+            </p>
+          </div>
 
-        {/* Main Body Row  */}
-        <div className="w-full grid grid-cols-2 justify-between max-xl:gap-x-6 max-lg:gap-x-4 max-md:grid-cols-1 max-md:gap-x-0">
-          {PORTFOLIO_IMAGES.map((img, idx) => {
-            return (
+          {/* Main Body Container  */}
+          <div className="w-full grid grid-cols-3 justify-between max-xl:gap-x-6 max-lg:grid-cols-2 max-lg:gap-x-4 max-md:grid-cols-1 max-md:gap-x-0">
+            {AI_VIDEO_IMAGES.map((img, idx) => (
               <div
                 key={idx}
-                data-portfolio-card
-                className="w-[650px] h-[1699px] mb-[40px] relative overflow-hidden max-xl:w-full max-xl:h-auto max-xl:aspect-[650/1699] max-md:mb-[24px] max-sm:mb-[20px]"
+                data-creatives-card
+                className="w-[430px] h-[670px] mb-[30px] relative overflow-hidden max-xl:w-full max-xl:h-auto max-xl:aspect-[430/670] max-md:mb-[24px] max-sm:mb-[20px]"
               >
                 <img
-                  data-portfolio-image
+                  data-creatives-image
                   src={img}
-                  alt="portfolio"
-                  className="w-full h-full object-cover z-0 will-change-transform scale-105"
+                  alt={`ai-video-${idx}`}
+                  className="w-full h-full object-cover will-change-transform scale-105"
                 />
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
-};
+}
 
-export default Section2;
+export default Section33;

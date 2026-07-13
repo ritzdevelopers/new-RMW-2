@@ -7,13 +7,16 @@ import gsap from "gsap";
 import { services } from "../../data/services";
 
 const portfolioSubLinks = [
-  { label: "Websites & Landing Pages", href: "/gallery" },
-  { label: "Creatives & AI Videos", href: "/gallery" },
-  { label: "Logo", href: "/gallery" },
+  { label: "Websites & Landing Pages", href: "/work/portfolio" },
+  {
+    label: "Creatives & AI Videos",
+    href: "/work/portfolio/creatives-&-aI-videos",
+  },
+  { label: "Logo", href: "/work/portfolio/logo" },
 ];
 
 const workLinks = [
-  { label: "Portfolio", href: "/gallery", children: portfolioSubLinks },
+  { label: "Portfolio", href: "/work/portfolio", children: portfolioSubLinks },
   { label: "Case Studies", href: "/case-study" },
   { label: "Web Stories", href: "/web-stories" },
 ];
@@ -523,7 +526,7 @@ const Header = () => {
                 Explore our work
               </p>
               <Link
-                href="/gallery"
+                href="/work/portfolio"
                 onClick={() => {
               setWorkMenuOpen(false);
               setPortfolioSubOpen(false);

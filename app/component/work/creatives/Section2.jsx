@@ -97,21 +97,12 @@ function Section2() {
     <section ref={sectionRef} className="w-full flex justify-center items-center">
       {/* Centered Align Container  */}
       <div className="w-full max-w-[1340px] flex flex-col gap-[60px] pb-[56px] border-b-2 border-[#E8E8E8] max-xl:px-6 max-md:px-4 max-md:gap-[40px] max-md:pb-[40px]">
-        {/* Row 1  */}
-        <div
-          data-creatives-header
-          className="w-full pb-[45px] border-b-2 border-[#E8E8E8] max-md:pb-[28px]"
-        >
-          <h2 className="font-league-spartan font-[700] text-[48px] uppercase max-xl:text-[40px] max-lg:text-[34px] max-md:text-[28px] max-sm:text-[24px]">
-            RMW Creatives
-          </h2>
-        </div>
-
+    
         {/* Row 2  */}
         <div className="w-full flex flex-col gap-[50px] max-xl:gap-[40px] max-md:gap-[28px]">
           <div data-creatives-header>
             <p className="font-league-spartan font-[600] text-[36px] max-xl:text-[30px] max-lg:text-[26px] max-md:text-[22px] max-sm:text-[20px]">
-              Ai Videos
+            Stationary Creatives
             </p>
           </div>
 
