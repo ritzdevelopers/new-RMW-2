@@ -278,32 +278,32 @@ export const services = [
         "From newspaper spreads to magazine inserts, every print placement we manage is built with intent. These highlights showcase how strong design, sharp copy, and smart media buying come together to deliver visibility, credibility, and results that digital alone cannot replicate.",
       slides: [
         {
-          src: "/navbar/print-services/advertizement-design.jpg",
+          src: "/print-advertising/Advertisement-design.jpg",
           content: "Advertisement Design",
           subSlug: "advertisement-designing",
         },
         {
-          src: "/navbar/print-services/ad-placement.jpg",
+          src: "/print-advertising/Ad-placement.jpg",
           content: "Ad Placement",
           subSlug: "ad-placements",
         },
         {
-          src: "/navbar/print-services/copywriting.jpg",
+          src: "/print-advertising/copywriting.jpg",
           content: "Copywriting",
           subSlug: "copywriting",
         },
         {
-          src: "/navbar/print-services/cost-negotiation.jpg",
+          src: "/print-advertising/cost-negotiations.jpg",
           content: "Cost Negotiation",
           subSlug: "negotiating-rates",
         },
         {
-          src: "/navbar/print-services/ad-size-optimization.jpg",
+          src: "/print-advertising/ad-size-optimization.jpg",
           content: "Ad Size Optimization",
           subSlug: "ad-size-optimization",
         },
         {
-          src: "/navbar/print-services/ad-size-scheduling.jpg",
+          src: "/print-advertising/ad-scheduling.jpg",
           content: "Ad Scheduling",
           subSlug: "advertisement-scheduling",
         },
@@ -889,7 +889,7 @@ export const services = [
         "Every influencer campaign we manage is built for authenticity and performance. These highlights showcase how identification, negotiation, and creative collaboration drive awareness, engagement, and conversions.",
       slides: [
         {
-          src: "/influencer-marketing-agency-in-india/influencer-identification.jpg",
+          src: "/influencer-marketing-agency-in-india/Influencer-Identification.jpg",
           content: "Influencer Identification",
           subSlug: "identification-influence-marketing-agency",
         },
@@ -927,19 +927,19 @@ export const services = [
         "Great influencer marketing is more than follower counts - it is the right voice, the right message, and the right integration. From creator identification to campaign rollout, our work helps brands earn attention that turns into real business growth.",
       gallery: [
         {
-          src: "/influencer-marketing-agency-in-india/rmw-29.jpg",
+          src: "/influencer-marketing-agency-in-india/influencer-video-1.mp4",
           label: "Creator Reach",
         },
         {
-          src: "/influencer-marketing-agency-in-india/two.jpg",
+          src: "/influencer-marketing-agency-in-india/influencer-video-2.mp4",
           label: "Brand Story",
         },
         {
-          src: "/influencer-marketing-agency-in-india/graph.jpg",
+          src: "/influencer-marketing-agency-in-india/influencer-video-3.mp4",
           label: "Campaign Data",
         },
         {
-          src: "/influencer-marketing-agency-in-india/digital-1.jpg",
+          src: "/influencer-marketing-agency-in-india/influencer-video-4.mp4",
           label: "Social Impact",
         },
       ],
