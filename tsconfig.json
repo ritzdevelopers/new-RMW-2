@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "app/component/work/portfolio/Section1.jsx", "app/component/work/portfolio/Section2.jsx", "app/work/portfolio/page.jsx"  ],
+  ],
   "exclude": ["node_modules"]
 }

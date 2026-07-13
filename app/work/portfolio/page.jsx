@@ -1,18 +1,14 @@
-import React from 'react'
-import Section1 from '@/app/component/work/portfolio/Section1'
-import Section2 from '@/app/component/work/portfolio/Section2'
-// import Section3 from '@/app/component/work/portfolio/Section3'
-import Service4 from '@/app/component/work/portfolio/Service4'
+"use client";
 
-const page = () => {
-  return (
-    <>
-    <Section1 />
-    <Section2 />
-    <Service4 />
-    {/* <Section3 />  */}
-    </>
-  )
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export default function PortfolioIndexPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/work/portfolio/websites-and-landing-pages");
+  }, [router]);
+
+  return null;
 }
-
-export default page
