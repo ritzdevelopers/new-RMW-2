@@ -312,14 +312,14 @@ export const services = [
     mediaSection: {
       title: "IMPACT, NOT IMPRESSIONS",
       video: {
-        src: "/print-advertising/digital-video.mp4",
+        src: "/print-advertising/print-advertising-video.mp4",
         width: 561,
         height: 342,
       },
       description:
         "Print advertising demands more than a good layout — it needs the right message, the right placement, and the right timing. From ad design and copywriting to media buying and scheduling, our work helps brands stand out in newspapers and magazines with campaigns that feel credible, deliberate, and impossible to ignore.",
       image: {
-        src: "/print-advertising/rmw-29.jpg",
+        src: "/print-advertising/print-advertising-image-1.jpg",
         width: 720.953,
         height: 762.712,
         aspectRatio: "69 / 73",
@@ -343,17 +343,17 @@ export const services = [
       grid: {
         items: [
           {
-            src: "/print-advertising/two.jpg",
+            src: "/print-advertising/Print-Advertisement-image-2.jpg",
             className: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
             aspectRatio: "672 / 355",
           },
           {
-            src: "/print-advertising/graph.jpg",
+            src: "/print-advertising/Print-Advertisement-image-3.jpg",
             className: "lg:col-span-2 lg:row-start-2",
             aspectRatio: "696 / 572",
           },
           {
-            src: "/print-advertising/digital-1.jpg",
+            src: "/print-advertising/Print-advertisement-image-4.jpg",
             className: "lg:col-start-3 lg:row-span-2 lg:row-start-1",
             aspectRatio: "613 / 965",
           },
