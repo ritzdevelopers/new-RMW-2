@@ -795,55 +795,28 @@ export const services = [
       ],
     },
     mediaSection: {
+      layout: "fourGallery",
       title: "INFLUENCE, NOT JUST FAME",
-      video: {
-        src: "/celebrity-endorsements/digital-video.mp4",
-        width: 561,
-        height: 342,
-      },
       description:
         "The right celebrity partnership is more than a face on a poster — it is strategy, storytelling, and seamless integration. From talent identification to legal compliance, our work helps brands borrow the spotlight with partnerships that feel credible and convert.",
-      image: {
-        src: "/celebrity-endorsements/rmw-29.jpg",
-        width: 720.953,
-        height: 762.712,
-        aspectRatio: "69 / 73",
-      },
-      container: {
-        width: 1154,
-        height: 666,
-        borderRadius: 16,
-        background: "#FFFFFF",
-        leftImage: {
-          src: "/celebrity-endorsements/image%201008.png",
-          width: 509,
-          height: 277,
-          aspectRatio: "147 / 80",
+      gallery: [
+        {
+          src: "/celebrity-endorsements/rmw-29.jpg",
+          label: "Talent Reach",
         },
-        rightImage: {
-          src: "/celebrity-endorsements/image%201007.png",
-          width: 509,
+        {
+          src: "/celebrity-endorsements/two.jpg",
+          label: "Brand Story",
         },
-      },
-      grid: {
-        items: [
-          {
-            src: "/celebrity-endorsements/two.jpg",
-            className: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
-            aspectRatio: "672 / 355",
-          },
-          {
-            src: "/celebrity-endorsements/graph.jpg",
-            className: "lg:col-span-2 lg:row-start-2",
-            aspectRatio: "696 / 572",
-          },
-          {
-            src: "/celebrity-endorsements/digital-1.jpg",
-            className: "lg:col-start-3 lg:row-span-2 lg:row-start-1",
-            aspectRatio: "613 / 965",
-          },
-        ],
-      },
+        {
+          src: "/celebrity-endorsements/graph.jpg",
+          label: "Campaign Data",
+        },
+        {
+          src: "/celebrity-endorsements/digital-1.jpg",
+          label: "Social Impact",
+        },
+      ],
       imageContent: {
         background: "/celebrity-endorsements/image%201005%20(14).png",
         heading: "The Future Won't Build Itself",

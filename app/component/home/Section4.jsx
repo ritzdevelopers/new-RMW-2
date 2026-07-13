@@ -61,7 +61,11 @@ const Section4 = () => {
   const sectionRef = useRef(null);
   const pinRef = useRef(null);
   const listRef = useRef(null);
+  const mobileSliderRef = useRef(null);
   const itemRefs = useRef([]);
+  const mobileSlideRefs = useRef([]);
+  const skipMobileScrollSync = useRef(false);
+  const mobileScrollTimeout = useRef(null);
 
   const activeService =
     services.find((service) => service.slug === activeSlug) ?? services[0];
@@ -70,6 +74,8 @@ const Section4 = () => {
     let frame = 0;
 
     const updateActive = () => {
+      if (window.innerWidth < 768) return;
+
       const viewportCenter = window.innerHeight / 2;
       let closestSlug = services[0].slug;
       let closestDistance = Infinity;
@@ -107,23 +113,20 @@ const Section4 = () => {
     mm.add("(min-width: 768px)", () => {
       if (!section || !pin || !list) return;
 
-      const getTravel = () => {
-        const items = itemRefs.current.filter(Boolean);
-        if (items.length < 2) return 0;
-
-        const first = items[0];
-        const last = items[items.length - 1];
-        const firstCenter = first.offsetTop + first.offsetHeight / 2;
-        const lastCenter = last.offsetTop + last.offsetHeight / 2;
-
-        return lastCenter - firstCenter;
-      };
-
       const getStartY = () => {
         const first = itemRefs.current[0];
         if (!first) return 0;
 
-        return pin.offsetHeight * 0.38 - (first.offsetTop + first.offsetHeight / 2);
+        return pin.offsetHeight * 0.30 - (first.offsetTop + first.offsetHeight / 2);
+      };
+
+      const getEndY = () => {
+        const items = itemRefs.current.filter(Boolean);
+        const last = items[items.length - 1];
+        if (!last) return getStartY();
+
+        // Stop when last text sits on the image center
+        return pin.offsetHeight * 0.5 - (last.offsetTop + last.offsetHeight / 2);
       };
 
       const applyStartY = () => {
@@ -133,12 +136,12 @@ const Section4 = () => {
       applyStartY();
 
       const tween = gsap.to(list, {
-        y: () => getStartY() - getTravel(),
+        y: () => getEndY(),
         ease: "none",
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: () => `+=${Math.max(getTravel(), window.innerHeight)}`,
+          end: () => `+=${Math.max(Math.abs(getStartY() - getEndY()), window.innerHeight)}`,
           scrub: true,
           pin,
           anticipatePin: 1,
@@ -162,10 +165,49 @@ const Section4 = () => {
     };
   }, []);
 
+  useLayoutEffect(() => {
+    if (typeof window === "undefined" || window.innerWidth >= 768) return;
+
+    const slider = mobileSliderRef.current;
+    const activeIndex = services.findIndex((service) => service.slug === activeSlug);
+    const slide = mobileSlideRefs.current[activeIndex];
+    if (!slider || !slide || skipMobileScrollSync.current) return;
+
+    const targetLeft =
+      slide.offsetLeft - (slider.clientWidth / 2 - slide.clientWidth / 2);
+    slider.scrollTo({ left: targetLeft, behavior: "smooth" });
+  }, [activeSlug]);
+
+  const onMobileSliderScroll = () => {
+    const slider = mobileSliderRef.current;
+    if (!slider || window.innerWidth >= 768) return;
+
+    const centerX = slider.scrollLeft + slider.clientWidth / 2;
+    let closestSlug = services[0].slug;
+    let closestDistance = Infinity;
+
+    mobileSlideRefs.current.forEach((slide, index) => {
+      if (!slide) return;
+      const slideCenter = slide.offsetLeft + slide.clientWidth / 2;
+      const distance = Math.abs(slideCenter - centerX);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestSlug = services[index].slug;
+      }
+    });
+
+    skipMobileScrollSync.current = true;
+    setActiveSlug((current) => (current === closestSlug ? current : closestSlug));
+    window.clearTimeout(mobileScrollTimeout.current);
+    mobileScrollTimeout.current = window.setTimeout(() => {
+      skipMobileScrollSync.current = false;
+    }, 120);
+  };
+
   return (
     <section
       ref={sectionRef}
-      className="bg-white px-8 py-[20px] md:px-12 md:py-[0px]"
+      className="bg-white px-8 py-[35px] md:px-12 md:py-[0px]"
     >
       <style>{`
         @media (min-width: 768px) {
@@ -179,7 +221,7 @@ const Section4 = () => {
         ref={pinRef}
         className="relative isolate mx-auto flex w-full max-w-8xl flex-col items-center overflow-hidden md:h-[100dvh]"
       >
-        <div className="pointer-events-none absolute left-1/2 top-1/2 z-0 hidden -translate-x-1/2 -translate-y-1/2 md:block">
+        <div className="pointer-events-none absolute left-1/2 top-[42%] z-0 hidden -translate-x-1/2 -translate-y-1/2 md:block">
           <img
             key={activeService.slug}
             src={activeService.image}
@@ -188,9 +230,36 @@ const Section4 = () => {
           />
         </div>
 
+        <div className="relative z-[20] mb-6 w-full md:hidden">
+          <div
+            ref={mobileSliderRef}
+            onScroll={onMobileSliderScroll}
+            className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-[calc(50%-110px)] pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {services.map((service, index) => (
+              <div
+                key={service.slug}
+                ref={(node) => {
+                  mobileSlideRefs.current[index] = node;
+                }}
+                className="w-[220px] shrink-0 snap-center"
+              >
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className={`block h-auto w-full object-contain shadow-[0_20px_50px_rgba(0,0,0,0.18)] transition-opacity duration-300 ${
+                    activeSlug === service.slug ? "opacity-100" : "opacity-55"
+                  }`}
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
         <ul
           ref={listRef}
-          className="relative z-[30] m-0 flex w-full list-none flex-col items-center gap-2 p-0 md:gap-2 lg:gap-2"
+          className="relative z-[30] m-0 flex w-full list-none flex-col items-center gap-0 p-0 md:gap-2 lg:gap-2"
         >
           {services.map((service, index) => {
             const isActive = activeSlug === service.slug;
@@ -206,7 +275,7 @@ const Section4 = () => {
                 <div className={`relative ${linkRowClass}`}>
                   <Link
                     href={`/services/${service.slug}`}
-                    className={`relative z-10 ${linkRowClass}${
+                    className={`relative z-10 cursor-default ${linkRowClass}${
                       isActive ? " section4-row-link-active" : ""
                     }`}
                   >
@@ -214,7 +283,7 @@ const Section4 = () => {
                       className="shrink-0 transition-colors duration-300"
                       style={{
                         ...numberStyle,
-                        color: isActive ? "#000000" : "#00000033",
+                        color: isActive ? "#000000" : "#00000005",
                       }}
                     >
                       {service.number}
@@ -223,7 +292,7 @@ const Section4 = () => {
                       className="text-[30px] transition-colors duration-300 md:text-[50px] lg:text-[70px] xl:text-[106px]"
                       style={{
                         ...titleStyle,
-                        color: isActive ? "#000000" : "#00000033",
+                        color: isActive ? "#000000" : "#00000005",
                       }}
                     >
                       {service.title}
