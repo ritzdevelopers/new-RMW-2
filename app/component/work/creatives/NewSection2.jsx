@@ -65,9 +65,9 @@ const BRAND_FILM_SLIDES = [
   },
 ];
 
-const AUTOPLAY_DELAY = 4800;
-const SLIDE_DURATION = 1.15;
-const SLIDE_EASE = "power2.inOut";
+const AUTOPLAY_DELAY = 5200;
+const SLIDE_DURATION = 1.2;
+const SLIDE_EASE = "sine.inOut";
 const GAP_PX = 24;
 
 // How many cards are visible at once, per breakpoint
@@ -253,13 +253,42 @@ function NewSection2() {
   const syncMetrics = useCallback(() => {
     const width = containerRef.current?.clientWidth || 0;
     const visibleCount = getVisibleCount(window.innerWidth);
+    // Floor widths so card steps land on whole pixels (kills subpixel shimmer)
     const cardWidth =
       visibleCount > 0
-        ? (width - GAP_PX * (visibleCount - 1)) / visibleCount
-        : width;
+        ? Math.floor((width - GAP_PX * (visibleCount - 1)) / visibleCount)
+        : Math.floor(width);
     setMetrics({ cardWidth, visibleCount });
     return { cardWidth, visibleCount };
   }, []);
+
+  const pauseAllPreviews = useCallback(() => {
+    previewVideoRefs.current.forEach((video) => {
+      if (!video) return;
+      video.pause();
+    });
+  }, []);
+
+  const syncPreviewPlayback = useCallback(
+    (index = activeIndexRef.current) => {
+      if (modalIndex !== null) {
+        pauseAllPreviews();
+        return;
+      }
+
+      previewVideoRefs.current.forEach((video, i) => {
+        if (!video) return;
+        const inView =
+          i >= index && i < index + metrics.visibleCount;
+        if (inView) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    },
+    [metrics.visibleCount, modalIndex, pauseAllPreviews]
+  );
 
   const goTo = useCallback(
     (targetIndex) => {
@@ -302,20 +331,24 @@ function NewSection2() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex, modalIndex, maxIndex]);
 
-  // Smooth GSAP track slide (interruptible on rapid clicks)
+  // Smooth GSAP track slide — pause videos while moving to avoid decode jank
   useLayoutEffect(() => {
     const track = trackRef.current;
     if (!track || metrics.cardWidth <= 0) return;
 
-    const x = -(activeIndex * (metrics.cardWidth + GAP_PX));
+    const step = metrics.cardWidth + GAP_PX;
+    const x = -Math.round(activeIndex * step);
     const widthChanged = prevCardWidthRef.current !== metrics.cardWidth;
     prevCardWidthRef.current = metrics.cardWidth;
 
     if (widthChanged) {
       gsap.killTweensOf(track);
       gsap.set(track, { x, force3D: true });
+      syncPreviewPlayback(activeIndex);
       return;
     }
+
+    pauseAllPreviews();
 
     gsap.to(track, {
       x,
@@ -323,8 +356,20 @@ function NewSection2() {
       ease: SLIDE_EASE,
       overwrite: "auto",
       force3D: true,
+      // Keep transforms on integer pixels every frame
+      modifiers: {
+        x: (v) => `${Math.round(parseFloat(v))}px`,
+      },
+      onComplete: () => {
+        syncPreviewPlayback(activeIndex);
+      },
     });
-  }, [activeIndex, metrics.cardWidth]);
+  }, [
+    activeIndex,
+    metrics.cardWidth,
+    pauseAllPreviews,
+    syncPreviewPlayback,
+  ]);
 
   // Bottle-fill loader tracks carousel progress
   useEffect(() => {
@@ -340,21 +385,14 @@ function NewSection2() {
     });
   }, [activeIndex, maxIndex]);
 
-  // Play only the videos currently within (or near) the visible window
+  // Pause all previews while the modal is open; resume when it closes
   useEffect(() => {
-    previewVideoRefs.current.forEach((video, index) => {
-      if (!video) return;
-      const inView =
-        modalIndex === null &&
-        index >= activeIndex &&
-        index < activeIndex + metrics.visibleCount;
-      if (inView) {
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
-    });
-  }, [activeIndex, modalIndex, metrics.visibleCount]);
+    if (modalIndex !== null) {
+      pauseAllPreviews();
+      return;
+    }
+    syncPreviewPlayback(activeIndexRef.current);
+  }, [modalIndex, pauseAllPreviews, syncPreviewPlayback]);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -515,10 +553,13 @@ function NewSection2() {
           </div>
 
           <div data-brand-stage className="relative w-full">
-            <div ref={containerRef} className="relative w-full overflow-hidden">
+            <div
+              ref={containerRef}
+              className="relative w-full overflow-hidden [transform:translateZ(0)]"
+            >
               <div
                 ref={trackRef}
-                className="flex will-change-transform"
+                className="flex will-change-transform [backface-visibility:hidden]"
                 style={{ gap: `${GAP_PX}px` }}
               >
                 {BRAND_FILM_SLIDES.map((slide, index) => (
@@ -534,7 +575,7 @@ function NewSection2() {
                         openModal(index);
                       }
                     }}
-                    className="group relative shrink-0 cursor-pointer overflow-hidden rounded-[6px] bg-[#0a0a0a]"
+                    className="group relative shrink-0 cursor-pointer overflow-hidden rounded-[6px] bg-[#0a0a0a] [backface-visibility:hidden] [transform:translateZ(0)]"
                     style={{
                       width: metrics.cardWidth || "100%",
                       aspectRatio: "11 / 10",
@@ -545,7 +586,7 @@ function NewSection2() {
                         previewVideoRefs.current[index] = el;
                       }}
                       src={slide.src}
-                      className="h-full w-full object-cover"
+                      className="pointer-events-none h-full w-full object-cover [transform:translateZ(0)]"
                       muted
                       loop
                       playsInline
