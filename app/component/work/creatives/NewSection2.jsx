@@ -9,8 +9,7 @@ const BRAND_FILM_SLIDES = [
   {
     src: "https://otherassets.blob.core.windows.net/rmw/VVIP%20GROUP%20EK%20BAAR%20PHIR-1.mp4",
     alt: "Brand film 1",
-    video:
-      "https://otherassets.blob.core.windows.net/rmw/VVIP%20GROUP%20EK%20BAAR%20PHIR-1.mp4",
+    video:"https://otherassets.blob.core.windows.net/rmw/VVIP%20GROUP%20EK%20BAAR%20PHIR-1.mp4",
     title: "REFINED ELEGANCE",
     description:
       "Crafted with a luxurious visual language, this brand film celebrates elegance as an attitude rather than a moment. Through cinematic storytelling and refined aesthetics, it captures the spirit of those who lead with confidence.",
