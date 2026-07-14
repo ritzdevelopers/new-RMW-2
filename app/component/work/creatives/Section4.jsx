@@ -5,45 +5,56 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import gsap from "gsap";
 
-const PLACEHOLDER_VIDEO =
-  "https://otherassets.blob.core.windows.net/rmw/home-website.mp4";
-
 const WALKTHROUGH_SLIDES = [
   {
-    src: "/work/creatives/s2/video.jpg",
-    alt: "3D walkthrough 1",
-    video: PLACEHOLDER_VIDEO,
-    title: "Architectural Storytelling",
+    src: "https://otherassets.blob.core.windows.net/rmw/Edelstein%20Empire%20Walkthrough.mp4",
+    alt: "Edelstein Empire walkthrough",
+    video:
+      "https://otherassets.blob.core.windows.net/rmw/Edelstein%20Empire%20Walkthrough.mp4",
+    title: "Edelstein Empire",
     description:
-      "A cinematic brand film that transforms real estate vision into emotion — blending aerial perspectives, lifestyle narratives, and premium finishing for maximum impact.",
+      "A cinematic 3D walkthrough that transforms real estate vision into emotion — blending spatial storytelling, lifestyle narratives, and premium finishing for maximum impact.",
     cta: { label: "Get In Touch", href: "/contact" },
   },
   {
-    src: "/work/creatives/s2/i1.jpg",
-    alt: "3D walkthrough 2",
-    video: PLACEHOLDER_VIDEO,
-    title: "Luxury Living Experience",
+    src: "https://otherassets.blob.core.windows.net/rmw/Vedvan%20%20Walkthrough%20Final%20N.mp4",
+    alt: "Vedvan walkthrough",
+    video:
+      "https://otherassets.blob.core.windows.net/rmw/Vedvan%20%20Walkthrough%20Final%20N.mp4",
+    title: "Vedvan",
     description:
-      "Showcase aspirational living through motion, light, and detail. We craft films that help audiences feel the space before they step inside.",
+      "Showcase aspirational living through motion, light, and detail. We craft walkthroughs that help audiences feel the space before they step inside.",
     cta: { label: "Start A Project", href: "/contact" },
   },
   {
-    src: "/work/creatives/s2/i2.jpg",
-    alt: "3D walkthrough 3",
-    video: PLACEHOLDER_VIDEO,
-    title: "Urban Development Story",
+    src: "https://otherassets.blob.core.windows.net/rmw/Laadli%20Walkthrough%20Video.mp4",
+    alt: "Laadli walkthrough",
+    video:
+      "https://otherassets.blob.core.windows.net/rmw/Laadli%20Walkthrough%20Video.mp4",
+    title: "Laadli",
     description:
-      "From blueprint to skyline — dynamic storytelling for large-scale developments that communicates scale, trust, and long-term value.",
+      "From blueprint to experience — dynamic spatial storytelling for developments that communicates scale, trust, and long-term value.",
     cta: { label: "View Our Work", href: "/case-study" },
   },
   {
-    src: "/work/creatives/s2/i3.jpg",
-    alt: "3D walkthrough 4",
-    video: PLACEHOLDER_VIDEO,
-    title: "Heritage Reimagined",
+    src: "https://otherassets.blob.core.windows.net/rmw/Rmw%20Est.%20Walkthrough.mp4",
+    alt: "RMW Est. walkthrough",
+    video:
+      "https://otherassets.blob.core.windows.net/rmw/Rmw%20Est.%20Walkthrough.mp4",
+    title: "RMW Est.",
     description:
-      "Heritage properties deserve films with soul. We balance tradition and modernity in every frame to elevate brand perception.",
+      "Heritage and modernity in balance. A walkthrough crafted with soul to elevate brand perception through refined spatial cinema.",
     cta: { label: "Get In Touch", href: "/contact" },
+  },
+  {
+    src: "https://otherassets.blob.core.windows.net/rmw/Video%202026-07-03%2017-31-24.mp4",
+    alt: "3D walkthrough",
+    video:
+      "https://otherassets.blob.core.windows.net/rmw/Video%202026-07-03%2017-31-24.mp4",
+    title: "Immersive Spaces",
+    description:
+      "An immersive 3D walkthrough experience designed to capture atmosphere, craftsmanship, and the emotion of stepping into a new space.",
+    cta: { label: "Start A Project", href: "/contact" },
   },
 ];
 
@@ -203,6 +214,7 @@ function Section4() {
   const sectionRef = useRef(null);
   const containerRef = useRef(null);
   const trackRef = useRef(null);
+  const previewVideoRefs = useRef([]);
   const prevBtnRef = useRef(null);
   const nextBtnRef = useRef(null);
   const backdropRef = useRef(null);
@@ -241,6 +253,33 @@ function Section4() {
     setMetrics({ cardWidth, visibleCount });
     return { cardWidth, visibleCount };
   }, []);
+
+  const pauseAllPreviews = useCallback(() => {
+    previewVideoRefs.current.forEach((video) => {
+      if (!video) return;
+      video.pause();
+    });
+  }, []);
+
+  const syncPreviewPlayback = useCallback(
+    (index = activeIndexRef.current) => {
+      if (modalIndex !== null) {
+        pauseAllPreviews();
+        return;
+      }
+
+      previewVideoRefs.current.forEach((video, i) => {
+        if (!video) return;
+        const inView = i >= index && i < index + metrics.visibleCount;
+        if (inView) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    },
+    [metrics.visibleCount, modalIndex, pauseAllPreviews]
+  );
 
   const goTo = useCallback(
     (targetIndex) => {
@@ -295,8 +334,11 @@ function Section4() {
     if (widthChanged) {
       gsap.killTweensOf(track);
       gsap.set(track, { x, force3D: true });
+      syncPreviewPlayback(activeIndex);
       return;
     }
+
+    pauseAllPreviews();
 
     gsap.to(track, {
       x,
@@ -308,8 +350,16 @@ function Section4() {
       modifiers: {
         x: (v) => `${Math.round(parseFloat(v))}px`,
       },
+      onComplete: () => {
+        syncPreviewPlayback(activeIndex);
+      },
     });
-  }, [activeIndex, metrics.cardWidth]);
+  }, [
+    activeIndex,
+    metrics.cardWidth,
+    pauseAllPreviews,
+    syncPreviewPlayback,
+  ]);
 
   useEffect(() => {
     const fill = loaderFillRef.current;
@@ -323,6 +373,15 @@ function Section4() {
       overwrite: "auto",
     });
   }, [activeIndex, maxIndex]);
+
+  // Pause all previews while the modal is open; resume when it closes
+  useEffect(() => {
+    if (modalIndex !== null) {
+      pauseAllPreviews();
+      return;
+    }
+    syncPreviewPlayback(activeIndexRef.current);
+  }, [modalIndex, pauseAllPreviews, syncPreviewPlayback]);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -472,10 +531,10 @@ function Section4() {
         ref={sectionRef}
         className="w-full flex justify-center items-center mb-[45px] max-xl:mb-[40px] max-md:mb-[36px] max-sm:mb-[28px]"
       >
-        <div className="w-full max-w-[1340px] flex flex-col gap-[43px] max-xl:gap-[36px] max-md:gap-[28px] max-xl:px-6 max-md:px-4">
+        <div className="w-full max-w-[1340px] flex flex-col gap-[36px] max-xl:gap-[36px] max-md:gap-[28px] max-xl:px-6 max-md:px-4">
           <div
             data-creatives-header
-            className="w-full pb-[33px] border-b-2 border-[#E8E8E8] max-md:pb-[28px]"
+            className="w-full  border-b-2 border-[#E8E8E8]  pb-[18px]"
           >
             <h2 className="font-league-spartan font-[700] text-[48px] capitalize max-xl:text-[40px] max-lg:text-[34px] max-md:text-[28px] max-sm:text-[24px]">
               3D Walkthroughs
@@ -511,11 +570,17 @@ function Section4() {
                       aspectRatio: "11 / 10",
                     }}
                   >
-                    <img
+                    <video
+                      ref={(el) => {
+                        previewVideoRefs.current[index] = el;
+                      }}
                       src={slide.src}
-                      alt={slide.alt}
                       className="pointer-events-none h-full w-full object-cover [transform:translateZ(0)]"
-                      loading={index < 3 ? "eager" : "lazy"}
+                      muted
+                      loop
+                      playsInline
+                      preload={index < 3 ? "auto" : "metadata"}
+                      aria-label={slide.alt}
                     />
 
                     <div
@@ -595,22 +660,13 @@ function Section4() {
 
               <Link
                 href="/case-study"
-                className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full border border-[#D9D9D9] py-2.5 pl-6 pr-2.5 transition-colors hover:border-[#111]"
+                className="flex cursor-pointer items-center gap-2 rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
               >
-                <span className="font-league-spartan text-[13px] font-medium uppercase tracking-[0.08em] text-[#111] max-sm:text-[12px]">
+                <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[14px]">
                   Discover All
                 </span>
-                <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D9D9D9] text-[#111] transition-transform duration-300 group-hover:rotate-45 group-hover:border-[#111] max-sm:h-8 max-sm:w-8">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.75"
-                    className="h-4 w-4"
-                    aria-hidden="true"
-                  >
-                    <path d="M7 17L17 7M7 7h10v10" />
-                  </svg>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
+                  <i className="ri-arrow-right-up-line text-[14px] md:text-[16px]" aria-hidden />
                 </span>
               </Link>
             </div>

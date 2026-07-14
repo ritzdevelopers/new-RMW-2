@@ -542,10 +542,10 @@ function NewSection2() {
         ref={sectionRef}
         className="w-full flex justify-center items-center mb-[45px] max-xl:mb-[40px] max-md:mb-[36px] max-sm:mb-[28px]"
       >
-        <div className="w-full max-w-[1340px] flex flex-col gap-[43px] max-xl:gap-[36px] max-md:gap-[28px] max-xl:px-6 max-md:px-4">
+        <div className="w-full max-w-[1340px] flex flex-col  gap-[36px] max-md:gap-[28px] max-xl:px-6 max-md:px-4">
           <div
             data-creatives-header
-            className="w-full pb-[33px] border-b-2 border-[#E8E8E8] max-md:pb-[28px]"
+            className="w-full  border-b-2 border-[#E8E8E8] pb-[18px]"
           >
             <h2 className="font-league-spartan font-[700] text-[48px] capitalize max-xl:text-[40px] max-lg:text-[34px] max-md:text-[28px] max-sm:text-[24px]">
               Brand Films
@@ -673,22 +673,13 @@ function NewSection2() {
 
               <Link
                 href="/case-study"
-                className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full border border-[#D9D9D9] py-2.5 pl-6 pr-2.5 transition-colors hover:border-[#111]"
+                className="flex cursor-pointer items-center gap-2 rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
               >
-                <span className="font-league-spartan text-[13px] font-medium uppercase tracking-[0.08em] text-[#111] max-sm:text-[12px]">
+                <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[14px]">
                   Discover All
                 </span>
-                <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D9D9D9] text-[#111] transition-transform duration-300 group-hover:rotate-45 group-hover:border-[#111] max-sm:h-8 max-sm:w-8">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.75"
-                    className="h-4 w-4"
-                    aria-hidden="true"
-                  >
-                    <path d="M7 17L17 7M7 7h10v10" />
-                  </svg>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
+                  <i className="ri-arrow-right-up-line text-[14px] md:text-[16px]" aria-hidden />
                 </span>
               </Link>
             </div>
