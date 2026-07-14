@@ -801,7 +801,7 @@ export const services = [
         "The right celebrity partnership is more than a face on a poster — it is strategy, storytelling, and seamless integration. From talent identification to legal compliance, our work helps brands borrow the spotlight with partnerships that feel credible and convert.",
       gallery: [
         {
-          src: "/celebrity-endorsements/rmw-29.jpg",
+          src: "/celebrity-endorsements/celebrity-endorsements-1.jpg",
           label: "Talent Reach",
         },
         {
