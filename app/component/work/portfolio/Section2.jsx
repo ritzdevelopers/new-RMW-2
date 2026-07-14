@@ -15,19 +15,6 @@ const PORTFOLIO_IMAGES = [
   "/work/portfolio/s1/ashtech.jpg",
 ];
 
-// splits a header's text into word spans wrapped in overflow-hidden masks
-function splitIntoWords(el) {
-  const text = el.textContent;
-  el.innerHTML = text
-    .split(" ")
-    .map(
-      (word) =>
-        `<span class="inline-block overflow-hidden pb-[4px] align-top"><span class="inline-block will-change-transform" data-word>${word}</span></span>`
-    )
-    .join(" ");
-  return el.querySelectorAll("[data-word]");
-}
-
 const Section2 = () => {
   const sectionRef = useRef(null);
 
@@ -39,8 +26,6 @@ const Section2 = () => {
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    const pointerCleanups = [];
-
     const ctx = gsap.context(() => {
       const header = section.querySelector("[data-portfolio-header]");
       const cards = gsap.utils.toArray("[data-portfolio-card]", section);
@@ -50,171 +35,50 @@ const Section2 = () => {
           clearProps: "all",
           opacity: 1,
           y: 0,
-          scale: 1,
-          rotateX: 0,
-          rotateY: 0,
         });
         return;
       }
 
-      // ---------- HEADER: masked word reveal with 3D flip ----------
       if (header) {
-        const heading = header.querySelector("h3");
-        const words = heading ? splitIntoWords(heading) : [header];
+        gsap.set(header, { opacity: 0, y: 24 });
 
-        gsap.set(words, { yPercent: 120, rotateX: -60, opacity: 0 });
-
-        gsap.to(words, {
-          yPercent: 0,
-          rotateX: 0,
+        gsap.to(header, {
           opacity: 1,
-          duration: 1,
-          ease: "expo.out",
-          stagger: 0.05,
-          transformOrigin: "50% 100%",
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: header,
             start: "top 90%",
             toggleActions: "play none none reverse",
           },
         });
-
-        // subtle border-line draw under the heading
-        gsap.fromTo(
-          header,
-          { "--line-scale": 0 },
-          {
-            "--line-scale": 1,
-            duration: 1.2,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: header,
-              start: "top 90%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
       }
 
-      // ---------- CARDS: 3D fan reveal + continuous parallax + pointer tilt ----------
-      const columns = 2;
+      cards.forEach((card) => {
+        gsap.set(card, { opacity: 0, y: 40 });
 
-      cards.forEach((card, index) => {
-        const image = card.querySelector("[data-portfolio-image]");
-        const col = index % columns;
-        // fan direction: left column tilts in from the left, right column from the right
-        const rotateYFrom = col === 0 ? -16 : 16;
-
-        gsap.set(card, {
-          opacity: 0,
-          y: 120,
-          scale: 0.92,
-          rotateX: 10,
-          rotateY: rotateYFrom,
-          transformPerspective: 1400,
-          transformOrigin: "center bottom",
-        });
-
-        gsap.set(image, {
-          scale: 1.18,
-          yPercent: -6,
-          filter: "blur(6px)",
-        });
-
-        // entrance timeline
-        gsap
-          .timeline({
-            scrollTrigger: {
-              trigger: card,
-              start: "top 92%",
-              toggleActions: "play none none reverse",
-            },
-          })
-          .to(card, {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            rotateX: 0,
-            rotateY: 0,
-            duration: 1.3,
-            ease: "expo.out",
-            delay: col * 0.12,
-          })
-          .to(
-            image,
-            {
-              scale: 1.03,
-              filter: "blur(0px)",
-              duration: 1.4,
-              ease: "power3.out",
-            },
-            "<0.05"
-          );
-
-        // continuous scroll-linked parallax on the image
-        gsap.to(image, {
-          yPercent: 6,
-          ease: "none",
+        gsap.to(card, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: card,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
+            start: "top 92%",
+            toggleActions: "play none none reverse",
           },
-        });
-
-        // interactive pointer tilt — kept gentle since these cards are very tall
-        const quickRotX = gsap.quickTo(card, "rotateX", {
-          duration: 0.7,
-          ease: "power3.out",
-        });
-        const quickRotY = gsap.quickTo(card, "rotateY", {
-          duration: 0.7,
-          ease: "power3.out",
-        });
-        const quickScale = gsap.quickTo(card, "scale", {
-          duration: 0.7,
-          ease: "power3.out",
-        });
-
-        const handlePointerMove = (e) => {
-          const rect = card.getBoundingClientRect();
-          const relX = (e.clientX - rect.left) / rect.width - 0.5;
-          const relY = (e.clientY - rect.top) / rect.height - 0.5;
-          quickRotY(relX * 6);
-          quickRotX(-relY * 4);
-          quickScale(1.01);
-        };
-
-        const handlePointerLeave = () => {
-          quickRotX(0);
-          quickRotY(0);
-          quickScale(1);
-        };
-
-        card.style.transformStyle = "preserve-3d";
-        card.style.willChange = "transform";
-        card.addEventListener("pointermove", handlePointerMove);
-        card.addEventListener("pointerleave", handlePointerLeave);
-
-        pointerCleanups.push(() => {
-          card.removeEventListener("pointermove", handlePointerMove);
-          card.removeEventListener("pointerleave", handlePointerLeave);
         });
       });
     }, section);
 
-    return () => {
-      pointerCleanups.forEach((fn) => fn());
-      ctx.revert();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
     <section
       ref={sectionRef}
       className="w-full flex justify-center items-center"
-      style={{ perspective: "1600px" }}
     >
       {/* Centered Align Container  */}
       <div className="w-full max-w-[1340px] flex flex-col gap-[40px] max-xl:px-6 max-md:px-4 max-md:gap-[28px]">
@@ -241,7 +105,7 @@ const Section2 = () => {
                   data-portfolio-image
                   src={img}
                   alt="portfolio"
-                  className="w-full h-full object-cover z-0 will-change-transform scale-105"
+                  className="w-full h-full object-cover z-0"
                 />
               </div>
             );
