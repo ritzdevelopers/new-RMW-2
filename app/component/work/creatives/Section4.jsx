@@ -47,9 +47,9 @@ const WALKTHROUGH_SLIDES = [
   },
 ];
 
-const AUTOPLAY_DELAY = 4800;
-const SLIDE_DURATION = 1.15;
-const SLIDE_EASE = "power2.inOut";
+const AUTOPLAY_DELAY = 5200;
+const SLIDE_DURATION = 1.2;
+const SLIDE_EASE = "sine.inOut";
 const GAP_PX = 24;
 
 const getVisibleCount = (width) => {
@@ -233,10 +233,11 @@ function Section4() {
   const syncMetrics = useCallback(() => {
     const width = containerRef.current?.clientWidth || 0;
     const visibleCount = getVisibleCount(window.innerWidth);
+    // Floor widths so card steps land on whole pixels (kills subpixel shimmer)
     const cardWidth =
       visibleCount > 0
-        ? (width - GAP_PX * (visibleCount - 1)) / visibleCount
-        : width;
+        ? Math.floor((width - GAP_PX * (visibleCount - 1)) / visibleCount)
+        : Math.floor(width);
     setMetrics({ cardWidth, visibleCount });
     return { cardWidth, visibleCount };
   }, []);
@@ -286,7 +287,8 @@ function Section4() {
     const track = trackRef.current;
     if (!track || metrics.cardWidth <= 0) return;
 
-    const x = -(activeIndex * (metrics.cardWidth + GAP_PX));
+    const step = metrics.cardWidth + GAP_PX;
+    const x = -Math.round(activeIndex * step);
     const widthChanged = prevCardWidthRef.current !== metrics.cardWidth;
     prevCardWidthRef.current = metrics.cardWidth;
 
@@ -302,6 +304,10 @@ function Section4() {
       ease: SLIDE_EASE,
       overwrite: "auto",
       force3D: true,
+      // Keep transforms on integer pixels every frame
+      modifiers: {
+        x: (v) => `${Math.round(parseFloat(v))}px`,
+      },
     });
   }, [activeIndex, metrics.cardWidth]);
 
@@ -477,10 +483,13 @@ function Section4() {
           </div>
 
           <div data-brand-stage className="relative w-full">
-            <div ref={containerRef} className="relative w-full overflow-hidden">
+            <div
+              ref={containerRef}
+              className="relative w-full overflow-hidden [transform:translateZ(0)]"
+            >
               <div
                 ref={trackRef}
-                className="flex will-change-transform"
+                className="flex will-change-transform [backface-visibility:hidden]"
                 style={{ gap: `${GAP_PX}px` }}
               >
                 {WALKTHROUGH_SLIDES.map((slide, index) => (
@@ -496,7 +505,7 @@ function Section4() {
                         openModal(index);
                       }
                     }}
-                    className="group relative shrink-0 cursor-pointer overflow-hidden rounded-[6px] bg-[#0a0a0a]"
+                    className="group relative shrink-0 cursor-pointer overflow-hidden rounded-[6px] bg-[#0a0a0a] [backface-visibility:hidden] [transform:translateZ(0)]"
                     style={{
                       width: metrics.cardWidth || "100%",
                       aspectRatio: "11 / 10",
@@ -505,7 +514,7 @@ function Section4() {
                     <img
                       src={slide.src}
                       alt={slide.alt}
-                      className="h-full w-full object-cover pointer-events-none"
+                      className="pointer-events-none h-full w-full object-cover [transform:translateZ(0)]"
                       loading={index < 3 ? "eager" : "lazy"}
                     />
 
