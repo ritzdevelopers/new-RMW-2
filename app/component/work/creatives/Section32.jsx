@@ -7,12 +7,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const AI_VIDEO_IMAGES = [
-  "/work/creatives/s2/i1.jpg",
-  "/work/creatives/s2/i2.jpg",
-  "/work/creatives/s2/i3.jpg",
-  "/work/creatives/s2/i1.jpg",
-  "/work/creatives/s2/i2.jpg",
-  "/work/creatives/s2/i3.jpg",
+  "/work/creatives/s2/ooh_creatives_i1.jpg",
+  "/work/creatives/s2/ooh_creatives_i2.jpg",
+  "/work/creatives/s2/ooh_creatives_i3.jpg",
+  "/work/creatives/s2/ooh_creatives_i4.jpg",
+  "/work/creatives/s2/ooh_creatives_i5.jpg",
+  "/work/creatives/s2/ooh_creatives_i6.jpg",
 ];
 
 function Section32() {
