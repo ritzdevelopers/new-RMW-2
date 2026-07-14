@@ -421,7 +421,7 @@ const Header = () => {
         aria-hidden={!servicesMenuOpen}
       >
         <div
-          className={`absolute inset-0 bg-[#0D1334]/85 backdrop-blur-md transition-opacity duration-500 ${
+          className={`absolute inset-0 bg-black/85 backdrop-blur-md transition-opacity duration-500 ${
             servicesMenuOpen ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -435,7 +435,7 @@ const Header = () => {
             type="button"
             aria-label="Close services menu"
             onClick={() => setServicesMenuOpen(false)}
-            className="absolute top-[14px] right-6 z-10 flex h-12 w-12 cursor-pointer items-center justify-center text-[#c99237] transition-transform duration-300 hover:rotate-90 md:right-10 xl:top-[-10px]"
+            className="absolute top-[14px] right-6 z-10 flex h-12 w-12 cursor-pointer items-center justify-center text-[#c99237] transition-transform duration-300 hover:rotate-90 md:right-10 lg:top-[24px] lg:mt-5 xl:top-[0px] xl:mt-5"
           >
             <i className="ri-close-line text-[42px] leading-none" aria-hidden />
           </button>
@@ -466,7 +466,7 @@ const Header = () => {
             </div>
           </div>
 
-          <nav className="order-1 flex min-w-0 flex-none flex-col items-end justify-start gap-2 overflow-y-auto px-6 pb-4 pt-14 text-right md:order-2 md:flex-1 md:justify-center md:gap-3 md:px-8 md:py-14 lg:gap-4 lg:px-14 xl:gap-5 xl:px-20">
+          <nav className="order-1 flex min-w-0 flex-none flex-col items-end justify-start gap-1 overflow-y-auto px-6 pb-4 pt-14 text-right md:order-2 md:flex-1 md:justify-center md:gap-1.5 md:px-8 md:py-14 lg:gap-2 lg:px-14 xl:gap-2.5 xl:px-20">
             {services.map((service, index) => (
               <Link
                 key={service.slug}
@@ -500,7 +500,7 @@ const Header = () => {
         aria-hidden={!workMenuOpen}
       >
         <div
-          className={`absolute inset-0 bg-[#0D1334]/85 backdrop-blur-md transition-opacity duration-500 ${
+          className={`absolute inset-0 bg-black/85 backdrop-blur-md transition-opacity duration-500 ${
             workMenuOpen ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -517,7 +517,7 @@ const Header = () => {
               setWorkMenuOpen(false);
               setPortfolioSubOpen(false);
             }}
-            className="absolute top-[14px] right-6 z-10 flex h-12 w-12 cursor-pointer items-center justify-center text-[#c99237] transition-transform duration-300 hover:rotate-90 md:right-10 xl:top-[-10px]"
+            className="absolute top-[14px] right-6 z-10 flex h-12 w-12 cursor-pointer items-center justify-center text-[#c99237] transition-transform duration-300 hover:rotate-90 md:right-10 lg:top-[24px] lg:mt-5 xl:top-[0px] xl:mt-5"
           >
             <i className="ri-close-line text-[42px] leading-none" aria-hidden />
           </button>
@@ -574,21 +574,23 @@ const Header = () => {
                     fontFamily: '"League Spartan", sans-serif',
                     fontWeight: 600,
                   }}
-                  className={`inline-flex w-full max-w-full items-center justify-end gap-1.5 text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${
+                  className={`flex w-full max-w-full items-center justify-end text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${
                     workMenuOpen
                       ? "translate-x-0 opacity-100"
                       : "translate-x-4 opacity-0 md:translate-x-8"
                   }`}
                 >
-                  {item.label}
-                  {item.children ? (
-                    <i
-                      className={`ri-arrow-down-s-line text-[0.7em] transition-transform duration-200 ${
-                        portfolioSubOpen ? "rotate-180" : ""
-                      }`}
-                      aria-hidden
-                    />
-                  ) : null}
+                  <span className="inline-flex items-center gap-2">
+                    <span>{item.label}</span>
+                    {item.children ? (
+                      <i
+                        className={`ri-arrow-down-s-line text-[1em] leading-none transition-transform duration-200 ${
+                          portfolioSubOpen ? "rotate-180" : ""
+                        }`}
+                        aria-hidden
+                      />
+                    ) : null}
+                  </span>
                 </Link>
 
                 {item.children ? (

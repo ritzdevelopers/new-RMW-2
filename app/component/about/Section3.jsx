@@ -1,9 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Montserrat } from "next/font/google";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -37,14 +41,57 @@ const galleryImages = [
 
 const GalleryImage = ({ src, alt = "", width, height, className = "", fill = false }) => (
   <div
+    data-gallery-image
     className={`relative shrink-0 overflow-hidden rounded-[16px] ${className}`}
-    style={fill ? { aspectRatio: `${width} / ${height}` } : { width: `${width}px`, height: `${height}px`, maxWidth: "100%" }}
+    style={
+      fill
+        ? { aspectRatio: `${width} / ${height}` }
+        : { width: `${width}px`, height: `${height}px`, maxWidth: "100%" }
+    }
   >
     <Image src={src} alt={alt} fill className="object-cover" sizes={fill ? "100vw" : `${width}px`} />
   </div>
 );
 
 const Section3 = () => {
+  const sectionRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const mobileGallery = section.querySelector("[data-gallery-mobile]");
+    const desktopGallery = section.querySelector("[data-gallery-desktop]");
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    const scope = isDesktop ? desktopGallery : mobileGallery;
+    const images = scope ? gsap.utils.toArray("[data-gallery-image]", scope) : [];
+    if (!images.length) return;
+
+    const ctx = gsap.context(() => {
+      gsap.set(images, {
+        opacity: 0,
+        y: 56,
+        scale: 0.96,
+      });
+
+      gsap.to(images, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 1,
+        ease: "power3.out",
+        stagger: 0.14,
+        scrollTrigger: {
+          trigger: scope,
+          start: "top 78%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <>
       <style>{`
@@ -66,16 +113,16 @@ const Section3 = () => {
         }
       `}</style>
 
-      <section className="bg-[#F1F1F1] pb-[35px] md:pb-[70px]">
+      <section ref={sectionRef} className="bg-[#F1F1F1] pb-[35px] md:pb-[70px]">
         <div className="mx-auto w-full max-w-8xl px-8 md:px-12 lg:max-w-[1500px]">
           <h2
             style={headingStyle}
             className="m-0 text-center text-[30px] md:text-[48px] lg:text-[60px] xl:text-[86px]"
           >
-          BUILD. BELIEVE. BECOME
+            BUILD. BELIEVE. BECOME
           </h2>
 
-          <div className="mt-4 flex flex-col gap-4 md:mt-5 md:gap-5 lg:hidden">
+          <div data-gallery-mobile className="mt-4 flex flex-col gap-4 md:mt-5 md:gap-5 lg:hidden">
             {galleryImages.map((image) => (
               <GalleryImage
                 key={image.src}
@@ -88,7 +135,7 @@ const Section3 = () => {
             ))}
           </div>
 
-          <div className="mt-4 hidden flex-wrap justify-center gap-5 lg:mt-8 lg:flex xl:mt-14">
+          <div data-gallery-desktop className="mt-4 hidden flex-wrap justify-center gap-5 lg:mt-8 lg:flex xl:mt-14">
             <GalleryImage src="/create/first-image.jpeg" width={547} height={806} />
 
             <div className="flex flex-col gap-5">
