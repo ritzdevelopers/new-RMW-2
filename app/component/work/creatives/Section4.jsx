@@ -1,14 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { A11y, Autoplay, EffectCube, Navigation } from "swiper/modules";
 import gsap from "gsap";
-import "swiper/css";
-import "swiper/css/effect-cube";
-import "swiper/css/navigation";
 
 const PLACEHOLDER_VIDEO =
   "https://otherassets.blob.core.windows.net/rmw/home-website.mp4";
@@ -16,7 +11,7 @@ const PLACEHOLDER_VIDEO =
 const BRAND_FILM_SLIDES = [
   {
     src: "/work/creatives/s2/video.jpg",
-    alt: "Brand film 1",
+    alt: "3D walkthrough 1",
     video: PLACEHOLDER_VIDEO,
     title: "Architectural Storytelling",
     description:
@@ -25,7 +20,7 @@ const BRAND_FILM_SLIDES = [
   },
   {
     src: "/work/creatives/s2/i1.jpg",
-    alt: "Brand film 2",
+    alt: "3D walkthrough 2",
     video: PLACEHOLDER_VIDEO,
     title: "Luxury Living Experience",
     description:
@@ -34,7 +29,7 @@ const BRAND_FILM_SLIDES = [
   },
   {
     src: "/work/creatives/s2/i2.jpg",
-    alt: "Brand film 3",
+    alt: "3D walkthrough 3",
     video: PLACEHOLDER_VIDEO,
     title: "Urban Development Story",
     description:
@@ -43,7 +38,7 @@ const BRAND_FILM_SLIDES = [
   },
   {
     src: "/work/creatives/s2/i3.jpg",
-    alt: "Brand film 4",
+    alt: "3D walkthrough 4",
     video: PLACEHOLDER_VIDEO,
     title: "Heritage Reimagined",
     description:
@@ -53,12 +48,83 @@ const BRAND_FILM_SLIDES = [
 ];
 
 const AUTOPLAY_DELAY = 5000;
+const ASPECT = 1920 / 1080;
+
+const DESKTOP_METRICS = {
+  CARD_W: 980,
+  SIDE_X: 320,
+  SIDE_Z: -160,
+};
+
+const getCarouselMetrics = (containerWidth) => {
+  const available = Math.max(containerWidth || DESKTOP_METRICS.CARD_W, 280);
+  const cardW = Math.min(DESKTOP_METRICS.CARD_W, available);
+  const scale = cardW / DESKTOP_METRICS.CARD_W;
+
+  return {
+    CARD_W: cardW,
+    CARD_H: Math.round(cardW / ASPECT),
+    SIDE_X: Math.round(DESKTOP_METRICS.SIDE_X * scale),
+    SIDE_Z: DESKTOP_METRICS.SIDE_Z,
+  };
+};
+
+const getRelativeOffset = (index, active, count) => {
+  let diff = index - active;
+  if (diff > count / 2) diff -= count;
+  if (diff < -count / 2) diff += count;
+  return diff;
+};
+
+const getCardState = (offset, metrics) => {
+  if (offset === 0) {
+    return {
+      x: 0,
+      z: 0,
+      rotateY: 0,
+      opacity: 1,
+      zIndex: 30,
+      filter: "brightness(1)",
+    };
+  }
+
+  if (offset === -1) {
+    return {
+      x: -metrics.SIDE_X,
+      z: metrics.SIDE_Z,
+      rotateY: 22,
+      opacity: 0.7,
+      zIndex: 20,
+      filter: "brightness(0.72)",
+    };
+  }
+
+  if (offset === 1) {
+    return {
+      x: metrics.SIDE_X,
+      z: metrics.SIDE_Z,
+      rotateY: -22,
+      opacity: 0.7,
+      zIndex: 20,
+      filter: "brightness(0.72)",
+    };
+  }
+
+  return {
+    x: offset < 0 ? -metrics.SIDE_X * 1.55 : metrics.SIDE_X * 1.55,
+    z: metrics.SIDE_Z * 1.8,
+    rotateY: offset < 0 ? 28 : -28,
+    opacity: 0,
+    zIndex: 10,
+    filter: "brightness(0.5)",
+  };
+};
 
 function PlayButton({ onClick, playBtnRef }) {
   return (
     <div
       ref={playBtnRef}
-      className="pointer-events-none absolute inset-0 z-[25] flex items-center justify-center"
+      className="pointer-events-none absolute inset-0 z-[35] flex items-center justify-center"
     >
       <button
         type="button"
@@ -66,7 +132,7 @@ function PlayButton({ onClick, playBtnRef }) {
           e.stopPropagation();
           onClick();
         }}
-        aria-label="Play brand film"
+        aria-label="Play walkthrough"
         className="pointer-events-auto relative flex items-center justify-center"
         data-play-btn
       >
@@ -98,12 +164,20 @@ function PlayButton({ onClick, playBtnRef }) {
   );
 }
 
-function BrandFilmModal({ slide, onClose, backdropRef, panelRef, videoRef }) {
+function BrandFilmModal({
+  slide,
+  onClose,
+  backdropRef,
+  panelRef,
+  videoRef,
+  index = 0,
+  total = 1,
+}) {
   if (!slide) return null;
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-end justify-center sm:items-center sm:p-5 md:p-8"
+      className="fixed inset-0 z-[9999] flex items-end justify-center sm:items-center sm:p-4 md:p-6 lg:p-8"
       role="dialog"
       aria-modal="true"
       aria-labelledby="brand-film-modal-title"
@@ -112,74 +186,92 @@ function BrandFilmModal({ slide, onClose, backdropRef, panelRef, videoRef }) {
         ref={backdropRef}
         aria-hidden
         onClick={onClose}
-        className="absolute inset-0 bg-[#0b1520]/75 backdrop-blur-[6px]"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(13,111,170,0.18)_0%,_rgba(5,20,32,0.88)_55%,_rgba(3,10,16,0.94)_100%)] backdrop-blur-[10px]"
       />
 
       <div
         ref={panelRef}
-        className="relative z-10 flex w-full max-w-[1120px] max-h-[94vh] flex-col overflow-hidden rounded-t-[18px] bg-white shadow-[0_32px_80px_-20px_rgba(0,0,0,0.45)] sm:rounded-[18px] lg:max-h-[min(88vh,720px)] lg:flex-row"
+        className="relative z-10 flex w-full max-w-[1180px] max-h-[94vh] flex-col overflow-hidden rounded-t-[22px] border border-white/10 bg-[#071018] shadow-[0_40px_100px_-24px_rgba(0,0,0,0.7),0_0_0_1px_rgba(13,111,170,0.12)] sm:rounded-[22px] lg:max-h-[min(90vh,760px)] lg:flex-row"
       >
-        <div className="relative w-full shrink-0 bg-[#0a1620] lg:w-[58%]">
-          <div className="aspect-[1920/1080] w-full lg:absolute lg:inset-0 lg:aspect-auto">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[#0D6FAA]/20 blur-[90px]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-20 -right-16 h-56 w-56 rounded-full bg-[#0D6FAA]/12 blur-[80px]"
+        />
+
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-3 top-3 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/45 text-white/85 backdrop-blur-md transition hover:border-white/35 hover:bg-black/65 hover:text-white sm:right-4 sm:top-4 sm:h-11 sm:w-11"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="h-4 w-4"
+            aria-hidden="true"
+          >
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+
+        <div className="relative flex w-full shrink-0 items-center justify-center bg-[#03080d] lg:w-[62%] lg:min-h-0">
+          <div className="pointer-events-none absolute inset-0 z-[1] ring-1 ring-inset ring-white/10" />
+          <div className="relative w-full aspect-[1920/1080]">
             <video
               ref={videoRef}
               src={slide.video}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain bg-black"
               playsInline
               controls
+              controlsList="nodownload"
             />
           </div>
-          <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-transparent to-[#0a1620]/20 lg:block" />
         </div>
 
-        <div className="relative flex flex-1 flex-col justify-center gap-5 overflow-y-auto p-6 sm:p-8 lg:p-10">
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close"
-            className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-[#E8E8E8] bg-white text-[#333] transition hover:border-[#0D6FAA] hover:text-[#0D6FAA] sm:right-5 sm:top-5"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="h-4 w-4"
-              aria-hidden="true"
-            >
-              <path d="M6 6l12 12M18 6L6 18" />
-            </svg>
-          </button>
-
-          <div data-modal-reveal>
-            <p className="font-league-spartan text-[12px] font-[600] uppercase tracking-[0.28em] text-[#0D6FAA]">
-              Brand Film
-            </p>
+        <div className="relative flex flex-1 flex-col justify-center gap-5 overflow-y-auto px-6 pb-7 pt-6 sm:px-8 sm:pb-9 sm:pt-8 lg:px-10 lg:py-12">
+          <div data-modal-reveal className="flex items-center gap-3">
+            <span className="inline-flex items-center rounded-full border border-[#0D6FAA]/35 bg-[#0D6FAA]/12 px-3 py-1 font-league-spartan text-[11px] font-[600] uppercase tracking-[0.22em] text-[#7ec4e8]">
+              3D Walkthrough
+            </span>
+            <span className="font-league-spartan text-[12px] tracking-[0.2em] text-white/35">
+              {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+            </span>
           </div>
 
-          <h3
-            id="brand-film-modal-title"
-            data-modal-reveal
-            className="pr-10 font-league-spartan text-[30px] font-[700] capitalize leading-[1.12] text-[#111111] max-md:text-[26px] max-sm:text-[22px]"
-          >
-            {slide.title}
-          </h3>
+          <div data-modal-reveal>
+            <h3
+              id="brand-film-modal-title"
+              className="pr-10 font-league-spartan text-[32px] font-[700] capitalize leading-[1.1] text-white max-md:text-[26px] max-sm:text-[22px]"
+            >
+              {slide.title}
+            </h3>
+            <span
+              aria-hidden
+              className="mt-4 block h-[2px] w-12 origin-left bg-gradient-to-r from-[#0D6FAA] to-[#0D6FAA]/20"
+            />
+          </div>
 
           <p
             data-modal-reveal
-            className="font-montserrat text-[15px] leading-[1.7] text-[#555555] max-sm:text-[14px]"
+            className="max-w-[38ch] font-montserrat text-[15px] leading-[1.75] text-white/65 max-sm:text-[14px]"
           >
             {slide.description}
           </p>
 
-          <div data-modal-reveal className="pt-2">
+          <div data-modal-reveal className="pt-1">
             <Link
               href={slide.cta.href}
-              className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-[#0D6FAA] py-2.5 pl-6 pr-2.5 shadow-[0_8px_24px_rgba(13,111,170,0.32)] transition-shadow hover:shadow-[0_12px_28px_rgba(13,111,170,0.42)] max-sm:py-2 max-sm:pl-5"
+              className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-[#0D6FAA] py-2.5 pl-6 pr-2.5 shadow-[0_10px_30px_rgba(13,111,170,0.4)] transition-shadow hover:shadow-[0_14px_36px_rgba(13,111,170,0.55)] max-sm:py-2 max-sm:pl-5"
             >
               <span
                 aria-hidden
-                className="absolute inset-0 origin-left scale-x-0 rounded-full bg-[#052C44] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100"
+                className="absolute inset-0 origin-left scale-x-0 rounded-full bg-[#1490d4] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100"
               />
               <span className="relative z-10 font-league-spartan text-[13px] font-medium uppercase tracking-[0.08em] text-white max-sm:text-[12px]">
                 {slide.cta.label}
@@ -192,6 +284,13 @@ function BrandFilmModal({ slide, onClose, backdropRef, panelRef, videoRef }) {
               </span>
             </Link>
           </div>
+
+          <p
+            data-modal-reveal
+            className="mt-auto hidden pt-6 font-league-spartan text-[11px] uppercase tracking-[0.18em] text-white/25 lg:block"
+          >
+            Press Esc to close
+          </p>
         </div>
       </div>
     </div>
@@ -199,24 +298,173 @@ function BrandFilmModal({ slide, onClose, backdropRef, panelRef, videoRef }) {
 }
 
 function Section4() {
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
-  const swiperRef = useRef(null);
-  const progressRef = useRef(null);
   const sectionRef = useRef(null);
-  const playBtnRef = useRef(null);
+  const stageRef = useRef(null);
+  const cardRefs = useRef([]);
+  const progressRef = useRef(null);
   const progressTweenRef = useRef(null);
+  const playBtnRef = useRef(null);
+  const prevBtnRef = useRef(null);
+  const nextBtnRef = useRef(null);
   const backdropRef = useRef(null);
   const panelRef = useRef(null);
   const videoRef = useRef(null);
   const closingRef = useRef(false);
+  const animatingRef = useRef(false);
+  const activeIndexRef = useRef(0);
+  const metricsRef = useRef(getCarouselMetrics(DESKTOP_METRICS.CARD_W));
+  const autoplayTimerRef = useRef(null);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [modalIndex, setModalIndex] = useState(null);
   const [mounted, setMounted] = useState(false);
+  const [stageHeight, setStageHeight] = useState(
+    Math.round(DESKTOP_METRICS.CARD_W / ASPECT)
+  );
+
+  const slideCount = BRAND_FILM_SLIDES.length;
+
+  const syncMetrics = useCallback(() => {
+    const width = stageRef.current?.clientWidth || DESKTOP_METRICS.CARD_W;
+    const metrics = getCarouselMetrics(width);
+    metricsRef.current = metrics;
+    setStageHeight(metrics.CARD_H);
+    return metrics;
+  }, []);
+
+  const clearAutoplay = useCallback(() => {
+    if (autoplayTimerRef.current) {
+      window.clearTimeout(autoplayTimerRef.current);
+      autoplayTimerRef.current = null;
+    }
+  }, []);
+
+  const runProgress = useCallback(() => {
+    progressTweenRef.current?.kill();
+    if (!progressRef.current) return;
+    gsap.set(progressRef.current, { scaleX: 0 });
+    progressTweenRef.current = gsap.to(progressRef.current, {
+      scaleX: 1,
+      duration: AUTOPLAY_DELAY / 1000,
+      ease: "none",
+    });
+  }, []);
+
+  const applyLayout = useCallback(
+    (nextIndex, immediate = false) => {
+      const duration = immediate ? 0 : 0.95;
+      const metrics = metricsRef.current;
+
+      cardRefs.current.forEach((card, i) => {
+        if (!card) return;
+        const offset = getRelativeOffset(i, nextIndex, slideCount);
+        const state = getCardState(offset, metrics);
+
+        gsap.to(card, {
+          x: state.x,
+          z: state.z,
+          rotateY: state.rotateY,
+          opacity: state.opacity,
+          zIndex: state.zIndex,
+          filter: state.filter,
+          width: metrics.CARD_W,
+          height: metrics.CARD_H,
+          duration,
+          ease: "power4.inOut",
+        });
+      });
+
+      if (!immediate) {
+        gsap.delayedCall(duration, () => {
+          animatingRef.current = false;
+        });
+      } else {
+        animatingRef.current = false;
+      }
+    },
+    [slideCount]
+  );
+
+  const scheduleAutoplay = useCallback(() => {
+    clearAutoplay();
+    if (modalIndex !== null) return;
+
+    runProgress();
+    autoplayTimerRef.current = window.setTimeout(() => {
+      const next = (activeIndexRef.current + 1) % slideCount;
+      animatingRef.current = true;
+      activeIndexRef.current = next;
+      setActiveIndex(next);
+      applyLayout(next);
+      scheduleAutoplay();
+    }, AUTOPLAY_DELAY);
+  }, [applyLayout, clearAutoplay, modalIndex, runProgress, slideCount]);
+
+  const goTo = useCallback(
+    (targetIndex, { immediate = false } = {}) => {
+      if (!slideCount || animatingRef.current) return;
+
+      const nextIndex = ((targetIndex % slideCount) + slideCount) % slideCount;
+      if (nextIndex === activeIndexRef.current && !immediate) return;
+
+      animatingRef.current = !immediate;
+      activeIndexRef.current = nextIndex;
+      setActiveIndex(nextIndex);
+      applyLayout(nextIndex, immediate);
+      if (!immediate) scheduleAutoplay();
+    },
+    [applyLayout, scheduleAutoplay, slideCount]
+  );
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useLayoutEffect(() => {
+    const metrics = syncMetrics();
+
+    cardRefs.current.forEach((card, i) => {
+      if (!card) return;
+      const state = getCardState(
+        getRelativeOffset(i, activeIndexRef.current, slideCount),
+        metrics
+      );
+      gsap.set(card, {
+        xPercent: -50,
+        left: "50%",
+        top: "50%",
+        yPercent: -50,
+        x: state.x,
+        z: state.z,
+        rotateY: state.rotateY,
+        opacity: state.opacity,
+        zIndex: state.zIndex,
+        filter: state.filter,
+        width: metrics.CARD_W,
+        height: metrics.CARD_H,
+        transformOrigin: "center center",
+        transformPerspective: 1400,
+      });
+    });
+
+    requestAnimationFrame(() => {
+      goTo(activeIndexRef.current, { immediate: true });
+      scheduleAutoplay();
+    });
+
+    const onResize = () => {
+      syncMetrics();
+      goTo(activeIndexRef.current, { immediate: true });
+      scheduleAutoplay();
+    };
+
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      clearAutoplay();
+      progressTweenRef.current?.kill();
+    };
+  }, [clearAutoplay, goTo, scheduleAutoplay, slideCount, syncMetrics]);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
@@ -230,13 +478,12 @@ function Section4() {
         duration: 0.8,
         ease: "power3.out",
       });
-      gsap.from("[data-cube-stage]", {
+      gsap.from("[data-brand-stage]", {
         opacity: 0,
-        y: 40,
-        rotateY: 12,
-        scale: 0.94,
-        duration: 1.1,
-        delay: 0.15,
+        y: 36,
+        scale: 0.97,
+        duration: 1,
+        delay: 0.12,
         ease: "power4.out",
       });
 
@@ -266,22 +513,14 @@ function Section4() {
     return () => ctx.revert();
   }, []);
 
-  const runProgress = useCallback(() => {
-    progressTweenRef.current?.kill();
-    if (!progressRef.current) return;
-    gsap.set(progressRef.current, { scaleX: 0 });
-    progressTweenRef.current = gsap.to(progressRef.current, {
-      scaleX: 1,
-      duration: AUTOPLAY_DELAY / 1000,
-      ease: "none",
-    });
-  }, []);
-
-  const openModal = useCallback((index) => {
-    swiperRef.current?.autoplay?.stop();
-    progressTweenRef.current?.pause();
-    setModalIndex(index);
-  }, []);
+  const openModal = useCallback(
+    (index) => {
+      clearAutoplay();
+      progressTweenRef.current?.pause();
+      setModalIndex(index);
+    },
+    [clearAutoplay]
+  );
 
   const closeModal = useCallback(() => {
     if (modalIndex === null || closingRef.current) return;
@@ -300,13 +539,13 @@ function Section4() {
           setModalIndex(null);
           document.body.style.overflow = "";
           if (video) video.currentTime = 0;
-          swiperRef.current?.autoplay?.start();
-          runProgress();
+          scheduleAutoplay();
         },
       })
       .to(panel, {
         opacity: 0,
-        y: 24,
+        y: 28,
+        scale: 0.98,
         duration: 0.35,
         ease: "power2.in",
       })
@@ -316,10 +555,9 @@ function Section4() {
       closingRef.current = false;
       setModalIndex(null);
       document.body.style.overflow = "";
-      swiperRef.current?.autoplay?.start();
-      runProgress();
+      scheduleAutoplay();
     }
-  }, [modalIndex, runProgress]);
+  }, [modalIndex, scheduleAutoplay]);
 
   useEffect(() => {
     if (modalIndex === null) return;
@@ -333,20 +571,30 @@ function Section4() {
 
     if (backdrop && panel) {
       gsap.set(backdrop, { opacity: 0 });
-      gsap.set(panel, { opacity: 0, y: 32 });
-      gsap.set(contentItems, { opacity: 0, y: 16 });
+      gsap.set(panel, { opacity: 0, y: 40, scale: 0.97 });
+      gsap.set(contentItems, { opacity: 0, y: 18 });
 
       gsap
         .timeline()
-        .to(backdrop, { opacity: 1, duration: 0.4, ease: "power2.out" })
-        .to(panel, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, "-=0.22")
+        .to(backdrop, { opacity: 1, duration: 0.45, ease: "power2.out" })
+        .to(
+          panel,
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.55,
+            ease: "power3.out",
+          },
+          "-=0.24"
+        )
         .to(
           contentItems,
           {
             opacity: 1,
             y: 0,
             duration: 0.45,
-            stagger: 0.08,
+            stagger: 0.07,
             ease: "power3.out",
           },
           "-=0.28"
@@ -395,8 +643,6 @@ function Section4() {
     });
   };
 
-  const goTo = (i) => swiperRef.current?.slideTo(i);
-
   const activeSlide =
     modalIndex !== null ? BRAND_FILM_SLIDES[modalIndex] : null;
 
@@ -412,7 +658,7 @@ function Section4() {
             className="w-full pb-[33px] border-b-2 border-[#E8E8E8] max-md:pb-[28px] flex items-end justify-between gap-4"
           >
             <h2 className="font-league-spartan font-[700] text-[48px] capitalize max-xl:text-[40px] max-lg:text-[34px] max-md:text-[28px] max-sm:text-[24px]">
-             3D Walkthroughs
+              3D Walkthroughs
             </h2>
 
             <div className="flex items-center gap-4 max-sm:hidden">
@@ -425,7 +671,7 @@ function Section4() {
                   <button
                     key={i}
                     type="button"
-                    aria-label={`Go to brand film ${i + 1}`}
+                    aria-label={`Go to walkthrough ${i + 1}`}
                     onClick={() => goTo(i)}
                     className="h-[6px] rounded-full transition-all duration-300 ease-out"
                     style={{
@@ -442,75 +688,67 @@ function Section4() {
           </div>
 
           <div
-            data-cube-stage
-            className="relative w-full group/brand-films [perspective:1800px]"
+            data-brand-stage
+            className="relative w-full group/brand-films"
           >
-            <Swiper
-              modules={[EffectCube, Navigation, Autoplay, A11y]}
-              effect="cube"
-              grabCursor
-              rewind
-              speed={900}
-              cubeEffect={{
-                shadow: true,
-                slideShadows: true,
-                shadowOffset: 30,
-                shadowScale: 0.92,
+            <div
+              ref={stageRef}
+              className="relative w-full overflow-hidden md:overflow-visible"
+              style={{
+                perspective: "1400px",
+                perspectiveOrigin: "50% 50%",
+                height: stageHeight,
               }}
-              autoplay={{
-                delay: AUTOPLAY_DELAY,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }}
-              navigation={{
-                prevEl: prevRef.current,
-                nextEl: nextRef.current,
-              }}
-              onBeforeInit={(swiper) => {
-                swiperRef.current = swiper;
-                if (!swiper.params.navigation) return;
-                swiper.params.navigation.prevEl = prevRef.current;
-                swiper.params.navigation.nextEl = nextRef.current;
-              }}
-              onInit={(swiper) => {
-                if (swiper.params.navigation) {
-                  swiper.params.navigation.prevEl = prevRef.current;
-                  swiper.params.navigation.nextEl = nextRef.current;
-                  swiper.navigation.init();
-                  swiper.navigation.update();
-                }
-                runProgress();
-              }}
-              onSlideChangeTransitionStart={(swiper) => {
-                setActiveIndex(swiper.realIndex);
-                runProgress();
-              }}
-              onAutoplayPause={() => progressTweenRef.current?.pause()}
-              onAutoplayResume={() => progressTweenRef.current?.resume()}
-              className="brand-films-swiper w-full aspect-[1920/1080] overflow-visible"
             >
               {BRAND_FILM_SLIDES.map((slide, index) => (
-                <SwiperSlide
+                <div
                   key={`${slide.src}-${index}`}
-                  className="!bg-[#0a0a0a] overflow-hidden rounded-[6px] shadow-[0_35px_70px_-20px_rgba(13,111,170,0.45)]"
+                  ref={(el) => {
+                    cardRefs.current[index] = el;
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={slide.alt}
+                  onClick={() => {
+                    if (index === activeIndexRef.current) {
+                      openModal(index);
+                    } else {
+                      goTo(index);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      if (index === activeIndexRef.current) openModal(index);
+                      else goTo(index);
+                    }
+                  }}
+                  className="absolute cursor-pointer overflow-hidden rounded-[6px] bg-[#0a0a0a] shadow-[0_35px_70px_-20px_rgba(13,111,170,0.45)] will-change-transform"
+                  style={{
+                    width: metricsRef.current.CARD_W,
+                    height: metricsRef.current.CARD_H,
+                    transformStyle: "preserve-3d",
+                    WebkitBackfaceVisibility: "hidden",
+                    backfaceVisibility: "hidden",
+                  }}
                 >
                   <div className="relative h-full w-full overflow-hidden">
                     <img
                       src={slide.src}
                       alt={slide.alt}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover pointer-events-none"
                       loading={index === 0 ? "eager" : "lazy"}
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
                   </div>
-                </SwiperSlide>
+                </div>
               ))}
-            </Swiper>
 
-            <PlayButton
-              playBtnRef={playBtnRef}
-              onClick={() => openModal(activeIndex)}
-            />
+              <PlayButton
+                playBtnRef={playBtnRef}
+                onClick={() => openModal(activeIndex)}
+              />
+            </div>
 
             <div className="pointer-events-none absolute -bottom-[16px] left-0 right-0 h-[3px] rounded-full bg-[#0D6FAA]/15 overflow-hidden max-md:-bottom-[12px]">
               <div
@@ -521,12 +759,13 @@ function Section4() {
             </div>
 
             <button
-              ref={prevRef}
+              ref={prevBtnRef}
               type="button"
-              aria-label="Previous brand film"
-              onMouseMove={(e) => magnetize(e, prevRef)}
-              onMouseLeave={() => resetMagnet(prevRef)}
-              className="absolute left-3 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/55 max-xl:left-2 max-xl:h-10 max-xl:w-10 max-md:left-2 max-md:h-9 max-md:w-9 max-sm:left-1.5 max-sm:h-8 max-sm:w-8"
+              aria-label="Previous walkthrough"
+              onClick={() => goTo(activeIndexRef.current - 1)}
+              onMouseMove={(e) => magnetize(e, prevBtnRef)}
+              onMouseLeave={() => resetMagnet(prevBtnRef)}
+              className="absolute left-3 top-1/2 z-40 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/55 max-xl:left-2 max-xl:h-10 max-xl:w-10 max-md:left-2 max-md:h-9 max-md:w-9 max-sm:left-1.5 max-sm:h-8 max-sm:w-8"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -541,12 +780,13 @@ function Section4() {
             </button>
 
             <button
-              ref={nextRef}
+              ref={nextBtnRef}
               type="button"
-              aria-label="Next brand film"
-              onMouseMove={(e) => magnetize(e, nextRef)}
-              onMouseLeave={() => resetMagnet(nextRef)}
-              className="absolute right-3 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/55 max-xl:right-2 max-xl:h-10 max-xl:w-10 max-md:right-2 max-md:h-9 max-md:w-9 max-sm:right-1.5 max-sm:h-8 max-sm:w-8"
+              aria-label="Next walkthrough"
+              onClick={() => goTo(activeIndexRef.current + 1)}
+              onMouseMove={(e) => magnetize(e, nextBtnRef)}
+              onMouseLeave={() => resetMagnet(nextBtnRef)}
+              className="absolute right-3 top-1/2 z-40 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/55 max-xl:right-2 max-xl:h-10 max-xl:w-10 max-md:right-2 max-md:h-9 max-md:w-9 max-sm:right-1.5 max-sm:h-8 max-sm:w-8"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -572,6 +812,8 @@ function Section4() {
             backdropRef={backdropRef}
             panelRef={panelRef}
             videoRef={videoRef}
+            index={modalIndex}
+            total={BRAND_FILM_SLIDES.length}
           />,
           document.body
         )}
