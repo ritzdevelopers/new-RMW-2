@@ -250,6 +250,7 @@ function NewSection2() {
   }, []);
 
   const syncMetrics = useCallback(() => {
+
     const width = containerRef.current?.clientWidth || 0;
     const visibleCount = getVisibleCount(window.innerWidth);
     // Floor widths so card steps land on whole pixels (kills subpixel shimmer)
