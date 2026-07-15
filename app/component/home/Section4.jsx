@@ -44,17 +44,27 @@ const linkRowClass =
   "inline-flex items-baseline justify-center gap-4 md:gap-6 lg:gap-10";
 
 const services = [
-  { number: "01", title: "GULSHAN", slug: "gulshan", image: "/home/gulshan.png" },
-  { number: "02", title: "VEDVAN", slug: "vedvan", image: "/home/vedvan.jpg" },
-  { number: "03", title: "EXOTICA", slug: "exotica", image: "/home/exotica.jpg" },
-  { number: "04", title: "SPLENDOR ONYX", slug: "splendor-onyx", image: "/home/onyx.png" },
-  { number: "05", title: "LUMORA", slug: "lumora", image: "/home/lumora.jpg" },
-  { number: "06", title: "SANSKAR", slug: "sanskar", image: "/home/SANSKAR.jpg" },
-  { number: "07", title: "VVIP MADHUBAN", slug: "vvip-madhuban", image: "/home/vvip.jpg" },
-  { number: "08", title: "GHD", slug: "ghd", image: "/home/GHD.jpg" },
-  { number: "09", title: "MANSHA GROUP", slug: "mansha-group", image: "/home/mansha.jpg" },
-  { number: "10", title: "EON FAIRFOX", slug: "eon-fairfox", image: "/home/FAIRFOX.jpg" },
+  { number: "01", title: "GULSHAN", slug: "gulshan", image: "/home/gulshan.png", xlShift: 0 },
+  { number: "02", title: "VEDVAN", slug: "vedvan", image: "/home/vedvan.jpg", xlShift: 100 },
+  { number: "03", title: "EXOTICA", slug: "exotica", image: "/home/exotica.jpg", xlShift: -200 },
+  { number: "04", title: "SPLENDOR ONYX", slug: "splendor-onyx", image: "/home/onyx.png", xlShift: 100 },
+  { number: "05", title: "LUMORA", slug: "lumora", image: "/home/lumora.jpg", xlShift: -200 },
+  { number: "06", title: "SANSKAR", slug: "sanskar", image: "/home/SANSKAR.jpg", xlShift: 200 },
+  { number: "07", title: "VVIP MADHUBAN", slug: "vvip-madhuban", image: "/home/vvip.jpg", xlShift: -100 },
+  { number: "08", title: "GHD", slug: "ghd", image: "/home/GHD.jpg", xlShift: 200 },
+  { number: "09", title: "MANSHA GROUP", slug: "mansha-group", image: "/home/mansha.jpg", xlShift: -100 },
+  { number: "10", title: "EON FAIRFOX", slug: "eon-fairfox", image: "/home/FAIRFOX.jpg", xlShift: 200, shiftClass: " md:-translate-x-[100px] lg:translate-x-[200px] xl:translate-x-[200px]" },
 ];
+
+const shiftClassByValue = {
+  0: "",
+  100: " md:translate-x-[100px] lg:translate-x-[100px] xl:translate-x-[100px]",
+  "-100": " md:-translate-x-[100px] lg:-translate-x-[100px] xl:-translate-x-[100px]",
+  200: " md:translate-x-[200px] lg:translate-x-[200px] xl:translate-x-[200px]",
+  "-200": " md:-translate-x-[200px] lg:-translate-x-[200px] xl:-translate-x-[200px]",
+  400: " md:translate-x-[400px] lg:translate-x-[400px] xl:translate-x-[400px]",
+  "-400": " md:-translate-x-[400px] lg:-translate-x-[400px] xl:-translate-x-[400px]",
+};
 
 const Section4 = () => {
   const [activeSlug, setActiveSlug] = useState(services[0].slug);
@@ -270,7 +280,11 @@ const Section4 = () => {
                 ref={(node) => {
                   itemRefs.current[index] = node;
                 }}
-                className="relative w-full text-center"
+                className={`relative w-full text-center${
+                  service.shiftClass ??
+                  shiftClassByValue[String(service.xlShift)] ??
+                  ""
+                }`}
               >
                 <div className={`relative ${linkRowClass}`}>
                   <Link
