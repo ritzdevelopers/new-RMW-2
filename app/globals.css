@@ -50,6 +50,37 @@
   font-display: swap;
 }
 
+/* Editor's Note Light — Webflow custom font aliases (add font files under /public/fonts/editors-note/) */
+@font-face {
+  font-family: "wfont_e6fa52_d03d36fc891b44ea946b083dc8504aac";
+  src: url("/fonts/editors-note/EditorsNote-Light.woff2") format("woff2"),
+    url("/fonts/editors-note/EditorsNote-Light.woff") format("woff"),
+    url("/fonts/editors-note/EditorsNote-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "wf_d03d36fc891b44ea946b083dc";
+  src: url("/fonts/editors-note/EditorsNote-Light.woff2") format("woff2"),
+    url("/fonts/editors-note/EditorsNote-Light.woff") format("woff"),
+    url("/fonts/editors-note/EditorsNote-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "orig_editors_note_light";
+  src: url("/fonts/editors-note/EditorsNote-Light.woff2") format("woff2"),
+    url("/fonts/editors-note/EditorsNote-Light.woff") format("woff"),
+    url("/fonts/editors-note/EditorsNote-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 html {
   scrollbar-width: none;
   -ms-overflow-style: none;
