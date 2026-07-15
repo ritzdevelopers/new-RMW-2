@@ -89,13 +89,18 @@ const Letter = ({ children, from }) => (
   </span>
 );
 
-const VIDEO_SCROLL_SCRUB = 2.2;
+const VIDEO_SCROLL_SCRUB = 2.8;
 const LETTER_REVEAL_VIDEO_START = 0.5;
 const LETTER_REVEAL_VIDEO_END = 0.98;
 const LETTER_REVEAL_ORDER = [2, 3, 1, 4, 0, 5, 7, 8, 6, 9];
-const LETTER_REVEAL_STAGGER = 0.72;
-const LETTER_REVEAL_DURATION = 0.34;
-const LETTER_REVEAL_EASE = "power4.out";
+const LETTER_REVEAL_STAGGER = 0.8;
+const LETTER_REVEAL_DURATION = 0.48;
+const LETTER_REVEAL_EASE = "power3.out";
+const HERO_ENTRANCE_EASE = "power3.out";
+const VIDEO_SNAP_DURATION = 1.1;
+const VIDEO_SNAP_EASE = "power3.inOut";
+const TEXT_REVEAL_DURATION = 1.5;
+const FILM_REVEAL_DURATION = 1.35;
 
 const VideoMuteButton = ({ isMuted, onToggle }) => (
   <button
@@ -396,7 +401,7 @@ const Section1 = () => {
 
     introItems.forEach((item, index) => {
       const start = index * 0.08;
-      const end = start + 0.55;
+      const end = start + 0.68;
       const p = gsap.utils.clamp(0, 1, gsap.utils.mapRange(start, end, 0, 1, t));
       const eased = gsap.parseEase(LETTER_REVEAL_EASE)(p);
       gsap.set(item, { yPercent: gsap.utils.interpolate(110, 0, eased) });
@@ -404,7 +409,7 @@ const Section1 = () => {
 
     disruptionItems.forEach((item, index) => {
       const start = 0.12 + index * 0.08;
-      const end = start + 0.55;
+      const end = start + 0.68;
       const p = gsap.utils.clamp(0, 1, gsap.utils.mapRange(start, end, 0, 1, t));
       const eased = gsap.parseEase(LETTER_REVEAL_EASE)(p);
       gsap.set(item, { yPercent: gsap.utils.interpolate(110, 0, eased) });
@@ -755,8 +760,8 @@ const Section1 = () => {
             item,
             {
               yPercent: 0,
-              duration: 2,
-              ease: "power4.out",
+              duration: 2.15,
+              ease: HERO_ENTRANCE_EASE,
               onComplete:
                 index === headlineItems.length - 1
                   ? () => {
@@ -765,15 +770,15 @@ const Section1 = () => {
                     }
                   : undefined,
             },
-            index === 0 ? 0 : "-=1.65"
+            index === 0 ? 0 : "-=1.7"
           );
         });
 
         subItems.forEach((item, index) => {
           tl.to(
             item,
-            { yPercent: 0, opacity: 1, duration: 1.4, ease: "power4.out" },
-            index === 0 ? "-=1.1" : "-=1.15"
+            { yPercent: 0, opacity: 1, duration: 1.55, ease: HERO_ENTRANCE_EASE },
+            index === 0 ? "-=1.15" : "-=1.2"
           );
         });
 
@@ -786,8 +791,8 @@ const Section1 = () => {
             entrance,
             {
               value: 1,
-              duration: 2,
-              ease: "power4.out",
+              duration: 2.15,
+              ease: HERO_ENTRANCE_EASE,
               onUpdate: () => {
                 videoEntranceRef.current = entrance.value;
                 applyVideoProgress(0, entrance.value);
@@ -812,18 +817,18 @@ const Section1 = () => {
         });
 
         introItems.forEach((item) => {
-          filmTl.to(item, { yPercent: 0, duration: 1.1, ease: LETTER_REVEAL_EASE }, 0);
+          filmTl.to(item, { yPercent: 0, duration: FILM_REVEAL_DURATION, ease: LETTER_REVEAL_EASE }, 0);
         });
 
         disruptionItems.forEach((item) => {
-          filmTl.to(item, { yPercent: 0, duration: 1.1, ease: LETTER_REVEAL_EASE }, ">-0.15");
+          filmTl.to(item, { yPercent: 0, duration: FILM_REVEAL_DURATION, ease: LETTER_REVEAL_EASE }, ">-0.2");
         });
 
         if (mobileLetters.length && mobileWordItems.length) {
           filmTl.to(mobileWordItems, { opacity: 1, duration: 0.01 }, "<");
           filmTl.to(
             mobileLetters,
-            { x: "0%", duration: 0.55, ease: LETTER_REVEAL_EASE, stagger: 0.06 },
+            { x: "0%", duration: 0.75, ease: LETTER_REVEAL_EASE, stagger: 0.08 },
             "<"
           );
         }
@@ -835,11 +840,11 @@ const Section1 = () => {
         filmEnterTl = gsap.timeline({ paused: true });
 
         introItems.forEach((item) => {
-          filmEnterTl.to(item, { yPercent: 0, duration: 1.1, ease: LETTER_REVEAL_EASE }, 0);
+          filmEnterTl.to(item, { yPercent: 0, duration: FILM_REVEAL_DURATION, ease: LETTER_REVEAL_EASE }, 0);
         });
 
         disruptionItems.forEach((item) => {
-          filmEnterTl.to(item, { yPercent: 0, duration: 1.1, ease: LETTER_REVEAL_EASE }, ">-0.15");
+          filmEnterTl.to(item, { yPercent: 0, duration: FILM_REVEAL_DURATION, ease: LETTER_REVEAL_EASE }, ">-0.2");
         });
 
         filmEnterTl.eventCallback("onComplete", fitAll);
@@ -936,8 +941,8 @@ const Section1 = () => {
           applyCreativityLetterReveal(0);
           textRevealTween = gsap.to(proxy, {
             t: 1,
-            duration: 1.15,
-            ease: "none",
+            duration: TEXT_REVEAL_DURATION,
+            ease: "power2.out",
             onUpdate: () => applyCreativityLetterReveal(proxy.t),
           });
         };
@@ -996,8 +1001,8 @@ const Section1 = () => {
 
           snapTween = gsap.to(proxy, {
             y: toY,
-            duration: 0.75,
-            ease: "power2.inOut",
+            duration: VIDEO_SNAP_DURATION,
+            ease: VIDEO_SNAP_EASE,
             overwrite: true,
             onUpdate: () => {
               window.scrollTo(0, proxy.y);
