@@ -218,6 +218,16 @@ const Section1 = () => {
           }
         }
 
+        @media (min-width: 1280px) {
+          .ws-card-title {
+            font-size: 28px;
+          }
+
+          .ws-card-body {
+            font-size: 22px;
+          }
+        }
+
         .ws-char,
         .ws-word {
           color: var(--highlight);
@@ -234,7 +244,7 @@ const Section1 = () => {
       <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-8 md:gap-12 lg:gap-14">
         <h1
           style={titleStyle}
-          className="m-0 w-full text-center text-[36px] sm:text-[48px] md:text-[64px] lg:text-[80px] xl:text-[96px]"
+          className="m-0 w-full text-center text-[36px]  md:text-[40px] lg:text-[50px] xl:text-[56px]"
         >
           WEB STORIES
         </h1>

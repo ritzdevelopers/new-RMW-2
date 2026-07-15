@@ -1,179 +1,200 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import BottomRevealText from "./BottomRevealText";
-const ROW_WIDTH_DURATION = 0.95;
-const ROW_TO_CONTENT_GAP = 0.14;
-const CONTENT_HEIGHT_DURATION = 0.85;
-const ELLIPSE_ZOOM_DURATION = 0.65;
-const TEXT_REVEAL_DELAY = ROW_WIDTH_DURATION + ROW_TO_CONTENT_GAP;
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
-function measureHeight(inner) {
-  return inner.offsetHeight;
+const galleryColumns = [
+  [
+    { src: "/portfolio/protfolio-gallery-1.jpeg", alt: "Jewelry rings" },
+    { src: "/portfolio/portfolio-image-2.jpg", alt: "Brand moodboard" },
+  ],
+  [
+    { src: "/portfolio/portfolio-gallery-3.jpeg", alt: "Beauty branding" },
+    { src: "/portfolio/portfolio-gallery-4.webp", alt: "Website mockups" },
+    { src: "/portfolio/portfolio-gallery-5.jpeg", alt: "One Body storefront" },
+    { src: "/portfolio/portfolio-gallery-6.webp", alt: "Stationery cards" },
+  ],
+  [
+    { src: "/portfolio/portfolio-gallery-7.jpg", alt: "Melissa Sassine branding" },
+    { src: "/portfolio/portfolio-gallery-8.png", alt: "Poster mockup" },
+    { src: "/portfolio/portfolio-gallery-17.webp", alt: "Poster mockup" },
+  ],
+  [
+    { src: "/portfolio/portfolio-gallery-10.jpg", alt: "Storefront branding" },
+    { src: "/portfolio/portfolio-gallery-11.jpg", alt: "Print gallery" },
+    { src: "/portfolio/portfolio-gallery-12.png", alt: "Brochure layout" },
+  ],
+  [
+    { src: "/portfolio/portfolio-gallery-13.jpg", alt: "Glowderm branding" },
+    { src: "/portfolio/portfolio-gallery-14.jpg", alt: "Studio photoshoot" },
+    { src: "/portfolio/portfolio-gallery-15.webp", alt: "Mobile app screens" },
+    { src: "/portfolio/portfolio-gallery-16.webp", alt: "Digital portfolio collage" },
+  ],
+];
+
+const allImages = galleryColumns.flat();
+
+/** Distribute images into N vertical masonry columns */
+function toColumns(items, count) {
+  const columns = Array.from({ length: count }, () => []);
+  items.forEach((item, index) => {
+    columns[index % count].push(item);
+  });
+  return columns;
 }
 
-export default function Section1Row2() {
-  const rowRef = useRef(null);
-  const imageWrapRef = useRef(null);
-  const imageInnerRef = useRef(null);
-  const textWrapRef = useRef(null);
-  const textInnerRef = useRef(null);
-  const ellipseRef = useRef(null);
-  const [isRevealed, setIsRevealed] = useState(false);
+const lgColumns = toColumns(allImages, 4);
+const mdColumns = toColumns(allImages, 3);
+const smColumns = toColumns(allImages, 2);
 
+function GalleryImage({ src, alt, sizes, onOpen }) {
+  return (
+    <button
+      type="button"
+      onClick={() => onOpen?.({ src, alt })}
+      className="block w-full cursor-pointer overflow-hidden border-0 bg-transparent p-0 text-left"
+      aria-label={`View ${alt}`}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        width={800}
+        height={1000}
+        sizes={sizes}
+        className="block h-auto w-full"
+        style={{ width: "100%", height: "auto" }}
+      />
+    </button>
+  );
+}
+
+function MasonryColumns({ columns, gapX, gapY, gapPx, sizes, className, onOpen }) {
+  return (
+    <div
+      className={`w-full ${gapX ?? ""} ${className}`}
+      style={gapPx != null ? { columnGap: `${gapPx}px` } : undefined}
+    >
+      {columns.map((column, columnIndex) => (
+        <div
+          key={`col-${columnIndex}`}
+          className={`flex min-w-0 flex-1 flex-col ${gapY ?? ""}`}
+          style={gapPx != null ? { gap: `${gapPx}px` } : undefined}
+        >
+          {column.map((item) => (
+            <GalleryImage
+              key={item.src}
+              src={item.src}
+              alt={item.alt}
+              sizes={sizes}
+              onOpen={onOpen}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ImageLightbox({ image, onClose }) {
   useEffect(() => {
-    const row = rowRef.current;
-    const imageWrap = imageWrapRef.current;
-    const imageInner = imageInnerRef.current;
-    const textWrap = textWrapRef.current;
-    const textInner = textInnerRef.current;
-    const ellipse = ellipseRef.current;
+    if (!image) return;
 
-    if (!row || !imageWrap || !imageInner || !textWrap || !textInner || !ellipse) return;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+    };
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if (prefersReducedMotion) {
-      gsap.set(row, { clearProps: "all" });
-      gsap.set([imageWrap, textWrap, ellipse], { clearProps: "all" });
-      setIsRevealed(true);
-      return;
-    }
-
-    const imageHeight = measureHeight(imageInner);
-    const textHeight = measureHeight(textInner);
-
-    gsap.set(imageWrap, { height: 0 });
-    gsap.set(textWrap, { height: 0 });
-
-    gsap.set(row, { width: 0 });
-    gsap.set(ellipse, { scale: 0.72, opacity: 0, transformOrigin: "center center" });
-
-    const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-    timeline
-      .to(row, {
-        width: "100%",
-        duration: ROW_WIDTH_DURATION,
-        ease: "power3.inOut",
-      })
-      .to(
-        imageWrap,
-        {
-          height: imageHeight,
-          duration: CONTENT_HEIGHT_DURATION,
-          ease: "power3.out",
-        },
-        `+=${ROW_TO_CONTENT_GAP}`
-      )
-      .to(
-        textWrap,
-        {
-          height: textHeight,
-          duration: CONTENT_HEIGHT_DURATION,
-          ease: "power3.out",
-        },
-        "<"
-      )
-      .to(
-        ellipse,
-        {
-          scale: 1,
-          opacity: 1,
-          duration: ELLIPSE_ZOOM_DURATION,
-          ease: "power3.out",
-        },
-        "-=0.22"
-      )
-      .eventCallback("onComplete", () => {
-        setIsRevealed(true);
-      });
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
 
     return () => {
-      timeline.kill();
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKeyDown);
     };
-  }, []);
+  }, [image, onClose]);
 
-  useEffect(() => {
-    if (!isRevealed) return;
-
-    const row = rowRef.current;
-    const imageWrap = imageWrapRef.current;
-    const textWrap = textWrapRef.current;
-    const ellipse = ellipseRef.current;
-
-    if (!row || !imageWrap || !textWrap || !ellipse) return;
-
-    gsap.set([row, imageWrap, textWrap, ellipse], { clearProps: "all" });
-  }, [isRevealed]);
-
-  const revealOuterClass = isRevealed
-    ? "h-auto"
-    : "relative h-0 overflow-hidden";
-
-  const imageInnerClass = isRevealed
-    ? "w-[736px] h-auto max-xl:w-[580px] max-lg:w-full max-lg:max-w-[560px] max-md:max-w-full"
-    : "absolute bottom-0 left-0 w-[736px] h-auto max-xl:w-[580px] max-lg:w-full max-lg:max-w-[560px] max-md:max-w-full";
-
-  const textInnerClass = isRevealed
-    ? "flex flex-col justify-end pb-[80px] z-10 max-xl:pb-[56px] max-lg:pb-0 max-lg:items-center max-lg:text-center max-md:pb-0"
-    : "absolute bottom-0 left-0 right-0 flex flex-col justify-end pb-[80px] z-10 max-xl:pb-[56px] max-lg:pb-0 max-lg:items-center max-lg:text-center max-md:pb-0";
+  if (!image) return null;
 
   return (
     <div
-      ref={rowRef}
-      className="w-full bg-[#D2D7F8] max-h-[571px] flex justify-end items-end relative pt-[44px] pr-[60px] max-xl:max-h-[500px] max-xl:pt-[36px] max-xl:pr-[40px] max-lg:max-h-none max-lg:flex-col max-lg:items-center max-lg:justify-center max-lg:pt-[32px] max-lg:pr-[32px] max-lg:pb-[32px] max-md:pt-[24px] max-md:pr-[24px] max-md:pb-[24px] max-md:px-4 max-sm:px-3 max-sm:pt-[20px] max-sm:pb-[20px] overflow-hidden"
-      style={isRevealed ? undefined : { width: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={image.alt}
     >
-      {/* Absolute Positioned Image */}
-      <div className="absolute h-full w-auto left-[50%] top-[50%] translate-x-[-38%] translate-y-[-50%] z-0 max-lg:h-[85%] max-lg:translate-x-[-50%] max-md:h-[70%] max-md:opacity-60 max-sm:h-[60%] max-sm:opacity-40">
-        <div ref={ellipseRef} className="h-full w-auto">
-          <img
-            src="/work/portfolio/s1/elips.png"
-            alt="shape"
-            className="w-auto h-full"
-          />
-        </div>
-      </div>
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute right-4 top-4 z-[101] flex h-10 w-10 items-center justify-center border-0 bg-transparent text-3xl leading-none text-white"
+        aria-label="Close"
+      >
+        ×
+      </button>
 
-      <div className="flex items-end gap-[50px] z-10 max-xl:gap-[36px] max-lg:flex-col max-lg:items-center max-lg:gap-[24px] max-md:gap-[20px]">
-        {/* Left Side Container For Image */}
-        <div ref={imageWrapRef} className={revealOuterClass}>
-          <div ref={imageInnerRef} className={imageInnerClass}>
-            <img
-              src="/work/portfolio/s1/skelton.png"
-              alt="skelton"
-              className="w-full h-auto"
-            />
-          </div>
-        </div>
-
-        {/* Right Side Container For Text */}
-        <div ref={textWrapRef} className={revealOuterClass}>
-          <div ref={textInnerRef} className={textInnerClass}>
-            <BottomRevealText
-              as="h2"
-              text="Good design is a mirror"
-              lineBreakBefore="mirror"
-              delay={TEXT_REVEAL_DELAY}
-              duration={0.8}
-              stagger={0.055}
-              className="font-montserrat font-[600] text-[43px] capitalize max-xl:text-[36px] max-lg:text-[32px] max-md:text-[26px] max-sm:text-[22px]"
-            />
-            <BottomRevealText
-              as="p"
-              text="We update you at every step"
-              delay={TEXT_REVEAL_DELAY + 0.12}
-              duration={0.75}
-              stagger={0.05}
-              className="font-montserrat font-[600] text-[18px] capitalize text-[#00000099] max-md:text-[16px] max-sm:text-[14px]"
-            />
-          </div>
-        </div>
+      <div
+        className="relative max-h-[90vh] max-w-[90vw]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Image
+          src={image.src}
+          alt={image.alt}
+          width={1600}
+          height={2000}
+          sizes="90vw"
+          className="max-h-[90vh] w-auto max-w-[90vw] object-contain"
+          style={{ width: "auto", height: "auto", maxHeight: "90vh" }}
+          priority
+        />
       </div>
+    </div>
+  );
+}
+
+export default function Section1Row2() {
+  const [lightbox, setLightbox] = useState(null);
+
+  return (
+    <div className="w-full bg-white pt-6">
+      {/* xl: 5-column masonry */}
+      <MasonryColumns
+        columns={galleryColumns}
+        gapX="gap-x-[15px]"
+        gapY="gap-y-[15px]"
+        sizes="20vw"
+        className="hidden xl:flex"
+        onOpen={setLightbox}
+      />
+
+      {/* lg: 4-column masonry (vertical stacks) */}
+      <MasonryColumns
+        columns={lgColumns}
+        gapX="gap-x-[20px]"
+        gapY="gap-y-[20px]"
+        sizes="25vw"
+        className="hidden lg:flex xl:hidden"
+        onOpen={setLightbox}
+      />
+
+      {/* md: 3-column masonry — 10px gaps only */}
+      <MasonryColumns
+        columns={mdColumns}
+        gapPx={10}
+        sizes="33vw"
+        className="hidden md:flex lg:hidden"
+        onOpen={setLightbox}
+      />
+
+      {/* mobile: 2-column masonry — no empty gaps under shorter images */}
+      <MasonryColumns
+        columns={smColumns}
+        gapPx={10}
+        sizes="50vw"
+        className="flex md:hidden"
+        onOpen={setLightbox}
+      />
+
+      <ImageLightbox image={lightbox} onClose={() => setLightbox(null)} />
     </div>
   );
 }

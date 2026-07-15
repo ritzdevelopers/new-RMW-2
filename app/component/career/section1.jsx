@@ -353,7 +353,7 @@ const section1 = () => {
             </Field>
           </div>
 
-          <div className="mt-8 md:mt-10">
+          <div className="mt-8 md:mt-10 ">
             <Field label="UPLOAD RESUME*">
               <input
                 type="file"
