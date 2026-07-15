@@ -15,7 +15,7 @@ export default function Home() {
 <Section2 />
 <Section3 />
 <Section4 />
-<div className="relative md:-mt-[90px]">
+<div className="relative">
   <Section5 />
 </div>
 <Footer overlaySection={<Section7 />} />
