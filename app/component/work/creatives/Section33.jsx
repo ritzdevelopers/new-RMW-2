@@ -15,19 +15,6 @@ const AI_VIDEO_IMAGES = [
   "/work/creatives/s2/i3.jpg",
 ];
 
-// splits a header's text into word spans wrapped in overflow-hidden masks
-function splitIntoWords(el) {
-  const text = el.textContent.trim();
-  el.innerHTML = text
-    .split(/\s+/)
-    .map(
-      (word) =>
-        `<span class="inline-block overflow-hidden pb-[4px] align-top"><span class="inline-block will-change-transform" data-word>${word}</span></span>`
-    )
-    .join(" ");
-  return el.querySelectorAll("[data-word]");
-}
-
 function Section33() {
   const sectionRef = useRef(null);
 
@@ -39,8 +26,6 @@ function Section33() {
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    const pointerCleanups = [];
-
     const ctx = gsap.context(() => {
       const headers = gsap.utils.toArray("[data-creatives-header]", section);
       const cards = gsap.utils.toArray("[data-creatives-card]", section);
@@ -50,27 +35,18 @@ function Section33() {
           clearProps: "all",
           opacity: 1,
           y: 0,
-          scale: 1,
-          rotateX: 0,
-          rotateY: 0,
         });
         return;
       }
 
-      // ---------- HEADER: masked word reveal with 3D flip ----------
       headers.forEach((header) => {
-        const words = splitIntoWords(header);
+        gsap.set(header, { opacity: 0, y: 24 });
 
-        gsap.set(words, { yPercent: 120, rotateX: -60, opacity: 0 });
-
-        gsap.to(words, {
-          yPercent: 0,
-          rotateX: 0,
+        gsap.to(header, {
           opacity: 1,
-          duration: 1,
-          ease: "expo.out",
-          stagger: 0.05,
-          transformOrigin: "50% 100%",
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: header,
             start: "top 90%",
@@ -79,126 +55,30 @@ function Section33() {
         });
       });
 
-      // ---------- CARDS: 3D fan reveal + continuous parallax + pointer tilt ----------
-      const columns = 3;
+      cards.forEach((card) => {
+        gsap.set(card, { opacity: 0, y: 40 });
 
-      cards.forEach((card, index) => {
-        const image = card.querySelector("[data-creatives-image]");
-        const col = index % columns;
-        // fan direction: left column tilts from left, right column from right
-        const rotateYFrom = col === 0 ? -22 : col === columns - 1 ? 22 : 0;
-        const rotateXFrom = 18;
-
-        gsap.set(card, {
-          opacity: 0,
-          y: 100,
-          scale: 0.88,
-          rotateX: rotateXFrom,
-          rotateY: rotateYFrom,
-          transformPerspective: 1200,
-          transformOrigin: "center bottom",
-        });
-
-        gsap.set(image, {
-          scale: 1.25,
-          yPercent: -8,
-          filter: "blur(6px)",
-        });
-
-        // entrance timeline
-        gsap
-          .timeline({
-            scrollTrigger: {
-              trigger: card,
-              start: "top 92%",
-              toggleActions: "play none none reverse",
-            },
-          })
-          .to(card, {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            rotateX: 0,
-            rotateY: 0,
-            duration: 1.3,
-            ease: "expo.out",
-            delay: (index % columns) * 0.12,
-          })
-          .to(
-            image,
-            {
-              scale: 1.05,
-              filter: "blur(0px)",
-              duration: 1.4,
-              ease: "power3.out",
-            },
-            "<0.05"
-          );
-
-        // continuous scroll-linked parallax on the image (separate from entrance)
-        gsap.to(image, {
-          yPercent: 8,
-          ease: "none",
+        gsap.to(card, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: card,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
+            start: "top 92%",
+            toggleActions: "play none none reverse",
           },
-        });
-
-        // interactive pointer tilt for a premium hover feel
-        const quickRotX = gsap.quickTo(card, "rotateX", {
-          duration: 0.6,
-          ease: "power3.out",
-        });
-        const quickRotY = gsap.quickTo(card, "rotateY", {
-          duration: 0.6,
-          ease: "power3.out",
-        });
-        const quickScale = gsap.quickTo(card, "scale", {
-          duration: 0.6,
-          ease: "power3.out",
-        });
-
-        const handlePointerMove = (e) => {
-          const rect = card.getBoundingClientRect();
-          const relX = (e.clientX - rect.left) / rect.width - 0.5;
-          const relY = (e.clientY - rect.top) / rect.height - 0.5;
-          quickRotY(relX * 12);
-          quickRotX(-relY * 12);
-          quickScale(1.02);
-        };
-
-        const handlePointerLeave = () => {
-          quickRotX(0);
-          quickRotY(0);
-          quickScale(1);
-        };
-
-        card.style.transformStyle = "preserve-3d";
-        card.style.willChange = "transform";
-        card.addEventListener("pointermove", handlePointerMove);
-        card.addEventListener("pointerleave", handlePointerLeave);
-
-        pointerCleanups.push(() => {
-          card.removeEventListener("pointermove", handlePointerMove);
-          card.removeEventListener("pointerleave", handlePointerLeave);
         });
       });
     }, section);
 
-    return () => {
-      pointerCleanups.forEach((cleanup) => cleanup());
-      ctx.revert();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
     <section
       ref={sectionRef}
       className="w-full flex justify-center items-center"
-      style={{ perspective: "1500px" }}
     >
       {/* Centered Align Container  */}
       <div className="w-full max-w-[1340px] flex flex-col gap-[60px] max-xl:px-6 max-md:px-4 max-md:gap-[40px]">
@@ -225,7 +105,7 @@ function Section33() {
                   data-creatives-image
                   src={img}
                   alt={`ai-video-${idx}`}
-                  className="w-full h-full object-cover will-change-transform scale-105"
+                  className="w-full h-full object-cover"
                 />
               </div>
             ))}

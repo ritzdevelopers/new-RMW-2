@@ -1,33 +1,27 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { A11y, Autoplay, EffectCube, Navigation } from "swiper/modules";
 import gsap from "gsap";
-import "swiper/css";
-import "swiper/css/effect-cube";
-import "swiper/css/navigation";
 
 const BRAND_FILM_SLIDES = [
   {
     src: "https://otherassets.blob.core.windows.net/rmw/VVIP%20GROUP%20EK%20BAAR%20PHIR-1.mp4",
     alt: "Brand film 1",
-    video:
-      "https://otherassets.blob.core.windows.net/rmw/VVIP%20GROUP%20EK%20BAAR%20PHIR-1.mp4",
-    title: "Architectural Storytelling",
+    video:"https://otherassets.blob.core.windows.net/rmw/VVIP%20GROUP%20EK%20BAAR%20PHIR-1.mp4",
+    title: "REFINED ELEGANCE",
     description:
-      "A cinematic brand film that transforms real estate vision into emotion — blending aerial perspectives, lifestyle narratives, and premium finishing for maximum impact.",
+      "Crafted with a luxurious visual language, this brand film celebrates elegance as an attitude rather than a moment. Through cinematic storytelling and refined aesthetics, it captures the spirit of those who lead with confidence.",
     cta: { label: "Get In Touch", href: "/contact" },
   },
   {
     src: "https://otherassets.blob.core.windows.net/rmw/VVIP_Music%20option%202.mp4",
     alt: "Brand film 2",
     video: "https://otherassets.blob.core.windows.net/rmw/VVIP_Music%20option%202.mp4",
-    title: "Luxury Living Experience",
+    title: "ARTFUL ASPIRATIONS",
     description:
-      "Showcase aspirational living through motion, light, and detail. We craft films that help audiences feel the space before they step inside.",
+      "A visually poetic brand film that transforms art into aspiration through symbolic storytelling and seamless visual transitions. Every frame is crafted to evoke wonder while reflecting the timeless elegance of the VVIP brand.",
     cta: { label: "Start A Project", href: "/contact" },
   },
   {
@@ -35,9 +29,9 @@ const BRAND_FILM_SLIDES = [
     alt: "Brand film 3",
     video:
       "https://otherassets.blob.core.windows.net/rmw/document_6152301752554102660.mp4",
-    title: "Urban Development Story",
+    title: "CREATIVE ECOSYSTEM",
     description:
-      "From blueprint to skyline — dynamic storytelling for large-scale developments that communicates scale, trust, and long-term value.",
+      "A visually compelling brand film that showcases the creative thinking, strategic expertise, and integrated services that define Ritz Media World. Every frame reflects our commitment to crafting extraordinary brand experiences.",
     cta: { label: "View Our Work", href: "/case-study" },
   },
   {
@@ -45,74 +39,48 @@ const BRAND_FILM_SLIDES = [
     alt: "Brand film 4",
     video:
       "https://otherassets.blob.core.windows.net/rmw/document_6260379940223459024.mp4",
-    title: "Heritage Reimagined",
+    title: "NEW BEGINNINGS",
     description:
-      "Heritage properties deserve films with soul. We balance tradition and modernity in every frame to elevate brand perception.",
+      "A cinematic brand film crafted to capture the emotion of new beginnings. Through compelling storytelling, refined visuals and authentic performances, the film brings the VVIP brand to life with elegance and emotional depth.",
     cta: { label: "Get In Touch", href: "/contact" },
   },
   {
     src: "https://otherassets.blob.core.windows.net/rmw/IMG_1242.MP4",
     alt: "Brand film 5",
     video: "https://otherassets.blob.core.windows.net/rmw/IMG_1242.MP4",
-    title: "Sustainable Living",
+    title: "SUSTAINABLE LIVING",
     description:
-      "Sustainable living deserves films with purpose. We craft films that help audiences feel the space before they step inside.",
+      "A cinematic brand film that captures the harmony between nature, mindful living, and modern aspirations. Through evocative storytelling and immersive visuals, the film presents a vision of the future where life unfolds in perfect balance.",
     cta: { label: "Start A Project", href: "/contact" },
   },
   {
     src: "https://otherassets.blob.core.windows.net/rmw/Northwind_4.mp4",
     alt: "Brand film 6",
     video: "https://otherassets.blob.core.windows.net/rmw/Northwind_4.mp4",
-    title: "Urban Development Story",
+    title: "WHERE TWO WORLDS MEET",
     description:
-      "From blueprint to skyline — dynamic storytelling for large-scale developments that communicates scale, trust, and long-term value.",
+      "A cinematic brand film that brings the timeless essence of Switzerland closer through evocative storytelling and breathtaking visuals. Blending culture, craftsmanship and nature, the film creates an immersive narrative that celebrates a shared spirit beyond borders.",
     cta: { label: "View Our Work", href: "/case-study" },
   },
 ];
 
-const AUTOPLAY_DELAY = 5000;
+const AUTOPLAY_DELAY = 5200;
+const SLIDE_DURATION = 1.2;
+const SLIDE_EASE = "sine.inOut";
+const GAP_PX = 24;
 
-function PlayButton({ onClick, playBtnRef }) {
+// How many cards are visible at once, per breakpoint
+const getVisibleCount = (width) => {
+  if (width < 640) return 1;
+  if (width < 1024) return 2;
+  return 3;
+};
+
+function PlayGlyph({ className = "" }) {
   return (
-    <div
-      ref={playBtnRef}
-      className="pointer-events-none absolute inset-0 z-[25] flex items-center justify-center"
-    >
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          onClick();
-        }}
-        aria-label="Play brand film"
-        className="pointer-events-auto relative flex items-center justify-center"
-        data-play-btn
-      >
-        <span
-          data-play-pulse
-          className="pointer-events-none absolute h-[100px] w-[100px] rounded-full border-2 border-[#0D6FAA]/50 max-md:h-[84px] max-md:w-[84px] max-sm:h-[72px] max-sm:w-[72px]"
-          aria-hidden
-        />
-        <span
-          data-play-pulse
-          className="pointer-events-none absolute h-[82px] w-[82px] rounded-full border border-white/40 max-md:h-[68px] max-md:w-[68px] max-sm:h-[58px] max-sm:w-[58px]"
-          aria-hidden
-        />
-        <span
-          data-play-core
-          className="relative flex h-[72px] w-[72px] items-center justify-center rounded-full bg-[#0D6FAA] text-white shadow-[0_12px_40px_rgba(13,111,170,0.45)] ring-4 ring-white/25 transition-transform hover:scale-105 max-md:h-[60px] max-md:w-[60px] max-sm:h-[52px] max-sm:w-[52px]"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="ml-1 h-8 w-8 max-md:h-7 max-md:w-7 max-sm:h-6 max-sm:w-6"
-            aria-hidden="true"
-          >
-            <path d="M8 5v14l11-7z" />
-          </svg>
-        </span>
-      </button>
-    </div>
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M8 5v14l11-7z" />
+    </svg>
   );
 }
 
@@ -145,7 +113,6 @@ function BrandFilmModal({
         ref={panelRef}
         className="relative z-10 flex w-full max-w-[1180px] max-h-[94vh] flex-col overflow-hidden rounded-t-[22px] border border-white/10 bg-[#071018] shadow-[0_40px_100px_-24px_rgba(0,0,0,0.7),0_0_0_1px_rgba(13,111,170,0.12)] sm:rounded-[22px] lg:max-h-[min(90vh,760px)] lg:flex-row"
       >
-        {/* Ambient glow */}
         <div
           aria-hidden
           className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[#0D6FAA]/20 blur-[90px]"
@@ -188,10 +155,7 @@ function BrandFilmModal({
         </div>
 
         <div className="relative flex flex-1 flex-col justify-center gap-5 overflow-y-auto px-6 pb-7 pt-6 sm:px-8 sm:pb-9 sm:pt-8 lg:px-10 lg:py-12">
-          <div
-            data-modal-reveal
-            className="flex items-center gap-3"
-          >
+          <div data-modal-reveal className="flex items-center gap-3">
             <span className="inline-flex items-center rounded-full border border-[#0D6FAA]/35 bg-[#0D6FAA]/12 px-3 py-1 font-league-spartan text-[11px] font-[600] uppercase tracking-[0.22em] text-[#7ec4e8]">
               Brand Film
             </span>
@@ -254,44 +218,182 @@ function BrandFilmModal({
 }
 
 function NewSection2() {
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
-  const swiperRef = useRef(null);
-  const progressRef = useRef(null);
   const sectionRef = useRef(null);
-  const playBtnRef = useRef(null);
-  const progressTweenRef = useRef(null);
+  const containerRef = useRef(null);
+  const trackRef = useRef(null);
+  const previewVideoRefs = useRef([]);
+  const prevBtnRef = useRef(null);
+  const nextBtnRef = useRef(null);
   const backdropRef = useRef(null);
   const panelRef = useRef(null);
-  const videoRef = useRef(null);
-  const previewVideoRefs = useRef([]);
+  const modalVideoRef = useRef(null);
   const closingRef = useRef(false);
+  const activeIndexRef = useRef(0);
+  const autoplayTimerRef = useRef(null);
+  const loaderFillRef = useRef(null);
+  const prevCardWidthRef = useRef(0);
+
+  const slideCount = BRAND_FILM_SLIDES.length;
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [modalIndex, setModalIndex] = useState(null);
   const [mounted, setMounted] = useState(false);
+  const [metrics, setMetrics] = useState({ cardWidth: 0, visibleCount: 3 });
+
+  const maxIndex = Math.max(0, slideCount - metrics.visibleCount);
+
+  const clearAutoplay = useCallback(() => {
+    if (autoplayTimerRef.current) {
+      window.clearTimeout(autoplayTimerRef.current);
+      autoplayTimerRef.current = null;
+    }
+  }, []);
+
+  const syncMetrics = useCallback(() => {
+    const width = containerRef.current?.clientWidth || 0;
+    const visibleCount = getVisibleCount(window.innerWidth);
+    // Floor widths so card steps land on whole pixels (kills subpixel shimmer)
+    const cardWidth =
+      visibleCount > 0
+        ? Math.floor((width - GAP_PX * (visibleCount - 1)) / visibleCount)
+        : Math.floor(width);
+    setMetrics({ cardWidth, visibleCount });
+    return { cardWidth, visibleCount };
+  }, []);
+
+  const pauseAllPreviews = useCallback(() => {
+    previewVideoRefs.current.forEach((video) => {
+      if (!video) return;
+      video.pause();
+    });
+  }, []);
+
+  const syncPreviewPlayback = useCallback(
+    (index = activeIndexRef.current) => {
+      if (modalIndex !== null) {
+        pauseAllPreviews();
+        return;
+      }
+
+      previewVideoRefs.current.forEach((video, i) => {
+        if (!video) return;
+        const inView =
+          i >= index && i < index + metrics.visibleCount;
+        if (inView) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    },
+    [metrics.visibleCount, modalIndex, pauseAllPreviews]
+  );
+
+  const goTo = useCallback(
+    (targetIndex) => {
+      const clamped = Math.min(Math.max(targetIndex, 0), maxIndex);
+      activeIndexRef.current = clamped;
+      setActiveIndex(clamped);
+    },
+    [maxIndex]
+  );
+
+  const scheduleAutoplay = useCallback(() => {
+    clearAutoplay();
+    if (modalIndex !== null) return;
+
+    autoplayTimerRef.current = window.setTimeout(() => {
+      const current = activeIndexRef.current;
+      const next = current >= maxIndex ? 0 : current + 1;
+      goTo(next);
+    }, AUTOPLAY_DELAY);
+  }, [clearAutoplay, goTo, maxIndex, modalIndex]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  useLayoutEffect(() => {
+    syncMetrics();
+    const onResize = () => {
+      syncMetrics();
+      goTo(activeIndexRef.current);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [syncMetrics]);
+
   useEffect(() => {
-    previewVideoRefs.current.forEach((video, index) => {
-      if (!video) return;
+    scheduleAutoplay();
+    return () => clearAutoplay();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex, modalIndex, maxIndex]);
 
-      if (modalIndex !== null || index !== activeIndex) {
-        video.pause();
-        return;
-      }
+  // Smooth GSAP track slide — pause videos while moving to avoid decode jank
+  useLayoutEffect(() => {
+    const track = trackRef.current;
+    if (!track || metrics.cardWidth <= 0) return;
 
-      video.play().catch(() => {});
+    const step = metrics.cardWidth + GAP_PX;
+    const x = -Math.round(activeIndex * step);
+    const widthChanged = prevCardWidthRef.current !== metrics.cardWidth;
+    prevCardWidthRef.current = metrics.cardWidth;
+
+    if (widthChanged) {
+      gsap.killTweensOf(track);
+      gsap.set(track, { x, force3D: true });
+      syncPreviewPlayback(activeIndex);
+      return;
+    }
+
+    pauseAllPreviews();
+
+    gsap.to(track, {
+      x,
+      duration: SLIDE_DURATION,
+      ease: SLIDE_EASE,
+      overwrite: "auto",
+      force3D: true,
+      // Keep transforms on integer pixels every frame
+      modifiers: {
+        x: (v) => `${Math.round(parseFloat(v))}px`,
+      },
+      onComplete: () => {
+        syncPreviewPlayback(activeIndex);
+      },
     });
-  }, [activeIndex, modalIndex]);
+  }, [
+    activeIndex,
+    metrics.cardWidth,
+    pauseAllPreviews,
+    syncPreviewPlayback,
+  ]);
 
+  // Bottle-fill loader tracks carousel progress
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const fill = loaderFillRef.current;
+    if (!fill) return;
 
+    const progress = maxIndex <= 0 ? 1 : activeIndex / maxIndex;
+    gsap.to(fill, {
+      scaleX: progress,
+      duration: SLIDE_DURATION,
+      ease: SLIDE_EASE,
+      overwrite: "auto",
+    });
+  }, [activeIndex, maxIndex]);
+
+  // Pause all previews while the modal is open; resume when it closes
+  useEffect(() => {
+    if (modalIndex !== null) {
+      pauseAllPreviews();
+      return;
+    }
+    syncPreviewPlayback(activeIndexRef.current);
+  }, [modalIndex, pauseAllPreviews, syncPreviewPlayback]);
+
+  useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from("[data-creatives-header]", {
         opacity: 0,
@@ -299,58 +401,25 @@ function NewSection2() {
         duration: 0.8,
         ease: "power3.out",
       });
-      gsap.from("[data-cube-stage]", {
+      gsap.from("[data-brand-stage]", {
         opacity: 0,
-        y: 40,
-        rotateY: 12,
-        scale: 0.94,
-        duration: 1.1,
-        delay: 0.15,
+        y: 36,
+        duration: 1,
+        delay: 0.12,
         ease: "power4.out",
       });
-
-      const playRoot = playBtnRef.current;
-      if (!prefersReducedMotion && playRoot) {
-        gsap.to(playRoot.querySelectorAll("[data-play-pulse]"), {
-          scale: 1.4,
-          opacity: 0,
-          duration: 1.4,
-          repeat: -1,
-          ease: "power2.out",
-          stagger: 0.22,
-        });
-        const core = playRoot.querySelector("[data-play-core]");
-        if (core) {
-          gsap.to(core, {
-            scale: 1.06,
-            duration: 0.9,
-            yoyo: true,
-            repeat: -1,
-            ease: "sine.inOut",
-          });
-        }
-      }
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
-  const runProgress = useCallback(() => {
-    progressTweenRef.current?.kill();
-    if (!progressRef.current) return;
-    gsap.set(progressRef.current, { scaleX: 0 });
-    progressTweenRef.current = gsap.to(progressRef.current, {
-      scaleX: 1,
-      duration: AUTOPLAY_DELAY / 1000,
-      ease: "none",
-    });
-  }, []);
-
-  const openModal = useCallback((index) => {
-    swiperRef.current?.autoplay?.stop();
-    progressTweenRef.current?.pause();
-    setModalIndex(index);
-  }, []);
+  const openModal = useCallback(
+    (index) => {
+      clearAutoplay();
+      setModalIndex(index);
+    },
+    [clearAutoplay]
+  );
 
   const closeModal = useCallback(() => {
     if (modalIndex === null || closingRef.current) return;
@@ -358,21 +427,24 @@ function NewSection2() {
 
     const backdrop = backdropRef.current;
     const panel = panelRef.current;
-    const video = videoRef.current;
+    const video = modalVideoRef.current;
 
     video?.pause();
 
+    const finish = () => {
+      closingRef.current = false;
+      setModalIndex(null);
+      document.body.style.overflow = "";
+      if (video) video.currentTime = 0;
+    };
+
+    if (!panel || !backdrop) {
+      finish();
+      return;
+    }
+
     gsap
-      .timeline({
-        onComplete: () => {
-          closingRef.current = false;
-          setModalIndex(null);
-          document.body.style.overflow = "";
-          if (video) video.currentTime = 0;
-          swiperRef.current?.autoplay?.start();
-          runProgress();
-        },
-      })
+      .timeline({ onComplete: finish })
       .to(panel, {
         opacity: 0,
         y: 28,
@@ -381,15 +453,7 @@ function NewSection2() {
         ease: "power2.in",
       })
       .to(backdrop, { opacity: 0, duration: 0.3, ease: "power2.in" }, "<");
-
-    if (!panel || !backdrop) {
-      closingRef.current = false;
-      setModalIndex(null);
-      document.body.style.overflow = "";
-      swiperRef.current?.autoplay?.start();
-      runProgress();
-    }
-  }, [modalIndex, runProgress]);
+  }, [modalIndex]);
 
   useEffect(() => {
     if (modalIndex === null) return;
@@ -399,7 +463,7 @@ function NewSection2() {
     const backdrop = backdropRef.current;
     const panel = panelRef.current;
     const contentItems = panel?.querySelectorAll("[data-modal-reveal]");
-    const video = videoRef.current;
+    const video = modalVideoRef.current;
 
     if (backdrop && panel) {
       gsap.set(backdrop, { opacity: 0 });
@@ -411,24 +475,12 @@ function NewSection2() {
         .to(backdrop, { opacity: 1, duration: 0.45, ease: "power2.out" })
         .to(
           panel,
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.55,
-            ease: "power3.out",
-          },
+          { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "power3.out" },
           "-=0.24"
         )
         .to(
           contentItems,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.45,
-            stagger: 0.07,
-            ease: "power3.out",
-          },
+          { opacity: 1, y: 0, duration: 0.45, stagger: 0.07, ease: "power3.out" },
           "-=0.28"
         );
     }
@@ -456,8 +508,8 @@ function NewSection2() {
     const relX = e.clientX - rect.left - rect.width / 2;
     const relY = e.clientY - rect.top - rect.height / 2;
     gsap.to(el, {
-      x: relX * 0.35,
-      y: relY * 0.35,
+      x: relX * 0.3,
+      y: relY * 0.3,
       scale: 1.08,
       duration: 0.35,
       ease: "power3.out",
@@ -475,10 +527,13 @@ function NewSection2() {
     });
   };
 
-  const goTo = (i) => swiperRef.current?.slideTo(i);
+  const activeSlide = modalIndex !== null ? BRAND_FILM_SLIDES[modalIndex] : null;
+  const isAtStart = activeIndex <= 0;
+  const isAtEnd = activeIndex >= maxIndex;
 
-  const activeSlide =
-    modalIndex !== null ? BRAND_FILM_SLIDES[modalIndex] : null;
+  // Bottle fill: empty at start → full black at the last slide position
+  const loaderProgress =
+    maxIndex <= 0 ? 100 : (activeIndex / maxIndex) * 100;
 
   return (
     <>
@@ -486,166 +541,147 @@ function NewSection2() {
         ref={sectionRef}
         className="w-full flex justify-center items-center mb-[45px] max-xl:mb-[40px] max-md:mb-[36px] max-sm:mb-[28px]"
       >
-        <div className="w-full max-w-[1340px] flex flex-col gap-[43px] max-xl:gap-[36px] max-md:gap-[28px] max-xl:px-6 max-md:px-4">
+        <div className="w-full max-w-[1340px] flex flex-col  gap-[36px] max-md:gap-[28px] max-xl:px-6 max-md:px-4">
           <div
             data-creatives-header
-            className="w-full pb-[33px] border-b-2 border-[#E8E8E8] max-md:pb-[28px] flex items-end justify-between gap-4"
+            className="w-full  border-b-2 border-[#E8E8E8] pb-[18px]"
           >
             <h2 className="font-league-spartan font-[700] text-[48px] capitalize max-xl:text-[40px] max-lg:text-[34px] max-md:text-[28px] max-sm:text-[24px]">
               Brand Films
             </h2>
-
-            <div className="flex items-center gap-4 max-sm:hidden">
-              <span className="font-league-spartan text-[14px] tracking-[0.25em] uppercase text-[#0D6FAA]/60">
-                {String(activeIndex + 1).padStart(2, "0")} /{" "}
-                {String(BRAND_FILM_SLIDES.length).padStart(2, "0")}
-              </span>
-              <div className="flex items-center gap-2">
-                {BRAND_FILM_SLIDES.map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    aria-label={`Go to brand film ${i + 1}`}
-                    onClick={() => goTo(i)}
-                    className="h-[6px] rounded-full transition-all duration-300 ease-out"
-                    style={{
-                      width: activeIndex === i ? 22 : 8,
-                      backgroundColor:
-                        activeIndex === i
-                          ? "#0D6FAA"
-                          : "rgba(13,111,170,0.25)",
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
           </div>
 
-          <div
-            data-cube-stage
-            className="relative w-full group/brand-films [perspective:1800px]"
-          >
-            <Swiper
-              modules={[EffectCube, Navigation, Autoplay, A11y]}
-              effect="cube"
-              grabCursor
-              rewind
-              speed={900}
-              cubeEffect={{
-                shadow: true,
-                slideShadows: true,
-                shadowOffset: 30,
-                shadowScale: 0.92,
-              }}
-              autoplay={{
-                delay: AUTOPLAY_DELAY,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }}
-              navigation={{
-                prevEl: prevRef.current,
-                nextEl: nextRef.current,
-              }}
-              onBeforeInit={(swiper) => {
-                swiperRef.current = swiper;
-                if (!swiper.params.navigation) return;
-                swiper.params.navigation.prevEl = prevRef.current;
-                swiper.params.navigation.nextEl = nextRef.current;
-              }}
-              onInit={(swiper) => {
-                if (swiper.params.navigation) {
-                  swiper.params.navigation.prevEl = prevRef.current;
-                  swiper.params.navigation.nextEl = nextRef.current;
-                  swiper.navigation.init();
-                  swiper.navigation.update();
-                }
-                runProgress();
-              }}
-              onSlideChangeTransitionStart={(swiper) => {
-                setActiveIndex(swiper.realIndex);
-                runProgress();
-              }}
-              onAutoplayPause={() => progressTweenRef.current?.pause()}
-              onAutoplayResume={() => progressTweenRef.current?.resume()}
-              className="brand-films-swiper w-full aspect-[1920/1080] overflow-visible"
+          <div data-brand-stage className="relative w-full">
+            <div
+              ref={containerRef}
+              className="relative w-full overflow-hidden [transform:translateZ(0)]"
             >
-              {BRAND_FILM_SLIDES.map((slide, index) => (
-                <SwiperSlide
-                  key={`${slide.src}-${index}`}
-                  className="!bg-[#0a0a0a] overflow-hidden rounded-[6px] shadow-[0_35px_70px_-20px_rgba(13,111,170,0.45)] cursor-pointer"
-                  onClick={() => openModal(index)}
-                >
-                  <div className="relative h-full w-full overflow-hidden">
+              <div
+                ref={trackRef}
+                className="flex will-change-transform [backface-visibility:hidden]"
+                style={{ gap: `${GAP_PX}px` }}
+              >
+                {BRAND_FILM_SLIDES.map((slide, index) => (
+                  <div
+                    key={`${slide.src}-${index}`}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Open ${slide.title}`}
+                    onClick={() => openModal(index)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        openModal(index);
+                      }
+                    }}
+                    className="group relative shrink-0 cursor-pointer overflow-hidden rounded-[6px] bg-[#0a0a0a] [backface-visibility:hidden] [transform:translateZ(0)]"
+                    style={{
+                      width: metrics.cardWidth || "100%",
+                      aspectRatio: "11 / 10",
+                    }}
+                  >
                     <video
                       ref={(el) => {
                         previewVideoRefs.current[index] = el;
                       }}
                       src={slide.src}
-                      className="h-full w-full object-contain bg-black pointer-events-none"
+                      className="pointer-events-none h-full w-full object-cover [transform:translateZ(0)]"
                       muted
                       loop
                       playsInline
-                      preload={index === 0 ? "auto" : "metadata"}
+                      preload={index < 3 ? "auto" : "metadata"}
                       aria-label={slide.alt}
                     />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/25"
+                    >
+                      <span className="flex h-14 w-14 scale-75 items-center justify-center rounded-full bg-white/90 text-[#0D6FAA] opacity-0 shadow-lg transition-all duration-300 group-hover:scale-100 group-hover:opacity-100">
+                        <PlayGlyph className="ml-0.5 h-5 w-5" />
+                      </span>
+                    </div>
                   </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                ))}
+              </div>
+            </div>
 
-            <PlayButton
-              playBtnRef={playBtnRef}
-              onClick={() => openModal(activeIndex)}
-            />
-
-            <div className="pointer-events-none absolute -bottom-[16px] left-0 right-0 h-[3px] rounded-full bg-[#0D6FAA]/15 overflow-hidden max-md:-bottom-[12px]">
+            {/* Bottle-fill loader — fills as the strip advances, solid black at 100% */}
+            <div
+              className="relative mt-8 h-[2px] w-full overflow-hidden rounded-full bg-[#E8E8E8] max-md:mt-6"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(loaderProgress)}
+              aria-label="Carousel progress"
+            >
               <div
-                ref={progressRef}
-                className="h-full w-full origin-left bg-[#0D6FAA]"
+                ref={loaderFillRef}
+                aria-hidden
+                className="absolute inset-y-0 left-0 h-full w-full origin-left rounded-full bg-black"
                 style={{ transform: "scaleX(0)" }}
               />
             </div>
 
-            <button
-              ref={prevRef}
-              type="button"
-              aria-label="Previous brand film"
-              onMouseMove={(e) => magnetize(e, prevRef)}
-              onMouseLeave={() => resetMagnet(prevRef)}
-              className="absolute left-3 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/55 max-xl:left-2 max-xl:h-10 max-xl:w-10 max-md:left-2 max-md:h-9 max-md:w-9 max-sm:left-1.5 max-sm:h-8 max-sm:w-8"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="h-5 w-5 max-md:h-4 max-md:w-4"
-                aria-hidden="true"
-              >
-                <path d="M15 6l-6 6 6 6" />
-              </svg>
-            </button>
+            {/* Controls row */}
+            <div className="mt-5 flex items-center justify-between max-md:mt-4">
+              <div className="flex items-center gap-3">
+                <button
+                  ref={prevBtnRef}
+                  type="button"
+                  aria-label="Previous brand films"
+                  disabled={isAtStart}
+                  onClick={() => goTo(activeIndex - 1)}
+                  onMouseMove={(e) => !isAtStart && magnetize(e, prevBtnRef)}
+                  onMouseLeave={() => resetMagnet(prevBtnRef)}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[#D9D9D9] text-[#111] transition-colors hover:bg-[#111] hover:text-white disabled:pointer-events-none disabled:opacity-30 max-md:h-9 max-md:w-9"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    className="h-5 w-5 max-md:h-4 max-md:w-4"
+                    aria-hidden="true"
+                  >
+                    <path d="M15 6l-6 6 6 6" />
+                  </svg>
+                </button>
+                <button
+                  ref={nextBtnRef}
+                  type="button"
+                  aria-label="Next brand films"
+                  disabled={isAtEnd}
+                  onClick={() => goTo(activeIndex + 1)}
+                  onMouseMove={(e) => !isAtEnd && magnetize(e, nextBtnRef)}
+                  onMouseLeave={() => resetMagnet(nextBtnRef)}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[#D9D9D9] text-[#111] transition-colors hover:bg-[#111] hover:text-white disabled:pointer-events-none disabled:opacity-30 max-md:h-9 max-md:w-9"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    className="h-5 w-5 max-md:h-4 max-md:w-4"
+                    aria-hidden="true"
+                  >
+                    <path d="M9 6l6 6-6 6" />
+                  </svg>
+                </button>
+              </div>
 
-            <button
-              ref={nextRef}
-              type="button"
-              aria-label="Next brand film"
-              onMouseMove={(e) => magnetize(e, nextRef)}
-              onMouseLeave={() => resetMagnet(nextRef)}
-              className="absolute right-3 top-1/2 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/55 max-xl:right-2 max-xl:h-10 max-xl:w-10 max-md:right-2 max-md:h-9 max-md:w-9 max-sm:right-1.5 max-sm:h-8 max-sm:w-8"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="h-5 w-5 max-md:h-4 max-md:w-4"
-                aria-hidden="true"
+              <Link
+                href="/case-study"
+                className="flex cursor-pointer items-center gap-2 rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
               >
-                <path d="M9 6l6 6-6 6" />
-              </svg>
-            </button>
+                <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[14px]">
+                  Discover All
+                </span>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
+                  <i className="ri-arrow-right-up-line text-[14px] md:text-[16px]" aria-hidden />
+                </span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -658,7 +694,7 @@ function NewSection2() {
             onClose={closeModal}
             backdropRef={backdropRef}
             panelRef={panelRef}
-            videoRef={videoRef}
+            videoRef={modalVideoRef}
             index={modalIndex}
             total={BRAND_FILM_SLIDES.length}
           />,
