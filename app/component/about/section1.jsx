@@ -1103,7 +1103,7 @@ const Section1 = () => {
   }, []);
 
   useEffect(() => {
-    const getVideos = () => {
+    const getAllVideos = () => {
       const videos = Array.from(heroRef.current?.querySelectorAll("video") ?? []);
       const floatVideo = videoFloatRef.current?.querySelector("video");
       if (floatVideo && !videos.includes(floatVideo)) {
@@ -1112,20 +1112,38 @@ const Section1 = () => {
       return videos;
     };
 
-    const playHandlers = new Map();
-    let unlockBound = false;
+    /** Only one video may carry audio — avoids double voice from duplicate <video> nodes. */
+    const getAudioVideo = () => {
+      const isMdUp = window.matchMedia("(min-width: 768px)").matches;
+      const floatVideo = videoFloatRef.current?.querySelector("video");
 
-    const setVideosMuted = (muted) => {
-      getVideos().forEach((video) => {
-        video.muted = muted;
-        video.volume = 1;
+      if (isMdUp) {
+        return floatVideo ?? null;
+      }
+
+      // Mobile: hero video first (in hero section), not the creativity slot duplicate
+      const heroSectionVideo = heroSectionRef.current?.querySelector("video");
+      return heroSectionVideo ?? null;
+    };
+
+    const syncAudioRouting = (forceMuted = isMutedRef.current) => {
+      const audioVideo = getAudioVideo();
+      getAllVideos().forEach((video) => {
+        const shouldPlaySound = !forceMuted && video === audioVideo;
+        video.muted = !shouldPlaySound;
+        if (shouldPlaySound) {
+          video.volume = 1;
+        }
         video.play().catch(() => {});
       });
     };
 
+    const playHandlers = new Map();
+    let unlockBound = false;
+
     const unlockSound = () => {
       if (isMutedRef.current) return;
-      setVideosMuted(false);
+      syncAudioRouting(false);
     };
 
     const bindUnlockListeners = () => {
@@ -1142,10 +1160,23 @@ const Section1 = () => {
         video.play().catch(() => {});
       };
 
+      const audioVideo = getAudioVideo();
+      const isAudioSource = video === audioVideo;
+
       video.volume = 1;
-      video.muted = false;
+      // Non-audio duplicates must stay muted so voice never stacks.
+      video.muted = !isAudioSource || isMutedRef.current;
+
+      if (!isAudioSource) {
+        playVideo();
+        video.addEventListener("loadeddata", playVideo);
+        video.addEventListener("canplay", playVideo);
+        playHandlers.set(video, playVideo);
+        return;
+      }
 
       try {
+        video.muted = false;
         await video.play();
       } catch {
         video.muted = true;
@@ -1158,9 +1189,16 @@ const Section1 = () => {
       playHandlers.set(video, playVideo);
     };
 
-    getVideos().forEach((video) => {
+    getAllVideos().forEach((video) => {
       ensureAutoplay(video);
     });
+
+    const onViewportChange = () => {
+      syncAudioRouting(isMutedRef.current);
+    };
+    const mdMql = window.matchMedia("(min-width: 768px)");
+    mdMql.addEventListener?.("change", onViewportChange);
+    mdMql.addListener?.(onViewportChange);
 
     return () => {
       playHandlers.forEach((playVideo, video) => {
@@ -1170,21 +1208,32 @@ const Section1 = () => {
       ["pointerdown", "click", "touchstart", "keydown"].forEach((eventName) => {
         document.removeEventListener(eventName, unlockSound, { capture: true });
       });
+      mdMql.removeEventListener?.("change", onViewportChange);
+      mdMql.removeListener?.(onViewportChange);
     };
   }, []);
 
   const toggleMute = () => {
     const nextMuted = !isMuted;
-    const videos = heroRef.current?.querySelectorAll("video") ?? [];
-    const floatVideo = videoFloatRef.current?.querySelector("video");
-    const allVideos = [...videos];
-    if (floatVideo && !allVideos.includes(floatVideo)) {
-      allVideos.push(floatVideo);
-    }
+    const getAllVideos = () => {
+      const videos = Array.from(heroRef.current?.querySelectorAll("video") ?? []);
+      const floatVideo = videoFloatRef.current?.querySelector("video");
+      if (floatVideo && !videos.includes(floatVideo)) {
+        videos.push(floatVideo);
+      }
+      return videos;
+    };
 
-    allVideos.forEach((video) => {
-      video.muted = nextMuted;
-      if (!nextMuted) {
+    const isMdUp = window.matchMedia("(min-width: 768px)").matches;
+    const floatVideo = videoFloatRef.current?.querySelector("video");
+    const audioVideo = isMdUp
+      ? floatVideo
+      : heroSectionRef.current?.querySelector("video");
+
+    getAllVideos().forEach((video) => {
+      const shouldPlaySound = !nextMuted && video === audioVideo;
+      video.muted = !shouldPlaySound;
+      if (shouldPlaySound) {
         video.volume = 1;
         video.play().catch(() => {});
       }
@@ -1347,6 +1396,7 @@ const Section1 = () => {
               <video
                 autoPlay
                 loop
+                muted
                 playsInline
                 className="block h-auto w-full"
                 src="/about/video-about.mp4"
@@ -1377,6 +1427,7 @@ const Section1 = () => {
         <video
           autoPlay
           loop
+          muted
           playsInline
           className="block h-full w-full origin-center object-cover"
           src="/about/video-about.mp4"
@@ -1402,7 +1453,7 @@ const Section1 = () => {
         </div>
       </div>
 
-      <section id="intro" ref={filmRef} className="relative overflow-x-hidden bg-[#F1F1F1] px-8 pb-0 pt-[35px] md:px-12 md:pb-0 md:pt-[70px] lg:py-16 lg:pt-20">
+      <section id="intro" ref={filmRef} className="relative overflow-x-hidden bg-[#FAFAFA] px-8 pb-0 pt-[35px] md:px-12 md:pb-0 md:pt-[70px] lg:py-16 lg:pt-20">
         <img
           src="/logo/r-logo-side.png"
           alt=""
@@ -1461,6 +1512,7 @@ const Section1 = () => {
                 <video
                   autoPlay
                   loop
+                  muted
                   playsInline
                   className="block h-auto w-full"
                   src="/about/video-about.mp4"

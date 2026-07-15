@@ -290,7 +290,7 @@ const Section2 = () => {
         }
       `}</style>
 
-      <section className="bg-[#F1F1F1] pb-[35px] md:pb-[70px]">
+      <section className="bg-[#FAFAFA] pb-[35px] md:pb-[70px]">
         <div className="mx-auto w-full max-w-8xl px-8 md:px-12 md:pt-0 py-[35px]">
           <h2 style={headingStyle} className="m-0 text-[30px] md:text-[48px]">
             What we Deliver

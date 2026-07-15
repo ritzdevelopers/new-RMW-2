@@ -31,12 +31,12 @@ const Section1 = () => {
         </h1>
 
         <div className="relative w-full max-w-[1200px]">
-          <p
+          {/* <p
             style={storyStyle}
             className="mb-4 w-full text-center text-[22px] leading-[100%] sm:text-[28px] md:absolute md:top-1/2 md:right-0 md:m-0 md:mb-0 md:-translate-y-1/2 md:text-right md:text-[30px] md:translate-x-[5%] lg:text-[42px] lg:translate-x-[0%] xl:translate-x-[10%]"
           >
             The ritzmediaworld Story
-          </p>
+          </p> */}
           <div className="mx-auto aspect-[851/443] w-full max-w-[851px] rounded-[24px] bg-black md:rounded-[32px] lg:h-[443px] lg:w-[851px] lg:max-w-[851px]" />
         </div>
       </div>

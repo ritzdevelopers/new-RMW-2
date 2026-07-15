@@ -338,8 +338,8 @@ const ServiceDetailFourGallery = ({ mediaSection }) => {
               .timeline({ defaults: { ease: "power3.out", overwrite: "auto" } })
               .to(card, { y: -10, duration: 0.55 }, 0)
               .to(image, { scale: 1.08, duration: 0.85 }, 0)
-              .to(topScrim, { opacity: 0.88, duration: 0.55 }, 0)
-              .to(bottomScrim, { opacity: 0.95, duration: 0.55 }, 0)
+              .to(topScrim, { opacity: 0.5, duration: 0.55 }, 0)
+              .to(bottomScrim, { opacity: 0.75, duration: 0.55 }, 0)
               .to(headlineWrap, { y: 12, duration: 0.55 }, 0)
               .to(headlineCompact, { opacity: 0, y: 14, duration: 0.35 }, 0)
               .to(category, { y: -6, duration: 0.55 }, 0)
@@ -482,6 +482,16 @@ const ServiceDetailFourGallery = ({ mediaSection }) => {
                   activeAudioIndex={activeAudioIndex}
                   onActivateAudio={onActivateAudio}
                 />
+                {item.href ? (
+                  <div
+                    className="pointer-events-none absolute inset-0 z-[15] flex items-center justify-center bg-black/0 opacity-0 transition-all duration-500 ease-out group-hover:bg-black/15 group-hover:opacity-100"
+                    aria-hidden
+                  >
+                    <span className="flex h-14 w-14 scale-90 items-center justify-center rounded-full bg-[#FF0000] text-white shadow-[0_10px_30px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out group-hover:scale-100 md:h-16 md:w-16">
+                      <i className="ri-play-fill text-[28px] translate-x-[1px] md:text-[32px]" aria-hidden />
+                    </span>
+                  </div>
+                ) : null}
                 <div
                   data-svc-overlay
                   className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-transparent opacity-0"

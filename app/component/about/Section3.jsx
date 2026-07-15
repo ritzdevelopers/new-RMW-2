@@ -113,7 +113,7 @@ const Section3 = () => {
         }
       `}</style>
 
-      <section ref={sectionRef} className="bg-[#F1F1F1] pb-[35px] md:pb-[70px]">
+      <section ref={sectionRef} className="bg-[#FAFAFA] pb-[35px] md:pb-[70px]">
         <div className="mx-auto w-full max-w-8xl px-8 md:px-12 lg:max-w-[1500px]">
           <h2
             style={headingStyle}
