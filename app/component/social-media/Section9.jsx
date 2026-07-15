@@ -1,13 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Playfair_Display } from "next/font/google";
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  display: "swap",
-});
 
 const EXPECTATIONS = [
   {
@@ -65,7 +58,7 @@ function Section9() {
         {/* Right — accordion content */}
         <div className="flex w-full flex-col justify-center mr-40 bg-[#FAFAFA] px-8 py-10 sm:px-10 md:px-12 lg:w-[44%] lg:max-w-[400px] lg:shrink-0 lg:px-0 lg:py-14 xl:py-16">
           <h2
-            className={`${playfair.className} mb-10 text-[25px] font-[500] leading-[1.15] tracking-[-0.02em] text-[#1a1a1a] sm:mb-12`}
+            className="mb-10 text-[25px] font-[500] leading-[1.15] tracking-[-0.02em] text-[#1a1a1a] sm:mb-12"
           >
             What to expect
           </h2>

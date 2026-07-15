@@ -2,10 +2,12 @@ import React from "react";
 
 function Section10() {
   return (
-    <section className="w-full flex justify-between items-center py-20 bg-[#F4F2F0]">
-      <div className="w-full  flex flex-col justify-center items-center gap-4 text-center">
-        <h2 className="font-[400] text-[18px]">Ready to take the next step?</h2>
-        <p className="font-[300] text-[11px] max-w-[600px]">
+    <section className="flex w-full items-center justify-between bg-[#F4F2F0] px-5 py-12 sm:px-8 sm:py-16 md:px-10 md:py-20 lg:px-4 lg:py-20">
+      <div className="flex w-full flex-col items-center justify-center gap-4 text-center">
+        <h2 className="font-[400] text-[16px] sm:text-[17px] md:text-[18px] lg:text-[18px]">
+          Ready to take the next step?
+        </h2>
+        <p className="max-w-[600px] font-[300] text-[11px] leading-[1.6] lg:leading-normal">
           Working with a luxury creative agency for social media management
           ensures that your brand is represented professionally, authentically
           and consistently across all your social media channels. It allows you
@@ -13,12 +15,16 @@ function Section10() {
           Media Management in the hands of experts who understand the unique
           requirements of your industry to succeed online and build your brand.
         </p>
-        <p className="font-[300] text-[11px] max-w-[600px]">Let us help you elevate your online presence and achieve your social media goals. Contact us today to learn more about our comprehensive and results-driven Social Media Management services.</p>
-        <div className="flex justify-center items-center gap-4 w-full">
-          <button className="w-[230px] h-[35px] cursor-pointer bg-[#000000] text-white font-[500] text-[11px]">
+        <p className="max-w-[600px] font-[300] text-[11px] leading-[1.6] lg:leading-normal">
+          Let us help you elevate your online presence and achieve your social
+          media goals. Contact us today to learn more about our comprehensive
+          and results-driven Social Media Management services.
+        </p>
+        <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+          <button className="h-[35px] w-full max-w-[230px] cursor-pointer border  bg-[#000000] text-[11px] hover:bg-[#F4F2F0] hover:text-[#000000] font-[500] text-white sm:w-[230px]">
             Get in Touch
           </button>
-          <button className="w-[230px] h-[35px] cursor-pointer bg-[#000000] text-white font-[500] text-[11px]">
+          <button className="h-[35px] w-full max-w-[230px] cursor-pointer border  bg-[#000000] text-[11px] hover:bg-[#F4F2F0] hover:text-[#000000] font-[500] text-white sm:w-[230px]">
             Book a Consultation
           </button>
         </div>
