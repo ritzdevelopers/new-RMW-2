@@ -23,8 +23,8 @@ function page() {
       <Section3 />
       {/* <Section4 />  */}
       <DynamicSlider heading="Walk-Through Videos" />
-      <Section5 />
-      <Section6 />
+      {/* <Section5 />  */}
+      {/* <Section6 /> */}
       <Section8 />
       <Section10 />
     </main>

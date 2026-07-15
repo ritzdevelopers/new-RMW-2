@@ -27,7 +27,7 @@ function page() {
       <Section6 />
       <DynamicSlider heading="Social Media" />
       <Section8 />
-      <DynamicSlider heading="Be Aware" />
+      <DynamicSlider heading="Brochure" />
       <Section10 />
     </main>
   );
