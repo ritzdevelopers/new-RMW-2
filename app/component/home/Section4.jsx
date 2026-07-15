@@ -49,8 +49,11 @@ const splitTitleParts = (title) => {
 };
 
 const IMAGE_CLIP_WIDTH = "min(300px, 26vw)";
-const IMAGE_CLIP_INSET = `calc(50% - min(150px, 13vw))`;
-const ROW_CLIP_MASK = `linear-gradient(to right, #000 0, #000 calc(50% - min(150px, 13vw)), transparent calc(50% - min(150px, 13vw)), transparent calc(50% + min(150px, 13vw)), #000 calc(50% + min(150px, 13vw)), #000 100%)`;
+// Feathered edges (a soft ~14px fade instead of a hard cut) so letters that
+// straddle the image window cross-fade between the black text and the
+// image-filled text rather than being sliced mid-glyph.
+const ROW_CLIP_MASK = `linear-gradient(to right, #000 0, #000 calc(50% - min(150px, 13vw) - 14px), transparent calc(50% - min(150px, 13vw) + 14px), transparent calc(50% + min(150px, 13vw) - 14px), #000 calc(50% + min(150px, 13vw) + 14px), #000 100%)`;
+const IMAGE_TEXT_MASK = `linear-gradient(to right, transparent 0, transparent calc(50% - min(150px, 13vw) - 14px), #000 calc(50% - min(150px, 13vw) + 14px), #000 calc(50% + min(150px, 13vw) - 14px), transparent calc(50% + min(150px, 13vw) + 14px), transparent 100%)`;
 const imageOverlayTextStyle = {
   color: "transparent",
   WebkitTextStroke: "0.5px gray",
@@ -637,6 +640,17 @@ const Section4 = () => {
         const cards = gridCardRefs.current;
         if (!overlay) return finish();
 
+        // The list view pins Section 4, so by the time the user reaches the
+        // last row the window is scrolled far past the section's natural
+        // position. Switching to grid removes the pin (and its spacer), which
+        // would otherwise drop the viewport onto the sections below. Snap the
+        // scroll back to Section 4's top — the pinned list was already sitting
+        // at the top of the viewport, so this keeps the transition seamless.
+        const section = sectionRef.current;
+        if (section) {
+          window.scrollTo({ top: section.offsetTop, behavior: "auto" });
+        }
+
         overlay.innerHTML = "";
 
         const tl = gsap.timeline({
@@ -1015,7 +1029,7 @@ const Section4 = () => {
                     ""
                   }`}
                 >
-                  <div className={`relative ${linkRowClass}`}>
+                  <div className="relative inline-flex items-baseline justify-center">
                     <Link
                       href={`/services/${service.slug}`}
                       ref={(node) => {
@@ -1069,10 +1083,10 @@ const Section4 = () => {
 
                     {isActive && !showGridPreview ? (
                       <div
-                        className="pointer-events-none absolute inset-0 z-20 hidden items-center justify-center md:flex"
+                        className="pointer-events-none absolute inset-0 z-20 hidden items-baseline justify-center md:flex"
                         style={{
-                          clipPath: `inset(0 ${IMAGE_CLIP_INSET} 0 ${IMAGE_CLIP_INSET})`,
-                          WebkitClipPath: `inset(0 ${IMAGE_CLIP_INSET} 0 ${IMAGE_CLIP_INSET})`,
+                          maskImage: IMAGE_TEXT_MASK,
+                          WebkitMaskImage: IMAGE_TEXT_MASK,
                         }}
                       >
                         <span className={linkRowClass}>
