@@ -14,25 +14,27 @@ const Section1 = () => {
     <section className="w-full">
       {/* Full-bleed banner — left/right edge touch */}
       <div className="relative w-full overflow-hidden">
-        <div className="grid w-full grid-cols-1 md:grid-cols-2">
-          <div className="relative aspect-[4/5] w-full md:aspect-[3/4] lg:min-h-[780px] lg:aspect-auto xl:h-[664px] xl:min-h-0 xl:aspect-auto">
+        <div className="grid w-full grid-cols-2">
+          <div className="relative w-full overflow-hidden xl:h-[664px]">
             <Image
               src="/portfolio/portfolio-banner-1.jpg"
               alt=""
-              fill
+              width={1200}
+              height={1600}
               priority
-              className="object-cover object-center"
-              sizes="(min-width: 768px) 50vw, 100vw"
+              className="block h-auto w-full object-cover object-center xl:absolute xl:inset-0 xl:h-full"
+              sizes="50vw"
             />
           </div>
-          <div className="relative aspect-[4/5] w-full md:aspect-[3/4] lg:min-h-[780px] lg:aspect-auto xl:h-[664px] xl:min-h-0 xl:aspect-auto">
+          <div className="relative w-full overflow-hidden xl:h-[664px]">
             <Image
               src="/portfolio/portfolio-banner-2.jpeg"
               alt=""
-              fill
+              width={1200}
+              height={1600}
               priority
-              className="object-cover object-center"
-              sizes="(min-width: 768px) 50vw, 100vw"
+              className="block h-auto w-full object-cover object-center xl:absolute xl:inset-0 xl:h-full"
+              sizes="50vw"
             />
           </div>
         </div>
