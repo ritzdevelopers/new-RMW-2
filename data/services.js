@@ -747,7 +747,8 @@ export const services = [
     intro: {
       images: [
         {
-          src: "/celebrity-endorsements/digital-banner.jpg",
+          src: "/celebrity-endorsements/Celebrity-Endorsement.jpg",
+          mobileSrc: "/celebrity-endorsements/Celebrity-endorsement-mobile.jpg",
           width: 1440,
           height: 630,
         },
