@@ -48,8 +48,6 @@ const splitTitleParts = (title) => {
   return [title.slice(0, mid), title.slice(mid)];
 };
 
-const SLIDER_IMAGE = "/home/slider-image-1.png";
-const HOVER_IMAGE = "/home/digital-hover.jpg";
 const IMAGE_CLIP_WIDTH = "min(300px, 26vw)";
 const IMAGE_CLIP_INSET = `calc(50% - min(150px, 13vw))`;
 const ROW_CLIP_MASK = `linear-gradient(to right, #000 0, #000 calc(50% - min(150px, 13vw)), transparent calc(50% - min(150px, 13vw)), transparent calc(50% + min(150px, 13vw)), #000 calc(50% + min(150px, 13vw)), #000 100%)`;
