@@ -640,6 +640,17 @@ const Section4 = () => {
         const cards = gridCardRefs.current;
         if (!overlay) return finish();
 
+        // The list view pins Section 4, so by the time the user reaches the
+        // last row the window is scrolled far past the section's natural
+        // position. Switching to grid removes the pin (and its spacer), which
+        // would otherwise drop the viewport onto the sections below. Snap the
+        // scroll back to Section 4's top — the pinned list was already sitting
+        // at the top of the viewport, so this keeps the transition seamless.
+        const section = sectionRef.current;
+        if (section) {
+          window.scrollTo({ top: section.offsetTop, behavior: "auto" });
+        }
+
         overlay.innerHTML = "";
 
         const tl = gsap.timeline({
