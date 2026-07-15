@@ -51,38 +51,35 @@ const roleStyle = {
   color: "#00000099",
 };
 
-const SLIDER_IMAGE = "/home/slider-image-1.png";
-
 const slides = [
   {
     quote:
       "They not only make sure that they deliver on their promises, but also educate you on what exactly is needed to be done for your brand, thereby preventing you from under or over spending your precious money.",
     author: "Eldeco Group",
     role: "Managing Director",
-    image: SLIDER_IMAGE,
+    image: "/home/Eldeco.jpg",
   },
   {
     quote:
       "If there is one thing serving as a full service digital agency for more than a decade taught us, it has to be the value of relationships. Therefore, our relationship with our clients is both a priority and a point of pride to us.",
     author: "FAIRFOX - EON",
     role: "Marketing Head",
-    image: SLIDER_IMAGE,
+    image: "/home/Eon-by-fairfox.jpg",
   },
   {
     quote:
       "To me, advertising my brand was merely a means to ensure my elongated presence in the market. Thanks to ritz Media world, my advertisements not only ensured my brand’s sustenance but have also got me a great number of quality leads.",
     author: "Madhusudan Ghee",
     role: "Managing Director",
-    image: SLIDER_IMAGE,
+    image: "/home/Madhusudan-Ghee.jpg",
   },
   {
     quote:
       "I must admit that RMW and its team of professionals are always on my favourite list. They have always delivered the best services to me even if they had to put in extra efforts and their team has always been available for extensive support.",
     author: "Escorts Tractor",
     role: "Chief Communication Officer",
-    image: SLIDER_IMAGE,
+    image: "/home/Escorts-Tractor.jpg",
   },
-  
 ];
 
 const Section5 = () => {
@@ -187,12 +184,12 @@ const Section5 = () => {
           </div>
         </div>
 
-        <div className="mx-auto w-full max-w-[420px] shrink-0 overflow-hidden lg:mx-0 lg:max-w-[460px]">
+        <div className="mx-auto w-full max-w-[420px] shrink-0 lg:mx-0 lg:max-w-[460px]">
           <img
             ref={imageRef}
-            src={SLIDER_IMAGE}
+            src={slide.image}
             alt={slide.author}
-            className="lg:mt-35 mt-3 block h-auto w-full object-contain"
+            className="lg:mt-35 mt-3 block h-auto w-full object-contain shadow-md"
           />
         </div>
       </div>

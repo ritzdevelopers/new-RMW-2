@@ -491,7 +491,7 @@ const Footer = ({ overlaySection = null }) => {
             </nav>
           </div>
 
-          <nav className="relative flex flex-col items-center gap-4 md:gap-5 xl:gap-6 l4:gap-5">
+          <nav className="relative flex flex-col items-center gap-4 md:gap-5 xl:gap-7 l4:gap-5">
             {mainNavLinks.map((link) => (
               <Link
                 key={link.label}
