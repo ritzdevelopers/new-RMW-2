@@ -801,20 +801,24 @@ export const services = [
         "The right celebrity partnership is more than a face on a poster — it is strategy, storytelling, and seamless integration. From talent identification to legal compliance, our work helps brands borrow the spotlight with partnerships that feel credible and convert.",
       gallery: [
         {
-          src: "/celebrity-endorsements/celebrity-endorsements-1.jpg",
+          src: "/celebrity-endorsements/celebrity-image-1.jpg",
           label: "Talent Reach",
+          href: "https://youtu.be/ZXHlduQVn7M?si=FCpfblj3StXn26TZ",
         },
         {
-          src: "/celebrity-endorsements/two.jpg",
+          src: "/celebrity-endorsements/celebrity-image-2.jpg",
           label: "Brand Story",
+          href: "https://youtu.be/lFw9a2i2fUg?si=Di4tDZqLu3S74LAu",
         },
         {
-          src: "/celebrity-endorsements/graph.jpg",
+          src: "/celebrity-endorsements/celebrity-image-3.jpg",
           label: "Campaign Data",
+          href: "https://youtu.be/eubPBDfRcWc?si=1zmnVSINKSaDYngj",
         },
         {
-          src: "/celebrity-endorsements/digital-1.jpg",
+          src: "/celebrity-endorsements/celebrity-image-4.jpg",
           label: "Social Impact",
+          href: "https://youtu.be/EZjSYrrqhE4?si=D6qR6fVfwNksOuM3",
         },
       ],
       imageContent: {

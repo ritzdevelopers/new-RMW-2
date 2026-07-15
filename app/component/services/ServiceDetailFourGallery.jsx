@@ -458,14 +458,23 @@ const ServiceDetailFourGallery = ({ mediaSection }) => {
         <div className="mt-12 flex w-full flex-col gap-4 md:mt-16 md:flex-row md:flex-wrap md:content-start md:gap-x-8 md:gap-y-4">
           {galleryItems.map((item, index) => {
             const words = (item.label ?? `Gallery ${index + 1}`).split(/\s+/);
+            const CardTag = item.href ? "a" : "div";
+            const cardLinkProps = item.href
+              ? {
+                  href: item.href,
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                }
+              : {};
 
             return (
-              <div
+              <CardTag
                 key={`${item.src}-${index}`}
                 data-svc-card
+                {...cardLinkProps}
                 className={`group relative block w-full overflow-hidden rounded-none bg-[#1D1D1B] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.35)] will-change-transform max-lg:aspect-[69/73] md:w-[calc(50%-1rem)] lg:h-[621px] ${
-                  index % 2 === 1 ? "md:mt-12 lg:mt-12" : ""
-                }`}
+                  item.href ? "cursor-pointer" : ""
+                } ${index % 2 === 1 ? "md:mt-12 lg:mt-12" : ""}`}
               >
                 <GalleryCardMedia
                   src={item.src}
@@ -522,7 +531,7 @@ const ServiceDetailFourGallery = ({ mediaSection }) => {
                     </span>
                   </div>
                 </div>
-              </div>
+              </CardTag>
             );
           })}
         </div>

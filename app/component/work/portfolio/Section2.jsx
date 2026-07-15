@@ -1,115 +1,65 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
+import Image from "next/image";
 
-gsap.registerPlugin(ScrollTrigger);
-
-const PORTFOLIO_IMAGES = [
-  "/work/portfolio/s1/saya.jpg",
-  "/work/portfolio/s1/ashtech.jpg",
-  "/work/portfolio/s1/saya.jpg",
-  "/work/portfolio/s1/ashtech.jpg",
-  "/work/portfolio/s1/saya.jpg",
-  "/work/portfolio/s1/ashtech.jpg",
+const SERVICES = [
+  {
+    src: "/portfolio/brand-design-1.jpg",
+    alt: "Brand design review on desk",
+    label: "Brand Design",
+  },
+  {
+    src: "/portfolio/website-design.jpg",
+    alt: "Website design work on laptop",
+    label: "Website Design",
+  },
+  {
+    src: "/portfolio/content.jpg",
+    alt: "Photography and content studio setup",
+    label: "Photography & Content",
+  },
+  {
+    src: "/portfolio/social-media.jpg",
+    alt: "Social media management on phone",
+    label: "Social Media Management",
+  },
 ];
 
 const Section2 = () => {
-  const sectionRef = useRef(null);
-
-  useLayoutEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    const ctx = gsap.context(() => {
-      const header = section.querySelector("[data-portfolio-header]");
-      const cards = gsap.utils.toArray("[data-portfolio-card]", section);
-
-      if (prefersReducedMotion) {
-        gsap.set([header, ...cards], {
-          clearProps: "all",
-          opacity: 1,
-          y: 0,
-        });
-        return;
-      }
-
-      if (header) {
-        gsap.set(header, { opacity: 0, y: 24 });
-
-        gsap.to(header, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: header,
-            start: "top 90%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      }
-
-      cards.forEach((card) => {
-        gsap.set(card, { opacity: 0, y: 40 });
-
-        gsap.to(card, {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: card,
-            start: "top 92%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      });
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section
-      ref={sectionRef}
-      className="w-full flex justify-center items-center"
-    >
-      {/* Centered Align Container  */}
-      <div className="w-full max-w-[1340px] flex flex-col gap-[40px] max-xl:px-6 max-md:px-4 max-md:gap-[28px]">
-        {/* Top Row  */}
-        <div
-          data-portfolio-header
-          className="w-full pb-[45px] border-b-2 border-[#E8E8E8] max-md:pb-[28px] relative"
+    <section className="w-full bg-[#FAFAFA] py-[72px] max-xl:py-[60px] max-md:py-[48px] max-sm:py-[40px]">
+      <div className="mx-auto flex w-full max-w-[1340px] flex-col items-center gap-[48px] px-6 max-md:gap-[32px] max-md:px-4 max-sm:gap-[28px]">
+        <h2
+          className="m-0 text-center text-[32px] font-normal leading-[1.2] tracking-[-0.01em] text-black max-xl:text-[28px] max-lg:text-[26px] max-md:text-[24px] max-sm:text-[22px]"
+          style={{ fontFamily: "Montserrat, sans-serif" }}
         >
-          <h3 className="font-league-spartan font-[700] text-[38px] uppercase max-xl:text-[32px] max-lg:text-[28px] max-md:text-[24px] max-sm:text-[20px]">
-            Websites
-          </h3>
-        </div>
+          Explore our service offerings
+        </h2>
 
-        {/* Main Body Row  */}
-        <div className="w-full grid grid-cols-2 justify-between max-xl:gap-x-6 max-lg:gap-x-4 max-md:grid-cols-1 max-md:gap-x-0">
-          {PORTFOLIO_IMAGES.map((img, idx) => {
-            return (
-              <div
-                key={idx}
-                data-portfolio-card
-                className="w-[650px] h-[1699px] mb-[40px] relative overflow-hidden max-xl:w-full max-xl:h-auto max-xl:aspect-[650/1699] max-md:mb-[24px] max-sm:mb-[20px]"
-              >
-                <img
-                  data-portfolio-image
-                  src={img}
-                  alt="portfolio"
-                  className="w-full h-full object-cover z-0"
+        <div className="grid w-full grid-cols-4 gap-[15px] max-lg:grid-cols-2 max-sm:grid-cols-1 lg:gap-[20px] xl:gap-[30px]">
+          {SERVICES.map((service) => (
+            <article
+              key={service.label}
+              className="flex w-full flex-col bg-white p-[10px] pb-[18px] shadow-[0_12px_28px_rgba(0,0,0,0.18)] max-md:p-[12px] max-md:pb-[16px]"
+            >
+              <div className="relative aspect-square w-full overflow-hidden bg-[#f3f3f3]">
+                <Image
+                  src={service.src}
+                  alt={service.alt}
+                  fill
+                  className="object-cover object-center"
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                 />
               </div>
-            );
-          })}
+
+              <div className="mx-auto mt-[14px] flex w-[calc(90%-20px)] max-w-full items-center justify-center bg-black px-5 py-[7.5px] max-md:mt-[1px] max-md:px-4 max-md:py-[6.5px]">
+                <span className="text-center font-league-spartan text-[13px] font-[500] leading-tight tracking-[0.02em] text-white max-xl:text-[12px] max-md:text-[11px]">
+                  {service.label}
+                </span>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

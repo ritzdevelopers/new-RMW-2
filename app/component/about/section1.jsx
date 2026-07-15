@@ -128,6 +128,8 @@ const Section1 = () => {
   const videoEntranceRef = useRef(0);
   const videoRevealStartedRef = useRef(false);
   const videoBoundsRef = useRef(null);
+  const videoSettledRef = useRef(false);
+  const isVideoSnappingRef = useRef(false);
 
   const isMobileViewport = () =>
     typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
@@ -252,15 +254,15 @@ const Section1 = () => {
     };
   };
 
-  const syncVideoBounds = (lockStart = false) => {
+  const syncVideoBounds = (lockStart = false, lockEnd = false) => {
     const container = heroRef.current;
     const heroSection = heroSectionRef.current;
     if (!container || !heroSection) return null;
 
     const startSize = getStartSize();
     const sectionBottom = heroSection.offsetTop + heroSection.offsetHeight;
-    const end = measureFinalSlotEnd();
-    if (!end) return null;
+    const measuredEnd = measureFinalSlotEnd();
+    if (!measuredEnd) return null;
 
     const nextStart =
       lockStart && videoBoundsRef.current?.start
@@ -275,9 +277,14 @@ const Section1 = () => {
             clipTop: 0,
           };
 
+    const nextEnd =
+      lockEnd && videoBoundsRef.current?.end
+        ? videoBoundsRef.current.end
+        : measuredEnd;
+
     videoBoundsRef.current = {
       start: nextStart,
-      end,
+      end: nextEnd,
     };
 
     return videoBoundsRef.current;
@@ -559,6 +566,9 @@ const Section1 = () => {
     let metadataVideo = null;
     let onVideoMetadata = null;
     let heroVideoST = null;
+    let snapTween = null;
+    let filmEnterTl = null;
+    let textRevealTween = null;
     const videoScroll = { p: 0 };
 
     let spotlightTween = null;
@@ -822,14 +832,17 @@ const Section1 = () => {
       }
 
       if (film && !isMobileViewport()) {
-        ScrollTrigger.create({
-          id: "about-film-intro",
-          trigger: film,
-          start: "top 85%",
-          end: "top 52%",
-          scrub: 0.45,
-          onUpdate: (self) => applyFilmSectionReveal(self.progress),
+        filmEnterTl = gsap.timeline({ paused: true });
+
+        introItems.forEach((item) => {
+          filmEnterTl.to(item, { yPercent: 0, duration: 1.1, ease: LETTER_REVEAL_EASE }, 0);
         });
+
+        disruptionItems.forEach((item) => {
+          filmEnterTl.to(item, { yPercent: 0, duration: 1.1, ease: LETTER_REVEAL_EASE }, ">-0.15");
+        });
+
+        filmEnterTl.eventCallback("onComplete", fitAll);
       }
 
       const floater = videoFloatRef.current;
@@ -843,7 +856,9 @@ const Section1 = () => {
           ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === slot)?.progress ?? 0;
         applyVideoProgress(scrollProgress, videoEntranceRef.current);
         applyHeroTextScroll(scrollProgress);
-        applyCreativityLetterReveal(mapVideoProgressToLetterReveal(scrollProgress));
+        if (videoSettledRef.current || scrollProgress >= 0.99) {
+          applyCreativityLetterReveal(mapVideoProgressToLetterReveal(scrollProgress));
+        }
         applyLogoPosition(1, scrollProgress);
       };
 
@@ -853,7 +868,7 @@ const Section1 = () => {
           xPercent: -50,
           yPercent: -50,
           zIndex: 30,
-          borderRadius: "20px",
+          borderRadius: "7px",
           overflow: "hidden",
         });
 
@@ -872,7 +887,10 @@ const Section1 = () => {
             scrub: VIDEO_SCROLL_SCRUB,
             invalidateOnRefresh: true,
             onRefresh: () => {
-              syncVideoBounds(videoEntranceRef.current >= 1);
+              syncVideoBounds(
+                videoEntranceRef.current >= 1 || videoSettledRef.current,
+                videoSettledRef.current
+              );
             },
           },
         });
@@ -883,9 +901,13 @@ const Section1 = () => {
           p: 1,
           ease: "none",
           onUpdate: () => {
+            if (isVideoSnappingRef.current || videoSettledRef.current) return;
             applyVideoProgress(videoScroll.p, 1);
             applyHeroTextScroll(videoScroll.p);
-            applyCreativityLetterReveal(mapVideoProgressToLetterReveal(videoScroll.p));
+            // Text reveal starts only after video has reached its slot.
+            if (videoScroll.p >= 0.99) {
+              applyCreativityLetterReveal(mapVideoProgressToLetterReveal(videoScroll.p));
+            }
             syncLogoWithScroll(videoScroll.p);
           },
         });
@@ -901,17 +923,144 @@ const Section1 = () => {
           ScrollTrigger.refresh();
         });
       }
+
+      if (heroSection && film) {
+        let isSnapping = false;
+        let snapArmed = true;
+
+        const playTextAfterVideoSettles = () => {
+          filmEnterTl?.play(0);
+
+          textRevealTween?.kill();
+          const proxy = { t: 0 };
+          applyCreativityLetterReveal(0);
+          textRevealTween = gsap.to(proxy, {
+            t: 1,
+            duration: 1.15,
+            ease: "none",
+            onUpdate: () => applyCreativityLetterReveal(proxy.t),
+          });
+        };
+
+        const settleVideoAtSlot = () => {
+          if (isMobileViewport()) return;
+          videoSettledRef.current = true;
+          videoScroll.p = 1;
+          videoEntranceRef.current = 1;
+          videoRevealStartedRef.current = true;
+          syncVideoBounds(true, true);
+          applyVideoProgress(1, 1);
+          applyHeroTextScroll(1);
+          syncLogoWithScroll(1);
+          if (heroVideoST) {
+            heroVideoST.animation?.progress(1);
+          }
+          playTextAfterVideoSettles();
+        };
+
+        const applyScrollLinkedVideo = (progress) => {
+          if (isMobileViewport()) return;
+          const t = gsap.utils.clamp(0, 1, progress);
+          videoScroll.p = t;
+          videoEntranceRef.current = 1;
+          videoRevealStartedRef.current = true;
+          applyVideoProgress(t, 1);
+          applyHeroTextScroll(t);
+          syncLogoWithScroll(t);
+        };
+
+        const snapToFilmSection = () => {
+          if (isSnapping || !snapArmed || !film) return;
+
+          isSnapping = true;
+          isVideoSnappingRef.current = true;
+          snapArmed = false;
+          videoSettledRef.current = false;
+          snapTween?.kill();
+          textRevealTween?.kill();
+          filmEnterTl?.pause(0);
+          applyCreativityLetterReveal(0);
+
+          // Fresh end bounds once, then keep them for the whole travel.
+          syncVideoBounds(true, false);
+
+          const fromY = window.scrollY || window.pageYOffset || 0;
+          const toY = Math.max(
+            0,
+            (window.scrollY || window.pageYOffset || 0) + film.getBoundingClientRect().top
+          );
+          const distance = Math.max(toY - fromY, 1);
+          const proxy = { y: fromY };
+
+          applyScrollLinkedVideo(0);
+
+          snapTween = gsap.to(proxy, {
+            y: toY,
+            duration: 0.75,
+            ease: "power2.inOut",
+            overwrite: true,
+            onUpdate: () => {
+              window.scrollTo(0, proxy.y);
+              applyScrollLinkedVideo((proxy.y - fromY) / distance);
+            },
+            onComplete: () => {
+              window.scrollTo(0, toY);
+              settleVideoAtSlot();
+              fitAll();
+              isSnapping = false;
+              isVideoSnappingRef.current = false;
+              snapTween = null;
+            },
+          });
+        };
+
+        ScrollTrigger.create({
+          id: "about-snap-to-film",
+          trigger: heroSection,
+          start: "top top",
+          endTrigger: film,
+          end: "top top",
+          onUpdate: (self) => {
+            if (self.direction === -1 && self.progress < 0.04) {
+              snapArmed = true;
+              videoSettledRef.current = false;
+              isVideoSnappingRef.current = false;
+              textRevealTween?.kill();
+              filmEnterTl?.pause(0);
+              gsap.set(introItems, { yPercent: 110 });
+              gsap.set(disruptionItems, { yPercent: 110 });
+              applyCreativityLetterReveal(0);
+              return;
+            }
+
+            if (self.direction === 1 && self.progress > 0.015 && self.progress < 0.92) {
+              snapToFilmSection();
+            }
+          },
+        });
+      }
     }, hero);
 
     const onResize = () => {
       fitAll();
-      syncVideoBounds(videoEntranceRef.current >= 1);
-      const scrollProgress =
-        ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === videoSlotRef.current)?.progress ?? 0;
-      applyVideoProgress(scrollProgress, videoEntranceRef.current);
-      applyHeroTextScroll(scrollProgress);
-      applyCreativityLetterReveal(mapVideoProgressToLetterReveal(scrollProgress));
-      applyLogoPosition(1, scrollProgress);
+      syncVideoBounds(
+        videoEntranceRef.current >= 1 || videoSettledRef.current,
+        videoSettledRef.current
+      );
+      if (videoSettledRef.current) {
+        applyVideoProgress(1, 1);
+        applyHeroTextScroll(1);
+        applyCreativityLetterReveal(1);
+        applyLogoPosition(1, 1);
+      } else {
+        const scrollProgress =
+          ScrollTrigger.getAll().find((st) => st.vars?.endTrigger === videoSlotRef.current)
+            ?.progress ?? 0;
+        applyVideoProgress(scrollProgress, videoEntranceRef.current);
+        applyHeroTextScroll(scrollProgress);
+        applyCreativityLetterReveal(mapVideoProgressToLetterReveal(scrollProgress));
+        applyLogoPosition(1, scrollProgress);
+      }
       if (spotlightStarted) startHeadlineSpotlight();
       ScrollTrigger.refresh();
     };
@@ -939,6 +1088,9 @@ const Section1 = () => {
     }
 
     return () => {
+      snapTween?.kill();
+      textRevealTween?.kill();
+      filmEnterTl?.kill();
       spotlightTween?.kill();
       if (metadataVideo && onVideoMetadata) {
         metadataVideo.removeEventListener("loadedmetadata", onVideoMetadata);
@@ -1275,7 +1427,7 @@ const Section1 = () => {
               </Reveal>
               <Reveal group="intro" className="mt-1">
                 <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] xl:text-[30px] lg:leading-[40px]">
-                  17 years in the making.
+                  18 years in the making.
                 </p>
               </Reveal>
             </div>
