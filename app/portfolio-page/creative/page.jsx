@@ -48,6 +48,15 @@ const brochures_adaptations_images = [
   "/portfolio-page/creatives/brochures_adaptations_i6.jpg",
 ];
 
+const social_media_creatives_images = [
+  "/portfolio-page/creatives/social_media_creatives_i1.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i2.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i3.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i4.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i5.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i6.jpg",
+];
+
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>
@@ -57,13 +66,13 @@ function page() {
       {/* <Section3 />  */}
       
       <DynamicSlider heading="Stationary Creative" images={stationary_images}/>
-      <DynamicSlider heading="OOH" images={ooh_images}/>
+      <DynamicSlider heading="OOH Creative" images={ooh_images}/>
       {/* <Section5 /> */}
-      <DynamicSlider heading="Print" images={paper_prints}/>
+      <DynamicSlider heading="Print Creative" images={paper_prints}/>
       {/* <Section6 />  */}
-      <DynamicSlider heading="Social Media" />
+      <DynamicSlider heading="Social Media Creative" images={social_media_creatives_images}/>
       {/* <Section8 /> */}
-      <DynamicSlider heading="Brochure" images={brochures_adaptations_images}/>
+      <DynamicSlider heading="Brochure Creative" images={brochures_adaptations_images}/>
       <Section10 />
     </main>
   );
