@@ -7,6 +7,9 @@ import { formatTagTitle, getAllTagSlugs } from "../../../lib/caseStudyApi";
 
 export async function generateStaticParams() {
   const tags = await getAllTagSlugs();
+  if (!tags.length) {
+    return [{ keyword: "__placeholder__" }];
+  }
   return tags.map((keyword) => ({ keyword }));
 }
 

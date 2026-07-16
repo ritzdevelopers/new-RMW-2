@@ -256,7 +256,7 @@ function GalleryCardMedia({ src, index, activeAudioIndex, onActivateAudio }) {
 const ServiceDetailFourGallery = ({ mediaSection }) => {
   const sectionRef = useRef(null);
   const { title, description, gallery, imageContent } = mediaSection;
-  const galleryItems = gallery?.slice(0, 4) ?? [];
+  const galleryItems = gallery ?? [];
   const [activeAudioIndex, setActiveAudioIndex] = useState(0);
   const userPickedAudioRef = useRef(false);
 
