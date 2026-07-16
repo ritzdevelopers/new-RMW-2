@@ -28,7 +28,7 @@ const getVisibleCount = (width) => {
   return 5;
 };
 
-function DynamicSlider({heading}) {
+function DynamicSlider({heading, images}) {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
   const tweenRef = useRef(null);
@@ -41,7 +41,17 @@ function DynamicSlider({heading}) {
   const [metrics, setMetrics] = useState({ cardWidth: 0, visibleCount: 4 });
   const [direction, setDirection] = useState(-1);
 
-  const loopSlides = [...SLIDES, ...SLIDES];
+  // Use images passed from the parent when available; otherwise fall back to
+  // the built-in default slides. Labels reuse the defaults when present.
+  const baseSlides =
+    Array.isArray(images) && images.length > 0
+      ? images.map((src, index) => ({
+          src,
+          label: SLIDES[index]?.label ?? `Slide ${index + 1}`,
+        }))
+      : SLIDES;
+
+  const loopSlides = [...baseSlides, ...baseSlides];
 
   const syncMetrics = useCallback(() => {
     const width = containerRef.current?.clientWidth || 0;
@@ -123,7 +133,7 @@ function DynamicSlider({heading}) {
     const track = trackRef.current;
     if (!track || metrics.cardWidth <= 0) return;
 
-    const loopWidth = SLIDES.length * (metrics.cardWidth + GAP_PX);
+    const loopWidth = baseSlides.length * (metrics.cardWidth + GAP_PX);
     loopWidthRef.current = loopWidth;
 
     gsap.set(track, { x: 0, force3D: true });
@@ -132,7 +142,7 @@ function DynamicSlider({heading}) {
     return () => {
       tweenRef.current?.kill();
     };
-  }, [metrics.cardWidth, startMarquee]);
+  }, [metrics.cardWidth, baseSlides.length, startMarquee]);
 
   const pauseMarquee = () => {
     isHoveringRef.current = true;
