@@ -9,18 +9,10 @@ function Section10() {
           Ready to take the next step?
         </h2>
         <p className="max-w-[600px] font-[300] text-[11px] leading-[1.6] lg:leading-normal">
-          Working with a luxury creative agency for social media management
-          ensures that your brand is represented professionally, authentically
-          and consistently across all your social media channels. It allows you
-          to focus on other aspects of your business while leaving the Social
-          Media Management in the hands of experts who understand the unique
-          requirements of your industry to succeed online and build your brand.
+        Let's Create Something Your Brand Will Be Known For
+        Have a project in mind? Let's bring your brand's creative vision to life.
         </p>
-        <p className="max-w-[600px] font-[300] text-[11px] leading-[1.6] lg:leading-normal">
-          Let us help you elevate your online presence and achieve your social
-          media goals. Contact us today to learn more about our comprehensive
-          and results-driven Social Media Management services.
-        </p>
+        
         <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
           <button
             onClick={() => {
