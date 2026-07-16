@@ -30,21 +30,40 @@ const stationary_images = [
   "/portfolio-page/creatives/stationary_i6.jpg",
 ];
 
+const paper_prints = [
+  "/portfolio-page/creatives/paper_prints_i1.jpg",
+  "/portfolio-page/creatives/paper_prints_i2.jpg",
+  "/portfolio-page/creatives/paper_prints_i3.jpg",
+  "/portfolio-page/creatives/paper_prints_i4.jpg",
+  "/portfolio-page/creatives/paper_prints_i5.jpg",
+  "/portfolio-page/creatives/paper_prints_i6.jpg",
+];
+
+const brochures_adaptations_images = [
+  "/portfolio-page/creatives/brochures_adaptations_i1.jpg",
+  "/portfolio-page/creatives/brochures_adaptations_i2.jpg",
+  "/portfolio-page/creatives/brochures_adaptations_i3.jpg",
+  "/portfolio-page/creatives/brochures_adaptations_i4.jpg",
+  "/portfolio-page/creatives/brochures_adaptations_i5.jpg",
+  "/portfolio-page/creatives/brochures_adaptations_i6.jpg",
+];
+
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>
       <Header />
       <Hero />
       {/* <Section2 />  */}
+      {/* <Section3 />  */}
+      
       <DynamicSlider heading="Stationary Creative" images={stationary_images}/>
-      <Section3 />
       <DynamicSlider heading="OOH" images={ooh_images}/>
-      <Section5 />
-      <DynamicSlider heading="Print" />
-      <Section6 />
+      {/* <Section5 /> */}
+      <DynamicSlider heading="Print" images={paper_prints}/>
+      {/* <Section6 />  */}
       <DynamicSlider heading="Social Media" />
-      <Section8 />
-      <DynamicSlider heading="Brochure" />
+      {/* <Section8 /> */}
+      <DynamicSlider heading="Brochure" images={brochures_adaptations_images}/>
       <Section10 />
     </main>
   );

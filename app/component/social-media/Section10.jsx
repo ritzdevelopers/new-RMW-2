@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 function Section10() {
@@ -21,10 +22,20 @@ function Section10() {
           and results-driven Social Media Management services.
         </p>
         <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-          <button className="h-[35px] w-full max-w-[230px] cursor-pointer border  bg-[#000000] text-[11px] hover:bg-[#F4F2F0] hover:text-[#000000] font-[500] text-white sm:w-[230px]">
+          <button
+            onClick={() => {
+              window.open("/contact", "_blank");
+            }}
+            className="h-[35px] w-full max-w-[230px] cursor-pointer border  bg-[#000000] text-[11px] hover:bg-[#F4F2F0] hover:text-[#000000] font-[500] text-white sm:w-[230px]"
+          >
             Get in Touch
           </button>
-          <button className="h-[35px] w-full max-w-[230px] cursor-pointer border  bg-[#000000] text-[11px] hover:bg-[#F4F2F0] hover:text-[#000000] font-[500] text-white sm:w-[230px]">
+          <button
+            onClick={() => {
+              window.open("/contact", "_blank");
+            }}
+            className="h-[35px] w-full max-w-[230px] cursor-pointer border  bg-[#000000] text-[11px] hover:bg-[#F4F2F0] hover:text-[#000000] font-[500] text-white sm:w-[230px]"
+          >
             Book a Consultation
           </button>
         </div>

@@ -23,7 +23,7 @@ function page() {
       {/* <Section4 /> */}
       {/* <Section5 /> */}
       {/* <Section6 /> */}
-      <Section8 />
+      {/* <Section8 /> */}
       <Section10 />
     </main>
   );
