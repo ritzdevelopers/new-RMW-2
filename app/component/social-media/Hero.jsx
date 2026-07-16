@@ -1,6 +1,6 @@
 import React from "react";
 
-function Hero() {
+function Hero({ title }) {
   return (
     <section
       className="w-full h-[620px] flex justify-center items-center bg-cover bg-center bg-no-repeat bg-fixed"
@@ -8,10 +8,14 @@ function Hero() {
     >
       <div className="w-full h-full flex justify-center items-center bg-[#000000a3]">
         <div className="w-full h-full flex justify-center items-center text-center">
-          <h1 className="text-white text-2xl font-[300]">
-            Building connections & growing brands <br /> with Social Media
-            Management
-          </h1>
+          <h1
+            className="text-white text-2xl font-[300]"
+            dangerouslySetInnerHTML={{
+              __html: title
+                ? title
+                : "Building connections & growing brands <br /> with Social Media Management",
+            }}
+          />
         </div>
       </div>
     </section>
