@@ -457,6 +457,11 @@ const Section4 = () => {
   const [viewMode, setViewMode] = useState("list"); // "list" | "grid"
   const [pendingReveal, setPendingReveal] = useState(false);
   const [gridPreview, setGridPreview] = useState(false);
+  // grid -> list reveal: hold every row black briefly (so it hands off from
+  // the black ghost text), then let the inactive rows fade to transparent on
+  // a long, gentle transition instead of snapping.
+  const [revealBlack, setRevealBlack] = useState(false);
+  const [revealSlow, setRevealSlow] = useState(false);
   const sectionRef = useRef(null);
   const pinRef = useRef(null);
   const listRef = useRef(null);
@@ -473,8 +478,6 @@ const Section4 = () => {
   // The grid-tab hover preview (thumbnails beside each title) only makes sense
   // while we're actually looking at the list.
   const showGridPreview = gridPreview && viewMode === "list";
-
-  const getRefsForMode = (mode) => (mode === "list" ? itemRefs.current : gridCardRefs.current);
 
   const handleGridHover = (enter) => {
     if (viewMode !== "list") return;
@@ -495,144 +498,203 @@ const Section4 = () => {
     });
   }, []);
 
-  // Builds a "ghost" clone for each item at its current (fromMode) position,
-  // then morphs each ghost — position, size, and a text<->image crossfade —
-  // over to its new (toMode) slot, so the list visually turns into the grid
-  // (and back) instead of one view just popping out and the other popping in.
-  const runMorphTransition = (fromMode, toMode) => {
-    const fromRefs = getRefsForMode(fromMode);
+  // Choreographed grid -> list transition (the mirror image of runListToGrid):
+  //   1) each grid card shrinks + travels back to a small thumb beside its
+  //      list title, its card label fading out,
+  //   2) the real list number + title fade back in at their exact measured
+  //      positions and font sizes,
+  // so the grid visually collapses into the list — no size pop, no clipped
+  // text — instead of one view popping out and the other popping in.
+  const runGridToList = () => {
+    const overlay = overlayRef.current;
+
+    // Capture grid-card geometry now, before React swaps the DOM to the list.
     const fromData = services.map((service, index) => {
-      const el = fromRefs[index];
-      return el ? { slug: service.slug, rect: el.getBoundingClientRect() } : null;
+      const card = gridCardRefs.current[index];
+      return card ? { rect: card.getBoundingClientRect() } : null;
     });
 
-    setViewMode(toMode);
+    const finish = () => {
+      setPendingReveal(false);
+      isAnimatingRef.current = false;
+    };
+
+    // Phase A — build the card image ghosts on top of the still-visible grid
+    // *before* swapping to the list, so the very first painted frame already
+    // shows them. (Building them a couple frames later was the blink/blank.)
+    const imgGhosts = [];
+    if (overlay) {
+      overlay.innerHTML = "";
+      services.forEach((service, index) => {
+        const from = fromData[index];
+        if (!from) return;
+        const cardRect = from.rect;
+
+        const imgGhost = document.createElement("div");
+        Object.assign(imgGhost.style, {
+          position: "fixed",
+          left: `${cardRect.left}px`,
+          top: `${cardRect.top}px`,
+          width: `${cardRect.width}px`,
+          height: `${cardRect.height}px`,
+          overflow: "hidden",
+          zIndex: 1000,
+          pointerEvents: "none",
+          transformOrigin: "top left",
+          willChange: "transform, width, height, opacity",
+          backfaceVisibility: "hidden",
+          background: "#f4f3f1",
+        });
+        const [topPart, bottomPart] = splitTitleParts(service.title);
+        imgGhost.innerHTML = `
+            <img src="${service.image}" style="width:100%;height:100%;object-fit:cover;display:block" />
+            <div class="s4-card-label" style="position:absolute;inset:0">
+              <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.7), rgba(0,0,0,0) 55%)"></div>
+              <span style="position:absolute;left:24px;top:24px;color:#fff;font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(15px,1.6vw,22px);white-space:nowrap;">${service.number}</span>
+              <div style="position:absolute;left:24px;right:24px;bottom:40px;display:flex;flex-direction:column;color:rgba(255,255,255,0.4);-webkit-text-stroke:1px rgba(255,255,255,0.25);font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(40px,8vw,104px);line-height:0.82;letter-spacing:0.02em;"><span style="display:block;word-break:break-all;">${topPart}</span><span style="display:block;word-break:break-all;">${bottomPart}</span></div>
+            </div>
+          `;
+        overlay.appendChild(imgGhost);
+        imgGhosts[index] = {
+          imgGhost,
+          label: imgGhost.querySelector(".s4-card-label"),
+          cardRect,
+        };
+      });
+    }
+
+    setViewMode("list");
     setPendingReveal(true);
+    setGridPreview(false);
+    setRevealBlack(true);
+    setRevealSlow(true);
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const overlay = overlayRef.current;
-        const toList = toMode === "list";
+        if (!overlay) return finish();
 
-        // When morphing into the list, position the (still hidden) list at the
-        // pinned start offset first, so the destination rects we measure below
-        // match where the real rows end up — no jump when the ghosts hand off.
-        if (toList) applyListStartY();
-
-        const toRefs = getRefsForMode(toMode);
-
-        if (!overlay) {
-          setPendingReveal(false);
-          isAnimatingRef.current = false;
-          return;
-        }
-
-        overlay.innerHTML = "";
+        // Position the (still hidden) list at the pinned start offset first, so
+        // the destination rects we measure below match where the real rows end
+        // up — the ghost text hands off to the real text with no jump.
+        applyListStartY();
 
         const tl = gsap.timeline({
           onComplete: () => {
-            setPendingReveal(false);
-            isAnimatingRef.current = false;
-            // Reveal the real view first, then drop the ghosts on the next
-            // frame so the two never disappear together (avoids any flicker).
-            requestAnimationFrame(() => {
+            // Reveal the real list — it now fades in via the container's
+            // opacity transition, so the active preview image glides in
+            // instead of popping. Keep the ghosts on top during that fade so
+            // the text doesn't flicker, then drop them once the list is fully
+            // in (matches the 500ms container transition).
+            finish();
+            window.setTimeout(() => {
               overlay.innerHTML = "";
-            });
+              // Release the "all black" hold: inactive rows now ease from
+              // black -> transparent over the long transition below.
+              setRevealBlack(false);
+              window.setTimeout(() => setRevealSlow(false), 900);
+            }, 520);
           },
         });
 
-        let built = false;
-
-        services.forEach((service, index) => {
-          const from = fromData[index];
-          const toEl = toRefs[index];
-          if (!from || !toEl) return;
-          const toRect = toEl.getBoundingClientRect();
-          const fromRect = from.rect;
-          built = true;
-
-          const ghost = document.createElement("div");
-          Object.assign(ghost.style, {
+        const makeText = (rect, fontSize, text) => {
+          const el = document.createElement("div");
+          Object.assign(el.style, {
             position: "fixed",
-            left: `${fromRect.left}px`,
-            top: `${fromRect.top}px`,
-            width: `${fromRect.width}px`,
-            height: `${fromRect.height}px`,
-            overflow: "hidden",
-            zIndex: 999,
-            pointerEvents: "none",
-            background: toList ? "transparent" : "#f4f3f1",
-            willChange: "transform, width, height",
-            transformOrigin: "top left",
-            backfaceVisibility: "hidden",
-          });
-
-          const imageLayer = document.createElement("div");
-          Object.assign(imageLayer.style, {
-            position: "absolute",
-            inset: "0",
-            opacity: toList ? "1" : "0",
-            willChange: "opacity",
-          });
-          imageLayer.innerHTML = `
-            <img src="${service.image}" style="width:100%;height:100%;object-fit:cover;display:block" />
-            <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.7), rgba(0,0,0,0) 55%)"></div>
-            <span style="position:absolute;left:14px;top:14px;color:#fff;font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(13px,1.4vw,18px);white-space:nowrap;">${service.number}</span>
-            <span style="position:absolute;left:14px;right:14px;bottom:14px;color:#fff;font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(18px,2.2vw,30px);line-height:1.05;">${service.title}</span>
-          `;
-
-          const textLayer = document.createElement("div");
-          Object.assign(textLayer.style, {
-            position: "absolute",
-            inset: "0",
+            left: `${rect.left}px`,
+            top: `${rect.top}px`,
+            width: `${rect.width}px`,
+            height: `${rect.height}px`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: "18px",
-            whiteSpace: "nowrap",
             fontFamily: '"League Spartan", sans-serif',
             fontWeight: "600",
             textTransform: "uppercase",
             color: "#000",
-            opacity: toList ? "0" : "1",
-            willChange: "opacity",
+            fontSize,
+            lineHeight: "1",
+            whiteSpace: "nowrap",
+            zIndex: 999,
+            pointerEvents: "none",
+            willChange: "opacity, transform",
           });
-          textLayer.innerHTML = `
-            <span style="font-size:clamp(20px,2.8vw,34px)">${service.number}</span>
-            <span style="font-size:clamp(28px,5vw,72px)">${service.title}</span>
-          `;
+          el.textContent = text;
+          overlay.appendChild(el);
+          return el;
+        };
 
-          ghost.appendChild(imageLayer);
-          ghost.appendChild(textLayer);
-          overlay.appendChild(ghost);
+        let built = false;
 
-          const delay = index * 0.045;
+        services.forEach((service, index) => {
+          const g = imgGhosts[index];
+          const link = textRefs.current[index];
+          if (!g || !link) return;
 
-          // Translate with GPU transforms (x/y) instead of animating left/top,
-          // which would trigger layout every frame. Width/height still change
-          // so the content re-flows/crops correctly into its destination.
+          // Measure the real destination row so the ghost text matches its
+          // final size + position exactly (this is what was popping before —
+          // the old ghost used fixed clamp() sizes smaller than the real text).
+          const spans = link.querySelectorAll("span");
+          const numberEl = spans[0];
+          const titleEl = spans[1];
+          const numberRect = numberEl?.getBoundingClientRect();
+          const titleRect = titleEl?.getBoundingClientRect();
+          const numberFS = numberEl ? getComputedStyle(numberEl).fontSize : "24px";
+          const titleFS = titleEl ? getComputedStyle(titleEl).fontSize : "48px";
+
+          const { imgGhost, label, cardRect } = g;
+
+          // Small square beside the title where the card image collapses to
+          // (mirror of runListToGrid's starting thumb).
+          const h = titleRect ? titleRect.height * 0.72 : 80;
+          const thumbRect = {
+            left: titleRect ? titleRect.right + 24 : cardRect.left,
+            top: titleRect ? titleRect.top + titleRect.height / 2 - h / 2 : cardRect.top,
+            width: h,
+            height: h,
+          };
+
+          built = true;
+
+          const numberGhost = numberRect ? makeText(numberRect, numberFS, service.number) : null;
+          const titleGhost = titleRect ? makeText(titleRect, titleFS, service.title) : null;
+          if (numberGhost) gsap.set(numberGhost, { opacity: 0, y: -12 });
+          if (titleGhost) gsap.set(titleGhost, { opacity: 0, y: -12 });
+
+          const move = index * 0.05; // 1) card collapses to thumb
+          const labelOut = move; // card label fades as it shrinks
+          const imgOut = move + 0.34; // image fades out once small
+          const textIn = move + 0.3; // 2) list text drops back in
+
+          if (label)
+            tl.to(label, { opacity: 0, duration: 0.3, ease: "power1.in" }, labelOut);
+
+          // GPU transforms (x/y) instead of left/top; width/height still change
+          // so the image crops correctly as it shrinks.
           tl.to(
-            ghost,
+            imgGhost,
             {
-              x: toRect.left - fromRect.left,
-              y: toRect.top - fromRect.top,
-              width: toRect.width,
-              height: toRect.height,
-              duration: 0.85,
+              x: thumbRect.left - cardRect.left,
+              y: thumbRect.top - cardRect.top,
+              width: thumbRect.width,
+              height: thumbRect.height,
+              duration: 0.72,
               ease: "power3.inOut",
               force3D: true,
               autoRound: false,
             },
-            delay
+            move
           );
-          tl.to(imageLayer, { opacity: toList ? 0 : 1, duration: 0.4, ease: "power1.inOut" }, delay + (toList ? 0.3 : 0.15));
-          tl.to(textLayer, { opacity: toList ? 1 : 0, duration: 0.4, ease: "power1.inOut" }, delay + (toList ? 0.4 : 0.05));
+          tl.to(imgGhost, { opacity: 0, duration: 0.32, ease: "power1.inOut" }, imgOut);
+
+          if (numberGhost)
+            tl.to(numberGhost, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, textIn);
+          if (titleGhost)
+            tl.to(titleGhost, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, textIn);
         });
 
         if (!built) {
           overlay.innerHTML = "";
-          setPendingReveal(false);
-          isAnimatingRef.current = false;
+          finish();
         }
       });
     });
@@ -676,20 +738,101 @@ const Section4 = () => {
       return { numberRect, titleRect, numberFS, titleFS, thumbRect };
     });
 
-    setViewMode("grid");
-    setPendingReveal(true);
-    setGridPreview(false);
+    const overlay = overlayRef.current;
 
     const finish = () => {
       setPendingReveal(false);
       isAnimatingRef.current = false;
     };
 
+    const makeText = (rect, fontSize, text) => {
+      const el = document.createElement("div");
+      Object.assign(el.style, {
+        position: "fixed",
+        left: `${rect.left}px`,
+        top: `${rect.top}px`,
+        width: `${rect.width}px`,
+        height: `${rect.height}px`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontFamily: '"League Spartan", sans-serif',
+        fontWeight: "600",
+        textTransform: "uppercase",
+        color: "#000",
+        fontSize,
+        lineHeight: "1",
+        whiteSpace: "nowrap",
+        zIndex: 999,
+        pointerEvents: "none",
+        willChange: "opacity, transform",
+      });
+      el.textContent = text;
+      overlay.appendChild(el);
+      return el;
+    };
+
+    // Phase A — build the ghosts over the still-visible list *before* swapping
+    // to the grid, so the very first painted frame already shows them (this
+    // removes the blank/blink at the moment of the click).
+    const ghosts = [];
+    if (overlay) {
+      overlay.innerHTML = "";
+      services.forEach((service, index) => {
+        const from = fromData[index];
+        if (!from) return;
+        const thumbRect = from.thumbRect;
+
+        const numberGhost = from.numberRect
+          ? makeText(from.numberRect, from.numberFS, service.number)
+          : null;
+        const titleGhost = from.titleRect
+          ? makeText(from.titleRect, from.titleFS, service.title)
+          : null;
+
+        const imgGhost = document.createElement("div");
+        Object.assign(imgGhost.style, {
+          position: "fixed",
+          left: `${thumbRect.left}px`,
+          top: `${thumbRect.top}px`,
+          width: `${thumbRect.width}px`,
+          height: `${thumbRect.height}px`,
+          overflow: "hidden",
+          zIndex: 1000,
+          pointerEvents: "none",
+          transformOrigin: "top left",
+          willChange: "transform, width, height",
+          backfaceVisibility: "hidden",
+          background: "#f4f3f1",
+        });
+        const [topPart, bottomPart] = splitTitleParts(service.title);
+        imgGhost.innerHTML = `
+            <img src="${service.image}" style="width:100%;height:100%;object-fit:cover;display:block" />
+            <div class="s4-card-label" style="position:absolute;inset:0;opacity:0">
+              <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.7), rgba(0,0,0,0) 55%)"></div>
+              <span style="position:absolute;left:24px;top:24px;color:#fff;font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(15px,1.6vw,22px);white-space:nowrap;">${service.number}</span>
+              <div style="position:absolute;left:24px;right:24px;bottom:40px;display:flex;flex-direction:column;color:rgba(255,255,255,0.4);-webkit-text-stroke:1px rgba(255,255,255,0.25);font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(40px,8vw,104px);line-height:0.82;letter-spacing:0.02em;"><span style="display:block;word-break:break-all;">${topPart}</span><span style="display:block;word-break:break-all;">${bottomPart}</span></div>
+            </div>
+          `;
+        overlay.appendChild(imgGhost);
+        ghosts[index] = {
+          numberGhost,
+          titleGhost,
+          imgGhost,
+          label: imgGhost.querySelector(".s4-card-label"),
+          thumbRect,
+        };
+      });
+    }
+
+    setViewMode("grid");
+    setPendingReveal(true);
+    setGridPreview(false);
+
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const overlay = overlayRef.current;
-        const cards = gridCardRefs.current;
         if (!overlay) return finish();
+        const cards = gridCardRefs.current;
 
         // The list view pins Section 4, so by the time the user reaches the
         // last row the window is scrolled far past the section's natural
@@ -702,8 +845,6 @@ const Section4 = () => {
           window.scrollTo({ top: section.offsetTop, behavior: "auto" });
         }
 
-        overlay.innerHTML = "";
-
         const tl = gsap.timeline({
           onComplete: () => {
             finish();
@@ -713,75 +854,15 @@ const Section4 = () => {
           },
         });
 
-        const makeText = (rect, fontSize, text) => {
-          const el = document.createElement("div");
-          Object.assign(el.style, {
-            position: "fixed",
-            left: `${rect.left}px`,
-            top: `${rect.top}px`,
-            width: `${rect.width}px`,
-            height: `${rect.height}px`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: '"League Spartan", sans-serif',
-            fontWeight: "600",
-            textTransform: "uppercase",
-            color: "#000",
-            fontSize,
-            lineHeight: "1",
-            whiteSpace: "nowrap",
-            zIndex: 999,
-            pointerEvents: "none",
-            willChange: "opacity, transform",
-          });
-          el.textContent = text;
-          overlay.appendChild(el);
-          return el;
-        };
-
         let built = false;
 
         services.forEach((service, index) => {
-          const from = fromData[index];
+          const g = ghosts[index];
           const card = cards[index];
-          if (!from || !card) return;
+          if (!g || !card) return;
           const cardRect = card.getBoundingClientRect();
-          const thumbRect = from.thumbRect;
+          const { numberGhost, titleGhost, imgGhost, label, thumbRect } = g;
           built = true;
-
-          const numberGhost = from.numberRect
-            ? makeText(from.numberRect, from.numberFS, service.number)
-            : null;
-          const titleGhost = from.titleRect
-            ? makeText(from.titleRect, from.titleFS, service.title)
-            : null;
-
-          const imgGhost = document.createElement("div");
-          Object.assign(imgGhost.style, {
-            position: "fixed",
-            left: `${thumbRect.left}px`,
-            top: `${thumbRect.top}px`,
-            width: `${thumbRect.width}px`,
-            height: `${thumbRect.height}px`,
-            overflow: "hidden",
-            zIndex: 1000,
-            pointerEvents: "none",
-            transformOrigin: "top left",
-            willChange: "transform, width, height",
-            backfaceVisibility: "hidden",
-            background: "#f4f3f1",
-          });
-          imgGhost.innerHTML = `
-            <img src="${service.image}" style="width:100%;height:100%;object-fit:cover;display:block" />
-            <div class="s4-card-label" style="position:absolute;inset:0;opacity:0">
-              <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.7), rgba(0,0,0,0) 55%)"></div>
-              <span style="position:absolute;left:24px;top:24px;color:#fff;font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(15px,1.6vw,22px);white-space:nowrap;">${service.number}</span>
-              <span style="position:absolute;left:24px;right:24px;bottom:24px;color:rgba(255,255,255,0.4);-webkit-text-stroke:1px rgba(255,255,255,0.25);font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(40px,8vw,104px);line-height:0.82;letter-spacing:0.02em;word-break:break-all;">${service.title}</span>
-            </div>
-          `;
-          overlay.appendChild(imgGhost);
-          const label = imgGhost.querySelector(".s4-card-label");
 
           const textOut = index * 0.03; // 1) list text lifts away
           const move = 0.26 + index * 0.055; // 2) thumbnail -> card
@@ -825,7 +906,7 @@ const Section4 = () => {
       runListToGrid();
     } else {
       setGridPreview(false);
-      runMorphTransition("grid", "list");
+      runGridToList();
     }
   };
 
@@ -1020,7 +1101,7 @@ const Section4 = () => {
       {viewMode === "list" ? (
         <div
           ref={pinRef}
-          className={`relative isolate mx-auto flex w-full max-w-8xl flex-col items-center overflow-x-visible overflow-y-visible md:h-[88dvh] md:overflow-hidden ${
+          className={`relative isolate mx-auto flex w-full max-w-8xl flex-col items-center overflow-x-visible overflow-y-visible transition-opacity duration-500 ease-out md:h-[88dvh] md:overflow-hidden ${
             pendingReveal ? "pointer-events-none opacity-0" : "opacity-100"
           }`}
         >
@@ -1081,7 +1162,11 @@ const Section4 = () => {
                         className="section4-row-text section4-row-number shrink-0 transition-colors duration-300"
                         style={{
                           ...numberStyle,
-                          color: isActive || showGridPreview ? "#000000" : "#00000005",
+                          color:
+                            isActive || showGridPreview || revealBlack
+                              ? "#000000"
+                              : "#00000005",
+                          transitionDuration: revealSlow ? "800ms" : undefined,
                         }}
                       >
                         {service.number}
@@ -1090,7 +1175,11 @@ const Section4 = () => {
                         className="section4-row-text text-[37px] transition-colors duration-300 md:text-[50px] lg:text-[70px] xl:text-[106px]"
                         style={{
                           ...titleStyle,
-                          color: isActive || showGridPreview ? "#000000" : "#00000005",
+                          color:
+                            isActive || showGridPreview || revealBlack
+                              ? "#000000"
+                              : "#00000005",
+                          transitionDuration: revealSlow ? "800ms" : undefined,
                         }}
                       >
                         {service.title}

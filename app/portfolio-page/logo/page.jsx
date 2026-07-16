@@ -8,17 +8,33 @@ import Section5 from "@/app/component/social-media/Section5";
 import Section6 from "@/app/component/social-media/Section6";
 import Section8 from "@/app/component/social-media/Section8";
 import Section10 from "@/app/component/social-media/Section10";
+import DynamicSlider from "@/app/component/social-media/DynamicSlider";
 
 /** Webflow Editor's Note Light custom font stack */
 const editorsNoteLight =
   "wfont_e6fa52_d03d36fc891b44ea946b083dc8504aac, wf_d03d36fc891b44ea946b083dc, orig_editors_note_light, serif";
 
+const logos_images = [
+  "/portfolio-page/logo/logo_i1.jpg",
+  "/portfolio-page/logo/logo_i2.jpg",
+  "/portfolio-page/logo/logo_i3.jpg",
+  "/portfolio-page/logo/logo_i4.jpg",
+  "/portfolio-page/logo/logo_i5.jpg",
+  "/portfolio-page/logo/logo_i6.jpg",
+  "/portfolio-page/logo/logo_i7.jpg",
+  "/portfolio-page/logo/logo_i8.jpg",
+  "/portfolio-page/logo/logo_i9.jpg",
+  "/portfolio-page/logo/logo_i10.jpg",
+  "/portfolio-page/logo/logo_i11.jpg",
+  "/portfolio-page/logo/logo_i12.jpg",
+];
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>
-      <Header />
-      <Hero />
-      <Section2 />
+      <Header title="Logo Design Portfolio" />
+      <Hero title="Crafting identities & shaping stories
+with Custom Logo Design" />
+      <DynamicSlider heading="Logos" images={logos_images}/>
       {/* <Section3 /> */}
       {/* <Section4 /> */}
       {/* <Section5 /> */}
