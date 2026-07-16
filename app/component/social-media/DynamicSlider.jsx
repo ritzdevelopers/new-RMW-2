@@ -40,9 +40,7 @@ function DynamicSlider({heading, images}) {
 
   const [metrics, setMetrics] = useState({ cardWidth: 0, visibleCount: 4 });
   const [direction, setDirection] = useState(-1);
-
-  // Use images passed from the parent when available; otherwise fall back to
-  // the built-in default slides. Labels reuse the defaults when present.
+ 
   const baseSlides =
     Array.isArray(images) && images.length > 0
       ? images.map((src, index) => ({
