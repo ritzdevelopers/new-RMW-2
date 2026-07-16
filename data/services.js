@@ -441,6 +441,7 @@ export const services = [
         src: "/radio-advertising/radio-video-image.jpg",
         width: 561,
         height: 342,
+        href: "https://youtube.com/@ritzmediaworld?si=-Ge_rjezCMvFqbap",
       },
       description:
         "Radio advertising is about more than a voice on air — it demands the right script, the right talent, and the right placement. From concept to production and media buying, our work helps brands sound credible, confident, and unmistakably on-message.",
@@ -449,6 +450,7 @@ export const services = [
         width: 720.953,
         height: 762.712,
         aspectRatio: "69 / 73",
+        href: "https://youtube.com/@ritzmediaworld?si=-Ge_rjezCMvFqbap",
       },
       container: {
         width: 1154,
@@ -472,16 +474,19 @@ export const services = [
             src: "/radio-advertising/radio-image-2.jpg",
             className: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
             aspectRatio: "672 / 355",
+            href: "https://youtube.com/@ritzmediaworld?si=-Ge_rjezCMvFqbap",
           },
           {
             src: "/radio-advertising/radio-image-3.jpg",
             className: "lg:col-span-2 lg:row-start-2",
             aspectRatio: "696 / 572",
+            href: "https://youtube.com/@ritzmediaworld?si=-Ge_rjezCMvFqbap",
           },
           {
             src: "/radio-advertising/radio-image-4.jpg",
             className: "lg:col-start-3 lg:row-span-2 lg:row-start-1",
             aspectRatio: "613 / 965",
+            href: "https://youtube.com/@ritzmediaworld?si=-Ge_rjezCMvFqbap",
           },
         ],
       },

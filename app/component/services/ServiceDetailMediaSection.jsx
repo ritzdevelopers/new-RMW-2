@@ -45,6 +45,39 @@ const imageContentBodyStyle = {
   fontWeight: 400,
 };
 
+const linkProps = (href) =>
+  href
+    ? {
+        href,
+        target: "_blank",
+        rel: "noopener noreferrer",
+      }
+    : {};
+
+const MediaLinkWrap = ({ href, className = "", style, children }) => {
+  if (!href) {
+    return (
+      <div className={className} style={style}>
+        {children}
+      </div>
+    );
+  }
+
+  return (
+    <a {...linkProps(href)} className={`group relative block ${className}`} style={style}>
+      {children}
+      <span
+        className="pointer-events-none absolute inset-0 z-[15] flex items-center justify-center bg-black/0 opacity-0 transition-all duration-500 ease-out group-hover:bg-black/15 group-hover:opacity-100"
+        aria-hidden
+      >
+        <span className="flex h-14 w-14 scale-90 items-center justify-center rounded-full bg-[#FF0000] text-white shadow-[0_10px_30px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out group-hover:scale-100 md:h-16 md:w-16">
+          <i className="ri-play-fill translate-x-[1px] text-[28px] md:text-[32px]" aria-hidden />
+        </span>
+      </span>
+    </a>
+  );
+};
+
 const ServiceDetailMediaSection = ({ mediaSection }) => {
   if (!mediaSection) return null;
 
@@ -69,32 +102,34 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
             ) : null}
 
             {video?.src ? (
-              video.src.includes(".mp4") ? (
-                <video
-                  src={video.src}
-                  width={video.width ?? 561}
-                  height={video.height ?? 342}
-                  className="mt-6 block w-full max-w-full object-cover object-center lg:mt-10 xl:mt-15 xl:h-[342px] xl:w-[561px] xl:max-w-[561px]"
-                  style={{
-                    aspectRatio: `${video.width ?? 561} / ${video.height ?? 342}`,
-                  }}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                />
-              ) : (
-                <img
-                  src={video.src}
-                  alt=""
-                  width={video.width ?? 561}
-                  height={video.height ?? 342}
-                  className="mt-6 block w-full max-w-full object-cover object-center lg:mt-10 xl:mt-15 xl:h-[342px] xl:w-[561px] xl:max-w-[561px]"
-                  style={{
-                    aspectRatio: `${video.width ?? 561} / ${video.height ?? 342}`,
-                  }}
-                />
-              )
+              <MediaLinkWrap
+                href={video.href}
+                className="mt-6 block w-full max-w-full overflow-hidden lg:mt-10 xl:mt-15 xl:h-[342px] xl:w-[561px] xl:max-w-[561px]"
+                style={{
+                  aspectRatio: `${video.width ?? 561} / ${video.height ?? 342}`,
+                }}
+              >
+                {video.src.includes(".mp4") ? (
+                  <video
+                    src={video.src}
+                    width={video.width ?? 561}
+                    height={video.height ?? 342}
+                    className="block h-full w-full object-cover object-center"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  />
+                ) : (
+                  <img
+                    src={video.src}
+                    alt=""
+                    width={video.width ?? 561}
+                    height={video.height ?? 342}
+                    className="block h-full w-full object-cover object-center"
+                  />
+                )}
+              </MediaLinkWrap>
             ) : null}
 
             {description ? (
@@ -105,7 +140,8 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
           </div>
 
           {image?.src ? (
-            <div
+            <MediaLinkWrap
+              href={image.href}
               className="relative w-full min-w-0 overflow-hidden lg:max-w-[48%] lg:ml-auto xl:w-[720.953px] xl:max-w-[720.953px] xl:shrink-0"
               style={{
                 aspectRatio: image.aspectRatio ?? "69 / 73",
@@ -131,7 +167,7 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
                   className="block h-full w-full object-cover object-center"
                 />
               )}
-            </div>
+            </MediaLinkWrap>
           ) : null}
         </div>
 
@@ -188,8 +224,9 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
             className="mx-auto mt-12 grid w-full max-w-full grid-cols-1 gap-3 md:mt-16  lg:grid-cols-[336fr_336fr_613fr] lg:grid-rows-[auto_auto] xl:gap-[25px] "
           >
             {grid.items.map((item, index) => (
-              <div
+              <MediaLinkWrap
                 key={`${item.src}-${index}`}
+                href={item.href}
                 className={`relative overflow-hidden ${item.className ?? ""}`}
                 style={{
                   aspectRatio: item.aspectRatio,
@@ -211,7 +248,7 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
                     className="block h-full w-full object-cover object-center"
                   />
                 )}
-              </div>
+              </MediaLinkWrap>
             ))}
           </div>
         ) : null}
