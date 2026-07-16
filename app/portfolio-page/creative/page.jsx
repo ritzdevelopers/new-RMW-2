@@ -39,7 +39,15 @@ const paper_prints = [
   "/portfolio-page/creatives/paper_prints_i6.jpg",
 ];
 
- 
+const brochures_adaptations_images = [
+  "/portfolio-page/creatives/brochures_adaptations_i1.jpg",
+  "/portfolio-page/creatives/brochures_adaptations_i2.jpg",
+  "/portfolio-page/creatives/brochures_adaptations_i3.jpg",
+  "/portfolio-page/creatives/brochures_adaptations_i4.jpg",
+  "/portfolio-page/creatives/brochures_adaptations_i5.jpg",
+  "/portfolio-page/creatives/brochures_adaptations_i6.jpg",
+];
+
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>
@@ -55,7 +63,7 @@ function page() {
       {/* <Section6 />  */}
       <DynamicSlider heading="Social Media" />
       {/* <Section8 /> */}
-      <DynamicSlider heading="Brochure" />
+      <DynamicSlider heading="Brochure" images={brochures_adaptations_images}/>
       <Section10 />
     </main>
   );
