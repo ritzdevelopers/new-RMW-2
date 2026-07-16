@@ -405,14 +405,10 @@ const Section4 = () => {
   const sectionRef = useRef(null);
   const pinRef = useRef(null);
   const listRef = useRef(null);
-  const mobileSliderRef = useRef(null);
   const itemRefs = useRef([]);
   const textRefs = useRef([]);
   const thumbRefs = useRef([]);
-  const mobileSlideRefs = useRef([]);
   const gridCardRefs = useRef([]);
-  const skipMobileScrollSync = useRef(false);
-  const mobileScrollTimeout = useRef(null);
   const overlayRef = useRef(null);
   const isAnimatingRef = useRef(false);
 
@@ -880,6 +876,42 @@ const Section4 = () => {
       };
     });
 
+    mm.add("(max-width: 767px)", () => {
+      if (!section) return;
+
+      const items = itemRefs.current.filter(Boolean);
+      if (!items.length) return;
+
+      const tweens = items.map((item, index) => {
+        const dir = index % 2 === 0 ? -1 : 1;
+        gsap.set(item, { force3D: true });
+        return gsap.fromTo(
+          item,
+          { x: dir * -8 },
+          {
+            x: dir * 8,
+            ease: "power1.inOut",
+            force3D: true,
+            scrollTrigger: {
+              trigger: section,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.4,
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+      });
+
+      return () => {
+        tweens.forEach((tween) => {
+          tween.scrollTrigger?.kill();
+          tween.kill();
+        });
+        items.forEach((item) => gsap.set(item, { clearProps: "x" }));
+      };
+    });
+
     requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
@@ -889,46 +921,6 @@ const Section4 = () => {
       mm.revert();
     };
   }, [viewMode, pendingReveal]);
-
-  useLayoutEffect(() => {
-    if (viewMode !== "list") return;
-    if (typeof window === "undefined" || window.innerWidth >= 768) return;
-
-    const slider = mobileSliderRef.current;
-    const activeIndex = services.findIndex((service) => service.slug === activeSlug);
-    const slide = mobileSlideRefs.current[activeIndex];
-    if (!slider || !slide || skipMobileScrollSync.current) return;
-
-    const targetLeft =
-      slide.offsetLeft - (slider.clientWidth / 2 - slide.clientWidth / 2);
-    slider.scrollTo({ left: targetLeft, behavior: "smooth" });
-  }, [activeSlug, viewMode]);
-
-  const onMobileSliderScroll = () => {
-    const slider = mobileSliderRef.current;
-    if (!slider || window.innerWidth >= 768) return;
-
-    const centerX = slider.scrollLeft + slider.clientWidth / 2;
-    let closestSlug = services[0].slug;
-    let closestDistance = Infinity;
-
-    mobileSlideRefs.current.forEach((slide, index) => {
-      if (!slide) return;
-      const slideCenter = slide.offsetLeft + slide.clientWidth / 2;
-      const distance = Math.abs(slideCenter - centerX);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestSlug = services[index].slug;
-      }
-    });
-
-    skipMobileScrollSync.current = true;
-    setActiveSlug((current) => (current === closestSlug ? current : closestSlug));
-    window.clearTimeout(mobileScrollTimeout.current);
-    mobileScrollTimeout.current = window.setTimeout(() => {
-      skipMobileScrollSync.current = false;
-    }, 120);
-  };
 
   return (
     <section
@@ -946,6 +938,14 @@ const Section4 = () => {
             mask-image: ${ROW_CLIP_MASK};
           }
         }
+        @media (max-width: 767px) {
+          .section4-row-text {
+            color: #000000 !important;
+          }
+          .section4-row-number {
+            font-size: 10px !important;
+          }
+        }
       `}</style>
 
       {/* Fixed-position layer that hosts the transient "ghost" clones used to
@@ -956,13 +956,13 @@ const Section4 = () => {
       {viewMode === "list" ? (
         <div
           ref={pinRef}
-          className={`relative isolate mx-auto flex w-full max-w-8xl flex-col items-center overflow-hidden md:h-[88dvh] ${
+          className={`relative isolate mx-auto flex w-full max-w-8xl flex-col items-center overflow-x-visible overflow-y-visible md:h-[88dvh] md:overflow-hidden ${
             pendingReveal ? "pointer-events-none opacity-0" : "opacity-100"
           }`}
         >
           {/* Toggle lives inside the pinned area so it stays anchored to the
               bottom of Section 4 (absolute, not viewport-fixed). */}
-          <div className="absolute bottom-4 left-0 z-[60] md:bottom-6">
+          <div className="absolute bottom-4 left-0 z-[60] hidden md:block md:bottom-6">
             <ViewToggle
               viewMode={viewMode}
               onChange={handleViewChange}
@@ -981,33 +981,6 @@ const Section4 = () => {
               alt=""
               className="block h-auto w-[min(300px,26vw)] object-contain shadow-[0_20px_50px_rgba(0,0,0,0.18)]"
             />
-          </div>
-
-          <div className="relative z-[20] mb-6 w-full md:hidden">
-            <div
-              ref={mobileSliderRef}
-              onScroll={onMobileSliderScroll}
-              className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-[calc(50%-110px)] pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            >
-              {services.map((service, index) => (
-                <div
-                  key={service.slug}
-                  ref={(node) => {
-                    mobileSlideRefs.current[index] = node;
-                  }}
-                  className="w-[220px] shrink-0 snap-center"
-                >
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className={`block h-auto w-full object-contain shadow-[0_20px_50px_rgba(0,0,0,0.18)] transition-opacity duration-300 ${
-                      activeSlug === service.slug ? "opacity-100" : "opacity-55"
-                    }`}
-                    draggable={false}
-                  />
-                </div>
-              ))}
-            </div>
           </div>
 
           <ul
@@ -1040,7 +1013,7 @@ const Section4 = () => {
                       }`}
                     >
                       <span
-                        className="shrink-0 transition-colors duration-300"
+                        className="section4-row-text section4-row-number shrink-0 transition-colors duration-300"
                         style={{
                           ...numberStyle,
                           color: isActive || showGridPreview ? "#000000" : "#00000005",
@@ -1049,7 +1022,7 @@ const Section4 = () => {
                         {service.number}
                       </span>
                       <span
-                        className="text-[30px] transition-colors duration-300 md:text-[50px] lg:text-[70px] xl:text-[106px]"
+                        className="section4-row-text text-[37px] transition-colors duration-300 md:text-[50px] lg:text-[70px] xl:text-[106px]"
                         style={{
                           ...titleStyle,
                           color: isActive || showGridPreview ? "#000000" : "#00000005",
@@ -1127,7 +1100,7 @@ const Section4 = () => {
         >
           <GridSlider cardRefs={gridCardRefs} />
 
-          <div className="z-[60] flex w-full">
+          <div className="z-[60] hidden w-full md:flex">
             <ViewToggle
               viewMode={viewMode}
               onChange={handleViewChange}

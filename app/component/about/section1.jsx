@@ -28,10 +28,13 @@ const headingStyle = {
 };
 
 const headlineRowClass =
-  "flex w-full items-center justify-between gap-[10px] md:gap-[40px] lg:gap-[48px] xl:gap-[120px]";
+  "flex w-full min-w-max items-center justify-between gap-[6px] md:w-full md:min-w-0 md:gap-[40px] lg:gap-[48px] xl:gap-[120px] [&_[data-headline-word]]:shrink-0 md:[&_[data-headline-word]]:shrink";
 
 const headlineRowClassDistinction =
-  "flex w-full items-center justify-between gap-[10px] md:gap-[30px] lg:gap-[48px] xl:gap-[120px]";
+  "flex w-full min-w-max items-center justify-between gap-[6px] md:w-full md:min-w-0 md:gap-[30px] lg:gap-[48px] xl:gap-[120px] [&_[data-headline-word]]:shrink-0 md:[&_[data-headline-word]]:shrink";
+
+const headlineRowClassAWorld =
+  "flex w-full min-w-max items-center justify-start gap-[10px] md:w-full md:min-w-0 md:justify-between md:gap-[30px] lg:gap-[48px] xl:gap-[120px] [&_[data-headline-word]]:shrink-0 md:[&_[data-headline-word]]:shrink";
 
 const disruptionStyle = {
   fontFamily: sequelFontFamily,
@@ -520,26 +523,56 @@ const Section1 = () => {
       if (!headline || !parent) return;
 
       headline.style.transform = "none";
-      headline.style.width = "100%";
       headline.style.marginLeft = "0";
+      headline.style.maxWidth = "none";
 
       const primaryLayer = headline.querySelector("[data-headline-primary]");
       const rows = primaryLayer
         ? primaryLayer.querySelectorAll("[data-headline-row]")
         : headline.querySelectorAll("[data-headline-row]");
+
+      // Mobile: grow/shrink font so longest row fills width (CSS px bumps then show).
+      if (isMobileViewport()) {
+        headline.style.width = "100%";
+        headline.style.fontSize = "";
+        headline.style.transform = "none";
+
+        // Measure at stylesheet size first
+        headline.style.width = "max-content";
+        let needed = 0;
+        rows.forEach((row) => {
+          if (!row.getClientRects().length) return;
+          needed = Math.max(needed, row.scrollWidth, row.getBoundingClientRect().width);
+        });
+        const available = (textCol?.clientWidth ?? parent.clientWidth) - 2;
+        if (needed > 0 && available > 0) {
+          const basePx = parseFloat(window.getComputedStyle(headline).fontSize) || 48;
+          // Fill the row width; cap so it stays readable
+          const nextPx = Math.min(62, Math.max(36, basePx * (available / needed) - 10));
+          headline.style.fontSize = `${nextPx}px`;
+          headline.style.lineHeight = `${Math.round(nextPx * 1.05)}px`;
+        }
+        headline.style.width = "100%";
+        headline.style.transformOrigin = "top left";
+        return;
+      }
+
+      headline.style.fontSize = "";
+      headline.style.lineHeight = "";
+      headline.style.width = "max-content";
+
       let needed = 0;
       rows.forEach((row) => {
+        if (!row.getClientRects().length) return;
         needed = Math.max(needed, row.scrollWidth, row.getBoundingClientRect().width);
       });
       const available = (textCol?.clientWidth ?? parent.clientWidth) - 2;
       const scale = needed > 0 ? Math.min(1, available / needed) : 1;
       if (scale < 1) {
         headline.style.width = `${100 / scale}%`;
-        headline.style.marginLeft = "0";
         headline.style.transform = `scale(${scale})`;
       } else {
         headline.style.width = "100%";
-        headline.style.marginLeft = "0";
         headline.style.transform = "none";
       }
       headline.style.transformOrigin = "top left";
@@ -601,6 +634,7 @@ const Section1 = () => {
       const circleRadius = getCircleRadius();
 
       return [...rows]
+        .filter((row) => row.getClientRects().length > 0)
         .map((row) => {
           const words = [...row.querySelectorAll("[data-headline-word]")];
           if (!words.length) return null;
@@ -628,9 +662,10 @@ const Section1 = () => {
       const gold = headlineGoldRef.current;
       if (!gold) return;
 
-      const mask = "radial-gradient(circle 0px at -9999px -9999px, transparent 100%, transparent 100%)";
+      const mask = "radial-gradient(circle 0px at -9999px -9999px, #000 0%, transparent 0%)";
       gold.style.maskImage = mask;
       gold.style.webkitMaskImage = mask;
+      gold.style.opacity = "0";
     };
 
     const startHeadlineSpotlight = () => {
@@ -646,58 +681,54 @@ const Section1 = () => {
 
       const setMaskAt = (x, y) => {
         const radius = getCircleRadius();
-        const mask = `radial-gradient(circle ${radius}px at ${x}px ${y}px, #000 98%, transparent 100%)`;
+        const mask = `radial-gradient(circle ${radius}px at ${x}px ${y}px, #000 0%, #000 72%, transparent 100%)`;
         gold.style.maskImage = mask;
         gold.style.webkitMaskImage = mask;
+        gold.style.opacity = "1";
       };
 
-      const speed = wrap.offsetWidth / circleSpotlightDuration;
-      let maskVisible = true;
+      const speed = Math.max(wrap.offsetWidth, 1) / circleSpotlightDuration;
       const proxy = {
         x: rowWaypoints[0].start.x,
         y: rowWaypoints[0].start.y,
       };
 
-      const showMask = () => {
-        maskVisible = true;
-        setMaskAt(proxy.x, proxy.y);
-      };
-
-      const hideMask = () => {
-        maskVisible = false;
-        hideHeadlineGold();
-      };
+      hideHeadlineGold();
 
       const tl = gsap.timeline({
         repeat: -1,
         onUpdate: () => {
-          if (maskVisible) setMaskAt(proxy.x, proxy.y);
+          setMaskAt(proxy.x, proxy.y);
         },
       });
 
+      // One continuous circle path across every row (no full-text flash between lines)
       rowWaypoints.forEach((row, rowIndex) => {
-        if (rowIndex > 0) {
-          tl.call(hideMask);
+        if (rowIndex === 0) {
           tl.set(proxy, { x: row.start.x, y: row.start.y });
-          tl.call(showMask);
         } else {
-          tl.set(proxy, { x: row.start.x, y: row.start.y });
-          tl.call(showMask);
+          tl.to(proxy, {
+            x: row.start.x,
+            y: row.start.y,
+            duration: 0.28,
+            ease: "none",
+          });
         }
 
         const dist = Math.hypot(row.end.x - row.start.x, row.end.y - row.start.y);
-        if (!dist) return;
-
-        tl.to(proxy, {
-          x: row.end.x,
-          y: row.end.y,
-          duration: dist / speed,
-          ease: "none",
-        });
+        if (dist > 1) {
+          tl.to(proxy, {
+            x: row.end.x,
+            y: row.end.y,
+            duration: dist / speed,
+            ease: "none",
+          });
+        }
       });
 
-      tl.call(hideMask);
+      tl.call(hideHeadlineGold);
       tl.set(proxy, { x: rowWaypoints[0].start.x, y: rowWaypoints[0].start.y });
+      tl.to({}, { duration: 0.35 });
 
       spotlightTween = tl;
       spotlightStarted = true;
@@ -1311,74 +1342,183 @@ const Section1 = () => {
             <h1
               ref={headlineRef}
               style={headingStyle}
-              className="m-0 w-full max-w-full text-left text-[26px] leading-[28px] sm:text-[30px] sm:leading-[32px] md:text-[56px] md:leading-[58px] lg:text-[72px] lg:leading-[72px] xl:text-[94px] xl:leading-[94px]"
+              className="m-0 w-full max-w-full text-left text-[57px] leading-[60px] sm:text-[61px] sm:leading-[64px] md:text-[56px] md:leading-[58px] lg:text-[72px] lg:leading-[72px] xl:text-[94px] xl:leading-[94px]"
             >
               <div ref={headlineSpotlightWrapRef} className="relative w-full overflow-x-hidden">
                 <div data-headline-primary className="relative z-[1]">
-                  <Reveal className="w-full overflow-hidden py-[2px]">
-                    <span className="flex w-full">
-                      <span data-headline-row className={headlineRowClass}>
-                        <span data-headline-word>18</span>
-                        <span data-headline-word>Years</span>
-                        <span data-headline-word>of</span>
-                        <span data-headline-word>Creating</span>
+                  {/* Mobile line breaks */}
+                  <div className="md:hidden">
+                    <Reveal className="w-full overflow-x-visible overflow-y-hidden py-[2px]" clipYOnly>
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClass}>
+                          <span data-headline-word>18</span>
+                          <span data-headline-word>Years</span>
+                          <span data-headline-word>of</span>
+                        </span>
                       </span>
-                    </span>
-                  </Reveal>
-                  <Reveal className="mt-[4px] w-full overflow-hidden py-[2px]">
-                    <span className="flex w-full">
-                      <span data-headline-row className={headlineRowClassDistinction}>
-                        <span data-headline-word>Distinction</span>
-                        <span data-headline-word>in</span>
-                        <span data-headline-word>a</span>
-                        <span data-headline-word className="shrink-0">World</span>
+                    </Reveal>
+                    <Reveal className="mt-[4px] w-full overflow-x-visible overflow-y-hidden py-[2px]" clipYOnly>
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClass}>
+                          <span data-headline-word>Creating</span>
+                        </span>
                       </span>
-                    </span>
-                  </Reveal>
-                  <Reveal className="mt-[4px] w-full overflow-hidden py-[2px]">
-                    <span className="flex w-full">
-                      <span data-headline-row className={headlineRowClass}>
-                        <span data-headline-word>Full</span>
-                        <span data-headline-word>of</span>
-                        <span data-headline-word>Sameness</span>
+                    </Reveal>
+                    <Reveal className="mt-[4px] w-full overflow-x-visible overflow-y-hidden py-[2px]" clipYOnly>
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClass}>
+                          <span data-headline-word>Distinction</span>
+                          <span data-headline-word>in</span>
+                        </span>
                       </span>
-                    </span>
-                  </Reveal>
+                    </Reveal>
+                    <Reveal className="mt-[4px] w-full overflow-x-visible overflow-y-hidden py-[2px]" clipYOnly>
+                      <span className="flex w-full">
+                        <span
+                          data-headline-row
+                          className={headlineRowClassAWorld}
+                          style={{ gap: "18px", columnGap: "18px" }}
+                        >
+                          <span data-headline-word>a</span>
+                          <span data-headline-word className="shrink-0">World</span>
+                          <span data-headline-word>Full</span>
+                        </span>
+                      </span>
+                    </Reveal>
+                    <Reveal className="mt-[4px] w-full overflow-x-visible overflow-y-hidden py-[2px]" clipYOnly>
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClass}>
+                          <span data-headline-word>of</span>
+                          <span data-headline-word>Sameness</span>
+                        </span>
+                      </span>
+                    </Reveal>
+                  </div>
+
+                  {/* Desktop — unchanged */}
+                  <div className="hidden md:block">
+                    <Reveal className="w-full overflow-hidden py-[2px]">
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClass}>
+                          <span data-headline-word>18</span>
+                          <span data-headline-word>Years</span>
+                          <span data-headline-word>of</span>
+                          <span data-headline-word>Creating</span>
+                        </span>
+                      </span>
+                    </Reveal>
+                    <Reveal className="mt-[4px] w-full overflow-hidden py-[2px]">
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClassDistinction}>
+                          <span data-headline-word>Distinction</span>
+                          <span data-headline-word>in</span>
+                          <span data-headline-word>a</span>
+                          <span data-headline-word className="shrink-0">World</span>
+                        </span>
+                      </span>
+                    </Reveal>
+                    <Reveal className="mt-[4px] w-full overflow-hidden py-[2px]">
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClass}>
+                          <span data-headline-word>Full</span>
+                          <span data-headline-word>of</span>
+                          <span data-headline-word>Sameness</span>
+                        </span>
+                      </span>
+                    </Reveal>
+                  </div>
                 </div>
                 <div
                   ref={headlineGoldRef}
-                  className="pointer-events-none absolute inset-0 z-[2] text-left"
-                  style={{ ...headingStyle, color: goldColor }}
+                  className="pointer-events-none absolute inset-0 z-[2] overflow-hidden text-left"
+                  style={{
+                    ...headingStyle,
+                    color: goldColor,
+                    opacity: 0,
+                    WebkitMaskImage:
+                      "radial-gradient(circle 0px at -9999px -9999px, #000 0%, transparent 0%)",
+                    maskImage:
+                      "radial-gradient(circle 0px at -9999px -9999px, #000 0%, transparent 0%)",
+                  }}
                   aria-hidden
                 >
-                  <div className="w-full py-[2px]">
-                    <span className="flex w-full">
-                      <span data-headline-row className={headlineRowClass}>
-                        <span>18</span>
-                        <span>Years</span>
-                        <span>of</span>
-                        <span>Creating</span>
+                  <div className="md:hidden">
+                    <div className="w-full py-[2px]">
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClass}>
+                          <span>18</span>
+                          <span>Years</span>
+                          <span>of</span>
+                        </span>
                       </span>
-                    </span>
+                    </div>
+                    <div className="mt-[4px] w-full py-[2px]">
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClass}>
+                          <span>Creating</span>
+                        </span>
+                      </span>
+                    </div>
+                    <div className="mt-[4px] w-full py-[2px]">
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClass}>
+                          <span>Distinction</span>
+                          <span>in</span>
+                        </span>
+                      </span>
+                    </div>
+                    <div className="mt-[4px] w-full py-[2px]">
+                      <span className="flex w-full">
+                        <span
+                          data-headline-row
+                          className={headlineRowClassAWorld}
+                          style={{ gap: "18px", columnGap: "18px" }}
+                        >
+                          <span>a</span>
+                          <span className="shrink-0">World</span>
+                          <span>Full</span>
+                        </span>
+                      </span>
+                    </div>
+                    <div className="mt-[4px] w-full py-[2px]">
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClass}>
+                          <span>of</span>
+                          <span>Sameness</span>
+                        </span>
+                      </span>
+                    </div>
                   </div>
-                  <div className="mt-[4px] w-full py-[2px]">
-                    <span className="flex w-full">
-                      <span data-headline-row className={headlineRowClassDistinction}>
-                        <span>Distinction</span>
-                        <span>in</span>
-                        <span>a</span>
-                        <span className="shrink-0">World</span>
+                  <div className="hidden md:block">
+                    <div className="w-full py-[2px]">
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClass}>
+                          <span>18</span>
+                          <span>Years</span>
+                          <span>of</span>
+                          <span>Creating</span>
+                        </span>
                       </span>
-                    </span>
-                  </div>
-                  <div className="mt-[4px] w-full py-[2px]">
-                    <span className="flex w-full">
-                      <span data-headline-row className={headlineRowClass}>
-                        <span>Full</span>
-                        <span>of</span>
-                        <span>Sameness</span>
+                    </div>
+                    <div className="mt-[4px] w-full py-[2px]">
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClassDistinction}>
+                          <span>Distinction</span>
+                          <span>in</span>
+                          <span>a</span>
+                          <span className="shrink-0">World</span>
+                        </span>
                       </span>
-                    </span>
+                    </div>
+                    <div className="mt-[4px] w-full py-[2px]">
+                      <span className="flex w-full">
+                        <span data-headline-row className={headlineRowClass}>
+                          <span>Full</span>
+                          <span>of</span>
+                          <span>Sameness</span>
+                        </span>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
