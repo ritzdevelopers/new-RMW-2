@@ -36,6 +36,9 @@ const headlineRowClassDistinction =
 const headlineRowClassAWorld =
   "flex w-full min-w-max items-center justify-start gap-[10px] md:w-full md:min-w-0 md:justify-between md:gap-[30px] lg:gap-[48px] xl:gap-[120px] [&_[data-headline-word]]:shrink-0 md:[&_[data-headline-word]]:shrink";
 
+const headlineRowClassMobileCenter =
+  "flex w-full min-w-max items-center justify-center gap-[6px] [&_[data-headline-word]]:shrink-0";
+
 const disruptionStyle = {
   fontFamily: sequelFontFamily,
   fontWeight: 365,
@@ -1359,7 +1362,7 @@ const Section1 = () => {
                     </Reveal>
                     <Reveal className="mt-[4px] w-full overflow-x-visible overflow-y-hidden py-[2px]" clipYOnly>
                       <span className="flex w-full">
-                        <span data-headline-row className={headlineRowClass}>
+                        <span data-headline-row className={headlineRowClassMobileCenter}>
                           <span data-headline-word>Creating</span>
                         </span>
                       </span>
@@ -1454,7 +1457,7 @@ const Section1 = () => {
                     </div>
                     <div className="mt-[4px] w-full py-[2px]">
                       <span className="flex w-full">
-                        <span data-headline-row className={headlineRowClass}>
+                        <span data-headline-row className={headlineRowClassMobileCenter}>
                           <span>Creating</span>
                         </span>
                       </span>

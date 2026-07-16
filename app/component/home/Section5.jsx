@@ -184,7 +184,7 @@ const Section5 = () => {
           </div>
         </div>
 
-        <div className="mx-auto w-full max-w-[420px] shrink-0 lg:mx-0 lg:max-w-[460px]">
+        <div className="mx-auto hidden w-full max-w-[420px] shrink-0 lg:mx-0 lg:block lg:max-w-[460px]">
           <img
             ref={imageRef}
             src={slide.image}

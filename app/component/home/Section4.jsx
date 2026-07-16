@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useRef, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -394,6 +394,61 @@ const GridSlider = ({ cardRefs }) => {
 };
 
 /* -------------------------------------------------------------------------- */
+/* Mobile image slider (list mode)                                            */
+/* -------------------------------------------------------------------------- */
+
+const MobileImageSlider = ({ activeSlug, onActiveChange }) => {
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      const currentIndex = services.findIndex((service) => service.slug === activeSlug);
+      const nextIndex = (currentIndex + 1 + services.length) % services.length;
+      onActiveChange(services[nextIndex].slug);
+    }, 2800);
+
+    return () => window.clearInterval(interval);
+  }, [activeSlug, onActiveChange]);
+
+  return (
+    <div className="pointer-events-none relative z-20 mb-8 w-full overflow-hidden select-none md:hidden">
+      <div
+        className="flex w-max gap-3 animate-section4-mobile-marquee"
+      >
+        {[...services, ...services].map((service, index) => {
+          return (
+            <div
+              key={`${service.slug}-${index}`}
+              className="relative w-[min(280px,75vw)] shrink-0"
+            >
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-black/5">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  draggable={false}
+                  className="h-full w-full object-cover"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0" />
+                <span
+                  className="pointer-events-none absolute left-3 top-3 text-[10px] text-white"
+                  style={gridNumberStyle}
+                >
+                  {service.number}
+                </span>
+                <span
+                  className="pointer-events-none absolute inset-x-3 bottom-4 text-[22px] text-white"
+                  style={gridTitleStyle}
+                >
+                  {service.title}
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+/* -------------------------------------------------------------------------- */
 /* Section4                                                                    */
 /* -------------------------------------------------------------------------- */
 
@@ -781,8 +836,6 @@ const Section4 = () => {
     let frame = 0;
 
     const updateActive = () => {
-      if (window.innerWidth < 768) return;
-
       const viewportCenter = window.innerHeight / 2;
       let closestSlug = services[0].slug;
       let closestDistance = Infinity;
@@ -946,6 +999,17 @@ const Section4 = () => {
             font-size: 10px !important;
           }
         }
+        @keyframes section4-mobile-marquee {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
+        }
+        .animate-section4-mobile-marquee {
+          animation: section4-mobile-marquee 45s linear infinite;
+        }
       `}</style>
 
       {/* Fixed-position layer that hosts the transient "ghost" clones used to
@@ -983,6 +1047,8 @@ const Section4 = () => {
             />
           </div>
 
+          <MobileImageSlider activeSlug={activeSlug} onActiveChange={setActiveSlug} />
+
           <ul
             ref={listRef}
             className="relative z-[30] m-0 flex w-full list-none flex-col items-center gap-0 p-0 md:gap-2 lg:gap-2"
@@ -1003,12 +1069,11 @@ const Section4 = () => {
                   }`}
                 >
                   <div className="relative inline-flex items-baseline justify-center">
-                    <Link
-                      href={`/services/${service.slug}`}
+                    <span
                       ref={(node) => {
                         textRefs.current[index] = node;
                       }}
-                      className={`relative z-10 cursor-default ${linkRowClass}${
+                      className={`relative z-10 cursor-default pointer-events-none select-none ${linkRowClass}${
                         isActive && !showGridPreview ? " section4-row-link-active" : ""
                       }`}
                     >
@@ -1030,7 +1095,7 @@ const Section4 = () => {
                       >
                         {service.title}
                       </span>
-                    </Link>
+                    </span>
 
                     {/* Thumbnail preview that slides in beside the title when the
                         GRID tab is hovered — a peek at the grid content. */}
