@@ -36,14 +36,15 @@ function page() {
       <Header />
       <Hero />
       {/* <Section2 />  */}
+      {/* <Section3 />  */}
+      
       <DynamicSlider heading="Stationary Creative" images={stationary_images}/>
-      <Section3 />
       <DynamicSlider heading="OOH" images={ooh_images}/>
-      <Section5 />
+      {/* <Section5 /> */}
       <DynamicSlider heading="Print" />
-      <Section6 />
+      {/* <Section6 />  */}
       <DynamicSlider heading="Social Media" />
-      <Section8 />
+      {/* <Section8 /> */}
       <DynamicSlider heading="Brochure" />
       <Section10 />
     </main>
