@@ -89,9 +89,155 @@ const Letter = ({ children, from, className = "" }) => (
   </span>
 );
 
+const ConnectLetters = () => (
+  <>
+    {"CONNECT".split("").map((letter, index) => (
+      <Letter key={`connect-${index}`} from="left" className="text-[#000000]">
+        {letter}
+      </Letter>
+    ))}
+  </>
+);
+
+const CreateLetters = () => (
+  <>
+    <Letter from="left" className="text-[#33333366]">
+      &amp;
+    </Letter>
+    {"CREATE".split("").map((letter, index) => (
+      <Letter key={`create-${index}`} from="right" className="text-[#33333366]">
+        {letter}
+      </Letter>
+    ))}
+  </>
+);
+
+const NewsCard = ({
+  item,
+  onMouseEnter,
+  onMouseLeave,
+  className = "",
+  style,
+  compact = false,
+  ...props
+}) => (
+  <div
+    data-carousel-item
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+    {...props}
+    className={`group relative z-10 flex shrink-0 cursor-pointer flex-col items-start justify-center overflow-hidden border border-[#0D1334] ${
+      compact
+        ? "gap-3 rounded-[12px] p-4"
+        : "gap-8 rounded-[16px] p-8"
+    } ${className}`}
+    style={style}
+  >
+    <span
+      aria-hidden
+      className="absolute inset-0 origin-bottom scale-y-0 bg-[#0D1334] transition-transform duration-300 ease-out group-hover:scale-y-100"
+    />
+    <p
+      className={`${leagueSpartan.className} relative z-10 m-0 text-left text-[#0D1334] transition-colors duration-300 group-hover:text-white ${
+        compact ? "text-[20px] leading-[100%]" : ""
+      }`}
+      style={compact ? undefined : newsHeadingStyle}
+    >
+      {compact && item.subtitle ? (
+        <>
+          {item.subtitle.split(" ").slice(0, -1).join(" ")}
+          <br />
+          {item.subtitle.split(" ").slice(-1)}
+        </>
+      ) : item.subtitle ? (
+        item.subtitle
+      ) : (
+        <>
+          News &amp;
+          <br />
+          Views
+        </>
+      )}
+    </p>
+
+    <a
+      href={item.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`relative z-10 inline-flex cursor-pointer items-center rounded-full bg-white shadow-[0_6px_24px_rgba(0,0,0,0.22)] ${
+        compact
+          ? "gap-1.5 py-0.5 pl-3 pr-1"
+          : "gap-2 py-1 pl-5 pr-2 md:gap-2.5 md:py-1 md:pl-6 md:pr-2"
+      }`}
+    >
+      <span
+        className={`font-league-spartan font-medium uppercase tracking-[0.08em] text-[#1D1D1B] ${
+          compact ? "text-[9px]" : "text-[12px] md:text-[14px]"
+        }`}
+      >
+        {item.label}
+      </span>
+      <span
+        className={`flex items-center justify-center rounded-full bg-[#1D1D1B] text-white ${
+          compact ? "h-5 w-5" : "h-8 w-8 md:h-9 md:w-9"
+        }`}
+      >
+        <i
+          className={`ri-arrow-right-up-line ${compact ? "text-[10px]" : "text-[14px] md:text-[16px]"}`}
+          aria-hidden
+        />
+      </span>
+    </a>
+  </div>
+);
+
+const CarouselImage = ({
+  item,
+  index,
+  onLoad,
+  isRevealed,
+  className = "",
+  style,
+  ...props
+}) => {
+  const { width: itemWidth, height: itemHeight } = getImageSize(item);
+
+  return (
+    <div
+      data-carousel-item
+      {...props}
+      className={`relative z-10 shrink-0 overflow-hidden ${className}`}
+      style={{ height: itemHeight, width: itemWidth, ...style }}
+    >
+     <Image
+  src={item.src}
+  alt=""
+  width={itemWidth}
+  height={itemHeight}
+  onLoad={() => onLoad(index)}
+  onLoadingComplete={() => onLoad(index)}
+  className={`h-auto w-full transition-all duration-300 md:object-cover object-contain ${
+    isRevealed ? "opacity-100 grayscale-0" : "opacity-60 grayscale"
+  }`}
+/>
+    </div>
+  );
+};
+
+const mobileBlocks = [
+  { type: "headline-connect" },
+  { type: "row", indices: [0, 1] },
+  { type: "headline-create" },
+  { type: "row", indices: [4, 3] },
+];
+
+const MOBILE_ROW_ITEM_WIDTH = 148;
+const MOBILE_SCROLL_DISTANCE = 15;
+
 const Section6 = () => {
   const sectionRef = useRef(null);
   const pinRef = useRef(null);
+  const mobileContentRef = useRef(null);
   const headlineWrapRef = useRef(null);
   const headlineRef = useRef(null);
   const trackRef = useRef(null);
@@ -160,54 +306,101 @@ const Section6 = () => {
     const getTrackOverflow = () => Math.max(0, track.scrollWidth - window.innerWidth);
 
     const ctx = gsap.context(() => {
-      const buildTimeline = () => {
-        const headlineOverflow = getHeadlineOverflow();
-        const trackOverflow = getTrackOverflow();
-        const scrollDistance = Math.max(headlineOverflow, trackOverflow);
+      const mm = gsap.matchMedia();
 
-        gsap.set(headline, { x: 0, y: 0 });
-        gsap.set(track, { x: 0, y: 0 });
+      mm.add("(min-width: 768px)", () => {
+        const buildTimeline = () => {
+          const headlineOverflow = getHeadlineOverflow();
+          const trackOverflow = getTrackOverflow();
+          const scrollDistance = Math.max(headlineOverflow, trackOverflow);
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            id: "section6-carousel",
-            trigger: section,
-            start: "top top",
-            end: () => `+=${scrollDistance}`,
-            pin: pin,
-            scrub: 1,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              setActiveIndex(
-                Math.round(self.progress * Math.max(carouselItems.length - 1, 1)),
-              );
+          gsap.set(headline, { x: 0, y: 0 });
+          gsap.set(track, { x: 0, y: 0 });
+
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              id: "section6-carousel",
+              trigger: section,
+              start: "top top",
+              end: () => `+=${scrollDistance}`,
+              pin: pin,
+              scrub: 1,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+              onUpdate: (self) => {
+                setActiveIndex(
+                  Math.round(self.progress * Math.max(carouselItems.length - 1, 1)),
+                );
+              },
             },
-          },
-        });
+          });
 
-        if (scrollDistance > 0) {
-          if (headlineOverflow > 0) {
-            tl.to(headline, { x: -headlineOverflow, ease: "none", duration: 1 }, 0);
+          if (scrollDistance > 0) {
+            if (headlineOverflow > 0) {
+              tl.to(headline, { x: -headlineOverflow, ease: "none", duration: 1 }, 0);
+            }
+            if (trackOverflow > 0) {
+              tl.to(track, { x: -trackOverflow, ease: "none", duration: 1 }, 0);
+            }
           }
-          if (trackOverflow > 0) {
-            tl.to(track, { x: -trackOverflow, ease: "none", duration: 1 }, 0);
-          }
-        }
-      };
+        };
 
-      buildTimeline();
+        buildTimeline();
 
-      const onResize = () => ScrollTrigger.refresh();
-      window.addEventListener("resize", onResize);
+        const onResize = () => ScrollTrigger.refresh();
+        window.addEventListener("resize", onResize);
 
-      return () => {
-        window.removeEventListener("resize", onResize);
-      };
+        return () => {
+          window.removeEventListener("resize", onResize);
+        };
+      });
     }, section);
 
     return () => ctx.revert();
   }, [imagesReady]);
+
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    const mobileContent = mobileContentRef.current;
+    if (!section || !mobileContent) return;
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(max-width: 767px)", () => {
+        const enterItems = gsap.utils.toArray("[data-mobile-scroll-enter]", mobileContent);
+        const exitItems = gsap.utils.toArray("[data-mobile-scroll-exit]", mobileContent);
+        if (!enterItems.length && !exitItems.length) return;
+
+        const distance = MOBILE_SCROLL_DISTANCE;
+
+        if (enterItems.length) gsap.set(enterItems, { y: distance, force3D: true });
+        if (exitItems.length) gsap.set(exitItems, { y: 0, force3D: true });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: mobileContent,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 2.5,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        if (enterItems.length) {
+          tl.to(enterItems, { y: 0, ease: "none", force3D: true, duration: 0.45 }, 0);
+        }
+
+        if (exitItems.length) {
+          tl.to(exitItems, { y: distance, ease: "none", force3D: true, duration: 0.55 }, 0.45);
+        }
+
+        ScrollTrigger.refresh();
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
 
   const isImageRevealed = (imageIndex) => {
     if (hoveredNewsIndex == null) return false;
@@ -227,13 +420,111 @@ const Section6 = () => {
     setActiveIndex(index);
   };
 
+  const renderMobileCarouselItem = (index) => {
+    const item = carouselItems[index];
+    const isEnterItem = index === 0 || index === 4;
+    const isExitItem = index === 1 || index === 3;
+    const shouldWrap = isEnterItem || isExitItem;
+
+    const content =
+      item.type === "news" ? (
+        <NewsCard
+          item={item}
+          compact
+          className="h-full min-w-0 w-full self-stretch"
+          style={{ width: MOBILE_ROW_ITEM_WIDTH }}
+        />
+      ) : (
+        <CarouselImage
+          item={item}
+          index={index}
+          onLoad={handleImageLoad}
+          isRevealed={false}
+          className="w-full self-stretch rounded-[10px]"
+          style={{ width: MOBILE_ROW_ITEM_WIDTH, height: "auto" }}
+        />
+      );
+
+    if (!shouldWrap) {
+      return (
+        <div key={`mobile-item-${index}`} className="min-w-0 flex-1 self-stretch">
+          {content}
+        </div>
+      );
+    }
+
+    return (
+      <div
+        key={`mobile-item-${index}`}
+        {...(isEnterItem ? { "data-mobile-scroll-enter": "" } : {})}
+        {...(isExitItem ? { "data-mobile-scroll-exit": "" } : {})}
+        className="min-w-0 flex-1 self-stretch will-change-transform"
+      >
+        {content}
+      </div>
+    );
+  };
+
   return (
     <section ref={sectionRef} className="relative z-10 bg-white">
       <div
         ref={pinRef}
-        className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-white pb-12 pt-20 md:pb-16 md:pt-10"
+        className="relative flex w-full flex-col overflow-x-hidden bg-white pb-12 pt-10 md:min-h-screen md:pb-16 md:pt-10"
       >
-        <div className="relative z-10 shrink-0">
+        {/* Mobile layout */}
+        <div
+          ref={mobileContentRef}
+          className="relative z-10 flex flex-col gap-6 px-5 md:hidden"
+        >
+          {mobileBlocks.map((block, blockIndex) => {
+            if (block.type === "headline-connect") {
+              return (
+                <div key={`mobile-connect-${blockIndex}`} className="flex justify-center overflow-x-hidden">
+                  <h2
+                    className={`${leagueSpartan.className} m-0 inline-flex w-max flex-nowrap items-baseline uppercase leading-[1.05] tracking-[0] text-[54px] text-[#000000]`}
+                  >
+                    <ConnectLetters />
+                  </h2>
+                </div>
+              );
+            }
+
+            if (block.type === "headline-create") {
+              return (
+                <div key={`mobile-create-${blockIndex}`} className="flex justify-center overflow-x-hidden">
+                  <h2
+                    className={`${leagueSpartan.className} m-0 inline-flex w-max flex-nowrap items-baseline uppercase leading-[1.05] tracking-[0] text-[54px]`}
+                  >
+                    <CreateLetters />
+                  </h2>
+                </div>
+              );
+            }
+
+            if (block.type === "row") {
+              return (
+                <div
+                  key={`mobile-row-${blockIndex}`}
+                  data-mobile-row
+                  className="flex items-stretch justify-between gap-0"
+                >
+                  {block.indices.map((index) => renderMobileCarouselItem(index))}
+                </div>
+              );
+            }
+
+            return null;
+          })}
+
+          <p
+            className={`${montserrat.className} m-0 text-center text-[16px] font-medium leading-[120%] tracking-[0] text-[#333333]`}
+          >
+            Where ideas, culture, and creativity come to life.
+          </p>
+        </div>
+
+        {/* Desktop layout */}
+        <div className="relative z-10 hidden shrink-0 md:block">
           <div className="mx-auto w-full max-w-8xl px-8 md:px-12">
             <div
               ref={headlineWrapRef}
@@ -243,31 +534,20 @@ const Section6 = () => {
                 ref={headlineRef}
                 className={`${leagueSpartan.className} m-0 inline-flex w-max flex-nowrap items-baseline gap-x-[50px] py-1 uppercase leading-[1.05] tracking-[0] will-change-transform text-[80px] md:text-[120px] lg:text-[180px]`}
               >
-              {"CONNECT".split("").map((letter, index) => (
-                <Letter key={`connect-${index}`} from="left" className="text-[#000000]">
-                  {letter}
-                </Letter>
-              ))}
-              <Letter from="left" className="text-[#33333366]">
-                &amp;
-              </Letter>
-              {"CREATE".split("").map((letter, index) => (
-                <Letter key={`create-${index}`} from="right" className="text-[#33333366]">
-                  {letter}
-                </Letter>
-              ))}
-            </h2>
+                <ConnectLetters />
+                <CreateLetters />
+              </h2>
             </div>
           </div>
 
           <p
             className={`${montserrat.className} m-0 mx-auto mt-6 max-w-[800px] px-8 text-center text-[20px] font-medium leading-[100%] tracking-[0] text-[#333333] md:mt-0 md:px-12 md:text-[28px] lg:text-[36px]`}
           >
-            Where ideas, culture, and creativity come to life. 
+            Where ideas, culture, and creativity come to life.
           </p>
         </div>
 
-        <div className="relative z-30 mt-8 w-full xl:mt-0">
+        <div className="relative z-30 mt-8 hidden w-full xl:mt-0 md:block">
           <div className="h-[433px] w-full overflow-hidden">
             <div
               ref={trackRef}
@@ -276,73 +556,24 @@ const Section6 = () => {
               {carouselItems.map((item, index) => {
                 if (item.type === "news") {
                   return (
-                    <div
+                    <NewsCard
                       key={`news-${index}`}
-                      data-carousel-item
+                      item={item}
                       onMouseEnter={() => setHoveredNewsIndex(index)}
                       onMouseLeave={() => setHoveredNewsIndex(null)}
-                      className="group relative z-10 flex shrink-0 cursor-pointer flex-col items-start justify-center gap-8 overflow-hidden rounded-[16px] border border-[#0D1334] p-8"
                       style={{ width: 320, height: 320 }}
-                    >
-                      <span
-                        aria-hidden
-                        className="absolute inset-0 origin-bottom scale-y-0 bg-[#0D1334] transition-transform duration-300 ease-out group-hover:scale-y-100"
-                      />
-                      <p
-                        className={`${leagueSpartan.className} relative z-10 m-0 text-left text-[#0D1334] transition-colors duration-300 group-hover:text-white`}
-                        style={newsHeadingStyle}
-                      >
-                        {item.subtitle ? (
-                          item.subtitle
-                        ) : (
-                          <>
-                            News &amp;
-                            <br />
-                            Views
-                          </>
-                        )}
-                      </p>
-
-                      <a
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative z-10 inline-flex cursor-pointer items-center gap-2 rounded-full bg-white py-1 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-1 md:pl-6 md:pr-2"
-                      >
-                        <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[14px]">
-                          {item.label}
-                        </span>
-                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
-                          <i className="ri-arrow-right-up-line text-[14px] md:text-[16px]" aria-hidden />
-                        </span>
-                      </a>
-                    </div>
+                    />
                   );
                 }
 
-                const { width: itemWidth, height: itemHeight } = getImageSize(item);
-
                 return (
-                  <div
+                  <CarouselImage
                     key={`carousel-image-${index}`}
-                    data-carousel-item
-                    className="relative z-10 shrink-0 overflow-hidden"
-                    style={{ height: itemHeight, width: itemWidth }}
-                  >
-                    <Image
-                      src={item.src}
-                      alt=""
-                      fill
-                      onLoad={() => handleImageLoad(index)}
-                      onLoadingComplete={() => handleImageLoad(index)}
-                      className={`object-cover transition-all duration-300 ${
-                        isImageRevealed(index)
-                          ? "opacity-100 grayscale-0"
-                          : "opacity-60 grayscale"
-                      }`}
-                      sizes={`${itemWidth}px`}
-                    />
-                  </div>
+                    item={item}
+                    index={index}
+                    onLoad={handleImageLoad}
+                    isRevealed={isImageRevealed(index)}
+                  />
                 );
               })}
             </div>
