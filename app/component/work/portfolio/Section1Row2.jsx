@@ -11,7 +11,7 @@ const galleryColumns = [
   [
     { src: "/portfolio/portfolio-image-3.jpg", alt: "Beauty branding" },
     { src: "/portfolio/portfolio-gallery-4.jpg", alt: "Website mockups" },
-    { src: "/portfolio/portfolio-gallery-5.jpeg", alt: "One Body storefront" },
+    { src: "/portfolio/portfolio-gallery-5.jpg", alt: "One Body storefront" },
     { src: "/portfolio/portfolio-gallery-6.jpg", alt: "Stationery cards" },
   ],
   [
