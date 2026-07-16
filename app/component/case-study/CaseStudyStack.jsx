@@ -136,7 +136,7 @@ function Panel({ project, total, isActive, onActivate }) {
 // ─── Main Component ────────────────────────────────────────────────────────────
 const CaseStudyAccordion = () => {
   const [allProjects, setAllProjects] = useState([]);
-  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedYear, setSelectedYear] = useState("all");
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRef = useRef(null);
   const headRef = useRef(null);
@@ -178,14 +178,7 @@ const CaseStudyAccordion = () => {
         );
         if (!cancelled) {
           setAllProjects(enriched);
-          const yearSet = new Set(
-            enriched.map((project) => project.year).filter((year) => year != null),
-          );
-          DROPDOWN_YEARS.forEach((year) => yearSet.add(year));
-          const sortedYears = [...yearSet].sort((a, b) => b - a);
-          if (sortedYears.length > 0) {
-            setSelectedYear(String(sortedYears[0]));
-          }
+          setSelectedYear("all");
         }
       })
       .catch((err) => console.warn("Case study fetch failed:", err));
