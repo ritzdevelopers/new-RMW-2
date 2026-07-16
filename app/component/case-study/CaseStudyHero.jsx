@@ -210,7 +210,7 @@ const CaseStudyHero = () => {
       const subItems = gsap.utils.toArray("[data-cs-reveal='sub']", hero);
       const fallItems = [...headlineItems, ...subItems];
 
-      const getFallDistance = () => -(window.innerHeight * 0.72);
+      const getFallDistance = () => -(window.innerHeight * 0.35);
       const fallFrom = getFallDistance();
 
       gsap.set(fallItems, {
@@ -251,8 +251,8 @@ const CaseStudyHero = () => {
               opacity: 1,
               scale: 1,
               rotation: -12.441,
-              duration: 1.65,
-              ease: "power4.out",
+              duration: 2,
+              ease: "power3.out",
               force3D: true,
             },
             0,
@@ -265,11 +265,11 @@ const CaseStudyHero = () => {
             {
               y: 0,
               opacity: 1,
-              duration: 1.35,
-              ease: "power4.out",
+              duration: 2,
+              ease: "power3.out",
               force3D: true,
             },
-            index === 0 ? 0.08 : "-=1.05",
+            index === 0 ? 0 : "-=1.65",
           );
         });
 
@@ -279,11 +279,11 @@ const CaseStudyHero = () => {
             {
               y: 0,
               opacity: 1,
-              duration: 1.15,
-              ease: "power4.out",
+              duration: 2,
+              ease: "power3.out",
               force3D: true,
             },
-            index === 0 ? "-=0.85" : "-=0.95",
+            index === 0 ? "-=1.55" : "-=1.65",
           );
         });
       };
@@ -291,13 +291,8 @@ const CaseStudyHero = () => {
       const onHeaderComplete = () => playEntrance();
       window.addEventListener("header-reveal-complete", onHeaderComplete);
 
-      requestAnimationFrame(() => {
-        const headerItems = document.querySelectorAll("[data-header-reveal]");
-        const headerDone = headerItems.length
-          ? Array.from(headerItems).every((el) => gsap.getProperty(el, "yPercent") === 0)
-          : true;
-        if (headerDone) playEntrance();
-      });
+      // Show text immediately — don't wait for full header finish
+      requestAnimationFrame(() => playEntrance());
 
       fitHeadline();
       hideHeadlineGold();

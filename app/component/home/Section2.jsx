@@ -34,7 +34,7 @@ const Section2 = () => {
   return (
     <section
       className="relative w-full bg-cover bg-center bg-no-repeat px-8 py-[35px] md:px-12 md:py-[70px]"
-      style={{ backgroundImage: "url('/home/home-page-section2-bg.png')" }}
+      style={{ backgroundImage: "url('/home/home-page-banner.jpg')" }}
     >
       <div className="mx-auto w-full max-w-8xl">
         <div className="grid grid-cols-1 justify-items-center md:grid-cols-[1fr_auto] md:items-start md:justify-items-stretch md:gap-x-6">
