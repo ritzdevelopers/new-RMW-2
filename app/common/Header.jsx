@@ -613,7 +613,7 @@ const Header = () => {
                               fontFamily: '"League Spartan", sans-serif',
                               fontWeight: 500,
                             }}
-                            className={`block w-full max-w-full text-[11px] uppercase leading-[1.1] tracking-[-0.01em] text-white/75 transition-all duration-500 ease-out hover:text-[#c99237] md:text-[17px] lg:text-[18px] xl:text-[22px] ${
+                            className={`block w-full max-w-full text-[15px] uppercase leading-[1.1] tracking-[-0.01em] text-white/75 transition-all duration-500 ease-out hover:text-[#c99237] md:text-[17px] lg:text-[18px] xl:text-[22px] ${
                               portfolioSubOpen
                                 ? "translate-y-0 opacity-100"
                                 : "-translate-y-2 opacity-0"
