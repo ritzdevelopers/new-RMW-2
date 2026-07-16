@@ -4,7 +4,7 @@ function Hero() {
   return (
     <section
       className="w-full h-[620px] flex justify-center items-center bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{ backgroundImage: "url('/social-media/creative1.avif')" }}
+      style={{ backgroundImage: "url('/portfolio-page/creatives/update_home.jpg')" }}
     >
       <div className="w-full h-full flex justify-center items-center bg-[#000000a3]">
         <div className="w-full h-full flex justify-center items-center text-center">
