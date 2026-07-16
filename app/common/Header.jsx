@@ -527,7 +527,7 @@ const Header = () => {
             </p>
             <div className="mt-6 md:mt-0">
               <p
-                className="m-0 text-[11px] uppercase tracking-[0.18em] text-white/55"
+                className="m-0 text-[16px] uppercase tracking-[0.18em] text-white/55"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Explore our work
@@ -538,10 +538,10 @@ const Header = () => {
               setWorkMenuOpen(false);
               setPortfolioSubOpen(false);
             }}
-                className="mt-3 inline-flex items-center gap-2 font-sequel text-sm font-[310] uppercase tracking-normal text-white transition-colors hover:text-[#c99237]"
+                className="mt-3 inline-flex items-center gap-2 font-sequel text-[19px] font-[310] uppercase tracking-normal text-white transition-colors hover:text-[#c99237]"
               >
                 View portfolio
-                <i className="ri-arrow-right-up-line text-base" aria-hidden />
+                <i className="ri-arrow-right-up-line text-[21px]" aria-hidden />
               </Link>
             </div>
           </div>
