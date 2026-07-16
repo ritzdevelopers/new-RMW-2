@@ -5,30 +5,30 @@ import Image from "next/image";
 
 const galleryColumns = [
   [
-    { src: "/portfolio/protfolio-gallery-1.jpeg", alt: "Jewelry rings" },
+    { src: "/portfolio/protfolio-gallery-1.jpg", alt: "Jewelry rings" },
     { src: "/portfolio/portfolio-image-2.jpg", alt: "Brand moodboard" },
   ],
   [
-    { src: "/portfolio/portfolio-gallery-3.jpeg", alt: "Beauty branding" },
-    { src: "/portfolio/portfolio-gallery-4.webp", alt: "Website mockups" },
+    { src: "/portfolio/portfolio-image-3.jpg", alt: "Beauty branding" },
+    { src: "/portfolio/portfolio-gallery-4.jpg", alt: "Website mockups" },
     { src: "/portfolio/portfolio-gallery-5.jpeg", alt: "One Body storefront" },
-    { src: "/portfolio/portfolio-gallery-6.webp", alt: "Stationery cards" },
+    { src: "/portfolio/portfolio-gallery-6.jpg", alt: "Stationery cards" },
   ],
   [
     { src: "/portfolio/portfolio-gallery-7.jpg", alt: "Melissa Sassine branding" },
     { src: "/portfolio/portfolio-gallery-8.png", alt: "Poster mockup" },
-    { src: "/portfolio/portfolio-gallery-17.webp", alt: "Poster mockup" },
+    { src: "/portfolio/portfolio-gallery-17.jpg", alt: "Poster mockup" },
   ],
   [
-    { src: "/portfolio/portfolio-gallery-10.jpg", alt: "Storefront branding" },
+    { src: "/portfolio/portfolio-gallery1.jpg", alt: "Storefront branding" },
     { src: "/portfolio/portfolio-gallery-11.jpg", alt: "Print gallery" },
-    { src: "/portfolio/portfolio-gallery-12.png", alt: "Brochure layout" },
+    { src: "/portfolio/portfolio-gallery-12.jpg", alt: "Brochure layout" },
   ],
   [
     { src: "/portfolio/portfolio-gallery-13.jpg", alt: "Glowderm branding" },
     { src: "/portfolio/portfolio-gallery-14.jpg", alt: "Studio photoshoot" },
     { src: "/portfolio/portfolio-gallery-15.webp", alt: "Mobile app screens" },
-    { src: "/portfolio/portfolio-gallery-16.webp", alt: "Digital portfolio collage" },
+    { src: "/portfolio/portfolio-gallery-16.jpg", alt: "Digital portfolio collage" },
   ],
 ];
 

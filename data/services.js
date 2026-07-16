@@ -826,6 +826,26 @@ export const services = [
           label: "Social Impact",
           href: "https://youtu.be/EZjSYrrqhE4?si=D6qR6fVfwNksOuM3",
         },
+        {
+          src: "/celebrity-endorsements/Celebrity-Endorsement-5.jpg",
+          label: "Star Power",
+          href: "https://youtu.be/7Czb_IKhC00?si=ULuauuW3Dq5PlA7_",
+        },
+        {
+          src: "/celebrity-endorsements/Celebrity-Endorsement-6.jpg",
+          label: "Screen Presence",
+          href: "https://youtu.be/P7zMNTBxz-M?si=do_1ILf7wvBcXqrE",
+        },
+        {
+          src: "/celebrity-endorsements/Celebrity-Endorsement-7.jpg",
+          label: "Brand Face",
+          href: "https://youtu.be/3alAMAeCr34?si=_ph32BG87N4lGOhK",
+        },
+        {
+          src: "/celebrity-endorsements/Celebrity-Endorsement-8.jpg",
+          label: "Spotlight",
+          href: "https://youtu.be/BA5F6h0O_Lc?si=5bq2Bhu7TxQdUNFS",
+        },
       ],
       imageContent: {
         background: "/celebrity-endorsements/image%201005%20(14).png",
