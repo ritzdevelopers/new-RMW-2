@@ -46,7 +46,11 @@ function page() {
     <main style={{ fontFamily: editorsNoteLight }}>
       <Header />
       <Hero />
-      <DynamicSlider heading="Website Design" images={website_images} />
+      <DynamicSlider
+        heading="Website Design"
+        images={website_images}
+        enableLightbox
+      />
       <Section10 />
     </main>
   );
