@@ -1,11 +1,6 @@
 import React from "react";
 import Header from "@/app/component/social-media/Header";
 import Hero from "@/app/component/social-media/Hero";
-import Section2 from "@/app/component/social-media/Section2";
-import Section3 from "@/app/component/social-media/Section3";
-import Section5 from "@/app/component/social-media/Section5";
-import Section6 from "@/app/component/social-media/Section6";
-import Section8 from "@/app/component/social-media/Section8";
 import Section10 from "@/app/component/social-media/Section10";
 import DynamicSlider from "@/app/component/social-media/DynamicSlider";
 
