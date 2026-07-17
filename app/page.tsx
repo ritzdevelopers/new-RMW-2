@@ -6,10 +6,11 @@ import Section2 from "./component/home/Section2";
 import Section3 from "./component/home/Section3";
 import Section4 from "./component/home/Section4";
 import Section5 from "./component/home/Section5";
+import WebLoader from "./component/loader/WebLoader";
 
 export default function Home() {
   return (
-<>
+<WebLoader>
 <Header />
 <Section1 />
 <Section2 />
@@ -19,6 +20,6 @@ export default function Home() {
   <Section5 />
 </div>
 <Footer overlaySection={<Section7 />} />
-</>
+</WebLoader>
   );
 }

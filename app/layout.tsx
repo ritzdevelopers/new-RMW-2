@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import WebLoader from "./component/loader/WebLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,7 +44,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-full flex flex-col [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       >
-        <WebLoader>{children}</WebLoader>
+        {children}
       </body>
     </html>
   );
