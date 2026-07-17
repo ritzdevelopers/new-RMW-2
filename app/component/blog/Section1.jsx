@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
 import { normalizeBlogItem, resolveBlogImageUrl, sortBlogsByDateDesc } from "../../../lib/caseStudyApi";
@@ -139,18 +139,28 @@ function Section1Skeleton() {
 const Section1 = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchWrapRef = useRef(null);
+  const searchInputRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
 
     async function loadBlogs() {
       try {
-        const response = await fetch("/api/get_all_blogs?page=1");
-        if (!response.ok) throw new Error(String(response.status));
-        const data = await response.json();
-        const items = Array.isArray(data?.blogs) ? data.blogs : [];
+        const allItems = [];
+        for (let page = 1; page <= 10; page += 1) {
+          const response = await fetch(`/api/get_all_blogs?page=${page}`);
+          if (!response.ok) break;
+          const data = await response.json();
+          const items = Array.isArray(data?.blogs) ? data.blogs : [];
+          if (!items.length) break;
+          allItems.push(...items.map(normalizeBlogItem));
+          if (items.length < 10) break;
+        }
         if (!cancelled) {
-          setBlogs(sortBlogsByDateDesc(items.map(normalizeBlogItem)));
+          setBlogs(sortBlogsByDateDesc(allItems));
         }
       } catch {
         if (!cancelled) setBlogs([]);
@@ -166,17 +176,54 @@ const Section1 = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!searchOpen) return undefined;
+
+    searchInputRef.current?.focus();
+
+    const onPointerDown = (event) => {
+      if (!searchWrapRef.current?.contains(event.target)) {
+        setSearchOpen(false);
+      }
+    };
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setSearchOpen(false);
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [searchOpen]);
+
+  const posts = useMemo(() => blogs.map(mapBlogToPost), [blogs]);
+
+  const searchResults = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return [];
+
+    return posts
+      .filter((post) => {
+        const haystack = `${post.title} ${post.excerpt} ${post.category}`.toLowerCase();
+        return haystack.includes(query);
+      })
+      .slice(0, 8);
+  }, [posts, searchQuery]);
+
   const { featuredPost, gridPosts } = useMemo(() => {
-    if (!blogs.length) {
+    if (!posts.length) {
       return { featuredPost: null, gridPosts: [] };
     }
 
-    const posts = blogs.map(mapBlogToPost);
     return {
       featuredPost: posts[0],
       gridPosts: posts.slice(1, 4),
     };
-  }, [blogs]);
+  }, [posts]);
 
   if (loading) {
     return <Section1Skeleton />;
@@ -190,14 +237,68 @@ const Section1 = () => {
     <>
       <div className={`${montserrat.className} bg-white`}>
         <div className="mx-auto flex w-full max-w-[1440px] items-center justify-center px-6 py-10 sm:px-10 md:px-[50px] md:py-12">
-          <button
-            type="button"
-            aria-label="Search blog posts"
-            className="inline-flex cursor-pointer items-center gap-2 border-0 bg-transparent p-0 text-[#000000] transition-opacity duration-300 hover:opacity-70"
-          >
-            <i className="ri-search-line text-[18px] md:text-[20px]" aria-hidden />
-            <span className="text-[16px] font-normal leading-none md:text-[18px]">Search</span>
-          </button>
+          <div ref={searchWrapRef} className="relative inline-flex flex-col items-center">
+            {!searchOpen ? (
+              <button
+                type="button"
+                aria-label="Search blog posts"
+                onClick={() => setSearchOpen(true)}
+                className="inline-flex cursor-pointer items-center gap-2 border-0 bg-transparent p-0 text-[#000000] transition-opacity duration-300 hover:opacity-70"
+              >
+                <i className="ri-search-line text-[18px] md:text-[20px]" aria-hidden />
+                <span className="text-[16px] font-normal leading-none md:text-[18px]">Search</span>
+              </button>
+            ) : (
+              <div className="inline-flex items-center gap-2 border-0 bg-transparent p-0 text-[#000000]">
+                <i className="ri-search-line text-[18px] md:text-[20px]" aria-hidden />
+                <input
+                  ref={searchInputRef}
+                  type="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search"
+                  className="w-[140px] border-0 bg-transparent p-0 text-[16px] font-normal leading-none text-[#000000] outline-none placeholder:text-[#000000] md:w-[160px] md:text-[18px]"
+                  aria-label="Search blog posts"
+                />
+              </div>
+            )}
+
+            {searchOpen && searchQuery.trim() ? (
+              <div className="absolute left-1/2 top-[calc(100%+12px)] z-30 w-[min(90vw,360px)] -translate-x-1/2 max-h-[320px] overflow-y-auto rounded-[12px] border border-[#E5E4E3] bg-white shadow-[0_12px_40px_rgba(0,0,0,0.12)]">
+                {searchResults.length ? (
+                  searchResults.map((post) => (
+                    <Link
+                      key={post.slug}
+                      href={`/${post.slug}`}
+                      onClick={() => {
+                        setSearchOpen(false);
+                        setSearchQuery("");
+                      }}
+                      className="flex items-start gap-3 border-b border-[#F0F0F0] px-4 py-3 no-underline last:border-b-0 hover:bg-[#FAFAFA]"
+                    >
+                      <img
+                        src={post.image}
+                        alt=""
+                        className="h-12 w-12 shrink-0 rounded-md object-cover"
+                      />
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-[12px] capitalize text-[#00000099]">
+                          {post.category}
+                        </span>
+                        <span className="mt-0.5 block line-clamp-2 text-[14px] font-medium leading-[18px] text-[#000000]">
+                          {post.title}
+                        </span>
+                      </span>
+                    </Link>
+                  ))
+                ) : (
+                  <p className="m-0 px-4 py-5 text-center text-[14px] text-[#666666]">
+                    No blogs found for “{searchQuery.trim()}”
+                  </p>
+                )}
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
 
