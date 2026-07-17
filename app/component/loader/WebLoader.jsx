@@ -197,6 +197,14 @@ function WebLoader({
       });
   }, [phase]);
 
+  // Broadcast when the loader is finished so the rest of the site (e.g. the
+  // home hero video) can wait for it and only then start playing.
+  useEffect(() => {
+    if (phase !== "done" || typeof window === "undefined") return;
+    window.__rmwLoaderDone = true;
+    window.dispatchEvent(new Event("rmw:loader-done"));
+  }, [phase]);
+
   return (
     <>
       {children}

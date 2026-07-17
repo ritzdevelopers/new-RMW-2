@@ -15,6 +15,7 @@ const Section1 = () => {
     if (!video) return;
 
     let unlockBound = false;
+    let started = false;
 
     const playVideo = () => {
       video.play().catch(() => {});
@@ -48,11 +49,23 @@ const Section1 = () => {
       }
     };
 
-    startPlayback();
-    video.addEventListener("loadeddata", playVideo);
-    video.addEventListener("canplay", playVideo);
+    // Only start once the intro loader has finished.
+    const begin = () => {
+      if (started) return;
+      started = true;
+      startPlayback();
+      video.addEventListener("loadeddata", playVideo);
+      video.addEventListener("canplay", playVideo);
+    };
+
+    if (window.__rmwLoaderDone) {
+      begin();
+    } else {
+      window.addEventListener("rmw:loader-done", begin, { once: true });
+    }
 
     return () => {
+      window.removeEventListener("rmw:loader-done", begin);
       video.removeEventListener("loadeddata", playVideo);
       video.removeEventListener("canplay", playVideo);
       ["pointerdown", "click", "touchstart", "keydown"].forEach((eventName) => {
@@ -80,9 +93,9 @@ const Section1 = () => {
       <video
         ref={videoRef}
         src={HOME_VIDEO_SRC}
-        autoPlay
         loop
         playsInline
+        preload="auto"
         className="block h-auto w-full object-cover lg:max-h-[calc(100vh-100px)] md:max-h-[calc(100vh-200px)]"
       />
 
