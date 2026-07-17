@@ -16,7 +16,7 @@ const galleryColumns = [
   ],
   [
     { src: "/portfolio/portfolio-gallery-7.jpg", alt: "Melissa Sassine branding" },
-    { src: "/portfolio/portfolio-gallery-8.png", alt: "Poster mockup" },
+    { src: "/portfolio/portfolio-gallery-8.jpg", alt: "Poster mockup" },
     { src: "/portfolio/portfolio-gallery-17.jpg", alt: "Poster mockup" },
   ],
   [
@@ -27,7 +27,7 @@ const galleryColumns = [
   [
     { src: "/portfolio/portfolio-gallery-13.jpg", alt: "Glowderm branding" },
     { src: "/portfolio/portfolio-gallery-14.jpg", alt: "Studio photoshoot" },
-    { src: "/portfolio/portfolio-gallery-15.webp", alt: "Mobile app screens" },
+    { src: "/portfolio/portfolio-gallery-15.jpg", alt: "Mobile app screens" },
     { src: "/portfolio/portfolio-gallery-16.jpg", alt: "Digital portfolio collage" },
   ],
 ];
