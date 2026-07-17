@@ -124,7 +124,7 @@ function WebLoader({
     );
 
     const { w, h } = sizeAt(index);
-    const dur = Math.min(intervalMs / 1000, 0.8);
+    const dur = Math.min(intervalMs / 1000, 0.4);
 
     gsap.to(frameRef.current, { width: w, height: h, duration: dur, ease: "sine.inOut" });
     gsap.to(topTextRef.current, { x: -w / 2, y: -h / 2, duration: dur, ease: "sine.inOut" });
