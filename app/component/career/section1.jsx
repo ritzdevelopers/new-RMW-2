@@ -323,7 +323,6 @@ const section1 = () => {
                 </span>
               </span>
             </div>
-
             <p
               className={`${mixtaPro} order-2 mx-auto mt-[0px] w-full max-w-[700px] self-center overflow-hidden text-center text-[16px] font-[300] italic leading-[20px] text-white normal-case md:mt-0 md:text-[28px] md:leading-[32px] md:leading-snug lg:mt-[50px] lg:self-center lg:text-center lg:text-[20px] xl:mt-[50px] xl:-translate-x-[40px] xl:text-[28px]`}
             >
