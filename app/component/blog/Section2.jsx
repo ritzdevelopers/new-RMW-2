@@ -297,6 +297,7 @@ const Section2 = () => {
                   <img
                     src={post.image}
                     alt={post.title}
+                    title={post.title}
                     className="block h-auto w-full rounded-2xl object-cover object-center"
                   />
                 </div>

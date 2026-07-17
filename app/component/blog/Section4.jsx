@@ -293,6 +293,7 @@ const Section4 = () => {
                     <img
                       src={featuredPost.image}
                       alt={featuredPost.title}
+                      title={featuredPost.title}
                       className="block h-full w-full object-cover object-center"
                     />
                   </div>
@@ -327,6 +328,7 @@ const Section4 = () => {
                         <img
                           src={post.image}
                           alt={post.title}
+                          title={post.title}
                           className="block h-auto w-full rounded-lg object-cover object-center sm:h-full"
                         />
                       </div>

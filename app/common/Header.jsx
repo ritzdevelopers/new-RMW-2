@@ -222,6 +222,7 @@ const Header = () => {
             <Image
               src="/logo/rmw.logo.png"
               alt="Ritz Media World"
+              title="Ritz Media World"
               width={180}
               height={72}
               className="h-12 w-auto md:h-14"
@@ -316,7 +317,8 @@ const Header = () => {
             <span data-header-reveal className="inline-block">
               <Image
                 src="/logo/menu.png"
-                alt=""
+                alt={menuOpen ? "Close menu" : "Open menu"}
+                title={menuOpen ? "Close menu" : "Open menu"}
                 width={36}
                 height={28}
                 className="h-5 w-auto md:h-6"

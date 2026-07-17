@@ -101,12 +101,27 @@ const mainNavLinks = [
   { label: "CAREER", href: "/career" },
 ];
 
-const partnerLogos
- = [
-  { src: "/contact/ins.png", alt: "Indian Newspaper Society" },
-  { src: "/contact/meta.png", alt: "Meta Business Partner" },
-  { src: "/contact/google.png", alt: "Google Partner" },
-  { src: "/contact/msme.png", alt: "MSME" },
+const partnerLogos = [
+  {
+    src: "/contact/ins.png",
+    alt: "Indian Newspaper Society",
+    title: "Indian Newspaper Society",
+  },
+  {
+    src: "/contact/meta.png",
+    alt: "Meta Business Partner",
+    title: "Meta Business Partner",
+  },
+  {
+    src: "/contact/google.png",
+    alt: "Google Partner",
+    title: "Google Partner",
+  },
+  {
+    src: "/contact/msme.png",
+    alt: "MSME",
+    title: "MSME",
+  },
 ];
 
 const servicesRow1 = [
@@ -461,7 +476,8 @@ const Footer = ({ overlaySection = null }) => {
           ref={footerRevealLogoRef}
           data-footer-reveal-logo
           src="/logo/r-logo-new.png"
-          alt=""
+          alt="Ritz Media World"
+          title="Ritz Media World"
           className="h-[300px] w-[250px] max-w-none object-contain will-change-transform md:h-[517px] md:w-[431px]"
           style={{
             filter: "brightness(3.2) contrast(1.05)",
@@ -519,7 +535,7 @@ const Footer = ({ overlaySection = null }) => {
             <div className="flex flex-col items-center">
               <span style={connectLabelStyle}>Phone No.</span>
               <p style={contactTextStyle} className="mt-4 lg:!text-[17px] xl:!text-[18px]">
-                +919220516777 | +917290002168
+                +91 9220516777 | +91 7290002168
               </p>
             </div>
           </div>
@@ -532,6 +548,7 @@ const Footer = ({ overlaySection = null }) => {
                 key={logo.src}
                 src={logo.src}
                 alt={logo.alt}
+                title={logo.title}
                 width={90}
                 height={55}
                 className="shrink-0 object-contain"

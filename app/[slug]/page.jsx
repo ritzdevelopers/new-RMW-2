@@ -24,9 +24,31 @@ export async function generateMetadata({ params }) {
     return { title: fallbackTitle };
   }
 
+  const pageUrl = `https://ritzmediaworld.com/${blog.slug || slug}`;
+  const keywords = String(blog.meta_keywords || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
   return {
     title: blog.meta_title || blog.title || fallbackTitle,
     description: blog.meta_description || undefined,
+    keywords: keywords.length ? keywords : undefined,
+    authors: [{ name: "Ritz Media World" }],
+    publisher: "Ritz Media World",
+    robots: {
+      index: true,
+      follow: true,
+    },
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      url: pageUrl,
+      siteName: "Ritz Media World",
+      locale: "en",
+      type: "article",
+    },
   };
 }
 
