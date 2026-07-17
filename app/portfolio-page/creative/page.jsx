@@ -55,8 +55,8 @@ const social_media_creatives_images = [
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>
-      <Header />
-      <Hero />
+      <Header title="Creative Design Portfolio" />
+      <Hero title="Bringing ideas to life & shaping bold brands<br />with Creative Design" />
       {/* <Section2 />  */}
       {/* <Section3 />  */}
       
