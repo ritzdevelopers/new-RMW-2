@@ -13,7 +13,7 @@ function Hero({ title }) {
             dangerouslySetInnerHTML={{
               __html: title
                 ? title
-                : "Building connections & growing brands <br /> with Social Media Management",
+                : "Designing experiences & building presence with Website Design",
             }}
           />
         </div>
