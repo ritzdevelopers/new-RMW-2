@@ -2,32 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
-/**
- * WebLoader
- * -----------------------------------------------------------------------
- * A Bulletproof-studio-style intro loader.
- *
- * Sequence:
- *  1. INTRO   — the full brand word reads normally & centered, e.g.
- *               "BULLETPROOF" (real font size, no scaling)
- *  2. SPLIT   — it breaks into two halves: the first ("BULLET") slides to the
- *               top-left, the second ("PROOF") to the bottom-right, their inner
- *               corners touching a center image
- *  3. LOADING — the center image cycles through `images`, gently growing from
- *               IMG_START (238x188) up to IMG_END (994x729). The text halves
- *               stay glued to the image's corners (font size never changes).
- *  4. REVEAL  — the image fills the screen, the text fades off, and the overlay
- *               fades away to reveal the real site
- *
- * Usage:
- *   <WebLoader topText="BULLET" bottomText="PROOF" images={[...]}>
- *     <YourActualSite />
- *   </WebLoader>
- *
- * Install once:  npm install gsap
- * -----------------------------------------------------------------------
- */
-
+ 
 const DEFAULT_IMAGES = [
   "https://picsum.photos/id/1015/1200/1500",
   "https://picsum.photos/id/1025/1200/1500",
@@ -42,8 +17,8 @@ const IMG_END_W = 546;
 const IMG_END_H = 487;
 
 function WebLoader({
-  topText = "RitzMedia",
-  bottomText = "World",
+  topText = "Ritz",
+  bottomText = "MediaWorld",
   images = DEFAULT_IMAGES,
   introHoldMs = 350,
   intervalMs = 850,
