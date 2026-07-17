@@ -313,8 +313,7 @@ const styles = {
     willChange: "transform",
   },
   frame: {
-    position: "absolute",
-    borderRadius: "6px",
+    position: "absolute", 
     overflow: "hidden",
     boxShadow: "0 20px 60px rgba(0,0,0,0.6)",
     background: "#141414",
