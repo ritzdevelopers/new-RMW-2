@@ -10,25 +10,25 @@ gsap.registerPlugin(ScrollTrigger);
 
 const SERVICES = [
   {
-    src: "/portfolio/brand-design-1.jpg",
+    src: "/portfolio/logo-design.png",
     alt: "Logo Design",
     label: "Logo Design",
     href: "/portfolio-page/logo",
   },
   {
-    src: "/portfolio/website-design.jpg",
+    src: "/portfolio/creative.png",
     alt: "Creative Design",
     label: "Creative Design",
     href: "/portfolio-page/creative",
   },
   {
-    src: "/portfolio/content.jpg",
+    src: "/portfolio/website-design.png",
     alt: "Website Design",
     label: "Website Design",
     href: "/portfolio-page/web-design",
   },
   {
-    src: "/portfolio/social-media.jpg",
+    src: "/portfolio/ai-video.png",
     alt: "AI Video Generation",
     label: "AI Video",
     href: "/portfolio-page/ai-videos",
