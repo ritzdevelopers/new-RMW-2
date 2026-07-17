@@ -38,11 +38,12 @@ function RelatedItem({ blog }) {
   return (
     <Link
       href={`/${blog.slug}`}
+      title={blog.title}
       className="group -m-2 flex w-full cursor-pointer items-start justify-start gap-3 rounded-lg p-2 transition-colors duration-200 hover:bg-gray-50/80 sm:gap-4"
     >
       <div className="relative h-[52px] w-[80px] shrink-0 overflow-hidden rounded-[2px] sm:h-[60px] sm:w-[92px] xl:h-[69px] xl:w-[108px]">
         {image ? (
-          <img src={image} alt={blog.title} className="h-full w-full object-cover" />
+          <img src={image} alt={blog.title} title={blog.title} className="h-full w-full object-cover" />
         ) : (
           <div className="h-full w-full bg-[#E8EBFF]" />
         )}
@@ -123,6 +124,7 @@ export default function CaseStudySidebar({
             <Link
               key={category.id}
               href={`/category/${category.link}`}
+              title={category.name}
               className="-mx-2 -my-1 flex w-full cursor-pointer justify-between rounded border-b border-[#F0F0F0] px-2 py-1 pb-4 transition-colors duration-200 hover:bg-gray-50/80"
             >
               <div className="flex items-center gap-2">
@@ -162,6 +164,7 @@ export default function CaseStudySidebar({
               <Link
                 key={`${keyword}-${index}`}
                 href={`/tags?keyword=${slugifyTag(keyword)}`}
+                title={keyword}
                 className="flex items-center justify-center rounded-[50px] border border-[#F0F0F0] px-4 py-1.5 text-center transition-colors duration-200 hover:border-[#0F1640]/40 hover:bg-[#0F1640]/5 sm:px-5 sm:py-2 xl:px-5"
               >
                 <p

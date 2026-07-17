@@ -270,6 +270,7 @@ const Section1 = () => {
                     <Link
                       key={post.slug}
                       href={`/${post.slug}`}
+                      title={post.title}
                       onClick={() => {
                         setSearchOpen(false);
                         setSearchQuery("");
@@ -307,6 +308,7 @@ const Section1 = () => {
         <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 md:px-[50px]">
           <Link
             href={`/${featuredPost.slug}`}
+            title={featuredPost.title}
             className="flex flex-col gap-8 no-underline lg:flex-row lg:items-stretch lg:gap-12 xl:gap-16"
           >
             <div className="w-full min-w-0 lg:w-[52%] xl:w-[55%]">
@@ -345,6 +347,7 @@ const Section1 = () => {
               <Link
                 key={post.slug}
                 href={`/${post.slug}`}
+                title={post.title}
                 className="flex flex-col no-underline"
               >
                 <p className="m-0" style={categoryStyle}>

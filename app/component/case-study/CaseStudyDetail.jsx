@@ -16,10 +16,30 @@ function formatDate(value) {
   });
 }
 
+function ensureLinkTitles(html) {
+  return String(html || "").replace(
+    /<a\b([^>]*)>([\s\S]*?)<\/a>/gi,
+    (match, attrs, content) => {
+      if (/\btitle\s*=/i.test(attrs)) return match;
+      const text = String(content)
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      const hrefMatch = attrs.match(/\bhref\s*=\s*["']([^"']*)["']/i);
+      const titleText = text || hrefMatch?.[1] || "Read more";
+      const safeTitle = titleText
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;");
+      return `<a${attrs} title="${safeTitle}">${content}</a>`;
+    },
+  );
+}
+
 export default function CaseStudyDetail({ blog, sidebar }) {
   const title = blog?.title || "";
   const image = resolveBlogImageUrl(blog?.blog_image || blog?.banner);
-  const description = blog?.description || "";
+  const description = ensureLinkTitles(blog?.description || "");
   const createdAt = formatDate(blog?.created_at);
 
   return (
@@ -124,7 +144,7 @@ export default function CaseStudyDetail({ blog, sidebar }) {
               {image ? (
                 <div className="csd-featured-wrap">
                   <div className="csd-featured-image">
-                    <img src={image} alt={title} />
+                    <img src={image} alt={title} title={title} />
                   </div>
                   {createdAt ? (
                     <div className="mt-3 flex flex-wrap items-center gap-3 sm:mt-4 sm:gap-4">
