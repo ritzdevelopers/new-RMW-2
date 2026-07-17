@@ -278,7 +278,8 @@ const Section1 = () => {
                     >
                       <img
                         src={post.image}
-                        alt=""
+                        alt={post.title}
+                        title={post.title}
                         className="h-12 w-12 shrink-0 rounded-md object-cover"
                       />
                       <span className="min-w-0 flex-1">
@@ -312,6 +313,7 @@ const Section1 = () => {
               <img
                 src={featuredPost.image}
                 alt={featuredPost.title}
+                title={featuredPost.title}
                 className="block h-auto w-full rounded-2xl object-contain object-center"
               />
             </div>
@@ -353,6 +355,7 @@ const Section1 = () => {
                   <img
                     src={post.image}
                     alt={post.title}
+                    title={post.title}
                     className="block h-auto w-full object-contain object-center"
                   />
                 </div>
