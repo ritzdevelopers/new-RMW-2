@@ -156,6 +156,7 @@ const Section7 = () => {
                 </p>
                 <a
                   href={`mailto:${contactInfo.email}`}
+                  title={`Email ${contactInfo.email}`}
                   className="mt-8 inline-block w-fit border-b border-white pb-1 text-[14px] font-semibold leading-[100%] tracking-[0] md:text-[18px] lg:text-[22px]"
                 >
                   {contactInfo.email}

@@ -217,7 +217,7 @@ const Header = () => {
           ref={headerRef}
           className="mx-auto flex w-full max-w-8xl items-center justify-between px-8 py-5 md:px-12"
         >
-        <Link href="/" className="shrink-0 overflow-hidden">
+        <Link href="/" title="Ritz Media World" className="shrink-0 overflow-hidden">
           <span data-header-reveal className="inline-block">
             <Image
               src="/logo/rmw.logo.png"
@@ -235,6 +235,7 @@ const Header = () => {
           <nav className="hidden items-center gap-8 md:flex md:gap-10">
             <Link
               href="/about"
+              title="About"
               className={`${linkClass} overflow-hidden`}
             >
               <span data-header-reveal className="inline-block">
@@ -249,6 +250,7 @@ const Header = () => {
             >
               <Link
                 href="/services"
+                title="Services"
                 className={`${linkClass} overflow-hidden`}
                 aria-haspopup="true"
                 aria-expanded={servicesMenuOpen}
@@ -298,6 +300,7 @@ const Header = () => {
               <Link
                 key={link.label}
                 href={link.href}
+                title={link.label}
                 className={`${linkClass} overflow-hidden`}
               >
                 <span data-header-reveal className="inline-block">
@@ -356,6 +359,7 @@ const Header = () => {
         </button>
         <Link
           href="/about"
+          title="About"
           className={linkClass}
           onClick={() => setMenuOpen(false)}
         >
@@ -400,6 +404,7 @@ const Header = () => {
           <Link
             key={link.label}
             href={link.href}
+            title={link.label}
             className={linkClass}
             onClick={() => setMenuOpen(false)}
           >
@@ -454,6 +459,7 @@ const Header = () => {
               </p>
               <Link
                 href="/services"
+                title="View all services"
                 onClick={() => setServicesMenuOpen(false)}
                 className="mt-0 md:mt-3 inline-flex items-center gap-2 font-sequel text-[19px] font-[310] uppercase tracking-normal text-white transition-colors hover:text-[#c99237]"
               >
@@ -468,6 +474,7 @@ const Header = () => {
               <Link
                 key={service.slug}
                 href={`/services/${service.slug}`}
+                title={service.title}
                 onClick={() => setServicesMenuOpen(false)}
                 style={{
                   transitionDelay: servicesMenuOpen ? `${80 + index * 35}ms` : "0ms",
@@ -536,6 +543,7 @@ const Header = () => {
               </p>
               <Link
                 href="/work/portfolio"
+                title="View portfolio"
                 onClick={() => {
               setWorkMenuOpen(false);
               setPortfolioSubOpen(false);
@@ -562,6 +570,7 @@ const Header = () => {
               >
                 <Link
                   href={item.href}
+                  title={item.label}
                   onClick={() => {
                     setPortfolioSubOpen(false);
                     setWorkMenuOpen(false);
@@ -604,6 +613,7 @@ const Header = () => {
                           <Link
                             key={subItem.label}
                             href={subItem.href}
+                            title={subItem.label}
                             onClick={() => {
                               setPortfolioSubOpen(false);
                               setWorkMenuOpen(false);
