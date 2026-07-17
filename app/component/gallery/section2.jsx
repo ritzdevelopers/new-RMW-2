@@ -134,8 +134,8 @@ const Section2 = () => {
               style={headingStyle}
               className="m-0 text-[22px] leading-[32px] md:text-[30px] md:leading-[40px] lg:text-[28px] lg:leading-[47px] xl:text-[36px] xl:leading-[61px]"
             >
-              To connect Johnnie Walker Blue Label with a new generation of luxury
-              drinkers, we turned whisky cues on
+             Team moments, big and small
+             Capturing the spirit that drives us forward
             </p>
           </div>
         </div>

@@ -356,35 +356,7 @@ const Section4 = () => {
             <p className="m-0 text-[16px] text-[#666] lg:col-span-8">No blogs found.</p>
           )}
 
-          <aside className="flex w-full max-w-full flex-col items-start overflow-hidden bg-[#0092FF] lg:col-span-4 lg:ml-auto lg:w-[326px]">
-            <img
-              src="/blog/boy.png"
-              alt=""
-              className="block h-auto w-full object-cover object-center"
-            />
-
-            <div className="w-full px-6 pb-8 pt-6 sm:px-8 sm:pb-10 sm:pt-7">
-              <h3
-                className="mt-0 w-full text-left text-[28px] leading-[36px] lg:text-[24px] lg:leading-[26px] xl:mt-10 xl:text-[28px] xl:leading-[36px]"
-                style={sidebarTitleStyle}
-              >
-                How to become a successful app entrepreneur
-              </h3>
-
-              <p className="m-0 mt-8 w-full text-left lg:line-clamp-2 xl:line-clamp-none" style={sidebarBodyStyle}>
-                Learn more about how to take the journey of transition from being a full time employee to an app entrepreneur.
-              </p>
-
-              <button
-                type="button"
-                className="mt-6 inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border-0 bg-white px-6 py-3 transition-opacity hover:opacity-90 xl:mt-2"
-                style={sidebarButtonStyle}
-              >
-                Download now
-                <i className="ri-download-line text-[20px]" aria-hidden />
-              </button>
-            </div>
-          </aside>
+        
         </div>
 
         {/* <div className="mt-10 flex justify-center lg:mt-12">
