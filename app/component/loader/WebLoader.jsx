@@ -40,7 +40,6 @@ function WebLoader({
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Linear interpolation of the image window size for a given image index.
   const sizeAt = (i) => {
     const n = images.length;
     const t = n <= 1 ? 1 : Math.min(Math.max(i / (n - 1), 0), 1);
@@ -50,15 +49,8 @@ function WebLoader({
     };
   };
 
-  // Phase 1 + 2: the whole word reads normally at center, holds, then the two
-  // halves split — first half to the top-left, second half to the bottom-right
-  // — while the image window opens up between them. Font size stays constant.
   useEffect(() => {
     const first = sizeAt(0);
-
-    // Everything is anchored to screen center (left/top 50%). We drive position
-    // purely via x/y (px) + xPercent/yPercent, so the halves always stay glued
-    // to the image's corners no matter its size.
     gsap.set(frameRef.current, {
       left: "50%",
       top: "50%",
@@ -68,10 +60,6 @@ function WebLoader({
       height: 0,
       opacity: 0,
     });
-
-    // STATE A — word together: "BULLET" sits to the left of center (right edge
-    // at center, vertically centered) and "PROOF" to the right, forming one
-    // continuous "BULLETPROOF".
     gsap.set(topTextRef.current, {
       left: "50%",
       top: "50%",
@@ -92,7 +80,6 @@ function WebLoader({
     });
 
     if (reduceMotion) {
-      // Jump straight to the split layout at the first image size.
       gsap.set(topTextRef.current, { yPercent: -100, x: -first.w / 2, y: -first.h / 2 });
       gsap.set(bottomTextRef.current, { yPercent: 0, x: first.w / 2, y: first.h / 2 });
       gsap.set(frameRef.current, { width: first.w, height: first.h, opacity: 1 });
@@ -105,8 +92,6 @@ function WebLoader({
       onComplete: () => setPhase("loading"),
     });
 
-    // STATE A -> STATE B (split). Tween position only (no scale), so the text
-    // moves apart smoothly while keeping its real font size.
     tl.to(
       topTextRef.current,
       { yPercent: -100, x: -first.w / 2, y: -first.h / 2, duration: 0.6, ease: "power3.inOut" },
@@ -125,7 +110,6 @@ function WebLoader({
       .to(frameRef.current, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0.15);
   }, []);
 
-  // Crossfade the image + gently grow the window (and re-glue the text) per swap
   useEffect(() => {
     if (phase === "intro") return;
     if (reduceMotion || !imgRef.current) return;
@@ -140,7 +124,6 @@ function WebLoader({
     const dur = Math.min(intervalMs / 1000, 0.8);
 
     gsap.to(frameRef.current, { width: w, height: h, duration: dur, ease: "sine.inOut" });
-    // Keep the two halves touching the image's corners as it grows.
     gsap.to(topTextRef.current, { x: -w / 2, y: -h / 2, duration: dur, ease: "sine.inOut" });
     gsap.to(bottomTextRef.current, { x: w / 2, y: h / 2, duration: dur, ease: "sine.inOut" });
 
