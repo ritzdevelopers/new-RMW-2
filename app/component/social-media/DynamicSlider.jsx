@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 const SLIDES = [
@@ -28,7 +28,79 @@ const getVisibleCount = (width) => {
   return 5;
 };
 
-function DynamicSlider({heading, images}) {
+const normalizeSlides = (images) => {
+  if (!Array.isArray(images) || images.length === 0) return SLIDES;
+
+  return images.map((item, index) => {
+    if (typeof item === "string") {
+      return {
+        src: item,
+        fullSrc: item,
+        label: SLIDES[index]?.label ?? `Slide ${index + 1}`,
+      };
+    }
+
+    return {
+      src: item.src,
+      fullSrc: item.fullSrc || item.src,
+      label: item.label ?? SLIDES[index]?.label ?? `Slide ${index + 1}`,
+    };
+  });
+};
+
+function ScrollableImageLightbox({ image, onClose }) {
+  useEffect(() => {
+    if (!image) return undefined;
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [image, onClose]);
+
+  if (!image) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-black/80"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={image.label || "Full image preview"}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        className="fixed right-4 top-4 z-[101] flex h-10 w-10 items-center justify-center border-0 bg-black/40 text-3xl leading-none text-white backdrop-blur-sm"
+        aria-label="Close"
+      >
+        ×
+      </button>
+
+      <div
+        className="mx-auto flex min-h-full w-full max-w-[920px] items-start justify-center px-3 py-10 sm:px-6"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <img
+          src={image.fullSrc || image.src}
+          alt={image.label || ""}
+          className="block h-auto w-full shadow-[0_20px_60px_rgba(0,0,0,0.45)]"
+          draggable={false}
+        />
+      </div>
+    </div>
+  );
+}
+
+function DynamicSlider({ heading, images }) {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
   const tweenRef = useRef(null);
@@ -40,15 +112,9 @@ function DynamicSlider({heading, images}) {
 
   const [metrics, setMetrics] = useState({ cardWidth: 0, visibleCount: 4 });
   const [direction, setDirection] = useState(-1);
- 
-  const baseSlides =
-    Array.isArray(images) && images.length > 0
-      ? images.map((src, index) => ({
-          src,
-          label: SLIDES[index]?.label ?? `Slide ${index + 1}`,
-        }))
-      : SLIDES;
+  const [lightboxImage, setLightboxImage] = useState(null);
 
+  const baseSlides = normalizeSlides(images);
   const loopSlides = [...baseSlides, ...baseSlides];
 
   const syncMetrics = useCallback(() => {
@@ -154,6 +220,17 @@ function DynamicSlider({heading, images}) {
     else startMarquee();
   };
 
+  const openLightbox = (slide) => {
+    if (!slide?.fullSrc && !slide?.src) return;
+    setLightboxImage(slide);
+    pauseMarquee();
+  };
+
+  const closeLightbox = () => {
+    setLightboxImage(null);
+    resumeMarquee();
+  };
+
   const cardHeight =
     metrics.cardWidth > 0 ? Math.round(metrics.cardWidth * (510 / 408)) : 510;
 
@@ -175,22 +252,25 @@ function DynamicSlider({heading, images}) {
           style={{ gap: `${GAP_PX}px` }}
         >
           {loopSlides.map((slide, index) => (
-            <div
+            <button
               key={`${slide.label}-${index}`}
-              className="relative shrink-0 overflow-hidden bg-[#EFEDE8] [backface-visibility:hidden] [transform:translateZ(0)]"
+              type="button"
+              onClick={() => openLightbox(slide)}
+              className="relative shrink-0 cursor-pointer overflow-hidden border-0 bg-[#EFEDE8] p-0 text-left [backface-visibility:hidden] [transform:translateZ(0)]"
               style={{
                 width: metrics.cardWidth || "100%",
                 height: cardHeight,
               }}
+              aria-label={`View ${slide.label}`}
             >
               <img
                 src={slide.src}
                 alt={slide.label}
-                className="pointer-events-none h-full w-full select-none"
+                className="pointer-events-none h-full w-full select-none object-cover"
                 draggable={false}
                 loading={index < 5 ? "eager" : "lazy"}
               />
-            </div>
+            </button>
           ))}
         </div>
 
@@ -232,6 +312,8 @@ function DynamicSlider({heading, images}) {
           </svg>
         </button>
       </div>
+
+      <ScrollableImageLightbox image={lightboxImage} onClose={closeLightbox} />
     </section>
   );
 }
