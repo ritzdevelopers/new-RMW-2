@@ -44,6 +44,7 @@ const normalizeSlides = (images) => {
       src: item.src,
       fullSrc: item.fullSrc || item.src,
       label: item.label ?? SLIDES[index]?.label ?? `Slide ${index + 1}`,
+      href: item.href || item.link || null,
     };
   });
 };
@@ -100,7 +101,7 @@ function ScrollableImageLightbox({ image, onClose }) {
   );
 }
 
-function DynamicSlider({ heading, images }) {
+function DynamicSlider({ heading, images, enableLightbox = false }) {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
   const tweenRef = useRef(null);
@@ -221,7 +222,7 @@ function DynamicSlider({ heading, images }) {
   };
 
   const openLightbox = (slide) => {
-    if (!slide?.fullSrc && !slide?.src) return;
+    if (!enableLightbox || (!slide?.fullSrc && !slide?.src)) return;
     setLightboxImage(slide);
     pauseMarquee();
   };
@@ -251,27 +252,96 @@ function DynamicSlider({ heading, images }) {
           className="flex w-max will-change-transform [backface-visibility:hidden]"
           style={{ gap: `${GAP_PX}px` }}
         >
-          {loopSlides.map((slide, index) => (
-            <button
-              key={`${slide.label}-${index}`}
-              type="button"
-              onClick={() => openLightbox(slide)}
-              className="relative shrink-0 cursor-pointer overflow-hidden border-0 bg-[#EFEDE8] p-0 text-left [backface-visibility:hidden] [transform:translateZ(0)]"
-              style={{
-                width: metrics.cardWidth || "100%",
-                height: cardHeight,
-              }}
-              aria-label={`View ${slide.label}`}
-            >
+          {loopSlides.map((slide, index) => {
+            const cardStyle = {
+              width: metrics.cardWidth || "100%",
+              height: cardHeight,
+            };
+            const isInteractive = Boolean(slide.href) || enableLightbox;
+            const img = (
               <img
                 src={slide.src}
                 alt={slide.label}
-                className="pointer-events-none h-full w-full select-none object-cover"
+                className={`pointer-events-none h-full w-full select-none object-cover${
+                  isInteractive
+                    ? " transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                    : ""
+                }`}
                 draggable={false}
                 loading={index < 5 ? "eager" : "lazy"}
               />
-            </button>
-          ))}
+            );
+
+            if (slide.href) {
+              return (
+                <a
+                  key={`${slide.label}-${index}`}
+                  href={slide.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative shrink-0 overflow-hidden bg-[#EFEDE8] [backface-visibility:hidden] [transform:translateZ(0)]"
+                  style={cardStyle}
+                  aria-label={`Watch ${slide.label}`}
+                >
+                  {img}
+                  <span
+                    className="pointer-events-none absolute inset-0 z-[15] flex items-center justify-center bg-black/0 opacity-0 transition-all duration-500 ease-out group-hover:bg-black/15 group-hover:opacity-100"
+                    aria-hidden="true"
+                  >
+                    <span className="flex h-14 w-14 scale-90 items-center justify-center rounded-full bg-[#FF0000] text-white shadow-[0_10px_30px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out group-hover:scale-100 md:h-16 md:w-16">
+                      <i
+                        className="ri-play-fill translate-x-[1px] text-[28px] md:text-[32px]"
+                        aria-hidden
+                      />
+                    </span>
+                  </span>
+                </a>
+              );
+            }
+
+            if (!enableLightbox) {
+              return (
+                <div
+                  key={`${slide.label}-${index}`}
+                  className="relative shrink-0 overflow-hidden bg-[#EFEDE8] [backface-visibility:hidden] [transform:translateZ(0)]"
+                  style={cardStyle}
+                >
+                  {img}
+                </div>
+              );
+            }
+
+            return (
+              <button
+                key={`${slide.label}-${index}`}
+                type="button"
+                onClick={() => openLightbox(slide)}
+                className="group relative shrink-0 cursor-pointer overflow-hidden border-0 bg-[#EFEDE8] p-0 text-left [backface-visibility:hidden] [transform:translateZ(0)]"
+                style={cardStyle}
+                aria-label={`View full ${slide.label}`}
+              >
+                {img}
+                <span
+                  className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/25"
+                  aria-hidden="true"
+                />
+                <span
+                  className="pointer-events-none absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#1a1a1a] shadow-sm backdrop-blur-sm transition duration-300 group-hover:scale-110 group-hover:bg-white"
+                  aria-hidden="true"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    className="h-4 w-4"
+                  >
+                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                  </svg>
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         <button
@@ -313,7 +383,12 @@ function DynamicSlider({ heading, images }) {
         </button>
       </div>
 
-      <ScrollableImageLightbox image={lightboxImage} onClose={closeLightbox} />
+      {enableLightbox ? (
+        <ScrollableImageLightbox
+          image={lightboxImage}
+          onClose={closeLightbox}
+        />
+      ) : null}
     </section>
   );
 }

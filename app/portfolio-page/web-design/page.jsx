@@ -30,12 +30,12 @@ const website_images = [
     label: "Website 4",
   },
   {
-    src: "/portfolio-website/website-5.jpg",
+    src: "/portfolio-website/website-6.jpg",
     fullSrc: "/portfolio-website/website-5-full-image.jpg",
     label: "Website 5",
   },
   {
-    src: "/portfolio-website/website-6.jpg",
+    src: "/portfolio-website/website-5.jpg",
     fullSrc: "/portfolio-website/website-6-full-image.jpg",
     label: "Website 6",
   },
@@ -46,7 +46,11 @@ function page() {
     <main style={{ fontFamily: editorsNoteLight }}>
       <Header />
       <Hero />
-      <DynamicSlider heading="Website Design" images={website_images} />
+      <DynamicSlider
+        heading="Website Design"
+        images={website_images}
+        enableLightbox
+      />
       <Section10 />
     </main>
   );
