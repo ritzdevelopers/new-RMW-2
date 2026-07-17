@@ -4,10 +4,13 @@ import gsap from "gsap";
 
  
 const DEFAULT_IMAGES = [
-  "https://picsum.photos/id/1015/1200/1500",
-  "https://picsum.photos/id/1025/1200/1500",
-  "https://picsum.photos/id/1035/1200/1500",
-  "https://picsum.photos/id/1041/1200/1500",
+    
+  "/loder/loader_i6.jpg",
+  "/loder/loader_i1.jpg",
+  "/loder/loader_i2.jpg",
+  "/loder/loader_i4.jpg",
+  
+  "/loder/loader_i3.jpg",
 ];
 
 // Image window grows from the first size to the last (in px), per requirement.
@@ -94,17 +97,17 @@ function WebLoader({
 
     tl.to(
       topTextRef.current,
-      { yPercent: -100, x: -first.w / 2, y: -first.h / 2, duration: 0.6, ease: "power3.inOut" },
+      { yPercent: -100, x: -first.w / 2, y: -first.h / 2, duration: 0.4, ease: "power3.inOut" },
       0
     )
       .to(
         bottomTextRef.current,
-        { yPercent: 0, x: first.w / 2, y: first.h / 2, duration: 0.6, ease: "power3.inOut" },
+        { yPercent: 0, x: first.w / 2, y: first.h / 2, duration: 0.4, ease: "power3.inOut" },
         0
       )
       .to(
         frameRef.current,
-        { width: first.w, height: first.h, duration: 0.6, ease: "power3.inOut" },
+        { width: first.w, height: first.h, duration: 0.4, ease: "power3.inOut" },
         0
       )
       .to(frameRef.current, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0.15);
