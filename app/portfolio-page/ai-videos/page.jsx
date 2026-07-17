@@ -17,8 +17,8 @@ const editorsNoteLight =
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>
-      <Header />
-      <Hero />
+      <Header title="AI Videos Portfolio" />
+      <Hero title="Bringing stories to motion & ideas to screen<br />with AI-Powered Video Creation" />
       <DynamicSlider heading="Brand Films" />
       {/* <Section3 />  */}
       {/* <Section4 />  */}
