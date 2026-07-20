@@ -7,33 +7,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const numberStyle = {
-  fontFamily: '"League Spartan", sans-serif',
-  fontWeight: 600,
-  fontSize: "clamp(24px, 3vw, 36px)",
-  lineHeight: "100%",
-  letterSpacing: "0",
-  textTransform: "uppercase",
-};
-
 const titleStyle = {
   fontFamily: '"League Spartan", sans-serif',
   fontWeight: 600,
   lineHeight: "100%",
   letterSpacing: "0",
   textTransform: "uppercase",
-};
-
-// Small styles reused for the grid-card labels (same font family/weight as the
-// list, just scaled down so they read correctly inside a card).
-const gridNumberStyle = {
-  ...numberStyle,
-  fontSize: "clamp(15px, 1.6vw, 22px)",
-};
-
-const gridTitleStyle = {
-  ...titleStyle,
-  fontSize: "clamp(22px, 2.6vw, 40px)",
 };
 
 // Splits a title into a top/bottom half for the grid-card hover effect
@@ -68,16 +47,16 @@ const linkRowClass =
   "inline-flex items-baseline justify-center gap-4 md:gap-6 lg:gap-10";
 
 const services = [
-  { number: "01", title: "GULSHAN", slug: "gulshan", image: "/home/gulshan.png", xlShift: 0 },
-  { number: "02", title: "VEDVAN", slug: "vedvan", image: "/home/vedvan.jpg", xlShift: 100 },
-  { number: "03", title: "EXOTICA", slug: "exotica", image: "/home/exotica.jpg", xlShift: -200 },
-  { number: "04", title: "SPLENDOR ONYX", slug: "splendor-onyx", image: "/home/onyx.png", xlShift: 100 },
-  { number: "05", title: "LUMORA", slug: "lumora", image: "/home/lumora.jpg", xlShift: -200 },
-  { number: "06", title: "SANSKAR", slug: "sanskar", image: "/home/SANSKAR.jpg", xlShift: 200 },
-  { number: "07", title: "VVIP MADHUBAN", slug: "vvip-madhuban", image: "/home/vvip.jpg", xlShift: -100 },
-  { number: "08", title: "GHD", slug: "ghd", image: "/home/GHD.jpg", xlShift: 200 },
-  { number: "09", title: "MANSHA GROUP", slug: "mansha-group", image: "/home/mansha.jpg", xlShift: -100 },
-  { number: "10", title: "EON FAIRFOX", slug: "eon-fairfox", image: "/home/FAIRFOX.jpg", xlShift: 200, shiftClass: " md:-translate-x-[100px] lg:translate-x-[200px] xl:translate-x-[200px]" },
+  { title: "GULSHAN", slug: "gulshan", image: "/home/gulshan.png", xlShift: 0 },
+  { title: "VEDVAN", slug: "vedvan", image: "/home/vedvan.jpg", xlShift: 100 },
+  { title: "EXOTICA", slug: "exotica", image: "/home/exotica.jpg", xlShift: -200 },
+  { title: "SPLENDOR ONYX", slug: "splendor-onyx", image: "/home/onyx.png", xlShift: 100 },
+  { title: "LUMORA", slug: "lumora", image: "/home/lumora.jpg", xlShift: -200 },
+  { title: "SANSKAR", slug: "sanskar", image: "/home/SANSKAR.jpg", xlShift: 200 },
+  { title: "VVIP MADHUBAN", slug: "vvip-madhuban", image: "/home/vvip.jpg", xlShift: -100 },
+  { title: "GHD", slug: "ghd", image: "/home/GHD.jpg", xlShift: 200 },
+  { title: "MANSHA GROUP", slug: "mansha-group", image: "/home/mansha.jpg", xlShift: -100 },
+  { title: "EON FAIRFOX", slug: "eon-fairfox", image: "/home/FAIRFOX.jpg", xlShift: 200, shiftClass: " md:-translate-x-[100px] lg:translate-x-[200px] xl:translate-x-[200px]" },
 ];
 
 const shiftClassByValue = {
@@ -342,13 +321,6 @@ const GridSlider = ({ cardRefs }) => {
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0" />
 
-                <span
-                  className="pointer-events-none absolute left-4 top-4 text-white md:left-6 md:top-6"
-                  style={gridNumberStyle}
-                >
-                  {service.number}
-                </span>
-
                 {/* Split title: on hover the top half lifts and the bottom
                     half drops, opening up around the image. */}
                 <div
@@ -428,14 +400,8 @@ const MobileImageSlider = ({ activeSlug, onActiveChange }) => {
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0" />
                 <span
-                  className="pointer-events-none absolute left-3 top-3 text-[10px] text-white"
-                  style={gridNumberStyle}
-                >
-                  {service.number}
-                </span>
-                <span
                   className="pointer-events-none absolute inset-x-3 bottom-4 text-[22px] text-white"
-                  style={gridTitleStyle}
+                  style={{ ...titleStyle, fontSize: "clamp(22px, 2.6vw, 40px)" }}
                 >
                   {service.title}
                 </span>
@@ -550,7 +516,6 @@ const Section4 = () => {
             <img src="${service.image}" style="width:100%;height:100%;object-fit:cover;display:block" />
             <div class="s4-card-label" style="position:absolute;inset:0">
               <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.7), rgba(0,0,0,0) 55%)"></div>
-              <span style="position:absolute;left:24px;top:24px;color:#fff;font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(15px,1.6vw,22px);white-space:nowrap;">${service.number}</span>
               <div style="position:absolute;left:24px;right:24px;bottom:40px;display:flex;flex-direction:column;color:rgba(255,255,255,0.4);-webkit-text-stroke:1px rgba(255,255,255,0.25);font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(40px,8vw,104px);line-height:0.82;letter-spacing:0.02em;"><span style="display:block;word-break:break-all;">${topPart}</span><span style="display:block;word-break:break-all;">${bottomPart}</span></div>
             </div>
           `;
@@ -650,11 +615,8 @@ const Section4 = () => {
           // final size + position exactly (this is what was popping before —
           // the old ghost used fixed clamp() sizes smaller than the real text).
           const spans = link.querySelectorAll("span");
-          const numberEl = spans[0];
-          const titleEl = spans[1];
-          const numberRect = numberEl?.getBoundingClientRect();
+          const titleEl = spans[0];
           const titleRect = titleEl?.getBoundingClientRect();
-          const numberFS = numberEl ? getComputedStyle(numberEl).fontSize : "24px";
           const titleFS = titleEl ? getComputedStyle(titleEl).fontSize : "48px";
 
           const { imgGhost, label, cardRect } = g;
@@ -671,9 +633,7 @@ const Section4 = () => {
 
           built = true;
 
-          const numberGhost = numberRect ? makeText(numberRect, numberFS, service.number) : null;
           const titleGhost = titleRect ? makeText(titleRect, titleFS, service.title) : null;
-          if (numberGhost) gsap.set(numberGhost, { opacity: 0, y: -12 });
           if (titleGhost) gsap.set(titleGhost, { opacity: 0, y: -12 });
 
           const move = index * 0.05; // 1) card collapses to thumb
@@ -702,8 +662,6 @@ const Section4 = () => {
           );
           tl.to(imgGhost, { opacity: 0, duration: 0.32, ease: "power1.inOut" }, imgOut);
 
-          if (numberGhost)
-            tl.to(numberGhost, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, textIn);
           if (titleGhost)
             tl.to(titleGhost, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, textIn);
         });
@@ -727,14 +685,11 @@ const Section4 = () => {
       const link = textRefs.current[index] || itemRefs.current[index]?.querySelector("a");
       if (!link) return null;
 
-      // Only the two label spans live inside the <a>; the active-row image
-      // overlay spans are siblings, so this stays limited to number + title.
+      // Only the title label span lives inside the <a>; the active-row image
+      // overlay spans are siblings, so this stays limited to the title.
       const spans = link.querySelectorAll("span");
-      const numberEl = spans[0];
-      const titleEl = spans[1];
-      const numberRect = numberEl?.getBoundingClientRect();
+      const titleEl = spans[0];
       const titleRect = titleEl?.getBoundingClientRect();
-      const numberFS = numberEl ? getComputedStyle(numberEl).fontSize : "24px";
       const titleFS = titleEl ? getComputedStyle(titleEl).fontSize : "48px";
 
       const thumb = thumbRefs.current[index];
@@ -751,7 +706,7 @@ const Section4 = () => {
         };
       }
 
-      return { numberRect, titleRect, numberFS, titleFS, thumbRect };
+      return { titleRect, titleFS, thumbRect };
     });
 
     const overlay = overlayRef.current;
@@ -799,9 +754,6 @@ const Section4 = () => {
         if (!from) return;
         const thumbRect = from.thumbRect;
 
-        const numberGhost = from.numberRect
-          ? makeText(from.numberRect, from.numberFS, service.number)
-          : null;
         const titleGhost = from.titleRect
           ? makeText(from.titleRect, from.titleFS, service.title)
           : null;
@@ -826,13 +778,11 @@ const Section4 = () => {
             <img src="${service.image}" style="width:100%;height:100%;object-fit:cover;display:block" />
             <div class="s4-card-label" style="position:absolute;inset:0;opacity:0">
               <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.7), rgba(0,0,0,0) 55%)"></div>
-              <span style="position:absolute;left:24px;top:24px;color:#fff;font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(15px,1.6vw,22px);white-space:nowrap;">${service.number}</span>
               <div style="position:absolute;left:24px;right:24px;bottom:40px;display:flex;flex-direction:column;color:rgba(255,255,255,0.4);-webkit-text-stroke:1px rgba(255,255,255,0.25);font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(40px,8vw,104px);line-height:0.82;letter-spacing:0.02em;"><span style="display:block;word-break:break-all;">${topPart}</span><span style="display:block;word-break:break-all;">${bottomPart}</span></div>
             </div>
           `;
         overlay.appendChild(imgGhost);
         ghosts[index] = {
-          numberGhost,
           titleGhost,
           imgGhost,
           label: imgGhost.querySelector(".s4-card-label"),
@@ -877,15 +827,13 @@ const Section4 = () => {
           const card = cards[index];
           if (!g || !card) return;
           const cardRect = card.getBoundingClientRect();
-          const { numberGhost, titleGhost, imgGhost, label, thumbRect } = g;
+          const { titleGhost, imgGhost, label, thumbRect } = g;
           built = true;
 
           const textOut = index * 0.03; // 1) list text lifts away
           const move = 0.26 + index * 0.055; // 2) thumbnail -> card
           const labelIn = move + 0.42; // 3) card label fades in
 
-          if (numberGhost)
-            tl.to(numberGhost, { opacity: 0, y: -12, duration: 0.32, ease: "power2.in" }, textOut);
           if (titleGhost)
             tl.to(titleGhost, { opacity: 0, y: -12, duration: 0.32, ease: "power2.in" }, textOut);
 
@@ -1092,9 +1040,6 @@ const Section4 = () => {
           .section4-row-text {
             color: #000000 !important;
           }
-          .section4-row-number {
-            font-size: 10px !important;
-          }
         }
         @keyframes section4-mobile-marquee {
           from {
@@ -1148,7 +1093,7 @@ const Section4 = () => {
 
           <ul
             ref={listRef}
-            className="relative z-[30] m-0 flex w-full list-none flex-col items-center gap-0 p-0 md:gap-2 lg:gap-2"
+            className="relative z-[30] m-0 hidden w-full list-none flex-col items-center gap-0 p-0 md:flex md:gap-2 lg:gap-2"
           >
             {services.map((service, index) => {
               const isActive = activeSlug === service.slug;
@@ -1174,19 +1119,6 @@ const Section4 = () => {
                         isActive && !showGridPreview ? " section4-row-link-active" : ""
                       }`}
                     >
-                      <span
-                        className="section4-row-text section4-row-number shrink-0 transition-colors duration-300"
-                        style={{
-                          ...numberStyle,
-                          color:
-                            isActive || showGridPreview || revealBlack
-                              ? "#000000"
-                              : "#00000005",
-                          transitionDuration: revealSlow ? "800ms" : undefined,
-                        }}
-                      >
-                        {service.number}
-                      </span>
                       <span
                         className="section4-row-text text-[37px] transition-colors duration-300 md:text-[50px] lg:text-[70px] xl:text-[106px]"
                         style={{
@@ -1233,16 +1165,6 @@ const Section4 = () => {
                         }}
                       >
                         <span className={linkRowClass}>
-                          <span
-                            className="shrink-0"
-                            style={{
-                              ...numberStyle,
-                              ...imageOverlayTextStyle,
-                              backgroundImage: `url(${service.image})`,
-                            }}
-                          >
-                            {service.number}
-                          </span>
                           <span
                             className="text-[30px] md:text-[50px] lg:text-[70px] xl:text-[106px]"
                             style={{

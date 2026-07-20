@@ -43,13 +43,13 @@ export const metadata = {
     follow: true,
   },
   alternates: {
-    canonical: 'https://ritzmediaworld.com/blogs',
+    canonical: 'https://ritzmediaworld.com/blog',
   },
   openGraph: {
     title: 'Insights & Marketing Trends | Ritz Media World Blog Delhi NCR',
     description:
       'Explore expert blogs from Ritz Media World covering advertising trends, creative campaigns, brand strategy, and the future of digital marketing.',
-    url: 'https://ritzmediaworld.com/blogs',
+    url: 'https://ritzmediaworld.com/blog',
     siteName: 'Ritz Media World',
     locale: 'en',
     type: 'website',

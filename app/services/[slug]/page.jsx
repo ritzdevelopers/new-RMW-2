@@ -1,13 +1,13 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Header from "../../common/Header";
-import Footer from "../../common/Footer";
+import Footer from "../../component/latest/Footer";
+import OverlaySection1 from "../../component/latest/OverlaySection1";
 import ServicesHero from "../../component/services/ServicesHero";
 import ServiceDetailIntro from "../../component/services/ServiceDetailIntro";
 import ServiceDetailCarousel from "../../component/services/ServiceDetailCarousel";
 import ServiceDetailMediaSection from "../../component/services/ServiceDetailMediaSection";
 import ServiceDetailContent from "../../component/services/ServiceDetailContent";
-import Section7 from "../../component/about/Section7";
 import { getServiceBySlug, services } from "../../../data/services";
 
 export function generateStaticParams() {
@@ -39,7 +39,6 @@ export default async function ServiceDetailPage({ params }) {
   return (
     <>
       <Header />
-      <div className="relative overflow-x-hidden">
         {!service.intro ? (
           <ServicesHero
             lineOne={service.title}
@@ -62,8 +61,7 @@ export default async function ServiceDetailPage({ params }) {
           <ServiceDetailMediaSection mediaSection={service.mediaSection} />
         ) : null}
         <ServiceDetailContent service={service} />
-      </div>
-      <Footer overlaySection={<Section7 />} />
+      <Footer section={<OverlaySection1 />} />
     </>
   );
 }

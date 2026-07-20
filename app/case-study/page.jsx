@@ -1,10 +1,10 @@
 import React from "react";
 import Header from "../common/Header";
-import Footer from "../common/Footer";
+import Footer from "../component/latest/Footer";
+import OverlaySection1 from "../component/latest/OverlaySection1";
 import CaseStudyHero from "../component/case-study/CaseStudyHero";
 import CaseStudyIntro from "../component/case-study/CaseStudyIntro";
 import CaseStudyStack from "../component/case-study/CaseStudyStack";
-import Section7 from "../component/about/Section7";
 
 export const metadata = {
   title: "Case Studies | Ritz Media World",
@@ -21,7 +21,7 @@ const CaseStudyPage = () => {
         <CaseStudyIntro />
         <CaseStudyStack />
       </main>
-      <Footer overlaySection={<Section7 />} />
+      <Footer section={<OverlaySection1 />} />
     </>
   );
 };

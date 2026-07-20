@@ -55,7 +55,7 @@ const Field = ({ label, children }) => (
   </div>
 );
 
-const headingWords = ["JOIN", "OUR", "TEAM"];
+const headingWords = ["YOUR", "NEXT", "BIG", "IDEA"];
 
 const renderHeadingWord = (color) =>
   headingWords.map((item) => (
@@ -398,7 +398,7 @@ const section1 = () => {
                 className={`${headingSizeClass} shrink-0 self-start ${clipRevealClass} lg:order-1 lg:mt-[30px] xl:mt-[40px]`}
               >
                 <span data-hero-reveal className="inline-block">
-                  ASSIST
+                  STARTS
                 </span>
               </span>
               <span
@@ -406,7 +406,7 @@ const section1 = () => {
                 className={`${headingSizeClass} shrink-0 self-start ${clipRevealClass} text-right lg:order-3 lg:mt-[30px] lg:text-right xl:mt-[40px]`}
               >
                 <span data-hero-reveal className="inline-block">
-                  YOU
+                  HERE.
                 </span>
               </span>
             </div>
@@ -414,8 +414,7 @@ const section1 = () => {
               className={`${mixtaPro} order-2 mx-auto mt-[0px] w-full max-w-[700px] self-center overflow-hidden text-center text-[16px] font-[300] italic leading-[20px] text-white normal-case md:mt-0 md:text-[28px] md:leading-[32px] md:leading-snug lg:mt-[50px] lg:self-center lg:text-center lg:text-[20px] xl:mt-[50px] xl:-translate-x-[40px] xl:text-[28px]`}
             >
               <span data-hero-reveal className="block">
-              Got a project brewing, an RFP to share or something you want to ask? Drop your details here
-              </span>
+              Passionate about media, storytelling or strategy? We'd love to hear from you.              </span>
             </p>
           </div>
         </div>

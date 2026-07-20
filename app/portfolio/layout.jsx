@@ -1,14 +1,14 @@
 import React from "react";
 import Header from "@/app/common/Header";
-import Footer from "@/app/common/Footer";
-import Section7 from "@/app/component/about/Section7";
+import Footer from "@/app/component/latest/Footer";
+import OverlaySection1 from "@/app/component/latest/OverlaySection1";
 
 export default function PortfolioLayout({ children }) {
   return (
     <>
       <Header />
       {children}
-      <Footer overlaySection={<Section7 />} />
+      <Footer section={<OverlaySection1 />} />
     </>
   );
 }
