@@ -238,7 +238,7 @@ function DynamicSlider({ heading, images, enableLightbox = false }) {
   return (
     <section className="relative flex w-full flex-col gap-8 bg-[#ffffff] py-12 pb-4">
       <div className="flex w-full items-center justify-center text-center">
-        <h3 className="text-[25px] font-[500]">{heading}</h3>
+        <h3 className="text-[25px] font-[500] lg:text-[35px]">{heading}</h3>
       </div>
 
       <div
