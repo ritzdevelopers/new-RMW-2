@@ -96,11 +96,11 @@ const connectLinks = [
 const mainNavLinks = [
   { label: "HOME", href: "/" },
   { label: "WORK", href: "/case-study" },
-  { label: "ABOUT", href: "/about" },
+  { label: "ABOUT", href: "/about.html" },
   { label: "BLOGS", href: "/blog" },
   { label: "CAREER", href: "/career" },
 ];
-
+  
 const partnerLogos = [
   {
     src: "/contact/ins.png",

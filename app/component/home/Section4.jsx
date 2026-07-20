@@ -573,6 +573,22 @@ const Section4 = () => {
       requestAnimationFrame(() => {
         if (!overlay) return finish();
 
+        // Snap the window back to Section 4's top *before* we measure the list
+        // and hand off to it. The pinned list ScrollTrigger is (re)created once
+        // pendingReveal flips to false; if the scroll isn't exactly at the
+        // section top at that moment, ScrollTrigger's first refresh yanks the
+        // scroll to align progress 0 -> that yank was the remaining jhatka.
+        // Doing it here (list hidden, only the fixed ghosts are visible) is
+        // invisible and keeps the ghost -> real-row handoff pixel-accurate.
+        const section = sectionRef.current;
+        if (
+          section &&
+          typeof window !== "undefined" &&
+          window.innerWidth >= 768
+        ) {
+          window.scrollTo({ top: section.offsetTop, behavior: "auto" });
+        }
+
         // Position the (still hidden) list at the pinned start offset first, so
         // the destination rects we measure below match where the real rows end
         // up — the ghost text hands off to the real text with no jump.
@@ -1186,7 +1202,7 @@ const Section4 = () => {
                       </span>
                     </span>
 
-                    {/* Thumbnail preview that slides in beside the title when the
+                    {/* Thumbnail preview   slides in beside the title when the
                         GRID tab is hovered — a peek at the grid content. */}
                     <span
                       aria-hidden="true"

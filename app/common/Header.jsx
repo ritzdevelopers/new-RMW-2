@@ -234,7 +234,7 @@ const Header = () => {
         <div className="flex items-center gap-8 text-right md:gap-10">
           <nav className="hidden items-center gap-8 md:flex md:gap-10">
             <Link
-              href="/about"
+              href="/about.html"
               title="About"
               className={`${linkClass} overflow-hidden`}
             >
@@ -358,7 +358,7 @@ const Header = () => {
           <i className="ri-close-line text-[22px]" aria-hidden />
         </button>
         <Link
-          href="/about"
+          href="/about.html"
           title="About"
           className={linkClass}
           onClick={() => setMenuOpen(false)}
