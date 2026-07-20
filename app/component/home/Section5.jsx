@@ -133,8 +133,8 @@ const Section5 = () => {
             WHAT CLIENTS SAY
           </h2>
 
-          <p className="m-0 mx-auto mt-4" style={introStyle}>
-            The world&apos;s largest independent brand agency. We drive growth,
+          <p className="m-0 mx-auto mt-4 text-center md:text-left " style={introStyle}>
+          Trusted by leading brands to create meaningful growth.
           </p>
 
           <div className="mt-10 overflow-hidden md:mt-12">

@@ -240,7 +240,7 @@ const ServiceDetailCarousel = ({ carousel, serviceSlug, onSubServiceClick }) => 
 
   return (
     <section
-      className={`${montserrat.className} relative min-h-[100dvh] overflow-hidden bg-[#1a1a1a]`}
+      className={`${montserrat.className} relative md:min-h-[100dvh] overflow-hidden bg-[#1a1a1a]`}
     >
       <img
         src={carousel.background}
@@ -250,7 +250,7 @@ const ServiceDetailCarousel = ({ carousel, serviceSlug, onSubServiceClick }) => 
       />
 
       <div
-        className="relative mx-auto flex min-h-[100dvh] w-full max-w-[1440px] flex-col items-center justify-center bg-cover bg-center bg-no-repeat px-4 py-10 sm:px-6 md:py-12"
+        className="relative mx-auto flex md:min-h-[100dvh] w-full max-w-[1440px] flex-col items-center justify-center bg-cover bg-center bg-no-repeat px-4 py-10 sm:px-6 md:py-12"
         // style={{ backgroundImage: "url('/digital-marketing/bg-image.jpg')" }}
       >
         <div

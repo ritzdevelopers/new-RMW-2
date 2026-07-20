@@ -97,6 +97,18 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
   overflow-x: clip;
+  /* Site-wide typography — match the home page:
+     Montserrat for body/base text, League Spartan for headings. */
+  font-family: "Montserrat", sans-serif;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "League Spartan", sans-serif;
 }
 
 body::-webkit-scrollbar {

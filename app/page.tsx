@@ -1,7 +1,6 @@
 import Header from "./common/Header";
 import Footer from "./component/latest/Footer";
 import OverlaySection1 from "./component/latest/OverlaySection1";
-import Section7 from "./component/about/Section7";
 import Section1 from "./component/home/Section1";
 import Section2 from "./component/home/Section2";
 import Section3 from "./component/home/Section3";
