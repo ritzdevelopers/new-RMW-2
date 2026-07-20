@@ -1,11 +1,12 @@
 import React from 'react'
 import Header from '../common/Header'
-import Footer from '../common/Footer'
+import Footer from '../component/latest/Footer'
 import Section1 from '../component/blog/Section1'
 import Section7 from '../component/about/Section7'
 import Section2 from '../component/blog/Section2'
 import Section3 from '../component/blog/Section3'
 import Section4 from '../component/blog/Section4'
+import OverlaySection2 from '../component/latest/OverlaySection2'
 
 export const metadata = {
   title: 'Insights & Marketing Trends | Ritz Media World Blog Delhi NCR',
@@ -64,7 +65,7 @@ const page = () => {
            <Section2/>
            <Section3/>
            <Section4/>
-           <Footer overlaySection={<Section7 />} />
+           <Footer section={<OverlaySection2 />} />
             </>
   )
 }
