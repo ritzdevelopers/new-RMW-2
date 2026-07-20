@@ -1621,7 +1621,7 @@ const Section1 = () => {
             <div className={`${montserrat.className} max-w-[850px]`}>
               <Reveal group="intro">
                 <p className="m-0 text-[16px] font-[300] italic leading-[22px] text-[#1D1D1B] md:text-[22px] md:leading-[30px] lg:text-[36px] xl:text-[30px] lg:leading-[40px]">
-                  The world&apos;s largest independent brand agency,
+                Trusted by leading brands to create meaningful growth.
                 </p>
               </Reveal>
               <Reveal group="intro" className="mt-1">
