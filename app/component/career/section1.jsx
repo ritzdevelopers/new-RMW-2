@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SubmitButton from "../button/submitnew";
@@ -189,6 +189,93 @@ const section1 = () => {
   const heroRef = useRef(null);
   const formRef = useRef(null);
 
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState(null);
+
+  const uploadResume = async (resumeFile) => {
+    try {
+      const uploadData = new FormData();
+      uploadData.append("resume", resumeFile);
+
+      const response = await fetch("/api/upload-resume", {
+        method: "POST",
+        body: uploadData,
+      });
+      return await response.json();
+    } catch (error) {
+      console.error("Error uploading resume:", error);
+      return { success: false, error: "Failed to upload resume" };
+    }
+  };
+
+  const submitFormFields = async (formData) => {
+    try {
+      formData.append("etype", "career");
+      const response = await fetch("/api/system-settings/contact-enquiry", {
+        method: "POST",
+        body: formData,
+      });
+      return await response.json();
+    } catch (error) {
+      console.error("Error submitting form fields:", error);
+      return { success: false, error: "Failed to submit form fields" };
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (submitting) return;
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const resumeFile = formData.get("resume");
+
+    if (!resumeFile || (resumeFile instanceof File && resumeFile.size === 0)) {
+      setStatus({ type: "error", text: "Please upload your resume." });
+      return;
+    }
+
+    setSubmitting(true);
+    setStatus(null);
+
+    try {
+      const resumeUploaded = await uploadResume(resumeFile);
+      if (!resumeUploaded.success) {
+        setStatus({
+          type: "error",
+          text: "Resume upload failed: " + (resumeUploaded.error || "Unknown error"),
+        });
+        return;
+      }
+
+      formData.append("resumePath", resumeUploaded.filePath);
+      formData.delete("resume");
+
+      const formSubmitted = await submitFormFields(formData);
+      if (!formSubmitted.success) {
+        setStatus({
+          type: "error",
+          text: "Form submission failed: " + (formSubmitted.error || "Please try again."),
+        });
+        return;
+      }
+
+      setStatus({
+        type: "success",
+        text: formSubmitted.message || "Application submitted successfully!",
+      });
+      form.reset();
+    } catch (error) {
+      console.error("Error during submission:", error);
+      setStatus({
+        type: "error",
+        text: "An unexpected error occurred. Please try again later.",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   useLayoutEffect(() => {
     let headingDone = false;
     let heroDone = false;
@@ -333,22 +420,35 @@ const section1 = () => {
           </div>
         </div>
 
-        <div ref={formRef} className="mx-auto mt-7 w-full max-w-[765px] md:mt-7 lg:mt-16">
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          className="mx-auto mt-7 w-full max-w-[765px] md:mt-7 lg:mt-16"
+        >
           <div className="grid grid-cols-1 xl:gap-5 gap-8 md:grid-cols-2 md:gap-x-10">
             <Field label="FIRST NAME*">
-              <input type="text" className={inputClass} />
+              <input type="text" name="name" required className={inputClass} />
             </Field>
             <Field label=" EMAIL ADDRESS*">
-              <input type="text" className={inputClass} />
+              <input type="email" name="email" required className={inputClass} />
             </Field>
           </div>
 
           <div className="mt-8 grid grid-cols-1 xl:gap-5 gap-8 md:mt-10 md:grid-cols-2 md:gap-x-10">
             <Field label="PHONE NUMBER*">
-              <input type="text" className={inputClass} />
+              <input
+                type="tel"
+                name="phone"
+                required
+                inputMode="numeric"
+                className={inputClass}
+                onInput={(e) => {
+                  e.currentTarget.value = e.currentTarget.value.replace(/[^0-9+]/g, "");
+                }}
+              />
             </Field>
             <Field label="Apply For*">
-              <input type="text" className={inputClass} />
+              <input type="text" name="category" required className={inputClass} />
             </Field>
           </div>
 
@@ -356,7 +456,9 @@ const section1 = () => {
             <Field label="UPLOAD RESUME*">
               <input
                 type="file"
+                name="resume"
                 accept=".pdf,.doc,.docx"
+                required
                 className={fileInputClass}
               />
             </Field>
@@ -364,7 +466,7 @@ const section1 = () => {
 
           <div className="mt-8 md:mt-10">
             <Field label="MESSAGE (OPTIONAL)">
-              <textarea rows={4} className={`${inputClass} resize-none`} />
+              <textarea rows={4} name="message" className={`${inputClass} resize-none`} />
             </Field>
           </div>
 
@@ -387,8 +489,25 @@ const section1 = () => {
             </div>
           </div>
 
-          <SubmitButton />
-        </div>
+          <SubmitButton
+            disabled={submitting}
+            label={submitting ? "SUBMITTING..." : "SUBMIT"}
+          />
+
+          {status && (
+            <p
+              role="status"
+              aria-live="polite"
+              className="mt-4 text-sm"
+              style={{
+                fontFamily: sequelFontFamily,
+                color: status.type === "success" ? "#7CFFB2" : "#FF8A8A",
+              }}
+            >
+              {status.text}
+            </p>
+          )}
+        </form>
       </div>
     </section>
   );
