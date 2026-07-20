@@ -126,10 +126,10 @@ const NewsCard = ({
     onMouseEnter={onMouseEnter}
     onMouseLeave={onMouseLeave}
     {...props}
-    className={`group relative z-10 flex shrink-0 cursor-pointer flex-col items-start justify-center overflow-hidden border border-[#0D1334] ${
+    className={`group relative z-10 flex shrink-0 cursor-pointer flex-col overflow-hidden border border-[#0D1334] ${
       compact
-        ? "gap-3 rounded-[12px] p-4"
-        : "gap-8 rounded-[16px] p-8"
+        ? "items-center justify-center gap-3 rounded-[12px] p-4 text-center"
+        : "items-start justify-center gap-8 rounded-[16px] p-8"
     } ${className}`}
     style={style}
   >
@@ -138,8 +138,8 @@ const NewsCard = ({
       className="absolute inset-0 origin-bottom scale-y-0 bg-[#0D1334] transition-transform duration-300 ease-out group-hover:scale-y-100"
     />
     <p
-      className={`${leagueSpartan.className} relative z-10 m-0 text-left text-[#0D1334] transition-colors duration-300 group-hover:text-white ${
-        compact ? "text-[20px] leading-[100%]" : ""
+      className={`${leagueSpartan.className} relative z-10 m-0 text-[#0D1334] transition-colors duration-300 group-hover:text-white ${
+        compact ? "text-center text-[20px] leading-[100%]" : "text-left"
       }`}
       style={compact ? undefined : newsHeadingStyle}
     >
@@ -447,7 +447,7 @@ const Section6 = () => {
 
     if (!shouldWrap) {
       return (
-        <div key={`mobile-item-${index}`} className="min-w-0 flex-1 self-stretch">
+        <div key={`mobile-item-${index}`} className="flex min-w-0 flex-1 justify-center self-stretch">
           {content}
         </div>
       );
@@ -458,7 +458,7 @@ const Section6 = () => {
         key={`mobile-item-${index}`}
         {...(isEnterItem ? { "data-mobile-scroll-enter": "" } : {})}
         {...(isExitItem ? { "data-mobile-scroll-exit": "" } : {})}
-        className="min-w-0 flex-1 self-stretch will-change-transform"
+        className="flex min-w-0 flex-1 justify-center self-stretch will-change-transform"
       >
         {content}
       </div>
@@ -474,12 +474,12 @@ const Section6 = () => {
         {/* Mobile layout */}
         <div
           ref={mobileContentRef}
-          className="relative z-10 flex flex-col gap-6 px-5 md:hidden"
+          className="relative z-10 flex flex-col items-center gap-6 px-5 md:hidden"
         >
           {mobileBlocks.map((block, blockIndex) => {
             if (block.type === "headline-connect") {
               return (
-                <div key={`mobile-connect-${blockIndex}`} className="flex justify-center overflow-x-hidden">
+                <div key={`mobile-connect-${blockIndex}`} className="flex w-full justify-center overflow-x-hidden">
                   <h2
                     className={`${leagueSpartan.className} m-0 inline-flex w-max flex-nowrap items-baseline uppercase leading-[1.05] tracking-[0] text-[54px] text-[#000000]`}
                   >
@@ -491,7 +491,7 @@ const Section6 = () => {
 
             if (block.type === "headline-create") {
               return (
-                <div key={`mobile-create-${blockIndex}`} className="flex justify-center overflow-x-hidden">
+                <div key={`mobile-create-${blockIndex}`} className="flex w-full justify-center overflow-x-hidden">
                   <h2
                     className={`${leagueSpartan.className} m-0 inline-flex w-max flex-nowrap items-baseline uppercase leading-[1.05] tracking-[0] text-[54px]`}
                   >
@@ -506,7 +506,7 @@ const Section6 = () => {
                 <div
                   key={`mobile-row-${blockIndex}`}
                   data-mobile-row
-                  className="flex items-stretch justify-between gap-0"
+                  className="flex w-full items-stretch justify-center gap-3"
                 >
                   {block.indices.map((index) => renderMobileCarouselItem(index))}
                 </div>

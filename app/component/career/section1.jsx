@@ -33,7 +33,7 @@ const headingStyle = {
 };
 
 const headingSizeClass =
-  "text-[20px] leading-[32px] md:text-[48px] md:leading-[44px] lg:text-[75px] lg:leading-[56px] xl:text-[94px] xl:leading-[71px]";
+  "text-[20px] leading-[32px] md:text-[40px] md:leading-[40px] lg:text-[52px] lg:leading-[48px] xl:text-[94px] xl:leading-[71px]";
 
 const clipRevealClass = "overflow-hidden pb-[0.2em] -mb-[0.2em]";
 const circleSpotlightDuration = 15;
@@ -129,7 +129,9 @@ const AnimatedHeadingLine = () => {
       const startEntrance = () => {
         const entrance = gsap.timeline({
           onComplete: () => {
-            window.dispatchEvent(new CustomEvent("section1-heading-entrance-complete"));
+            window.dispatchEvent(
+              new CustomEvent("section1-heading-entrance-complete"),
+            );
           },
         });
 
@@ -137,7 +139,7 @@ const AnimatedHeadingLine = () => {
           entrance.to(
             word,
             { yPercent: 0, duration: 2, ease: "power4.out" },
-            index * 0.08
+            index * 0.08,
           );
         });
       };
@@ -160,21 +162,27 @@ const AnimatedHeadingLine = () => {
         window.removeEventListener("header-reveal-complete", onHeaderComplete);
       }
       if (onStartSpotlight) {
-        window.removeEventListener("section1-start-spotlight", onStartSpotlight);
+        window.removeEventListener(
+          "section1-start-spotlight",
+          onStartSpotlight,
+        );
       }
       ctx.revert();
     };
   }, []);
 
   return (
-    <h1 style={headingStyle} className={`${headingSizeClass} m-0 w-full overflow-visible`}>
+    <h1
+      style={headingStyle}
+      className={`${headingSizeClass} m-0 w-full overflow-visible`}
+    >
       <div ref={wrapRef} className="relative w-full overflow-visible">
-        <div className="relative z-[1] flex w-full justify-center gap-4 md:gap-[100px] lg:gap-[90px] xl:gap-[150px]">
+        <div className="relative z-[1] flex w-full justify-between gap-2 md:justify-center md:gap-8 lg:gap-10 xl:gap-[150px]">
           {renderHeadingWord()}
         </div>
         <div
           ref={goldRef}
-          className="pointer-events-none absolute inset-0 z-[2] flex w-full justify-center gap-4 md:gap-[100px] lg:gap-[90px] xl:gap-[150px] overflow-visible"
+          className="pointer-events-none absolute inset-0 z-[2] flex w-full justify-between gap-2 overflow-visible md:justify-center md:gap-8 lg:gap-10 xl:gap-[150px]"
           style={{ ...headingStyle, color: "#FFD188" }}
           aria-hidden
         >
@@ -243,7 +251,9 @@ const section1 = () => {
       if (!resumeUploaded.success) {
         setStatus({
           type: "error",
-          text: "Resume upload failed: " + (resumeUploaded.error || "Unknown error"),
+          text:
+            "Resume upload failed: " +
+            (resumeUploaded.error || "Unknown error"),
         });
         return;
       }
@@ -255,7 +265,9 @@ const section1 = () => {
       if (!formSubmitted.success) {
         setStatus({
           type: "error",
-          text: "Form submission failed: " + (formSubmitted.error || "Please try again."),
+          text:
+            "Form submission failed: " +
+            (formSubmitted.error || "Please try again."),
         });
         return;
       }
@@ -297,11 +309,17 @@ const section1 = () => {
       onAllTextDone();
     };
 
-    window.addEventListener("section1-heading-entrance-complete", onHeadingDone);
+    window.addEventListener(
+      "section1-heading-entrance-complete",
+      onHeadingDone,
+    );
     window.addEventListener("section1-hero-reveal-complete", onHeroDone);
 
     return () => {
-      window.removeEventListener("section1-heading-entrance-complete", onHeadingDone);
+      window.removeEventListener(
+        "section1-heading-entrance-complete",
+        onHeadingDone,
+      );
       window.removeEventListener("section1-hero-reveal-complete", onHeroDone);
     };
   }, []);
@@ -325,7 +343,9 @@ const section1 = () => {
           ease: "power4.out",
           stagger: 0.08,
           onComplete: () => {
-            window.dispatchEvent(new CustomEvent("section1-hero-reveal-complete"));
+            window.dispatchEvent(
+              new CustomEvent("section1-hero-reveal-complete"),
+            );
           },
         });
       };
@@ -379,42 +399,49 @@ const section1 = () => {
 
     return () => {
       if (onStartInputLines) {
-        window.removeEventListener("section1-start-input-lines", onStartInputLines);
+        window.removeEventListener(
+          "section1-start-input-lines",
+          onStartInputLines,
+        );
       }
       ctx.revert();
     };
   }, []);
 
   return (
-    <section className="bg-[#0D1334] px-8 py-[0px] pb-[35px] md:px-12 md:pt-[20px] md:pb-[70px] ">
-      <div className="mx-auto max-w-8xl mx-auto max-w-[1500px]">
-        <div ref={heroRef} className="overflow-x-visible">
+    <section className="bg-[#0D1334] px-5 py-[0px] pb-[35px] sm:px-8 md:px-12 md:pt-[20px] md:pb-[70px]">
+      <div className="mx-auto w-full max-w-[1500px]">
+        <div ref={heroRef} className="w-full overflow-x-clip">
           <AnimatedHeadingLine />
 
-          <div className="-mt-3 flex flex-col md:gap-6 gap-1 lg:-mt-5 lg:flex-row lg:items-start lg:justify-between">
-            <div className="mb-0 flex w-full justify-between md:mt-5 lg:mb-0 lg:contents">
-              <span
-                style={headingStyle}
-                className={`${headingSizeClass} shrink-0 self-start ${clipRevealClass} lg:order-1 lg:mt-[30px] xl:mt-[40px]`}
-              >
-                <span data-hero-reveal className="inline-block">
-                  STARTS
-                </span>
-              </span>
-              <span
-                style={headingStyle}
-                className={`${headingSizeClass} shrink-0 self-start ${clipRevealClass} text-right lg:order-3 lg:mt-[30px] lg:text-right xl:mt-[40px]`}
-              >
-                <span data-hero-reveal className="inline-block">
-                  HERE.
-                </span>
-              </span>
-            </div>
-            <p
-              className={`${mixtaPro} order-2 mx-auto mt-[0px] w-full max-w-[700px] self-center overflow-hidden text-center text-[16px] font-[300] italic leading-[20px] text-white normal-case md:mt-0 md:text-[28px] md:leading-[32px] md:leading-snug lg:mt-[50px] lg:self-center lg:text-center lg:text-[20px] xl:mt-[50px] xl:-translate-x-[40px] xl:text-[28px]`}
+          {/* Mobile/tablet: STARTS — HERE on one row, copy below.
+              lg+: 3-column grid so copy sits in the middle without overlapping. */}
+          <div className="mt-2 grid w-full grid-cols-2 items-start gap-x-3 gap-y-3 md:mt-4 md:gap-y-4 lg:mt-3 lg:grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] lg:items-center lg:gap-x-4 xl:mt-4 xl:gap-x-8">
+            <span
+              style={headingStyle}
+              className={`${headingSizeClass} col-start-1 row-start-1 justify-self-start ${clipRevealClass}`}
             >
-              <span data-hero-reveal className="block">
-              Passionate about media, storytelling or strategy? We'd love to hear from you.              </span>
+              <span data-hero-reveal className="inline-block">
+                STARTS
+              </span>
+            </span>
+
+            <span
+              style={headingStyle}
+              className={`${headingSizeClass} col-start-2 row-start-1 justify-self-end text-right lg:col-start-3 ${clipRevealClass}`}
+            >
+              <span data-hero-reveal className="inline-block">
+                HERE.
+              </span>
+            </span>
+
+            <p
+              className={`${mixtaPro} col-span-2 row-start-2 mx-auto w-full max-w-[640px] px-1 text-center text-[15px] font-[300] italic leading-[20px] text-white normal-case sm:text-[16px] md:text-[22px] md:leading-[28px] lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:max-w-none lg:px-3 lg:text-[18px] lg:leading-snug xl:px-6 xl:text-[26px] xl:leading-[32px]`}
+            >
+              <span data-hero-reveal className="block text-center">
+                Passionate about media, storytelling or strategy? We'd love to
+                hear from you.
+              </span>
             </p>
           </div>
         </div>
@@ -422,14 +449,19 @@ const section1 = () => {
         <form
           ref={formRef}
           onSubmit={handleSubmit}
-          className="mx-auto mt-7 w-full max-w-[765px] md:mt-7 lg:mt-16"
+          className="mx-auto mt-7 w-full max-w-[765px] md:mt-8 lg:mt-14"
         >
           <div className="grid grid-cols-1 xl:gap-5 gap-8 md:grid-cols-2 md:gap-x-10">
             <Field label="FIRST NAME*">
               <input type="text" name="name" required className={inputClass} />
             </Field>
             <Field label=" EMAIL ADDRESS*">
-              <input type="email" name="email" required className={inputClass} />
+              <input
+                type="email"
+                name="email"
+                required
+                className={inputClass}
+              />
             </Field>
           </div>
 
@@ -442,12 +474,20 @@ const section1 = () => {
                 inputMode="numeric"
                 className={inputClass}
                 onInput={(e) => {
-                  e.currentTarget.value = e.currentTarget.value.replace(/[^0-9+]/g, "");
+                  e.currentTarget.value = e.currentTarget.value.replace(
+                    /[^0-9+]/g,
+                    "",
+                  );
                 }}
               />
             </Field>
             <Field label="Apply For*">
-              <input type="text" name="category" required className={inputClass} />
+              <input
+                type="text"
+                name="category"
+                required
+                className={inputClass}
+              />
             </Field>
           </div>
 
@@ -465,7 +505,11 @@ const section1 = () => {
 
           <div className="mt-8 md:mt-10">
             <Field label="MESSAGE (OPTIONAL)">
-              <textarea rows={4} name="message" className={`${inputClass} resize-none`} />
+              <textarea
+                rows={4}
+                name="message"
+                className={`${inputClass} resize-none`}
+              />
             </Field>
           </div>
 

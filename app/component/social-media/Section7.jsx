@@ -5,7 +5,7 @@ import { useState } from "react";
 const EXPECTATIONS = [
   {
     title: "Professionally Designed Profile",
-    body: "A polished, on-brand profile setup across platforms — visuals, bio, and highlights that make a strong first impression.",
+    body: "A polished, on-brand profile setup across platforms - visuals, bio, and highlights that make a strong first impression.",
   },
   {
     title: "Customized Strategy",
@@ -47,7 +47,7 @@ function Section7() {
   return (
     <section className="w-full bg-white p-20 max-xl:p-12 max-md:p-6">
       <div className="mx-auto flex w-full flex-col items-stretch justify-between gap-10 bg-[#FAFAFA] lg:flex-row lg:gap-16 xl:gap-20">
-        {/* Left — cover lifestyle image */}
+        {/* Left - cover lifestyle image */}
         <div
           className="relative min-h-[480px] w-full shrink-0 bg-no-repeat lg:min-h-[560px] lg:w-[48%] lg:bg-fixed"
           style={{ backgroundImage: "url('/social-media/creative5.avif')" }}
@@ -55,7 +55,7 @@ function Section7() {
           aria-label="Social media lifestyle creative"
         />
 
-        {/* Right — accordion content */}
+        {/* Right - accordion content */}
         <div className="flex w-full flex-col justify-center mr-40 bg-[#FAFAFA] px-8 py-10 sm:px-10 md:px-12 lg:w-[44%] lg:max-w-[400px] lg:shrink-0 lg:px-0 lg:py-14 xl:py-16">
           <h2
             className="mb-10 text-[25px] font-[500] leading-[1.15] tracking-[-0.02em] text-[#1a1a1a] sm:mb-12"

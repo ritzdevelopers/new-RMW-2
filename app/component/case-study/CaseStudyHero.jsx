@@ -291,7 +291,7 @@ const CaseStudyHero = () => {
       const onHeaderComplete = () => playEntrance();
       window.addEventListener("header-reveal-complete", onHeaderComplete);
 
-      // Show text immediately — don't wait for full header finish
+      // Show text immediately - don't wait for full header finish
       requestAnimationFrame(() => playEntrance());
 
       fitHeadline();

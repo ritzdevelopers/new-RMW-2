@@ -50,7 +50,7 @@
   font-display: swap;
 }
 
-/* Editor's Note Light — Webflow custom font aliases (add font files under /public/fonts/editors-note/) */
+/* Editor's Note Light - Webflow custom font aliases (add font files under /public/fonts/editors-note/) */
 @font-face {
   font-family: "wfont_e6fa52_d03d36fc891b44ea946b083dc8504aac";
   src: url("/fonts/editors-note/EditorsNote-Light.woff2") format("woff2"),
@@ -97,7 +97,7 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
   overflow-x: clip;
-  /* Site-wide typography — match the home page:
+  /* Site-wide typography - match the home page:
      Montserrat for body/base text, League Spartan for headings. */
   font-family: "Montserrat", sans-serif;
 }

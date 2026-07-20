@@ -22,7 +22,7 @@ const serviceRows = [
 
 // Shared (non-size) classes.
 // Character-level break when text overflows (e.g. DIGITA / L), not whole-word wrap.
-// xl+: enough width — keep each label on one line.
+// xl+: enough width - keep each label on one line.
 const serviceClass =
   "uppercase leading-[1.05] tracking-[0] font-semibold text-white transition-opacity duration-300 cursor-pointer break-all xl:whitespace-nowrap xl:break-normal";
 

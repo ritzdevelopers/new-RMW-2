@@ -12,7 +12,7 @@ const playfair = Playfair_Display({
 const Section1 = () => {
   return (
     <section className="w-full">
-      {/* Full-bleed banner — left/right edge touch */}
+      {/* Full-bleed banner - left/right edge touch */}
       <div className="relative w-full overflow-hidden">
         <div className="grid w-full grid-cols-2">
           <div className="relative w-full overflow-hidden xl:h-[664px]">

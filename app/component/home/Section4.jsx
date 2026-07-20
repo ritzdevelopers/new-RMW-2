@@ -452,7 +452,7 @@ const Section4 = () => {
 
   // Applies the same starting Y offset the pinned ScrollTrigger uses, so that
   // when we morph *into* list mode the ghosts land exactly where the real list
-  // rows will sit — even before ScrollTrigger is (re)created.
+  // rows will sit - even before ScrollTrigger is (re)created.
   const applyListStartY = useCallback(() => {
     if (typeof window === "undefined" || window.innerWidth < 768) return;
     const pin = pinRef.current;
@@ -469,8 +469,8 @@ const Section4 = () => {
   //      list title, its card label fading out,
   //   2) the real list number + title fade back in at their exact measured
   //      positions and font sizes,
-  // so the grid visually collapses into the list — no size pop, no clipped
-  // text — instead of one view popping out and the other popping in.
+  // so the grid visually collapses into the list - no size pop, no clipped
+  // text - instead of one view popping out and the other popping in.
   const runGridToList = () => {
     const overlay = overlayRef.current;
 
@@ -485,7 +485,7 @@ const Section4 = () => {
       isAnimatingRef.current = false;
     };
 
-    // Phase A — build the card image ghosts on top of the still-visible grid
+    // Phase A - build the card image ghosts on top of the still-visible grid
     // *before* swapping to the list, so the very first painted frame already
     // shows them. (Building them a couple frames later was the blink/blank.)
     const imgGhosts = [];
@@ -556,12 +556,12 @@ const Section4 = () => {
 
         // Position the (still hidden) list at the pinned start offset first, so
         // the destination rects we measure below match where the real rows end
-        // up — the ghost text hands off to the real text with no jump.
+        // up - the ghost text hands off to the real text with no jump.
         applyListStartY();
 
         const tl = gsap.timeline({
           onComplete: () => {
-            // Reveal the real list — it now fades in via the container's
+            // Reveal the real list - it now fades in via the container's
             // opacity transition, so the active preview image glides in
             // instead of popping. Keep the ghosts on top during that fade so
             // the text doesn't flicker, then drop them once the list is fully
@@ -612,7 +612,7 @@ const Section4 = () => {
           if (!g || !link) return;
 
           // Measure the real destination row so the ghost text matches its
-          // final size + position exactly (this is what was popping before —
+          // final size + position exactly (this is what was popping before -
           // the old ghost used fixed clamp() sizes smaller than the real text).
           const spans = link.querySelectorAll("span");
           const titleEl = spans[0];
@@ -743,7 +743,7 @@ const Section4 = () => {
       return el;
     };
 
-    // Phase A — build the ghosts over the still-visible list *before* swapping
+    // Phase A - build the ghosts over the still-visible list *before* swapping
     // to the grid, so the very first painted frame already shows them (this
     // removes the blank/blink at the moment of the click).
     const ghosts = [];
@@ -804,7 +804,7 @@ const Section4 = () => {
         // last row the window is scrolled far past the section's natural
         // position. Switching to grid removes the pin (and its spacer), which
         // would otherwise drop the viewport onto the sections below. Snap the
-        // scroll back to Section 4's top — the pinned list was already sitting
+        // scroll back to Section 4's top - the pinned list was already sitting
         // at the top of the viewport, so this keeps the transition seamless.
         const section = sectionRef.current;
         if (section) {
@@ -874,7 +874,7 @@ const Section4 = () => {
     }
   };
 
-  // Pinned scroll-driven list — only active while viewMode === "list".
+  // Pinned scroll-driven list - only active while viewMode === "list".
   useLayoutEffect(() => {
     if (viewMode !== "list") return;
 
@@ -1055,7 +1055,7 @@ const Section4 = () => {
       `}</style>
 
       {/* Fixed-position layer that hosts the transient "ghost" clones used to
-          morph list rows into grid cards (and back) — lives outside pinRef so
+          morph list rows into grid cards (and back) - lives outside pinRef so
           it's never affected by the list's pin transform. */}
       <div ref={overlayRef} className="pointer-events-none fixed inset-0 z-[999]" />
 
@@ -1135,7 +1135,7 @@ const Section4 = () => {
                     </span>
 
                     {/* Thumbnail preview   slides in beside the title when the
-                        GRID tab is hovered — a peek at the grid content. */}
+                        GRID tab is hovered - a peek at the grid content. */}
                     <span
                       aria-hidden="true"
                       ref={(node) => {

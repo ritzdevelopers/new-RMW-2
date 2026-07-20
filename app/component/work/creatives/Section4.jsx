@@ -13,7 +13,7 @@ const WALKTHROUGH_SLIDES = [
       "https://otherassets.blob.core.windows.net/rmw/Edelstein%20Empire%20Walkthrough.mp4",
     title: "Edelstein Empire",
     description:
-      "A cinematic 3D walkthrough that transforms real estate vision into emotion — blending spatial storytelling, lifestyle narratives, and premium finishing for maximum impact.",
+      "A cinematic 3D walkthrough that transforms real estate vision into emotion - blending spatial storytelling, lifestyle narratives, and premium finishing for maximum impact.",
     cta: { label: "Get In Touch", href: "/contact" },
   },
   {
@@ -33,7 +33,7 @@ const WALKTHROUGH_SLIDES = [
       "https://otherassets.blob.core.windows.net/rmw/Laadli%20Walkthrough%20Video.mp4",
     title: "Laadli",
     description:
-      "From blueprint to experience — dynamic spatial storytelling for developments that communicates scale, trust, and long-term value.",
+      "From blueprint to experience - dynamic spatial storytelling for developments that communicates scale, trust, and long-term value.",
     cta: { label: "View Our Work", href: "/case-study" },
   },
   {

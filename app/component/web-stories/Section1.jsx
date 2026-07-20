@@ -20,7 +20,7 @@ const stories = [
       "✅ Trusted voice",
       "✅ Hyper-local targeting",
       "✅ High repetition = high recall",
-      "📻 FM Radio Ads are far from outdated — they’re evolving.",
+      "📻 FM Radio Ads are far from outdated - they’re evolving.",
     ],
     highlight: "#56ffe5",
   },

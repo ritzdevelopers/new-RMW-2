@@ -331,7 +331,7 @@ function NewSection2() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex, modalIndex, maxIndex]);
 
-  // Smooth GSAP track slide — pause videos while moving to avoid decode jank
+  // Smooth GSAP track slide - pause videos while moving to avoid decode jank
   useLayoutEffect(() => {
     const track = trackRef.current;
     if (!track || metrics.cardWidth <= 0) return;
@@ -607,7 +607,7 @@ function NewSection2() {
               </div>
             </div>
 
-            {/* Bottle-fill loader — fills as the strip advances, solid black at 100% */}
+            {/* Bottle-fill loader - fills as the strip advances, solid black at 100% */}
             <div
               className="relative mt-8 h-[2px] w-full overflow-hidden rounded-full bg-[#E8E8E8] max-md:mt-6"
               role="progressbar"

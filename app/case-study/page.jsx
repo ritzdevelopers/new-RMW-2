@@ -9,7 +9,7 @@ import CaseStudyStack from "../component/case-study/CaseStudyStack";
 export const metadata = {
   title: "Case Studies | Ritz Media World",
   description:
-    "Explore Ritz Media World case studies — bold design, brand films, and campaigns that defy convention.",
+    "Explore Ritz Media World case studies - bold design, brand films, and campaigns that defy convention.",
 };
 
 const CaseStudyPage = () => {

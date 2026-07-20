@@ -17,7 +17,7 @@ const SLIDES = [
 ];
 
 const GAP_PX = 10;
-const SPEED = 45; // px per second — continuous marquee speed
+const SPEED = 45; // px per second - continuous marquee speed
 const SLIDE_STEP_DURATION = 0.4; // fast card snap on arrow click
 
 const getVisibleCount = (width) => {
