@@ -1202,7 +1202,7 @@ const Section4 = () => {
                       </span>
                     </span>
 
-                    {/* Thumbnail preview that slides in beside the title when the
+                    {/* Thumbnail preview   slides in beside the title when the
                         GRID tab is hovered — a peek at the grid content. */}
                     <span
                       aria-hidden="true"
