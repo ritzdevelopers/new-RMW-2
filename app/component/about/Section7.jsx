@@ -126,7 +126,8 @@ const Section7 = () => {
         <div className="relative min-h-[100dvh] w-full">
           <Image
             src="/service/website%20banner%20%5BRecovered%5D-01.jpg"
-            alt=""
+            alt="Ritz Media World creative services"
+            title="Ritz Media World creative services"
             fill
             priority
             className="object-cover object-center"
@@ -155,6 +156,7 @@ const Section7 = () => {
                 </p>
                 <a
                   href={`mailto:${contactInfo.email}`}
+                  title={`Email ${contactInfo.email}`}
                   className="mt-8 inline-block w-fit border-b border-white pb-1 text-[14px] font-semibold leading-[100%] tracking-[0] md:text-[18px] lg:text-[22px]"
                 >
                   {contactInfo.email}

@@ -16,10 +16,30 @@ function formatDate(value) {
   });
 }
 
+function ensureLinkTitles(html) {
+  return String(html || "").replace(
+    /<a\b([^>]*)>([\s\S]*?)<\/a>/gi,
+    (match, attrs, content) => {
+      if (/\btitle\s*=/i.test(attrs)) return match;
+      const text = String(content)
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      const hrefMatch = attrs.match(/\bhref\s*=\s*["']([^"']*)["']/i);
+      const titleText = text || hrefMatch?.[1] || "Read more";
+      const safeTitle = titleText
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;");
+      return `<a${attrs} title="${safeTitle}">${content}</a>`;
+    },
+  );
+}
+
 export default function BlogDetail({ blog, sidebar }) {
   const title = blog?.title || "";
   const image = resolveBlogImageUrl(blog?.blog_image || blog?.banner);
-  const description = blog?.description || "";
+  const description = ensureLinkTitles(blog?.description || "");
   const createdAt = formatDate(blog?.created_at);
 
   return (
@@ -124,8 +144,16 @@ export default function BlogDetail({ blog, sidebar }) {
               {image ? (
                 <div className="bd-featured-wrap">
                   <div className="bd-featured-image">
-                    <img src={image} alt={title} />
+                    <img src={image} alt={title} title={title} />
                   </div>
+                  {title ? (
+                    <h2
+                      className="m-0 mt-4 text-[22px] font-semibold leading-[1.25] text-[#0D1334] sm:mt-5 sm:text-[26px] md:text-[30px]"
+                      style={{ fontFamily: DISPLAY_FONT }}
+                    >
+                      {title}
+                    </h2>
+                  ) : null}
                   {createdAt ? (
                     <div className="mt-3 flex flex-wrap items-center gap-3 sm:mt-4 sm:gap-4">
                       <p

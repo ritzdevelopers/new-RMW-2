@@ -270,6 +270,7 @@ const Section1 = () => {
                     <Link
                       key={post.slug}
                       href={`/${post.slug}`}
+                      title={post.title}
                       onClick={() => {
                         setSearchOpen(false);
                         setSearchQuery("");
@@ -278,7 +279,8 @@ const Section1 = () => {
                     >
                       <img
                         src={post.image}
-                        alt=""
+                        alt={post.title}
+                        title={post.title}
                         className="h-12 w-12 shrink-0 rounded-md object-cover"
                       />
                       <span className="min-w-0 flex-1">
@@ -306,12 +308,14 @@ const Section1 = () => {
         <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 md:px-[50px]">
           <Link
             href={`/${featuredPost.slug}`}
+            title={featuredPost.title}
             className="flex flex-col gap-8 no-underline lg:flex-row lg:items-stretch lg:gap-12 xl:gap-16"
           >
             <div className="w-full min-w-0 lg:w-[52%] xl:w-[55%]">
               <img
                 src={featuredPost.image}
                 alt={featuredPost.title}
+                title={featuredPost.title}
                 className="block h-auto w-full rounded-2xl object-contain object-center"
               />
             </div>
@@ -343,6 +347,7 @@ const Section1 = () => {
               <Link
                 key={post.slug}
                 href={`/${post.slug}`}
+                title={post.title}
                 className="flex flex-col no-underline"
               >
                 <p className="m-0" style={categoryStyle}>
@@ -353,6 +358,7 @@ const Section1 = () => {
                   <img
                     src={post.image}
                     alt={post.title}
+                    title={post.title}
                     className="block h-auto w-full object-contain object-center"
                   />
                 </div>

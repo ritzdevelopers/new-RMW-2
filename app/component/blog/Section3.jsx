@@ -35,7 +35,8 @@ const Section3 = () => {
         <div className="flex w-full shrink-0 items-center justify-center sm:h-full sm:w-[36%] lg:w-[40%]">
           <img
             src="/blog/zoom.png"
-            alt=""
+            alt="Subscribe to Ritz Media World newsletter"
+            title="Subscribe to Ritz Media World newsletter"
             className="block h-auto max-h-[140px] w-auto max-w-full object-contain object-center sm:max-h-[200px]"
           />
         </div>

@@ -416,6 +416,7 @@ const Footer = ({ overlaySection = null }) => {
                 <Link
                   key={link.label}
                   href={link.href}
+                  title={link.label}
                   style={linkStyle}
                   className="relative z-10 pointer-events-auto !text-[17px] transition-opacity hover:opacity-70 md:!text-[18px]"
                   {...(link.href.startsWith("http")
@@ -433,6 +434,7 @@ const Footer = ({ overlaySection = null }) => {
               <Link
                 key={link.label}
                 href={link.href}
+                title={link.label}
                 style={navLinkStyle}
                 className="relative z-[1] !text-[30px] transition-opacity hover:opacity-70 md:!text-[40px]"
               >
@@ -446,6 +448,7 @@ const Footer = ({ overlaySection = null }) => {
               <span style={connectLabelStyle}>Email</span>
               <a
                 href="mailto:info@ritzmediaworld.com"
+                title="Email Ritz Media World"
                 style={contactTextStyle}
                 className="md:mt-4 mt-2 block transition-opacity hover:opacity-70 "
               >

@@ -286,6 +286,7 @@ const Section4 = () => {
             <>
               <Link
                 href={`/${featuredPost.slug}`}
+                title={featuredPost.title}
                 className="flex flex-col items-start no-underline lg:col-span-3"
               >
                 <div className="w-[340px] max-w-full">
@@ -293,6 +294,7 @@ const Section4 = () => {
                     <img
                       src={featuredPost.image}
                       alt={featuredPost.title}
+                      title={featuredPost.title}
                       className="block h-full w-full object-cover object-center"
                     />
                   </div>
@@ -321,12 +323,14 @@ const Section4 = () => {
                     <Link
                       key={post.slug}
                       href={`/${post.slug}`}
+                      title={post.title}
                       className={`flex flex-col gap-3 no-underline sm:flex-row sm:gap-4 ${index > 0 ? "mt-10 border-t border-[#D9D9D9] pt-10" : ""}`}
                     >
                       <div className="w-full sm:h-[120px] sm:w-[160px] sm:shrink-0">
                         <img
                           src={post.image}
                           alt={post.title}
+                          title={post.title}
                           className="block h-auto w-full rounded-lg object-cover object-center sm:h-full"
                         />
                       </div>
