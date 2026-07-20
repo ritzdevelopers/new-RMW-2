@@ -11,13 +11,13 @@ const leagueSpartan = League_Spartan({
 });
 
 const serviceRows = [
-  ["Digital Marketing", "Creative Service"],
-  ["Print Advertisement", "Radio Advertisement"],
-  ["Content Marketing", "Web Development"],
-  ["Influencer Marketing", "Celebrity Endorsement"],
+  ["Digital Marketing", "Print Advertisement"],
+  ["Creative Service", "Radio Advertisement"],
+  ["Content Marketing", "Celebrity Endorsement"],
+  ["Influencer Marketing", "Web Development"],
   ["Creative Service", "Print Advertisement"],
-  ["Celebrity Endorsement", "Radio Advertisement"],
-  ["Influencer Marketing", "Digital Marketing"],
+  ["Digital Marketing", "Web Development"],
+  ["Influencer Marketing", "Print Advertisement"],
 ];
 
 // Shared (non-size) classes.

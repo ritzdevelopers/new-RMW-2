@@ -1,14 +1,14 @@
 import React from "react";
 import Header from "../common/Header";
-import Footer from "../common/Footer";
-import Section7 from "../component/about/Section7";
+import Footer from "../component/latest/Footer";
+import OverlaySection1 from "../component/latest/OverlaySection1";
 
 export default function WorkLayout({ children }) {
   return (
     <div className="overflow-x-clip">
       <Header />
       <main className="relative overflow-x-clip">{children}</main>
-      <Footer overlaySection={<Section7 />} />
+      <Footer section={<OverlaySection1 />} />
     </div>
   );
 }

@@ -979,10 +979,10 @@ export const services = [
           height: 630,
         },
       ],
-      eyebrow: "Services",
+      eyebrow: "See It Before It Exists.",
       bannerTitle: "3D Rendering Services",
       body:
-        "See It Before It Exists. Sell It Before It's Built. All innovations start as an idea - but they sell when viewed. At Ritz Media World, the vision is crystal clear: to produce imagery which enhances value and influence choice. Our 3D architecture rendering and real estate visualization approach goes above and beyond - seamlessly merging photorealistic 3D renders, walkthroughs and interior and exterior design visuals, coupled with high-quality CGI, to produce visuals that inspire decision-making and deliver tangible results. At Ritz Media World, technology and architecture collide. The outcome is far beyond an image; instead, these high-impact visuals have been developed to improve presentation, attract attention and ensure conversions quicker. Experience cutting-edge 3D + AI walkthroughs at 5X speed and 5X lower cost, now available at Ritz Media World - bringing your projects to life faster and more affordably than ever.",
+        "All innovations start as an idea - but they sell when viewed. At Ritz Media World, the vision is crystal clear: to produce imagery which enhances value and influence choice. Our 3D architecture rendering and real estate visualization approach goes above and beyond - seamlessly merging photorealistic 3D renders, walkthroughs and interior and exterior design visuals, coupled with high-quality CGI, to produce visuals that inspire decision-making and deliver tangible results. At Ritz Media World, technology and architecture collide. The outcome is far beyond an image; instead, these high-impact visuals have been developed to improve presentation, attract attention and ensure conversions quicker. Experience cutting-edge 3D + AI walkthroughs at 5X speed and 5X lower cost, now available at Ritz Media World - bringing your projects to life faster and more affordably than ever.",
       sidebarLabel: "Services",
     },
     carousel: {

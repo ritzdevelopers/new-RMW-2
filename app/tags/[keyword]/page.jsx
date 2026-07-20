@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import Header from "../../common/Header";
-import Footer from "../../common/Footer";
-import Section7 from "../../component/about/Section7";
+import Footer from "../../component/latest/Footer";
+import OverlaySection1 from "../../component/latest/OverlaySection1";
 import { TagsKeywordPage } from "../../component/case-study/TagsQueryPage";
 import { formatTagTitle, getAllTagSlugs } from "../../../lib/caseStudyApi";
 
@@ -42,7 +42,7 @@ export default async function TagsKeywordRoutePage({ params }) {
           <TagsKeywordPage keyword={keyword} />
         </Suspense>
       </main>
-      <Footer overlaySection={<Section7 />} />
+      <Footer section={<OverlaySection1 />} />
     </>
   );
 }
