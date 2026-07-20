@@ -1,6 +1,8 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
+
+const LOADER_SESSION_KEY = "rmwLoaderShown";
 
  
 const DEFAULT_IMAGES = [
@@ -38,6 +40,17 @@ function WebLoader({
   const imgRef = useRef(null);
   const counterRef = useRef(null);
   const barRef = useRef(null);
+  const skippedRef = useRef(false);
+
+  // Show the loader only the first time per browser session. If it has already
+  // played, skip straight to "done" before paint (no flash) on later visits.
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.sessionStorage.getItem(LOADER_SESSION_KEY) === "1") {
+      skippedRef.current = true;
+      setPhase("done");
+    }
+  }, []);
 
   const reduceMotion =
     typeof window !== "undefined" &&
@@ -53,6 +66,7 @@ function WebLoader({
   };
 
   useEffect(() => {
+    if (skippedRef.current) return;
     const first = sizeAt(0);
     gsap.set(frameRef.current, {
       left: "50%",
@@ -201,6 +215,7 @@ function WebLoader({
   // home hero video) can wait for it and only then start playing.
   useEffect(() => {
     if (phase !== "done" || typeof window === "undefined") return;
+    window.sessionStorage.setItem(LOADER_SESSION_KEY, "1");
     window.__rmwLoaderDone = true;
     window.dispatchEvent(new Event("rmw:loader-done"));
   }, [phase]);

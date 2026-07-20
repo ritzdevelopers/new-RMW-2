@@ -1,10 +1,10 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Header from "../../../common/Header";
-import Footer from "../../../common/Footer";
+import Footer from "../../../component/latest/Footer";
+import OverlaySection1 from "../../../component/latest/OverlaySection1";
 import SubServiceSections from "../../../component/services/SubServiceSections";
 import ServicesHero from "../../../component/services/ServicesHero";
-import Section7 from "../../../component/about/Section7";
 import {
   getAllSubServiceParams,
   getSubServiceBySlug,
@@ -62,7 +62,7 @@ export default async function SubServicePage({ params }) {
       : pageData.cards;
 
   return (
-    <div className="overflow-x-clip">
+      <>
       <Header />
       <ServicesHero
         variant="subService"
@@ -71,7 +71,7 @@ export default async function SubServicePage({ params }) {
         subtextItalic={false}
       />
       <SubServiceSections cards={cards} />
-      <Footer overlaySection={<Section7 />} />
-    </div>
+      <Footer section={<OverlaySection1 />} />
+    </>
   );
 }

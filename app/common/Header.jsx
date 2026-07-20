@@ -7,16 +7,16 @@ import gsap from "gsap";
 import { services } from "../../data/services";
 
 const portfolioSubLinks = [
-  { label: "Logo Design", href: "/portfolio-page/logo" },
-  { label: "Creative Design", href: "/portfolio-page/creative" },
-  { label: "Website Design", href: "/portfolio-page/web-design" },
-  { label: "AI Video", href: "/portfolio-page/ai-videos" },
+  { label: "Logo Design", href: "/portfolio/logo" },
+  { label: "Creative Design", href: "/portfolio/creative" },
+  { label: "Website Design", href: "/portfolio/web-design" },
+  { label: "AI Video", href: "/portfolio/ai-videos" },
 ];
 
 const workLinks = [
   {
     label: "Portfolio",
-    href: "/work/portfolio",
+    href: "/portfolio",
     children: portfolioSubLinks,
   },
   { label: "Case Studies", href: "/case-study" },

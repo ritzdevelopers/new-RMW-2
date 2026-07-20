@@ -2,9 +2,11 @@ import "./style.css";
 
 const sequelFontFamily = '"Sequel Sans", sans-serif';
 
-export default function SubmitButton() {
+export default function SubmitButton({ label = "SUBMIT", disabled = false, ...props }) {
   return (
     <button
+      type="submit"
+      disabled={disabled}
       className="submit-btn mt-17"
       style={{
         fontFamily: sequelFontFamily,
@@ -23,10 +25,13 @@ export default function SubmitButton() {
         cursor: "pointer",
         position: "relative",
         overflow: "hidden",
+        opacity: disabled ? 0.6 : 1,
+        pointerEvents: disabled ? "none" : "auto",
       }}
+      {...props}
     >
       <span className="btn-text" style={{ position: "relative", zIndex: 2 }}>
-        SUBMIT
+        {label}
       </span>
       <span
         className="btn-icon"

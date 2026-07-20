@@ -1,9 +1,9 @@
 import React from "react";
 import Header from "../common/Header";
-import Footer from "../common/Footer";
+import Footer from "../component/latest/Footer";
+import OverlaySection1 from "../component/latest/OverlaySection1";
 import ServicesHero from "../component/services/ServicesHero";
 import ServicesGrid from "../component/services/ServicesGrid";
-import Section7 from "../component/about/Section7";
 
 export const metadata = {
   title: "Services | Ritz Media World",
@@ -13,14 +13,12 @@ export const metadata = {
 
 const ServicesPage = () => {
   return (
-    <div className="overflow-x-clip">
+    <>
       <Header />
-      <div className="relative overflow-x-clip">
-        <ServicesHero />
-        <ServicesGrid />
-      </div>
-      <Footer overlaySection={<Section7 />} />
-    </div>
+      <ServicesHero />
+      <ServicesGrid />
+      <Footer section={<OverlaySection1 />} />
+    </>
   );
 };
 

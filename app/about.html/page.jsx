@@ -1,12 +1,13 @@
 import React from 'react'
 
 import Header from '../common/Header'
+import Footer from '../component/latest/Footer'
 
 import Section1 from '../component/about/section1'
+import OverlaySection1 from '../component/latest/OverlaySection1'
 
 import Section2 from '../component/about/section2'
 
-import Footer from '../common/Footer'
 
 import Section3 from '../component/about/Section3'
 
@@ -28,7 +29,6 @@ const About = () => {
 
       <Header />
 
-      <div className="overflow-x-hidden relative">
 
         <Section1 />
 
@@ -41,10 +41,8 @@ const About = () => {
         <Section5 />
 
         <Section6 />
+      <Footer section={<OverlaySection1 />} /> 
 
-      </div>
-
-      <Footer overlaySection={<Section7 />} />
 
     </>
   )

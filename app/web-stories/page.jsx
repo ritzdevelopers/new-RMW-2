@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../common/Header";
-import Footer from "../common/Footer";
-import Section7 from "../component/about/Section7";
+import Footer from "../component/latest/Footer";
+import OverlaySection1 from "../component/latest/OverlaySection1";
 import Section1 from "../component/web-stories/Section1";
 
 export const metadata = {
@@ -17,7 +17,7 @@ const WebStoriesPage = () => {
       <main>
         <Section1 />
       </main>
-      <Footer overlaySection={<Section7 />} />
+      <Footer section={<OverlaySection1 />} />
     </>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SubmitButton from "../button/submitnew";
@@ -54,10 +54,10 @@ const Field = ({ label, children }) => (
   </div>
 );
 
-const SelectField = ({ label, placeholder, options }) => (
+const SelectField = ({ label, placeholder, options, name, required }) => (
   <Field label={label}>
     <div className="relative">
-      <select className={selectClass} defaultValue="">
+      <select className={selectClass} defaultValue="" name={name} required={required}>
         <option value="">{placeholder}</option>
         {options.map((option) => (
           <option key={option} value={option} className="bg-[#0D1334] text-white">
@@ -203,6 +203,76 @@ const AnimatedHeadingLine = () => {
 const Section1 = () => {
   const heroRef = useRef(null);
   const formRef = useRef(null);
+
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (submitting) return;
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const firstName = (formData.get("firstName") || "").toString().trim();
+    const lastName = (formData.get("lastName") || "").toString().trim();
+    const email = (formData.get("email") || "").toString().trim();
+    const phone = (formData.get("phone") || "").toString().trim();
+    const reason = (formData.get("reason") || "").toString().trim();
+    const region = (formData.get("region") || "").toString().trim();
+    const howHeard = (formData.get("howHeard") || "").toString().trim();
+    const messageText = (formData.get("message") || "").toString().trim();
+
+    const message = [
+      `Reason for Inquiry: ${reason || "N/A"}`,
+      `Region: ${region || "N/A"}`,
+      `How did you hear about us: ${howHeard || "N/A"}`,
+      "",
+      `Message: ${messageText || "N/A"}`,
+    ].join("\n");
+
+    const data = {
+      etype: "ContactUs",
+      name: `${firstName} ${lastName}`.trim(),
+      phone,
+      email,
+      message,
+    };
+
+    setSubmitting(true);
+    setStatus(null);
+
+    try {
+      const response = await fetch("/api/system-settings/contact-enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (response.ok) {
+        setStatus({
+          type: "success",
+          text: result.message || "Query submitted successfully!",
+        });
+        form.reset();
+      } else {
+        setStatus({
+          type: "error",
+          text: result.message || "Submission failed. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      setStatus({
+        type: "error",
+        text: "Server error. Please try again later.",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   useLayoutEffect(() => {
     let headingDone = false;
@@ -350,22 +420,34 @@ const Section1 = () => {
           </div>
         </div>
 
-        <div ref={formRef} className="mx-auto mt-7 w-full max-w-[765px] md:mt-7 lg:mt-16">
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          className="mx-auto mt-7 w-full max-w-[765px] md:mt-7 lg:mt-16"
+        >
           <div className="grid grid-cols-1 xl:gap-5 gap-8 md:grid-cols-2 md:gap-x-10">
             <Field label="FIRST NAME*">
-              <input type="text" className={inputClass} />
+              <input type="text" name="firstName" required className={inputClass} />
             </Field>
             <Field label="LAST NAME*">
-              <input type="text" className={inputClass} />
+              <input type="text" name="lastName" required className={inputClass} />
             </Field>
           </div>
 
           <div className="mt-8 grid grid-cols-1 xl:gap-5 gap-8 md:mt-10 md:grid-cols-2 md:gap-x-10">
             <Field label="EMAIL ADDRESS*">
-              <input type="text" className={inputClass} />
+              <input type="email" name="email" required className={inputClass} />
             </Field>
             <Field label="PHONE NUMBER">
-              <input type="text" className={inputClass} />
+              <input
+                type="tel"
+                name="phone"
+                inputMode="numeric"
+                className={inputClass}
+                onInput={(e) => {
+                  e.currentTarget.value = e.currentTarget.value.replace(/[^0-9+]/g, "");
+                }}
+              />
             </Field>
           </div>
 
@@ -373,6 +455,8 @@ const Section1 = () => {
             <SelectField
               label="REASON FOR INQUIRY*"
               placeholder="Select an option"
+              name="reason"
+              required
               options={[
                 "General Inquiry",
                 "New Project",
@@ -383,11 +467,14 @@ const Section1 = () => {
             <SelectField
               label="REGION*"
               placeholder="Select your region"
+              name="region"
+              required
               options={["North America", "Europe", "Asia Pacific", "Other"]}
             />
             <SelectField
               label="HOW DID YOU HEAR ABOUT US?"
               placeholder="Select an option"
+              name="howHeard"
               options={[
                 "Search Engine",
                 "Social Media",
@@ -400,7 +487,7 @@ const Section1 = () => {
 
           <div className="mt-8 md:mt-10">
             <Field label="MESSAGE (OPTIONAL)">
-              <textarea rows={4} className={`${inputClass} resize-none`} />
+              <textarea rows={4} name="message" className={`${inputClass} resize-none`} />
             </Field>
           </div>
 
@@ -423,8 +510,25 @@ const Section1 = () => {
             </div>
           </div>
 
-          <SubmitButton />
-        </div>
+          <SubmitButton
+            disabled={submitting}
+            label={submitting ? "SUBMITTING..." : "SUBMIT"}
+          />
+
+          {status && (
+            <p
+              role="status"
+              aria-live="polite"
+              className="mt-4 text-sm"
+              style={{
+                fontFamily: sequelFontFamily,
+                color: status.type === "success" ? "#7CFFB2" : "#FF8A8A",
+              }}
+            >
+              {status.text}
+            </p>
+          )}
+        </form>
       </div>
     </section>
   );

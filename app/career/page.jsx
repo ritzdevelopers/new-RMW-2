@@ -1,9 +1,8 @@
 import React from 'react'
 import Header from '../common/Header'
 import Section1 from '../component/career/section1'
-import Footer from '../common/Footer'
-import Section7 from '../component/about/Section7'
-import Section2 from '../component/career/section2'
+import Footer from '../component/latest/Footer'
+import OverlaySection2 from '../component/latest/OverlaySection2'
 
 const Career = () => {
   return (
@@ -11,7 +10,7 @@ const Career = () => {
       <Header />
       <Section1 />
      
-      <Footer overlaySection={ <Section2 />} />
+      <Footer section={ <OverlaySection2 />} />
     </>
   )
 }
