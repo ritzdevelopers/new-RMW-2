@@ -2,9 +2,9 @@
 
 import React, { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ServiceDetailMediaButton from "../../services/ServiceDetailMediaButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -103,18 +103,11 @@ const Section2 = () => {
                 />
               </div>
 
-              <Link
+              <ServiceDetailMediaButton
+                label={service.label}
                 href={service.href}
-                className="group/btn relative mx-auto mt-[14px] flex w-[calc(90%-20px)] max-w-full items-center justify-center overflow-hidden border-[0.5px] border-black bg-black px-5 py-[7.5px] max-md:mt-3 max-md:px-4 max-md:py-[6.5px]"
-              >
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 origin-left scale-x-0 bg-white transition-transform duration-500 ease-out group-hover/btn:scale-x-100"
-                />
-                <span className="relative z-10 text-center font-league-spartan text-[13px] font-[500] leading-tight tracking-[0.02em] text-white transition-colors duration-500 group-hover/btn:text-black max-xl:text-[12px] max-md:text-[11px]">
-                  {service.label}
-                </span>
-              </Link>
+                className="mt-[14px] max-md:mt-3"
+              />
             </article>
           ))}
         </div>
