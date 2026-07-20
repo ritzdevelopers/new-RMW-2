@@ -490,9 +490,9 @@ const Footer = ({ section = null }) => {
       >
         <div
           data-footer-brand-wrap
-          className="relative mx-auto grid min-h-[130px] w-full max-w-[1500px] grid-cols-1 overflow-hidden px-8 md:min-h-[110px] md:px-12 lg:min-h-[90px]"
+          className="relative mx-auto flex min-h-0 w-full max-w-[1500px] flex-col items-stretch gap-3 overflow-hidden px-5 py-2 sm:px-8 md:grid md:min-h-[110px] md:grid-cols-1 md:gap-0 md:px-12 md:py-0 lg:min-h-[90px]"
         >
-          <div className="pointer-events-none relative z-[1] col-start-1 row-start-1 flex flex-col items-center justify-center gap-2 self-center py-2 text-center opacity-25 md:opacity-100">
+          <div className="pointer-events-none relative z-[1] order-1 flex flex-col items-center justify-center gap-2 text-center opacity-100 md:col-start-1 md:row-start-1 md:self-center md:py-2 md:opacity-100">
             <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
               {servicesRow1.map((service, index) => (
                 <React.Fragment key={service}>
@@ -511,7 +511,7 @@ const Footer = ({ section = null }) => {
             </p>
           </div>
 
-          <div className="relative z-[3] col-start-1 row-start-1 flex w-full items-end justify-between gap-2 self-end py-1 md:contents">
+          <div className="relative z-[3] order-2 flex w-full items-end justify-between gap-2 py-1 md:contents md:order-none">
             <span
               data-footer-ritz
               style={brandTextStyle}
