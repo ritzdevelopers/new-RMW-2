@@ -163,7 +163,7 @@ export const radioAdvertisingSubServices = [
     heroTitle: "Advertising Concept Development",
     metaTitle: "Radio Ad Concept Development | Creative Ideas That Resonate",
     metaDescription:
-      "From script ideas to campaign themes — get radio ad concepts that captivate listeners and align with your brand.",
+      "From script ideas to campaign themes - get radio ad concepts that captivate listeners and align with your brand.",
   },
   {
     slug: "scriptwriting",
@@ -187,7 +187,7 @@ export const radioAdvertisingSubServices = [
     heroTitle: "Recording & Production",
     metaTitle: "Radio Ad Recording & Production Services | Studio-Quality Audio",
     metaDescription:
-      "End-to-end radio ad production — from recording to editing — with clear audio, sound effects, and music beds.",
+      "End-to-end radio ad production - from recording to editing - with clear audio, sound effects, and music beds.",
   },
   {
     slug: "media-planning-and-buying",
@@ -443,7 +443,7 @@ export const influencerMarketingSubServices = [
       {
         title: "Enhanced Engagement",
         description:
-          "Engagement without integration is accidental—integrated engagement is strategic brilliance. By aligning celebrity endorsement content across multiple platforms, we maximize audience interaction, deepen relationships, and inspire authentic conversations. Strategic integration ensures every celebrity interaction captivates, engages, and reliably transforms passive viewers into enthusiastic brand advocates and loyal customers.",
+          "Engagement without integration is accidental-integrated engagement is strategic brilliance. By aligning celebrity endorsement content across multiple platforms, we maximize audience interaction, deepen relationships, and inspire authentic conversations. Strategic integration ensures every celebrity interaction captivates, engages, and reliably transforms passive viewers into enthusiastic brand advocates and loyal customers.",
         image:
           "service-third-images/celebrity-endorsement/campaign-integration/enhanced-engagement.jpg",
       },
@@ -603,7 +603,7 @@ export const threeDRenderingSubServices = [
     heroTitle: "3D Floor Plan Rendering",
     metaTitle: "3D Floor Plan Rendering Services in India | Ritz Media World",
     metaDescription:
-      "Simplified 3D floor plans that depict layout, furnishing and texture — suitable for unit floor plans, cut-away views, furnished layouts, and commercial space plans.",
+      "Simplified 3D floor plans that depict layout, furnishing and texture - suitable for unit floor plans, cut-away views, furnished layouts, and commercial space plans.",
     cards: [
       {
         title: "3D Floor Plan Rendering",
@@ -639,7 +639,7 @@ export const threeDRenderingSubServices = [
     heroTitle: "Amenity & Landscape Rendering",
     metaTitle: "Amenity & Landscape 3D Rendering Services | Ritz Media World",
     metaDescription:
-      "Exclusive renderings of clubhouses, swimming pools, manicured gardens, play zones, gyms and rooftops — a major draw for residential projects.",
+      "Exclusive renderings of clubhouses, swimming pools, manicured gardens, play zones, gyms and rooftops - a major draw for residential projects.",
     cards: [
       {
         title: "Amenity & Landscape Rendering",

@@ -16,7 +16,7 @@ const DROPDOWN_YEARS = [2025];
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 function getCaseStudyApiUrl() {
-  // Same-origin path — proxied in dev (next.config rewrites) and on Vercel (vercel.json).
+  // Same-origin path - proxied in dev (next.config rewrites) and on Vercel (vercel.json).
   // Avoids browser CORS when calling ritzmediaworld.com directly from vercel.app.
   return CASE_STUDY_PATH;
 }

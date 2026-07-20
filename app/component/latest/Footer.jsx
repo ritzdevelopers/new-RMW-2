@@ -312,7 +312,7 @@ const Footer = ({ section = null }) => {
     };
   }, [section]);
 
-  // Standalone brand morph (no section) — driven as the footer scrolls in.
+  // Standalone brand morph (no section) - driven as the footer scrolls in.
   useEffect(() => {
     if (section) return;
 

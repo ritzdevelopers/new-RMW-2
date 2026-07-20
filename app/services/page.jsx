@@ -8,7 +8,7 @@ import ServicesGrid from "../component/services/ServicesGrid";
 export const metadata = {
   title: "Services | Ritz Media World",
   description:
-    "Explore Ritz Media World services — digital marketing, creative, content, print, web, and influencer campaigns tailored to transform your brand.",
+    "Explore Ritz Media World services - digital marketing, creative, content, print, web, and influencer campaigns tailored to transform your brand.",
 };
 
 const ServicesPage = () => {

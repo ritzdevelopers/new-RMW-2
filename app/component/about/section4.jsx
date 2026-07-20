@@ -43,7 +43,7 @@ const milestones = [
     image: "/create/award.png",
     title: "AI-Powered 3D Rendering at 5X",
     description:
-      "Delivering next-gen AI-powered 3D rendering at 5X speed — transforming vision into photoreal reality faster than ever.",
+      "Delivering next-gen AI-powered 3D rendering at 5X speed - transforming vision into photoreal reality faster than ever.",
   },
 ];
 

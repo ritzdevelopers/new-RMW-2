@@ -176,7 +176,7 @@ export default function Section1Row2() {
         onOpen={setLightbox}
       />
 
-      {/* md: 3-column masonry — 10px gaps only */}
+      {/* md: 3-column masonry - 10px gaps only */}
       <MasonryColumns
         columns={mdColumns}
         gapPx={10}
@@ -185,7 +185,7 @@ export default function Section1Row2() {
         onOpen={setLightbox}
       />
 
-      {/* mobile: 2-column masonry — no empty gaps under shorter images */}
+      {/* mobile: 2-column masonry - no empty gaps under shorter images */}
       <MasonryColumns
         columns={smColumns}
         gapPx={10}

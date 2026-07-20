@@ -1133,7 +1133,7 @@ const Section1 = () => {
     const onResize = () => {
       fitAll();
 
-      // Mobile has no floating video / letter scrub — keep film text alone.
+      // Mobile has no floating video / letter scrub - keep film text alone.
       if (isMobileViewport()) {
         ScrollTrigger.refresh();
         return;
@@ -1209,7 +1209,7 @@ const Section1 = () => {
       return videos;
     };
 
-    /** Only one video may carry audio — avoids double voice from duplicate <video> nodes. */
+    /** Only one video may carry audio - avoids double voice from duplicate <video> nodes. */
     const getAudioVideo = () => {
       const isMdUp = window.matchMedia("(min-width: 768px)").matches;
       const floatVideo = videoFloatRef.current?.querySelector("video");
@@ -1456,7 +1456,7 @@ const Section1 = () => {
                     </Reveal>
                   </div>
 
-                  {/* Desktop — unchanged */}
+                  {/* Desktop - unchanged */}
                   <div className="hidden md:block">
                     <Reveal className="w-full overflow-hidden py-[2px]">
                       <span className="flex w-full">

@@ -58,7 +58,7 @@ function normalizeSubtext(subtext) {
     if (Array.isArray(line)) return line;
 
     const emDashParts = line
-      .split(/\s*[—–]\s*/)
+      .split(/\s*[-–]\s*/)
       .map((part) => part.trim())
       .filter(Boolean);
     if (emDashParts.length > 1) return emDashParts;

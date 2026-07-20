@@ -24,7 +24,7 @@ export const services = [
     headline: "Own the Attention",
     image: serviceImages[0],
     description:
-      "Data-driven campaigns that cut through the noise — from performance media and SEO to full-funnel brand growth across every digital touchpoint.",
+      "Data-driven campaigns that cut through the noise - from performance media and SEO to full-funnel brand growth across every digital touchpoint.",
     highlights: [
       "Performance & paid media strategy",
       "SEO, SEM & analytics",
@@ -126,7 +126,7 @@ export const services = [
     headline: "Distinct by Design",
     image: serviceImages[1],
     description:
-      "Bold design, brand films, and visual systems that defy convention — crafted to make your brand impossible to ignore.",
+      "Bold design, brand films, and visual systems that defy convention - crafted to make your brand impossible to ignore.",
     highlights: [
       "Branding & identity development",
       "Graphic design",
@@ -154,7 +154,7 @@ export const services = [
     carousel: {
       background: "/digital-marketing/bg-image.jpg",
       content:
-        "Every visual we create is built with intent — from brand identity to campaign films. These highlights showcase how strong design, storytelling, and craft come together to elevate brands and leave a lasting impression.",
+        "Every visual we create is built with intent - from brand identity to campaign films. These highlights showcase how strong design, storytelling, and craft come together to elevate brands and leave a lasting impression.",
       slides: [
         {
           src: "/creative-services/branding.jpg",
@@ -248,7 +248,7 @@ export const services = [
     headline: "Ink Meets Impact",
     image: serviceImages[2],
     description:
-      "High-impact print campaigns across newspapers, magazines, and outdoor — where craft, placement, and message still win the room.",
+      "High-impact print campaigns across newspapers, magazines, and outdoor - where craft, placement, and message still win the room.",
     highlights: [
       "Advertisement design",
       "Ad placement",
@@ -269,7 +269,7 @@ export const services = [
       ],
       eyebrow: "Where ink still wins the room",
       body:
-        "Rumors of print's demise have been greatly exaggerated — it's simply moved from crowded to prestigious. We harness the unmatched credibility and focused engagement that print advertising uniquely offers, combining eye-catching visuals, persuasive copy, and strategic placements that capture attention and influence decisions.",
+        "Rumors of print's demise have been greatly exaggerated - it's simply moved from crowded to prestigious. We harness the unmatched credibility and focused engagement that print advertising uniquely offers, combining eye-catching visuals, persuasive copy, and strategic placements that capture attention and influence decisions.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -317,7 +317,7 @@ export const services = [
         height: 342,
       },
       description:
-        "Print advertising demands more than a good layout — it needs the right message, the right placement, and the right timing. From ad design and copywriting to media buying and scheduling, our work helps brands stand out in newspapers and magazines with campaigns that feel credible, deliberate, and impossible to ignore.",
+        "Print advertising demands more than a good layout - it needs the right message, the right placement, and the right timing. From ad design and copywriting to media buying and scheduling, our work helps brands stand out in newspapers and magazines with campaigns that feel credible, deliberate, and impossible to ignore.",
       image: {
         src: "/print-advertising/print-advertising-image-1.jpg",
         width: 720.953,
@@ -374,7 +374,7 @@ export const services = [
     headline: "Voices That Travel",
     image: serviceImages[3],
     description:
-      "Memorable radio spots and audio campaigns that build recall — scripted, produced, and placed across the right stations.",
+      "Memorable radio spots and audio campaigns that build recall - scripted, produced, and placed across the right stations.",
     highlights: [
       "Advertising concept development",
       "Scriptwriting",
@@ -395,7 +395,7 @@ export const services = [
       ],
       eyebrow: "When sound commands attention",
       body:
-        "In a visually crowded world, audio remains the only way to command undivided attention. We develop compelling radio campaigns that break through the clutter, stay memorable, and stick in the consumer's head — turning airtime into impactful brand communication.",
+        "In a visually crowded world, audio remains the only way to command undivided attention. We develop compelling radio campaigns that break through the clutter, stay memorable, and stick in the consumer's head - turning airtime into impactful brand communication.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -444,7 +444,7 @@ export const services = [
         href: "https://youtube.com/@ritzmediaworld?si=-Ge_rjezCMvFqbap",
       },
       description:
-        "Radio advertising is about more than a voice on air — it demands the right script, the right talent, and the right placement. From concept to production and media buying, our work helps brands sound credible, confident, and unmistakably on-message.",
+        "Radio advertising is about more than a voice on air - it demands the right script, the right talent, and the right placement. From concept to production and media buying, our work helps brands sound credible, confident, and unmistakably on-message.",
       image: {
         src: "/radio-advertising/radio-image-1.jpg",
         width: 720.953,
@@ -505,7 +505,7 @@ export const services = [
     headline: "Stories That Sell",
     image: serviceImages[4],
     description:
-      "Stories that move people — editorial calendars, branded content, and narrative-led campaigns built to earn attention and trust.",
+      "Stories that move people - editorial calendars, branded content, and narrative-led campaigns built to earn attention and trust.",
     highlights: [
       "Customized content strategy",
       "Email & newsletters marketing",
@@ -739,7 +739,7 @@ export const services = [
     headline: "Borrow the Spotlight",
     image: serviceImages[6],
     description:
-      "Strategic celebrity partnerships that lend credibility and reach — from talent matchmaking to full campaign integration.",
+      "Strategic celebrity partnerships that lend credibility and reach - from talent matchmaking to full campaign integration.",
     highlights: [
       "Celebrity identification",
       "Contract negotiations",
@@ -804,7 +804,7 @@ export const services = [
       layout: "fourGallery",
       title: "INFLUENCE, NOT JUST FAME",
       description:
-        "The right celebrity partnership is more than a face on a poster — it is strategy, storytelling, and seamless integration. From talent identification to legal compliance, our work helps brands borrow the spotlight with partnerships that feel credible and convert.",
+        "The right celebrity partnership is more than a face on a poster - it is strategy, storytelling, and seamless integration. From talent identification to legal compliance, our work helps brands borrow the spotlight with partnerships that feel credible and convert.",
       gallery: [
         {
           src: "/celebrity-endorsements/celebrity-image-1.jpg",
@@ -862,7 +862,7 @@ export const services = [
     headline: "Make People Listen",
     image: serviceImages[7],
     description:
-      "Authentic creator partnerships that amplify your message — from discovery and briefing to campaign measurement.",
+      "Authentic creator partnerships that amplify your message - from discovery and briefing to campaign measurement.",
     highlights: [
       "Influencer identification",
       "Cost-benefit analysis",
@@ -982,7 +982,7 @@ export const services = [
       eyebrow: "Services",
       bannerTitle: "3D Rendering Services",
       body:
-        "See It Before It Exists. Sell It Before It's Built. All innovations start as an idea — but they sell when viewed. At Ritz Media World, the vision is crystal clear: to produce imagery which enhances value and influence choice. Our 3D architecture rendering and real estate visualization approach goes above and beyond - seamlessly merging photorealistic 3D renders, walkthroughs and interior and exterior design visuals, coupled with high-quality CGI, to produce visuals that inspire decision-making and deliver tangible results. At Ritz Media World, technology and architecture collide. The outcome is far beyond an image; instead, these high-impact visuals have been developed to improve presentation, attract attention and ensure conversions quicker. Experience cutting-edge 3D + AI walkthroughs at 5X speed and 5X lower cost, now available at Ritz Media World — bringing your projects to life faster and more affordably than ever.",
+        "See It Before It Exists. Sell It Before It's Built. All innovations start as an idea - but they sell when viewed. At Ritz Media World, the vision is crystal clear: to produce imagery which enhances value and influence choice. Our 3D architecture rendering and real estate visualization approach goes above and beyond - seamlessly merging photorealistic 3D renders, walkthroughs and interior and exterior design visuals, coupled with high-quality CGI, to produce visuals that inspire decision-making and deliver tangible results. At Ritz Media World, technology and architecture collide. The outcome is far beyond an image; instead, these high-impact visuals have been developed to improve presentation, attract attention and ensure conversions quicker. Experience cutting-edge 3D + AI walkthroughs at 5X speed and 5X lower cost, now available at Ritz Media World - bringing your projects to life faster and more affordably than ever.",
       sidebarLabel: "Services",
     },
     carousel: {
