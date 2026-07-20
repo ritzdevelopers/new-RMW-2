@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import ServiceDetailMediaButton from "../services/ServiceDetailMediaButton";
 
 function Section10() {
   return (
@@ -12,17 +13,11 @@ function Section10() {
         Let's Create Something Your Brand Will Be Known For
         Have a project in mind? Let's bring your brand's creative vision to life.
         </p>
-        <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-          <button
-            onClick={() => {
-              window.open("/contact", "_blank");
-            }}
-            className="h-[35px] w-full max-w-[230px] cursor-pointer border  bg-[#000000] text-[11px] hover:bg-[#F4F2F0] hover:text-[#000000] font-[500] text-white sm:w-[230px]"
-          >
-            Get in Touch
-          </button>
-         
-        </div>
+        <ServiceDetailMediaButton
+          label="Get in Touch"
+          href="/contact"
+          className="mt-1"
+        />
       </div>
     </section>
   );

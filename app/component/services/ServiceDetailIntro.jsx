@@ -157,7 +157,7 @@ const ServiceDetailIntro = ({ intro, activeSlug, title }) => {
 
       <div
         ref={contentRef}
-        className={`${montserrat.className} mx-auto flex w-full max-w-[1440px] items-center justify-center px-6 sm:px-10  md:px-[50px] py-[35px] md:py-[70px] `}
+        className={`${montserrat.className} mx-auto flex text-center w-full max-w-[1440px] items-center justify-center px-6 sm:px-10  md:px-[50px] py-[35px] md:py-[70px] `}
       >
         <div className="w-full">
           <Reveal>
@@ -171,7 +171,7 @@ const ServiceDetailIntro = ({ intro, activeSlug, title }) => {
               {bodyParagraphs.map((paragraph, index) => (
                 <p
                   key={index}
-                  className={`m-0 self-stretch capitalize text-[22px] leading-[34px] sm:text-[28px] sm:leading-[44px] md:text-[22px] md:leading-[35px] xl:text-[36px] lg:text-[26px] xl:leading-[61px] lg:leading-[40px]${index > 0 ? " mt-5 md:mt-6" : ""}`}
+                  className={`m-0 self-stretch  text-[22px] leading-[34px] sm:text-[28px] sm:leading-[44px] md:text-[22px] md:leading-[35px] xl:text-[36px] lg:text-[26px] xl:leading-[61px] lg:leading-[40px]${index > 0 ? " mt-5 md:mt-6" : ""}`}
                   style={bodyTextStyle}
                 >
                   {paragraph}

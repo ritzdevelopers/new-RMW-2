@@ -28,16 +28,16 @@ const headingStyle = {
 };
 
 const headlineRowClass =
-  "flex w-full min-w-max items-center justify-between gap-[6px] md:w-full md:min-w-0 md:gap-[40px] lg:gap-[48px] xl:gap-[120px] [&_[data-headline-word]]:shrink-0 md:[&_[data-headline-word]]:shrink";
+  "flex w-full items-center justify-between gap-[6px] md:w-max md:min-w-max md:gap-[40px] lg:gap-[48px] xl:gap-[120px] [&_[data-headline-word]]:shrink-0 md:[&_[data-headline-word]]:shrink";
 
 const headlineRowClassDistinction =
-  "flex w-full min-w-max items-center justify-between gap-[6px] md:w-full md:min-w-0 md:gap-[30px] lg:gap-[48px] xl:gap-[120px] [&_[data-headline-word]]:shrink-0 md:[&_[data-headline-word]]:shrink";
+  "flex w-full items-center justify-between gap-[6px] md:w-max md:min-w-max md:gap-[30px] lg:gap-[48px] xl:gap-[120px] [&_[data-headline-word]]:shrink-0 md:[&_[data-headline-word]]:shrink";
 
 const headlineRowClassAWorld =
-  "flex w-full min-w-max items-center justify-start gap-[10px] md:w-full md:min-w-0 md:justify-between md:gap-[30px] lg:gap-[48px] xl:gap-[120px] [&_[data-headline-word]]:shrink-0 md:[&_[data-headline-word]]:shrink";
+  "flex w-full items-center justify-start gap-[10px] md:w-max md:min-w-max md:justify-between md:gap-[30px] lg:gap-[48px] xl:gap-[120px] [&_[data-headline-word]]:shrink-0 md:[&_[data-headline-word]]:shrink";
 
 const headlineRowClassMobileCenter =
-  "flex w-full min-w-max items-center justify-center gap-[6px] [&_[data-headline-word]]:shrink-0";
+  "flex w-full items-center justify-center gap-[6px] [&_[data-headline-word]]:shrink-0";
 
 const disruptionStyle = {
   fontFamily: sequelFontFamily,
@@ -62,7 +62,7 @@ const disruptionWordStyle = {
 const mobileDisruptionWordStyle = {
   fontFamily: '"League Spartan", sans-serif',
   fontWeight: 600,
-  fontSize: "72px",
+  fontSize: "clamp(42px, 14vw, 72px)",
   lineHeight: "100%",
   letterSpacing: "0",
   textTransform: "uppercase",
@@ -423,6 +423,10 @@ const Section1 = () => {
   };
 
   const applyCreativityLetterReveal = (letterProgress) => {
+    // Mobile uses its own ScrollTrigger film timeline for CREATIVITY letters.
+    // Desktop scroll/snap must never overwrite that reveal.
+    if (isMobileViewport()) return;
+
     const letters = getDisruptionLetters();
     const wordItems = getDisruptionWordItems();
     if (!letters.length) return;
@@ -538,7 +542,12 @@ const Section1 = () => {
       if (isMobileViewport()) {
         headline.style.width = "100%";
         headline.style.fontSize = "";
+        headline.style.lineHeight = "";
         headline.style.transform = "none";
+
+        const wordEls = headline.querySelectorAll("[data-about-reveal='headline']");
+        const saved = [...wordEls].map((el) => gsap.getProperty(el, "yPercent"));
+        wordEls.forEach((el) => gsap.set(el, { yPercent: 0 }));
 
         // Measure at stylesheet size first
         headline.style.width = "max-content";
@@ -547,16 +556,18 @@ const Section1 = () => {
           if (!row.getClientRects().length) return;
           needed = Math.max(needed, row.scrollWidth, row.getBoundingClientRect().width);
         });
-        const available = (textCol?.clientWidth ?? parent.clientWidth) - 2;
+        const available = (textCol?.clientWidth ?? parent.clientWidth) - 4;
         if (needed > 0 && available > 0) {
           const basePx = parseFloat(window.getComputedStyle(headline).fontSize) || 48;
-          // Fill the row width; cap so it stays readable
-          const nextPx = Math.min(62, Math.max(36, basePx * (available / needed) - 10));
+          // Keep text readable and fully inside the viewport (no horizontal clip).
+          const nextPx = Math.min(48, Math.max(28, basePx * (available / needed) * 0.96));
           headline.style.fontSize = `${nextPx}px`;
-          headline.style.lineHeight = `${Math.round(nextPx * 1.05)}px`;
+          headline.style.lineHeight = `${Math.round(nextPx * 1.08)}px`;
         }
         headline.style.width = "100%";
         headline.style.transformOrigin = "top left";
+
+        wordEls.forEach((el, i) => gsap.set(el, { yPercent: saved[i] ?? 0 }));
         return;
       }
 
@@ -604,6 +615,7 @@ const Section1 = () => {
     };
 
     let onHeaderComplete = null;
+    let heroEntranceFallback = null;
     let metadataVideo = null;
     let onVideoMetadata = null;
     let heroVideoST = null;
@@ -768,6 +780,8 @@ const Section1 = () => {
         : [];
 
       const playHeroEntrance = () => {
+        if (playHeroEntrance.played) return;
+        playHeroEntrance.played = true;
         const entrance = { value: 0 };
         const mobile = isMobileViewport();
 
@@ -785,34 +799,48 @@ const Section1 = () => {
               applyVideoProgress(0, 1);
               applyLogoPosition(1);
             }
+            // Ensure mobile headline text ends fully visible (no leftover yPercent clip).
+            gsap.set(headlineItems, { yPercent: 0 });
+            gsap.set(subItems, { yPercent: 0, opacity: 1 });
             fitAll();
           },
         });
 
-        headlineItems.forEach((item, index) => {
+        // Only animate currently visible reveal nodes (mobile vs desktop markup).
+        const visibleHeadlineItems = headlineItems.filter((el) => el.getClientRects().length > 0);
+        const visibleSubItems = subItems.filter((el) => el.getClientRects().length > 0);
+        const headlineTargets = visibleHeadlineItems.length ? visibleHeadlineItems : headlineItems;
+        const subTargets = visibleSubItems.length ? visibleSubItems : subItems;
+
+        headlineTargets.forEach((item, index) => {
           tl.to(
             item,
             {
               yPercent: 0,
-              duration: 2.15,
+              duration: mobile ? 1.35 : 2.15,
               ease: HERO_ENTRANCE_EASE,
               onComplete:
-                index === headlineItems.length - 1
+                index === headlineTargets.length - 1
                   ? () => {
                       fitAll();
                       startHeadlineSpotlight();
                     }
                   : undefined,
             },
-            index === 0 ? 0 : "-=1.7"
+            index === 0 ? 0 : mobile ? "-=1.05" : "-=1.7"
           );
         });
 
-        subItems.forEach((item, index) => {
+        subTargets.forEach((item, index) => {
           tl.to(
             item,
-            { yPercent: 0, opacity: 1, duration: 1.55, ease: HERO_ENTRANCE_EASE },
-            index === 0 ? "-=1.15" : "-=1.2"
+            {
+              yPercent: 0,
+              opacity: 1,
+              duration: mobile ? 1.05 : 1.55,
+              ease: HERO_ENTRANCE_EASE,
+            },
+            index === 0 ? (mobile ? "-=0.7" : "-=1.15") : mobile ? "-=0.85" : "-=1.2"
           );
         });
 
@@ -838,15 +866,30 @@ const Section1 = () => {
         }
       };
 
-      onHeaderComplete = () => playHeroEntrance();
+      onHeaderComplete = () => {
+        if (heroEntranceFallback) {
+          window.clearTimeout(heroEntranceFallback);
+          heroEntranceFallback = null;
+        }
+        playHeroEntrance();
+      };
       window.addEventListener("header-reveal-complete", onHeaderComplete);
+      // Fallback: if header event already fired (or never fires), still reveal text.
+      heroEntranceFallback = window.setTimeout(() => {
+        heroEntranceFallback = null;
+        const stillHidden = headlineItems.some(
+          (el) => Number(gsap.getProperty(el, "yPercent")) < -50
+        );
+        if (stillHidden) playHeroEntrance();
+      }, 2200);
 
       if (film && isMobileViewport() && (introItems.length || disruptionItems.length)) {
         const filmTl = gsap.timeline({
           scrollTrigger: {
             trigger: film,
-            start: "top 85%",
+            start: "top 90%",
             toggleActions: "play none none none",
+            once: true,
           },
         });
 
@@ -867,7 +910,14 @@ const Section1 = () => {
           );
         }
 
-        filmTl.eventCallback("onComplete", fitAll);
+        filmTl.eventCallback("onComplete", () => {
+          // Lock final visible state so later resize/scrub can't hide mobile text.
+          gsap.set(introItems, { yPercent: 0 });
+          gsap.set(disruptionItems, { yPercent: 0 });
+          if (mobileWordItems.length) gsap.set(mobileWordItems, { opacity: 1 });
+          if (mobileLetters.length) gsap.set(mobileLetters, { x: "0%" });
+          fitAll();
+        });
       }
 
       if (film && !isMobileViewport()) {
@@ -963,7 +1013,7 @@ const Section1 = () => {
         });
       }
 
-      if (heroSection && film) {
+      if (heroSection && film && !isMobileViewport()) {
         let isSnapping = false;
         let snapArmed = true;
 
@@ -1082,6 +1132,13 @@ const Section1 = () => {
 
     const onResize = () => {
       fitAll();
+
+      // Mobile has no floating video / letter scrub — keep film text alone.
+      if (isMobileViewport()) {
+        ScrollTrigger.refresh();
+        return;
+      }
+
       syncVideoBounds(
         videoEntranceRef.current >= 1 || videoSettledRef.current,
         videoSettledRef.current
@@ -1127,6 +1184,7 @@ const Section1 = () => {
     }
 
     return () => {
+      if (heroEntranceFallback) window.clearTimeout(heroEntranceFallback);
       snapTween?.kill();
       textRevealTween?.kill();
       filmEnterTl?.kill();
@@ -1345,7 +1403,7 @@ const Section1 = () => {
             <h1
               ref={headlineRef}
               style={headingStyle}
-              className="m-0 w-full max-w-full text-left text-[57px] leading-[60px] sm:text-[61px] sm:leading-[64px] md:text-[56px] md:leading-[58px] lg:text-[72px] lg:leading-[72px] xl:text-[94px] xl:leading-[94px]"
+              className="m-0 w-full max-w-full text-left text-[42px] leading-[46px] sm:text-[48px] sm:leading-[52px] md:text-[56px] md:leading-[58px] lg:text-[72px] lg:leading-[72px] xl:text-[94px] xl:leading-[94px]"
             >
               <div ref={headlineSpotlightWrapRef} className="relative w-full overflow-x-hidden">
                 <div data-headline-primary className="relative z-[1]">
