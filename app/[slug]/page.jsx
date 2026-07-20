@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../common/Header";
-import Footer from "../common/Footer";
-import Section7 from "../component/about/Section7";
+import Footer from "../component/latest/Footer";
+import OverlaySection1 from "../component/latest/OverlaySection1";
 import SlugDetailClient from "../component/blog/SlugDetailClient";
 import {
   getAllBlogSlugs,
@@ -61,7 +61,7 @@ export default async function SlugDetailPage({ params }) {
       <main>
         <SlugDetailClient slug={slug} />
       </main>
-      <Footer overlaySection={<Section7 />} />
+      <Footer section={< OverlaySection1 />} />
     </>
   );
 }
