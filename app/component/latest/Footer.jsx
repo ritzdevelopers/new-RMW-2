@@ -194,6 +194,7 @@ const MediaWorldText = () => (
  * Footer with optional curtain overlay section.
  * Desktop: overlay slides up on scroll, footer sits below in normal flow (always fully visible).
  * Mobile/tablet: overlay stacks above footer.
+ * @param {{ section?: import("react").ReactNode }} props
  */
 const Footer = ({ section = null }) => {
   const pathname = usePathname();
