@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const sequelFontFamily = '"Sequel Sans", sans-serif';
 
@@ -181,7 +182,7 @@ const resetBrandMorph = (ritz, mediaworld) => {
 
 const MediaWorldText = () => (
   <span
-    className="inline-flex shrink-0 items-baseline gap-[6px] whitespace-nowrap !text-[28px] sm:!text-[32px] md:!text-[44px] lg:gap-2 lg:!text-[74px]"
+    className="inline-flex shrink-0 items-baseline gap-[6px] whitespace-nowrap !text-[28px] sm:!text-[32px] md:!text-[44px] lg:gap-2 lg:!text-[56px] xl:!text-[74px]"
     style={brandTextStyle}
   >
     <span>MEDIA</span>
@@ -190,16 +191,12 @@ const MediaWorldText = () => (
 );
 
 /**
- * Footer with an optional curtain/shutter reveal (vanilla JS, no GSAP).
- *
- * Pass a full section via the `section` prop. On large desktop the section acts as a
- * curtain that slides up on scroll to reveal the footer sitting behind it, while
- * the brand text morphs together. On mobile and tablet the section simply stacks
- * above the footer.
- *
- * @param {{ section?: import("react").ReactNode | null }} props
+ * Footer with optional curtain overlay section.
+ * Desktop: overlay slides up on scroll, footer sits below in normal flow (always fully visible).
+ * Mobile/tablet: overlay stacks above footer.
  */
 const Footer = ({ section = null }) => {
+  const pathname = usePathname();
   const stackRef = useRef(null);
   const stageRef = useRef(null);
   const overlayRef = useRef(null);
@@ -207,7 +204,6 @@ const Footer = ({ section = null }) => {
   const revealLogoRef = useRef(null);
   const brandBannerRef = useRef(null);
 
-  // Curtain reveal (only when a section is passed).
   useEffect(() => {
     if (!section) return;
 
@@ -220,18 +216,53 @@ const Footer = ({ section = null }) => {
 
     let revealDistance = 0;
     let stackTop = 0;
+    let brandTargets = { ritzX: 0, mwX: 0 };
     let desktop = false;
     let raf = 0;
+
+    const getBrandElements = () => {
+      const banner = brandBannerRef.current;
+      if (!banner) return null;
+      const brandWrap = banner.querySelector("[data-footer-brand-wrap]");
+      const brandRow = banner.querySelector("[data-footer-brand-row]");
+      const ritz = banner.querySelector("[data-footer-ritz]");
+      const mediaworld = banner.querySelector("[data-footer-mediaworld]");
+      if (!brandWrap || !brandRow || !ritz || !mediaworld) return null;
+      return { brandWrap, brandRow, ritz, mediaworld };
+    };
+
+    const measureBrand = () => {
+      const brand = getBrandElements();
+      if (!brand) return;
+      brandTargets = getBrandTargets(
+        brand.brandWrap,
+        brand.brandRow,
+        brand.ritz,
+        brand.mediaworld,
+      );
+    };
+
+    const applyBrand = (progress) => {
+      const brand = getBrandElements();
+      if (!brand) return;
+      applyBrandMorph(brand.ritz, brand.mediaworld, brandTargets, progress);
+    };
 
     const resetStyles = () => {
       overlay.style.transform = "";
       overlay.style.pointerEvents = "";
+      overlay.style.visibility = "";
+      overlay.style.display = "";
+      footer.style.transform = "";
       footer.style.pointerEvents = "";
+      footer.scrollTop = 0;
       stack.style.height = "";
       if (logo) {
         logo.style.transform = "";
         logo.style.opacity = "";
       }
+      const brand = getBrandElements();
+      if (brand) resetBrandMorph(brand.ritz, brand.mediaworld);
     };
 
     const measure = () => {
@@ -241,22 +272,27 @@ const Footer = ({ section = null }) => {
         return;
       }
       revealDistance = stage.offsetHeight || window.innerHeight;
-      // Sticky stage (100vh) + one reveal-distance of scroll room.
       stack.style.height = `${revealDistance * 2}px`;
       stackTop = stack.getBoundingClientRect().top + window.scrollY;
+      measureBrand();
+    };
+
+    const getProgress = () => {
+      stackTop = stack.getBoundingClientRect().top + window.scrollY;
+      return clamp((window.scrollY - stackTop) / revealDistance, 0, 1);
     };
 
     const apply = () => {
       raf = 0;
       if (!desktop) return;
 
-      const progress = clamp(
-        (window.scrollY - stackTop) / revealDistance,
-        0,
-        1,
-      );
-
+      const progress = getProgress();
       overlay.style.transform = `translate3d(0, ${-progress * revealDistance}px, 0)`;
+      applyBrand(progress);
+
+      const footerInteractive = progress >= 0.85;
+      overlay.style.pointerEvents = footerInteractive ? "none" : "auto";
+      footer.style.pointerEvents = footerInteractive ? "auto" : "none";
 
       if (logo) {
         const scale = lerp(0.4, 1, progress);
@@ -265,10 +301,6 @@ const Footer = ({ section = null }) => {
         logo.style.transform = `translate3d(0, ${y}px, 0) scale(${scale}) rotate(${rotation}deg)`;
         logo.style.opacity = String(lerp(0.05, 0.5, progress));
       }
-
-      const footerInteractive = progress >= 0.85;
-      overlay.style.pointerEvents = footerInteractive ? "none" : "auto";
-      footer.style.pointerEvents = footerInteractive ? "auto" : "none";
     };
 
     const onScroll = () => {
@@ -282,23 +314,40 @@ const Footer = ({ section = null }) => {
     measure();
     apply();
 
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(() => {
+            measure();
+            apply();
+          })
+        : null;
+
+    resizeObserver?.observe(stack);
+    resizeObserver?.observe(stage);
+
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
     window.addEventListener("load", onResize);
+    window.addEventListener("rmw:footer-refresh", onResize);
     const settleTimer = window.setTimeout(onResize, 600);
+    const lateSettleTimer = window.setTimeout(onResize, 1200);
 
     return () => {
+      resizeObserver?.disconnect();
       window.clearTimeout(settleTimer);
+      window.clearTimeout(lateSettleTimer);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("load", onResize);
+      window.removeEventListener("rmw:footer-refresh", onResize);
       if (raf) cancelAnimationFrame(raf);
       resetStyles();
     };
-  }, [section]);
+  }, [section, pathname]);
 
-  // Brand morph: RITZ + MEDIA WORLD slide together on scroll.
   useEffect(() => {
+    if (section) return;
+
     const banner = brandBannerRef.current;
     if (!banner) return;
 
@@ -308,12 +357,7 @@ const Footer = ({ section = null }) => {
     const mediaworld = banner.querySelector("[data-footer-mediaworld]");
     if (!brandWrap || !brandRow || !ritz || !mediaworld) return;
 
-    const stack = section ? stackRef.current : null;
-    const stage = section ? stageRef.current : null;
-
     let targets = { ritzX: 0, mwX: 0 };
-    let revealDistance = 0;
-    let stackTop = 0;
     let desktop = false;
     let raf = 0;
 
@@ -324,27 +368,14 @@ const Footer = ({ section = null }) => {
         return;
       }
       targets = getBrandTargets(brandWrap, brandRow, ritz, mediaworld);
-      if (stack && stage) {
-        revealDistance = stage.offsetHeight || window.innerHeight;
-        stackTop = stack.getBoundingClientRect().top + window.scrollY;
-      }
-    };
-
-    const getMorphProgress = () => {
-      if (stack && stage && revealDistance > 0) {
-        return clamp((window.scrollY - stackTop) / revealDistance, 0, 1);
-      }
-
-      const vh = window.innerHeight;
-      const top = banner.getBoundingClientRect().top;
-      return clamp((0.9 * vh - top) / (0.55 * vh), 0, 1);
     };
 
     const apply = () => {
       raf = 0;
       if (!desktop) return;
-
-      const progress = getMorphProgress();
+      const vh = window.innerHeight;
+      const top = banner.getBoundingClientRect().top;
+      const progress = clamp((0.9 * vh - top) / (0.55 * vh), 0, 1);
       applyBrandMorph(ritz, mediaworld, targets, progress);
     };
 
@@ -362,6 +393,7 @@ const Footer = ({ section = null }) => {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
     window.addEventListener("load", onResize);
+    window.addEventListener("rmw:footer-refresh", onResize);
     const settleTimer = window.setTimeout(onResize, 600);
 
     return () => {
@@ -369,38 +401,25 @@ const Footer = ({ section = null }) => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("load", onResize);
+      window.removeEventListener("rmw:footer-refresh", onResize);
       if (raf) cancelAnimationFrame(raf);
       resetBrandMorph(ritz, mediaworld);
     };
-  }, [section]);
+  }, [section, pathname]);
 
   const footerClassName =
-    "relative w-full max-w-full overflow-x-clip bg-[#0E1125] px-8 pb-8 pt-10 md:px-12 md:pb-4 md:pt-12";
+    "relative box-border w-full max-w-full overflow-x-clip bg-[#0E1125] px-6 pb-3 pt-6 sm:px-8 md:px-10 md:pb-3 md:pt-8 lg:px-8 lg:pb-3 lg:pt-5 xl:px-12 xl:pt-6";
 
-  const footerInner = (
-    <>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 select-none"
-      >
-        <img
-          ref={revealLogoRef}
-          src="/logo/r-logo-new.png"
-          alt="Ritz Media World"
-          title="Ritz Media World"
-          className="h-[240px] w-auto max-w-none object-contain will-change-transform md:h-[440px]"
-          style={{
-            filter: "brightness(3.2) contrast(1.05)",
-            opacity: section ? 0.05 : 0.5,
-          }}
-        />
-      </div>
-
-      <div className="relative z-[2] mx-auto max-w-[1500px]">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8 lg:gap-12">
-          <div className="flex flex-col items-center gap-5 md:items-start md:gap-6">
+  const footerPanel = (
+    <div
+      data-footer-panel
+      className="relative flex w-full flex-col lg:min-h-full lg:justify-between lg:py-2"
+    >
+      <div className="relative z-[2] mx-auto w-full max-w-[1500px]">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6 lg:gap-5 xl:gap-8">
+          <div className="flex flex-col items-center gap-3 md:items-start md:gap-4">
             <span style={connectLabelStyle}>Connect</span>
-            <nav className="flex flex-col items-center gap-3 md:items-start md:gap-4">
+            <nav className="flex flex-col items-center gap-2.5 md:items-start md:gap-3">
               {connectLinks.map((link) => (
                 <Link
                   key={link.label}
@@ -418,28 +437,28 @@ const Footer = ({ section = null }) => {
             </nav>
           </div>
 
-          <nav className="flex flex-col items-center gap-4 md:gap-5 xl:gap-7">
+          <nav className="flex flex-col items-center gap-3 md:gap-4 lg:gap-5">
             {mainNavLinks.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
                 title={link.label}
                 style={navLinkStyle}
-                className="!text-[30px] transition-opacity hover:opacity-70 md:!text-[40px]"
+                className="!text-[26px] transition-opacity hover:opacity-70 sm:!text-[28px] md:!text-[32px] lg:!text-[34px] xl:!text-[40px]"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          <div className="flex flex-col items-center gap-5 text-center">
+          <div className="flex flex-col items-center gap-4 text-center">
             <div className="flex flex-col items-center">
               <span style={connectLabelStyle}>Email</span>
               <a
                 href="mailto:info@ritzmediaworld.com"
                 title="Email Ritz Media World"
                 style={contactTextStyle}
-                className="mt-3 block transition-opacity hover:opacity-70"
+                className="mt-2 block transition-opacity hover:opacity-70"
               >
                 info@ritzmediaworld.com
               </a>
@@ -447,15 +466,15 @@ const Footer = ({ section = null }) => {
 
             <div className="flex flex-col items-center">
               <span style={connectLabelStyle}>Phone No.</span>
-              <p style={contactTextStyle} className="mt-3">
+              <p style={contactTextStyle} className="mt-2">
                 +91 9220516777 | +91 7290002168
               </p>
             </div>
           </div>
         </div>
 
-        <div className="mx-auto mt-8 w-fit max-w-full items-center justify-center border border-white/10 bg-white/[0.02] p-[10px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] backdrop-blur-sm md:mt-12 md:p-[20px]">
-          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-8 lg:gap-10">
+        <div className="mx-auto mt-5 w-fit max-w-full border border-white/10 bg-white/[0.02] p-2.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] backdrop-blur-sm md:mt-6 md:p-3 lg:mt-5">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 lg:gap-8">
             {partnerLogos.map((logo) => (
               <img
                 key={logo.src}
@@ -474,13 +493,13 @@ const Footer = ({ section = null }) => {
 
       <div
         ref={brandBannerRef}
-        className="relative z-[2] mt-8 w-full border-y border-[#FFFFFF1A] py-1 md:mt-12 md:py-8"
+        className="relative z-[2] mt-5 w-full border-y border-[#FFFFFF1A] py-3 md:mt-6 md:py-4 lg:mt-0 lg:py-4"
       >
         <div
           data-footer-brand-wrap
-          className="relative mx-auto flex w-full max-w-[1500px] flex-col items-center gap-3 overflow-hidden px-5 py-2 sm:px-8 md:gap-4 md:px-12 md:py-4"
+          className="relative mx-auto flex w-full max-w-[1500px] flex-col items-center gap-2 overflow-hidden px-4 sm:px-6 md:gap-3 md:px-8 lg:px-10 xl:px-12"
         >
-          <div className="pointer-events-none relative z-[1] mx-auto flex w-full max-w-[1320px] flex-col items-center justify-center gap-2 px-2 text-center sm:px-4 md:px-6">
+          <div className="pointer-events-none relative z-[1] mx-auto flex w-full max-w-[1320px] flex-col items-center justify-center gap-2 px-2 text-center md:px-6">
             <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
               {servicesRow1.map((service, index) => (
                 <React.Fragment key={service}>
@@ -501,20 +520,17 @@ const Footer = ({ section = null }) => {
 
           <div
             data-footer-brand-row
-            className="relative z-[2] mx-auto flex w-full max-w-[1320px] flex-wrap items-baseline justify-center gap-x-[6px] gap-y-1 px-2 sm:px-4 md:px-6 lg:flex-nowrap lg:justify-between lg:gap-2"
+            className="relative z-[2] mx-auto flex w-full max-w-[1320px] flex-wrap items-baseline justify-center gap-x-3 gap-y-1 px-2 sm:px-4 md:px-6 lg:flex-nowrap lg:justify-between lg:gap-2"
           >
             <span
               data-footer-ritz
               style={brandTextStyle}
-              className="inline-block shrink-0 !text-[28px] sm:!text-[32px] md:!text-[44px] lg:will-change-transform lg:!text-[74px]"
+              className="inline-block shrink-0 !text-[28px] sm:!text-[32px] md:!text-[40px] lg:will-change-transform lg:!text-[56px] xl:!text-[74px]"
             >
               RITZ
             </span>
 
-            <div
-              data-footer-mediaworld
-              className="shrink-0 lg:will-change-transform"
-            >
+            <div data-footer-mediaworld className="shrink-0 lg:will-change-transform">
               <MediaWorldText />
             </div>
           </div>
@@ -523,12 +539,34 @@ const Footer = ({ section = null }) => {
 
       <div className="relative z-[2] mx-auto max-w-[1500px]">
         <p
-          className="mt-5 text-center !text-[13px] md:mt-7 md:!text-[18px]"
+          className="mt-4 mb-0 pb-2 text-center !text-[13px] md:mt-5 md:pb-2 md:!text-[16px] lg:mt-0 lg:!text-[18px]"
           style={copyrightTextStyle}
         >
           © 2026 Ritz Media World. All rights reserved.
         </p>
       </div>
+    </div>
+  );
+
+  const footerInner = (
+    <>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 select-none"
+      >
+        <img
+          ref={revealLogoRef}
+          src="/logo/r-logo-new.png"
+          alt="Ritz Media World"
+          title="Ritz Media World"
+          className="h-[160px] w-auto max-w-none object-contain will-change-transform sm:h-[180px] md:h-[220px] lg:h-[220px] xl:h-[280px] 2xl:h-[360px]"
+          style={{
+            filter: "brightness(3.2) contrast(1.05)",
+            opacity: section ? 0.05 : 0.5,
+          }}
+        />
+      </div>
+      {footerPanel}
     </>
   );
 
@@ -537,24 +575,28 @@ const Footer = ({ section = null }) => {
   }
 
   return (
-    <div ref={stackRef} className="relative w-full max-w-full overflow-x-clip">
+    <div
+      key={pathname}
+      ref={stackRef}
+      className="relative w-full max-w-full overflow-x-clip"
+    >
       <div
         ref={stageRef}
-        className="relative bg-[#0E1125] lg:sticky lg:top-0 lg:h-screen lg:overflow-hidden"
+        className="relative flex flex-col bg-[#0E1125] lg:sticky lg:top-0 lg:h-screen lg:overflow-hidden"
       >
-        <div
-          ref={overlayRef}
-          className="relative z-[10] w-full will-change-transform lg:absolute lg:inset-0"
-        >
-          {section}
-        </div>
-
         <footer
           ref={footerRef}
-          className={`${footerClassName} z-[1] lg:absolute lg:inset-x-0 lg:bottom-0`}
+          className={`${footerClassName} relative z-[1] order-2 lg:absolute lg:inset-0 lg:overflow-x-clip lg:overflow-y-auto`}
         >
           {footerInner}
         </footer>
+
+        <div
+          ref={overlayRef}
+          className="relative z-[10] order-1 w-full will-change-transform lg:absolute lg:inset-0 lg:h-full"
+        >
+          {section}
+        </div>
       </div>
     </div>
   );
