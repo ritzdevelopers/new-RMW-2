@@ -37,7 +37,7 @@ function ServiceDetailCarousel({ carousel }) {
           className="m-0 mb-10 text-center text-[28px] leading-tight tracking-[-0.02em] md:mb-14 md:text-[40px] lg:text-[43px]"
           style={headingStyle}
         >
-          We Create Visuals
+        Services We Provide
         </h2>
 
         <div className="w-full border-t border-[#E6E6E6]">

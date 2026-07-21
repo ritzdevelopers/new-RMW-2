@@ -507,36 +507,28 @@ const Footer = ({ section = null }) => {
           className="relative mx-auto flex w-full max-w-[1500px] flex-col items-center gap-2 overflow-hidden px-4 sm:px-6 md:gap-3 md:px-8 lg:px-10 xl:px-12"
         >
           <div className="relative z-[1] mx-auto flex w-full max-w-[1320px] flex-col items-center justify-center gap-2 px-2 text-center md:px-6">
-            <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
-              {servicesRow1.map((service, index) => (
-                <React.Fragment key={service.href}>
-                  {index > 0 && <span className="mx-[10px]">•</span>}
-                  <Link href={service.href} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">
-                    {service.title}
-                  </Link>
-                </React.Fragment>
-              ))}
-            </p>
-            <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
-              {servicesRow2.map((service, index) => (
-                <React.Fragment key={service.href}>
-                  {index > 0 && <span className="mx-[10px]">•</span>}
-                  <Link href={service.href} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">
-                    {service.title}
-                  </Link>
-                </React.Fragment>
-              ))}
-            </p>
-            <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
-              {servicesRow3.map((service, index) => (
-                <React.Fragment key={service.href}>
-                  {index > 0 && <span className="mx-[10px]">•</span>}
-                  <Link href={service.href} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">
-                    {service.title}
-                  </Link>
-                </React.Fragment>
-              ))}
-            </p>
+            {[servicesRow1, servicesRow2, servicesRow3].map((row, rowIndex) => (
+              <div
+                key={rowIndex}
+                data-footer-services
+                style={serviceTextStyle}
+                className={`${serviceTextClassName} grid w-full max-w-[1100px] grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-x-[10px]`}
+              >
+                {row.map((service, index) => (
+                  <React.Fragment key={service.href}>
+                    {index > 0 && <span aria-hidden className="text-center">•</span>}
+                    <Link
+                      href={service.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-center transition-colors hover:text-white"
+                    >
+                      {service.title}
+                    </Link>
+                  </React.Fragment>
+                ))}
+              </div>
+            ))}
           </div>
 
           <div
