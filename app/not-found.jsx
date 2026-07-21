@@ -88,7 +88,7 @@ export default function NotFound() {
               className="inline-flex items-center gap-3 border border-white/25 px-8 py-4 text-xs uppercase tracking-[0.12em] text-white transition hover:border-white hover:bg-white/5"
               style={{ fontFamily: sequelFontFamily, fontWeight: 500 }}
             >
-              Get in Touch
+              Contact Us
               <i className="ri-mail-line text-lg" aria-hidden />
             </Link>
           </div>

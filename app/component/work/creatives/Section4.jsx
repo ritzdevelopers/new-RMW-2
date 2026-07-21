@@ -14,7 +14,7 @@ const WALKTHROUGH_SLIDES = [
     title: "Edelstein Empire",
     description:
       "A cinematic 3D walkthrough that transforms real estate vision into emotion - blending spatial storytelling, lifestyle narratives, and premium finishing for maximum impact.",
-    cta: { label: "Get In Touch", href: "/contact" },
+    cta: { label: "Contact Us", href: "/contact" },
   },
   {
     src: "https://otherassets.blob.core.windows.net/rmw/Vedvan%20%20Walkthrough%20Final%20N.mp4",
@@ -44,7 +44,7 @@ const WALKTHROUGH_SLIDES = [
     title: "RMW Est.",
     description:
       "Heritage and modernity in balance. A walkthrough crafted with soul to elevate brand perception through refined spatial cinema.",
-    cta: { label: "Get In Touch", href: "/contact" },
+    cta: { label: "Contact Us", href: "/contact" },
   },
   {
     src: "https://otherassets.blob.core.windows.net/rmw/Video%202026-07-03%2017-31-24.mp4",

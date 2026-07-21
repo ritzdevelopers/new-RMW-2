@@ -26,7 +26,7 @@ const workLinks = [
 
 
 const navLinks = [
-  { label: "GET IN TOUCH", href: "/contact" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
 const linkClass =
@@ -39,8 +39,10 @@ const Header = () => {
   const [portfolioSubOpen, setPortfolioSubOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(88);
+  const [headerVisible, setHeaderVisible] = useState(true);
   const headerRef = useRef(null);
   const headerBarRef = useRef(null);
+  const lastScrollY = useRef(0);
   const servicesCloseTimer = useRef(null);
   const workCloseTimer = useRef(null);
 
@@ -210,9 +212,53 @@ const Header = () => {
     };
   }, [megaMenuOpen]);
 
+  // Show header on scroll up / hide on scroll down — all screen sizes
+  useLayoutEffect(() => {
+    lastScrollY.current = window.scrollY;
+
+    const onScroll = () => {
+      const y = Math.max(0, window.scrollY);
+      const delta = y - lastScrollY.current;
+
+      // Keep header visible while any menu is open
+      if (menuOpen || servicesMenuOpen || workMenuOpen) {
+        setHeaderVisible(true);
+        lastScrollY.current = y;
+        return;
+      }
+
+      if (y <= 8) {
+        setHeaderVisible(true);
+      } else if (delta > 6) {
+        setHeaderVisible(false);
+      } else if (delta < -6) {
+        setHeaderVisible(true);
+      }
+
+      lastScrollY.current = y;
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [menuOpen, servicesMenuOpen, workMenuOpen]);
+
+  useLayoutEffect(() => {
+    if (menuOpen || servicesMenuOpen || workMenuOpen) {
+      setHeaderVisible(true);
+    }
+  }, [menuOpen, servicesMenuOpen, workMenuOpen]);
+
   return (
     <header className="relative z-[100] w-full">
-      <div ref={headerBarRef} className="relative z-[110] w-full bg-[#0D1334]">
+      {/* Reserves layout space so content doesn't jump under the fixed bar */}
+      <div aria-hidden className="w-full" style={{ height: headerHeight }} />
+
+      <div
+        ref={headerBarRef}
+        className={`fixed inset-x-0 top-0 z-[110] w-full bg-[#0D1334] transition-transform duration-300 ease-out will-change-transform ${
+          headerVisible ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
         <div
           ref={headerRef}
           className="mx-auto flex w-full max-w-8xl items-center justify-between px-8 py-5 md:px-12"
@@ -248,27 +294,36 @@ const Header = () => {
               onMouseEnter={isDesktop ? openServicesMenu : undefined}
               onMouseLeave={isDesktop ? closeServicesMenu : undefined}
             >
-              <Link
-                href="/services"
-                title="Services"
-                className={`${linkClass} overflow-hidden`}
-                aria-haspopup="true"
-                aria-expanded={servicesMenuOpen}
-                onClick={(event) => {
-                  if (!isDesktop) {
+              <span
+                data-header-reveal
+                className="inline-flex items-center gap-1.5 overflow-hidden"
+              >
+                <Link
+                  href="/services"
+                  title="Services"
+                  className={linkClass}
+                >
+                  SERVICES
+                </Link>
+                <button
+                  type="button"
+                  aria-label={
+                    servicesMenuOpen ? "Close services menu" : "Open services menu"
+                  }
+                  aria-haspopup="true"
+                  aria-expanded={servicesMenuOpen}
+                  className={`${linkClass} inline-flex cursor-pointer items-center p-0`}
+                  onClick={(event) => {
                     event.preventDefault();
                     toggleServicesMenu();
-                  }
-                }}
-              >
-                <span data-header-reveal className="inline-flex items-center gap-1.5">
-                  SERVICES
+                  }}
+                >
                   <i
                     className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${servicesMenuOpen ? "rotate-180" : ""}`}
                     aria-hidden
                   />
-                </span>
-              </Link>
+                </button>
+              </span>
             </div>
 
             <div
@@ -366,22 +421,34 @@ const Header = () => {
           ABOUT
         </Link>
 
-        <button
-          type="button"
-          className={`${linkClass} flex w-full items-center justify-between text-left`}
-          aria-haspopup="true"
-          aria-expanded={servicesMenuOpen}
-          onClick={() => {
-            setMenuOpen(false);
-            toggleServicesMenu();
-          }}
-        >
-          SERVICES
-          <i
-            className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${servicesMenuOpen ? "rotate-180" : ""}`}
-            aria-hidden
-          />
-        </button>
+        <div className={`${linkClass} flex w-full items-center justify-between gap-3 text-left`}>
+          <Link
+            href="/services"
+            title="Services"
+            className={linkClass}
+            onClick={() => setMenuOpen(false)}
+          >
+            SERVICES
+          </Link>
+          <button
+            type="button"
+            aria-label={
+              servicesMenuOpen ? "Close services menu" : "Open services menu"
+            }
+            aria-haspopup="true"
+            aria-expanded={servicesMenuOpen}
+            className="inline-flex cursor-pointer items-center p-0 text-inherit"
+            onClick={() => {
+              setMenuOpen(false);
+              toggleServicesMenu();
+            }}
+          >
+            <i
+              className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${servicesMenuOpen ? "rotate-180" : ""}`}
+              aria-hidden
+            />
+          </button>
+        </div>
 
         <button
           type="button"

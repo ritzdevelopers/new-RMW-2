@@ -13,7 +13,7 @@ const BRAND_FILM_SLIDES = [
     title: "REFINED ELEGANCE",
     description:
       "Crafted with a luxurious visual language, this brand film celebrates elegance as an attitude rather than a moment. Through cinematic storytelling and refined aesthetics, it captures the spirit of those who lead with confidence.",
-    cta: { label: "Get In Touch", href: "/contact" },
+    cta: { label: "Contact Us", href: "/contact" },
   },
   {
     src: "https://otherassets.blob.core.windows.net/rmw/VVIP_Music%20option%202.mp4",
@@ -42,7 +42,7 @@ const BRAND_FILM_SLIDES = [
     title: "NEW BEGINNINGS",
     description:
       "A cinematic brand film crafted to capture the emotion of new beginnings. Through compelling storytelling, refined visuals and authentic performances, the film brings the VVIP brand to life with elegance and emotional depth.",
-    cta: { label: "Get In Touch", href: "/contact" },
+    cta: { label: "Contact Us", href: "/contact" },
   },
   {
     src: "https://otherassets.blob.core.windows.net/rmw/IMG_1242.MP4",
