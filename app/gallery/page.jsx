@@ -6,6 +6,13 @@ import Section7 from '../component/about/Section7'
 import Section2 from '../component/gallery/section2'
 // import Section3 from '../component/gallery/section3'
 import OverlaySection1 from '../component/latest/OverlaySection1'
+
+export const metadata = {
+  alternates: {
+    canonical: "https://ritzmediaworld.com/gallery",
+  },
+};
+
 const page = () => {
   return (
     <>

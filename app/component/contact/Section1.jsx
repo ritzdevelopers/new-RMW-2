@@ -44,6 +44,243 @@ const inputLineClass =
   "pointer-events-none absolute bottom-0 left-0 block h-px w-full origin-left scale-x-0 bg-[#FFFFFF33]";
 const selectClass = `${inputClass} appearance-none cursor-pointer`;
 
+const COUNTRY_OPTIONS = [
+  "India",
+  "UAE",
+  "Kuwait",
+  "Qatar",
+  "Jordan",
+  "Bahrain",
+  "Mauritius",
+  "Sri Lanka",
+  "Bangladesh",
+  "United Kingdom",
+  "Germany",
+  "France",
+  "Italy",
+  "Spain",
+  "Netherlands",
+  "Switzerland",
+  "Sweden",
+  "Ireland",
+  "Portugal",
+  "Belgium",
+  "Austria",
+  "Poland",
+];
+
+/** Local mobile rules per country (digits only, no country code). */
+const COUNTRY_PHONE_RULES = {
+  India: {
+    length: 10,
+    regex: /^[6-9]\d{9}$/,
+    countryCodes: ["91"],
+    message: "Enter a valid 10-digit Indian mobile number starting with 6–9.",
+  },
+  UAE: {
+    length: 9,
+    regex: /^5\d{8}$/,
+    countryCodes: ["971"],
+    message: "Enter a valid 9-digit UAE mobile number starting with 5.",
+  },
+  Kuwait: {
+    length: 8,
+    regex: /^[569]\d{7}$/,
+    countryCodes: ["965"],
+    message: "Enter a valid 8-digit Kuwait mobile number starting with 5, 6, or 9.",
+  },
+  Qatar: {
+    length: 8,
+    regex: /^[3567]\d{7}$/,
+    countryCodes: ["974"],
+    message: "Enter a valid 8-digit Qatar mobile number.",
+  },
+  Jordan: {
+    length: 9,
+    regex: /^7[789]\d{7}$/,
+    countryCodes: ["962"],
+    message: "Enter a valid 9-digit Jordan mobile number starting with 77, 78, or 79.",
+  },
+  Bahrain: {
+    length: 8,
+    regex: /^3\d{7}$/,
+    countryCodes: ["973"],
+    message: "Enter a valid 8-digit Bahrain mobile number starting with 3.",
+  },
+  Mauritius: {
+    length: 8,
+    regex: /^5\d{7}$/,
+    countryCodes: ["230"],
+    message: "Enter a valid 8-digit Mauritius mobile number starting with 5.",
+  },
+  "Sri Lanka": {
+    length: 9,
+    regex: /^7\d{8}$/,
+    countryCodes: ["94"],
+    message: "Enter a valid 9-digit Sri Lanka mobile number starting with 7.",
+  },
+  Bangladesh: {
+    length: 10,
+    regex: /^1[3-9]\d{8}$/,
+    countryCodes: ["880"],
+    message: "Enter a valid 10-digit Bangladesh mobile number starting with 1.",
+  },
+  "United Kingdom": {
+    length: 10,
+    regex: /^7\d{9}$/,
+    countryCodes: ["44"],
+    message: "Enter a valid 10-digit UK mobile number starting with 7.",
+  },
+  Germany: {
+    length: [10, 11],
+    regex: /^1[5-7]\d{8,9}$/,
+    countryCodes: ["49"],
+    message: "Enter a valid German mobile number starting with 15, 16, or 17.",
+  },
+  France: {
+    length: 9,
+    regex: /^[67]\d{8}$/,
+    countryCodes: ["33"],
+    message: "Enter a valid 9-digit French mobile number starting with 6 or 7.",
+  },
+  Italy: {
+    length: 10,
+    regex: /^3\d{9}$/,
+    countryCodes: ["39"],
+    message: "Enter a valid 10-digit Italian mobile number starting with 3.",
+  },
+  Spain: {
+    length: 9,
+    regex: /^[67]\d{8}$/,
+    countryCodes: ["34"],
+    message: "Enter a valid 9-digit Spanish mobile number starting with 6 or 7.",
+  },
+  Netherlands: {
+    length: 9,
+    regex: /^6\d{8}$/,
+    countryCodes: ["31"],
+    message: "Enter a valid 9-digit Dutch mobile number starting with 6.",
+  },
+  Switzerland: {
+    length: 9,
+    regex: /^7[5-9]\d{7}$/,
+    countryCodes: ["41"],
+    message: "Enter a valid 9-digit Swiss mobile number starting with 75–79.",
+  },
+  Sweden: {
+    length: 9,
+    regex: /^7\d{8}$/,
+    countryCodes: ["46"],
+    message: "Enter a valid 9-digit Swedish mobile number starting with 7.",
+  },
+  Ireland: {
+    length: 9,
+    regex: /^8\d{8}$/,
+    countryCodes: ["353"],
+    message: "Enter a valid 9-digit Irish mobile number starting with 8.",
+  },
+  Portugal: {
+    length: 9,
+    regex: /^9\d{8}$/,
+    countryCodes: ["351"],
+    message: "Enter a valid 9-digit Portuguese mobile number starting with 9.",
+  },
+  Belgium: {
+    length: 9,
+    regex: /^4\d{8}$/,
+    countryCodes: ["32"],
+    message: "Enter a valid 9-digit Belgian mobile number starting with 4.",
+  },
+  Austria: {
+    length: [10, 11, 12, 13],
+    regex: /^6\d{9,12}$/,
+    countryCodes: ["43"],
+    message: "Enter a valid Austrian mobile number starting with 6.",
+  },
+  Poland: {
+    length: 9,
+    regex: /^[5-9]\d{8}$/,
+    countryCodes: ["48"],
+    message: "Enter a valid 9-digit Polish mobile number.",
+  },
+};
+
+const REPEATED_PATTERN_MESSAGE =
+  "Please enter a valid phone number. Repeated patterns like 9999999999, 8888888888, 0000000000, or 9898989898 are not allowed.";
+
+function hasInvalidRepeatedPattern(digits) {
+  if (!digits) return false;
+  // All same digit: 0000000000, 9999999999, 8888888888
+  if (/^(\d)\1+$/.test(digits)) return true;
+  // Alternating pair: 9898989898, 1212121212
+  if (digits.length >= 4 && /^(\d)(\d)(?:\1\2)+$/.test(digits)) return true;
+  // Two-digit block repeat: 989898989898-style when length allows
+  if (digits.length >= 4 && /^(\d{2})\1+$/.test(digits)) return true;
+  return false;
+}
+
+function normalizeLocalPhone(phone, country) {
+  let digits = String(phone || "").replace(/\D/g, "");
+  if (!digits) return "";
+
+  const rule = COUNTRY_PHONE_RULES[country];
+  if (!rule) return digits;
+
+  const lengths = Array.isArray(rule.length) ? rule.length : [rule.length];
+  const maxLen = Math.max(...lengths);
+
+  // Strip leading country code when pasted with it
+  const codes = [...(rule.countryCodes || [])].sort((a, b) => b.length - a.length);
+  for (const code of codes) {
+    if (digits.startsWith(code) && digits.length > maxLen) {
+      digits = digits.slice(code.length);
+      break;
+    }
+  }
+
+  // Strip leading trunk 0 (e.g. 09876543210 → 9876543210)
+  if (digits.startsWith("0") && digits.length > maxLen) {
+    digits = digits.slice(1);
+  }
+
+  return digits;
+}
+
+function validatePhoneForCountry(phone, country) {
+  if (!country) {
+    return "Please select a country.";
+  }
+
+  const rule = COUNTRY_PHONE_RULES[country];
+  if (!rule) {
+    return "Please select a valid country.";
+  }
+
+  const local = normalizeLocalPhone(phone, country);
+  if (!local) {
+    return "Please enter your phone number.";
+  }
+
+  const lengths = Array.isArray(rule.length) ? rule.length : [rule.length];
+  if (!lengths.includes(local.length) || !rule.regex.test(local)) {
+    return rule.message;
+  }
+
+  if (hasInvalidRepeatedPattern(local)) {
+    return REPEATED_PATTERN_MESSAGE;
+  }
+
+  return null;
+}
+
+function getPhoneMaxLength(country) {
+  const rule = COUNTRY_PHONE_RULES[country];
+  if (!rule) return 15;
+  const lengths = Array.isArray(rule.length) ? rule.length : [rule.length];
+  // Allow room for + / country code while typing
+  return Math.max(...lengths) + 4;
+}
+
 const Field = ({ label, children }) => (
   <div>
     <span style={labelStyle}>{label}</span>
@@ -54,10 +291,25 @@ const Field = ({ label, children }) => (
   </div>
 );
 
-const SelectField = ({ label, placeholder, options, name, required }) => (
+const SelectField = ({
+  label,
+  placeholder,
+  options,
+  name,
+  required,
+  value,
+  onChange,
+}) => (
   <Field label={label}>
     <div className="relative">
-      <select className={selectClass} defaultValue="" name={name} required={required}>
+      <select
+        className={selectClass}
+        name={name}
+        required={required}
+        {...(value !== undefined
+          ? { value, onChange }
+          : { defaultValue: "" })}
+      >
         <option value="">{placeholder}</option>
         {options.map((option) => (
           <option key={option} value={option} className="bg-[#0D1334] text-white">
@@ -206,6 +458,19 @@ const Section1 = () => {
 
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
+  const [country, setCountry] = useState("");
+  const [phoneError, setPhoneError] = useState(null);
+
+  const handlePhoneInput = (e) => {
+    const cleaned = e.currentTarget.value.replace(/[^0-9+]/g, "");
+    e.currentTarget.value = cleaned;
+    if (phoneError) setPhoneError(null);
+  };
+
+  const handleCountryChange = (e) => {
+    setCountry(e.target.value);
+    setPhoneError(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -219,13 +484,22 @@ const Section1 = () => {
     const email = (formData.get("email") || "").toString().trim();
     const phone = (formData.get("phone") || "").toString().trim();
     const reason = (formData.get("reason") || "").toString().trim();
-    const region = (formData.get("region") || "").toString().trim();
+    const selectedCountry = (formData.get("country") || country || "").toString().trim();
     const howHeard = (formData.get("howHeard") || "").toString().trim();
     const messageText = (formData.get("message") || "").toString().trim();
 
+    const phoneValidationError = validatePhoneForCountry(phone, selectedCountry);
+    if (phoneValidationError) {
+      setPhoneError(phoneValidationError);
+      setStatus({ type: "error", text: phoneValidationError });
+      return;
+    }
+
+    const normalizedPhone = normalizeLocalPhone(phone, selectedCountry);
+
     const message = [
       `Reason for Inquiry: ${reason || "N/A"}`,
-      `Region: ${region || "N/A"}`,
+      `Country: ${selectedCountry || "N/A"}`,
       `How did you hear about us: ${howHeard || "N/A"}`,
       "",
       `Message: ${messageText || "N/A"}`,
@@ -234,13 +508,14 @@ const Section1 = () => {
     const data = {
       etype: "ContactUs",
       name: `${firstName} ${lastName}`.trim(),
-      phone,
+      phone: normalizedPhone,
       email,
       message,
     };
 
     setSubmitting(true);
     setStatus(null);
+    setPhoneError(null);
 
     try {
       const response = await fetch("/api/system-settings/contact-enquiry", {
@@ -257,6 +532,8 @@ const Section1 = () => {
           text: result.message || "Query submitted successfully!",
         });
         form.reset();
+        setCountry("");
+        setPhoneError(null);
       } else {
         setStatus({
           type: "error",
@@ -438,17 +715,31 @@ const Section1 = () => {
             <Field label="EMAIL ADDRESS*">
               <input type="email" name="email" required className={inputClass} />
             </Field>
-            <Field label="PHONE NUMBER">
-              <input
-                type="tel"
-                name="phone"
-                inputMode="numeric"
-                className={inputClass}
-                onInput={(e) => {
-                  e.currentTarget.value = e.currentTarget.value.replace(/[^0-9+]/g, "");
-                }}
-              />
-            </Field>
+            <div>
+              <Field label="PHONE NUMBER*">
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  inputMode="numeric"
+                  maxLength={getPhoneMaxLength(country)}
+                  className={inputClass}
+                  onInput={handlePhoneInput}
+                  aria-invalid={phoneError ? "true" : undefined}
+                />
+              </Field>
+              {phoneError ? (
+                <p
+                  className="mt-2 text-xs"
+                  style={{
+                    fontFamily: sequelFontFamily,
+                    color: "#FF8A8A",
+                  }}
+                >
+                  {phoneError}
+                </p>
+              ) : null}
+            </div>
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-8 md:mt-10 md:grid-cols-3 md:gap-x-10">
@@ -465,11 +756,13 @@ const Section1 = () => {
               ]}
             />
             <SelectField
-              label="REGION*"
-              placeholder="Select your region"
-              name="region"
+              label="COUNTRY*"
+              placeholder="Select your country"
+              name="country"
               required
-              options={["North America", "Europe", "Asia Pacific", "Other"]}
+              value={country}
+              onChange={handleCountryChange}
+              options={COUNTRY_OPTIONS}
             />
             <SelectField
               label="HOW DID YOU HEAR ABOUT US?"

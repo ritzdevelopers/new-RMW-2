@@ -6,6 +6,9 @@ import TagsQueryPage from "../component/case-study/TagsQueryPage";
 
 export const metadata = {
   title: "Tags | Ritz Media World",
+  alternates: {
+    canonical: "https://ritzmediaworld.com/tags",
+  },
 };
 
 export default function TagsPage() {

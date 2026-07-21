@@ -80,6 +80,12 @@ const walkthrough_images = [
   },
 ];
 
+export const metadata = {
+  alternates: {
+    canonical: "https://ritzmediaworld.com/portfolio/ai-videos",
+  },
+};
+
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>

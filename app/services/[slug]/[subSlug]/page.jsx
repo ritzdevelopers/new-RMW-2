@@ -26,11 +26,15 @@ export async function generateMetadata({ params }) {
   }
 
   const meta = await getSubServiceMeta(slug, subSlug);
+  const pageUrl = `https://ritzmediaworld.com/services/${slug}/${subSlug}`;
 
   return {
     title: meta.title,
     description: meta.description,
     keywords: meta.keywords || undefined,
+    alternates: {
+      canonical: pageUrl,
+    },
   };
 }
 

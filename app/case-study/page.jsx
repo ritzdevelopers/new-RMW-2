@@ -10,6 +10,9 @@ export const metadata = {
   title: "Case Studies | Ritz Media World",
   description:
     "Explore Ritz Media World case studies - bold design, brand films, and campaigns that defy convention.",
+  alternates: {
+    canonical: "https://ritzmediaworld.com/case-study",
+  },
 };
 
 const CaseStudyPage = () => {

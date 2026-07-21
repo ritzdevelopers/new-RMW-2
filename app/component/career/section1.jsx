@@ -45,6 +45,45 @@ const fileInputClass =
 const inputLineClass =
   "pointer-events-none absolute bottom-0 left-0 block h-px w-full origin-left scale-x-0 bg-[#FFFFFF33]";
 
+const INDIAN_PHONE_REGEX = /^[6-9]\d{9}$/;
+const REPEATED_PATTERN_MESSAGE =
+  "Please enter a valid phone number. Repeated patterns like 9999999999, 8888888888, 0000000000, or 9898989898 are not allowed.";
+
+function hasInvalidRepeatedPattern(digits) {
+  if (!digits) return false;
+  if (/^(\d)\1+$/.test(digits)) return true;
+  if (digits.length >= 4 && /^(\d)(\d)(?:\1\2)+$/.test(digits)) return true;
+  if (digits.length >= 4 && /^(\d{2})\1+$/.test(digits)) return true;
+  return false;
+}
+
+function normalizeIndianPhone(phone) {
+  let digits = String(phone || "").replace(/\D/g, "");
+  if (!digits) return "";
+
+  if (digits.startsWith("91") && digits.length === 12) {
+    digits = digits.slice(2);
+  } else if (digits.startsWith("0") && digits.length === 11) {
+    digits = digits.slice(1);
+  }
+
+  return digits;
+}
+
+function validateIndianPhone(phone) {
+  const local = normalizeIndianPhone(phone);
+  if (!local) {
+    return "Please enter your phone number.";
+  }
+  if (!INDIAN_PHONE_REGEX.test(local)) {
+    return "Enter a valid 10-digit Indian mobile number starting with 6–9.";
+  }
+  if (hasInvalidRepeatedPattern(local)) {
+    return REPEATED_PATTERN_MESSAGE;
+  }
+  return null;
+}
+
 const Field = ({ label, children }) => (
   <div>
     <span style={labelStyle}>{label}</span>
@@ -199,6 +238,12 @@ const section1 = () => {
 
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
+  const [phoneError, setPhoneError] = useState(null);
+
+  const handlePhoneInput = (e) => {
+    e.currentTarget.value = e.currentTarget.value.replace(/[^0-9+]/g, "");
+    if (phoneError) setPhoneError(null);
+  };
 
   const uploadResume = async (resumeFile) => {
     try {
@@ -237,14 +282,25 @@ const section1 = () => {
     const form = e.currentTarget;
     const formData = new FormData(form);
     const resumeFile = formData.get("resume");
+    const phone = (formData.get("phone") || "").toString().trim();
+
+    const phoneValidationError = validateIndianPhone(phone);
+    if (phoneValidationError) {
+      setPhoneError(phoneValidationError);
+      setStatus({ type: "error", text: phoneValidationError });
+      return;
+    }
 
     if (!resumeFile || (resumeFile instanceof File && resumeFile.size === 0)) {
       setStatus({ type: "error", text: "Please upload your resume." });
       return;
     }
 
+    formData.set("phone", normalizeIndianPhone(phone));
+
     setSubmitting(true);
     setStatus(null);
+    setPhoneError(null);
 
     try {
       const resumeUploaded = await uploadResume(resumeFile);
@@ -277,6 +333,7 @@ const section1 = () => {
         text: formSubmitted.message || "Application submitted successfully!",
       });
       form.reset();
+      setPhoneError(null);
     } catch (error) {
       console.error("Error during submission:", error);
       setStatus({
@@ -466,21 +523,31 @@ const section1 = () => {
           </div>
 
           <div className="mt-8 grid grid-cols-1 xl:gap-5 gap-8 md:mt-10 md:grid-cols-2 md:gap-x-10">
-            <Field label="PHONE NUMBER*">
-              <input
-                type="tel"
-                name="phone"
-                required
-                inputMode="numeric"
-                className={inputClass}
-                onInput={(e) => {
-                  e.currentTarget.value = e.currentTarget.value.replace(
-                    /[^0-9+]/g,
-                    "",
-                  );
-                }}
-              />
-            </Field>
+            <div>
+              <Field label="PHONE NUMBER*">
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  inputMode="numeric"
+                  maxLength={14}
+                  className={inputClass}
+                  onInput={handlePhoneInput}
+                  aria-invalid={phoneError ? "true" : undefined}
+                />
+              </Field>
+              {phoneError ? (
+                <p
+                  className="mt-2 text-xs"
+                  style={{
+                    fontFamily: sequelFontFamily,
+                    color: "#FF8A8A",
+                  }}
+                >
+                  {phoneError}
+                </p>
+              ) : null}
+            </div>
             <Field label="Apply For*">
               <input
                 type="text"

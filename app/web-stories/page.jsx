@@ -8,6 +8,9 @@ export const metadata = {
   title: "Web Stories | Ritz Media World",
   description:
     "Explore Ritz Media World web stories - newspaper ads, FM radio, creative agency insights, and more.",
+  alternates: {
+    canonical: "https://ritzmediaworld.com/web-stories",
+  },
 };
 
 const WebStoriesPage = () => {

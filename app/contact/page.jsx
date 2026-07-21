@@ -5,6 +5,12 @@ import Section2 from "../component/contact/Section2";
 import Footer from "../component/latest/Footer";
 import OverlaySection2 from "../component/latest/OverlaySection2";
 
+export const metadata = {
+  alternates: {
+    canonical: "https://ritzmediaworld.com/contact",
+  },
+};
+
 const Contact = () => {
   return (
     <>

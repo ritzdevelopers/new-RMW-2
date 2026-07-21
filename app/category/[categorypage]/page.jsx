@@ -23,9 +23,13 @@ export async function generateMetadata({ params }) {
     return { title: "Category | Ritz Media World" };
   }
   const title = formatCategoryTitle(categorypage);
+  const pageUrl = `https://ritzmediaworld.com/category/${categorypage}`;
 
   return {
     title: `${title} | Ritz Media World`,
+    alternates: {
+      canonical: pageUrl,
+    },
   };
 }
 
