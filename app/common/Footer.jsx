@@ -570,23 +570,22 @@ const Footer = ({ overlaySection = null }) => {
           data-footer-brand-wrap
           className="relative mx-auto grid min-h-[130px] w-full max-w-[1500px] grid-cols-1 overflow-hidden px-8 md:min-h-[110px] md:px-12 lg:min-h-[90px]"
         >
-          <div className="relative z-[1] col-start-1 row-start-1 flex flex-col items-center justify-center gap-2 self-center py-2 text-center pointer-events-none opacity-25 md:opacity-100">
-            <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
-              {servicesRow1.map((service, index) => (
-                <React.Fragment key={service}>
-                  {index > 0 && <span className="mx-[10px]">•</span>}
-                  {service}
-                </React.Fragment>
-              ))}
-            </p>
-            <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
-              {servicesRow2.map((service, index) => (
-                <React.Fragment key={service}>
-                  {index > 0 && <span className="mx-[10px]">•</span>}
-                  {service}
-                </React.Fragment>
-              ))}
-            </p>
+          <div className="relative z-[1] col-start-1 row-start-1 flex w-full flex-col items-center justify-center gap-2 self-center py-2 text-center pointer-events-none opacity-25 md:opacity-100">
+            {[servicesRow1, servicesRow2].map((row, rowIndex) => (
+              <div
+                key={rowIndex}
+                data-footer-services
+                style={serviceTextStyle}
+                className={`${serviceTextClassName} grid w-full max-w-[900px] grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-x-[10px]`}
+              >
+                {row.map((service, index) => (
+                  <React.Fragment key={service}>
+                    {index > 0 && <span aria-hidden className="text-center">•</span>}
+                    <span className="text-center">{service}</span>
+                  </React.Fragment>
+                ))}
+              </div>
+            ))}
           </div>
 
           <div className="relative z-[3] col-start-1 row-start-1 flex w-full items-end justify-between gap-2 self-end py-1 md:contents">
