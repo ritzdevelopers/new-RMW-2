@@ -26,7 +26,7 @@ const workLinks = [
 
 
 const navLinks = [
-  { label: "GET IN TOUCH", href: "/contact" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
 const linkClass =

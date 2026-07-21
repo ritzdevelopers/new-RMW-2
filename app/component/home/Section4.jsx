@@ -425,196 +425,252 @@ const GridSlider = ({ cardRefs }) => {
 };
 
 /* -------------------------------------------------------------------------- */
-/* Mobile image slider (list mode)                                            */
+/* Mobile image slider (list mode) — GSAP transform for smooth 60fps motion  */
 /* -------------------------------------------------------------------------- */
 
-const MOBILE_AUTO_SPEED = 0.7; // px per frame
 const MOBILE_GAP = 12;
+const MOBILE_AUTO_INTERVAL = 3200;
+const MOBILE_SLIDE_DURATION = 0.55;
 
 const MobileImageSlider = () => {
+  const viewportRef = useRef(null);
   const trackRef = useRef(null);
-  const rafId = useRef(0);
-  const running = useRef(false);
-  const current = useRef(0);
-  const autoPaused = useRef(false);
-  const resumeTimer = useRef(0);
-  const snapping = useRef(false);
+  const xRef = useRef(0);
+  const stepRef = useRef(0);
+  const loopWidthRef = useRef(0);
+  const tweenRef = useRef(null);
+  const autoTimer = useRef(0);
+  const dragging = useRef(false);
+  const dragStartX = useRef(0);
+  const dragStartOffset = useRef(0);
+  const dragMoved = useRef(false);
+  const [cardWidth, setCardWidth] = useState(0);
+
   const loopItems = [...services, ...services];
 
-  const getMetrics = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) return { step: 0, loopWidth: 0, cardWidth: 0 };
-    const cards = track.querySelectorAll("[data-mobile-card]");
-    if (!cards.length) return { step: 0, loopWidth: 0, cardWidth: 0 };
-    const cardWidth = cards[0].offsetWidth;
-    const step = cardWidth + MOBILE_GAP;
-    const loopWidth =
-      cards.length >= services.length * 2
-        ? cards[services.length].offsetLeft - cards[0].offsetLeft
-        : step * services.length;
-    return { step, loopWidth, cardWidth };
-  }, []);
-
-  const wrapScroll = useCallback((value, loopWidth) => {
+  const wrapX = useCallback((value) => {
+    const loopWidth = loopWidthRef.current;
     if (loopWidth <= 0) return value;
-    let next = value;
-    while (next >= loopWidth) next -= loopWidth;
-    while (next < 0) next += loopWidth;
-    return next;
+    let x = value;
+    while (x <= -loopWidth) x += loopWidth;
+    while (x > 0) x -= loopWidth;
+    return x;
   }, []);
 
-  /** Snap scrollLeft to the nearest full card (no cut-off). */
-  const snapToNearestCard = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) return 0;
-    const { step, loopWidth } = getMetrics();
-    if (step <= 0) return track.scrollLeft;
-    const index = Math.round(track.scrollLeft / step);
-    const target = wrapScroll(index * step, loopWidth);
-    current.current = target;
-    track.scrollLeft = target;
-    return target;
-  }, [getMetrics, wrapScroll]);
-
-  const tick = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) {
-      running.current = false;
-      return;
-    }
-
-    if (!autoPaused.current && !snapping.current) {
-      current.current += MOBILE_AUTO_SPEED;
-      const { loopWidth } = getMetrics();
-      current.current = wrapScroll(current.current, loopWidth);
-      track.scrollLeft = current.current;
-    }
-
-    rafId.current = requestAnimationFrame(tick);
-  }, [getMetrics, wrapScroll]);
-
-  const ensureRAF = useCallback(() => {
-    if (running.current) return;
-    running.current = true;
-    rafId.current = requestAnimationFrame(tick);
-  }, [tick]);
-
-  const pauseAuto = useCallback(
-    (ms = 4500) => {
-      autoPaused.current = true;
-      window.clearTimeout(resumeTimer.current);
-      resumeTimer.current = window.setTimeout(() => {
-        snapToNearestCard();
-        autoPaused.current = false;
-        snapping.current = false;
-        ensureRAF();
-      }, ms);
+  const applyX = useCallback(
+    (value) => {
+      const track = trackRef.current;
+      if (!track) return;
+      const x = wrapX(value);
+      xRef.current = x;
+      gsap.set(track, { x, force3D: true });
     },
-    [ensureRAF, snapToNearestCard],
+    [wrapX],
   );
 
-  // 1-to-1: move exactly one full card, always landing on a card edge
-  const scrollByDir = useCallback(
-    (dir) => {
+  const measure = useCallback(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    const width = viewport.clientWidth;
+    const step = width + MOBILE_GAP;
+    stepRef.current = step;
+    loopWidthRef.current = services.length * step;
+    setCardWidth(width);
+    applyX(xRef.current);
+  }, [applyX]);
+
+  const killTween = useCallback(() => {
+    tweenRef.current?.kill();
+    tweenRef.current = null;
+  }, []);
+
+  const slideTo = useCallback(
+    (targetX) => {
       const track = trackRef.current;
       if (!track) return;
 
-      autoPaused.current = true;
-      window.clearTimeout(resumeTimer.current);
-      snapping.current = true;
+      killTween();
+      const from = xRef.current;
+      let to = targetX;
+      const loopWidth = loopWidthRef.current;
+      if (loopWidth > 0) {
+        while (to - from > loopWidth / 2) to -= loopWidth;
+        while (to - from < -loopWidth / 2) to += loopWidth;
+      }
 
-      const { step, loopWidth } = getMetrics();
-      if (step <= 0) return;
-
-      // Snap from current mid-scroll position first, then step ±1
-      const currentIndex = Math.round(track.scrollLeft / step);
-      const nextIndex = currentIndex + dir;
-      const target = wrapScroll(nextIndex * step, loopWidth);
-
-      current.current = target;
-      track.scrollTo({ left: target, behavior: "smooth" });
-
-      window.clearTimeout(resumeTimer.current);
-      resumeTimer.current = window.setTimeout(() => {
-        // After smooth scroll, lock exact position (avoid sub-pixel cut-off)
-        if (trackRef.current) {
-          trackRef.current.scrollLeft = target;
-          current.current = target;
-        }
-        snapping.current = false;
-        autoPaused.current = false;
-        ensureRAF();
-      }, 4500);
+      tweenRef.current = gsap.fromTo(
+        track,
+        { x: from },
+        {
+          x: to,
+          duration: MOBILE_SLIDE_DURATION,
+          ease: "power3.out",
+          force3D: true,
+          overwrite: "auto",
+          onUpdate: () => {
+            xRef.current = Number(gsap.getProperty(track, "x")) || 0;
+          },
+          onComplete: () => {
+            applyX(to);
+            tweenRef.current = null;
+          },
+        },
+      );
     },
-    [ensureRAF, getMetrics, wrapScroll],
+    [applyX, killTween],
   );
 
+  const goBy = useCallback(
+    (dir) => {
+      const step = stepRef.current;
+      if (step <= 0) return;
+      const currentIndex = Math.round(-xRef.current / step);
+      slideTo(-(currentIndex + dir) * step);
+    },
+    [slideTo],
+  );
+
+  const snapNearest = useCallback(() => {
+    const step = stepRef.current;
+    if (step <= 0) return;
+    const index = Math.round(-xRef.current / step);
+    slideTo(-index * step);
+  }, [slideTo]);
+
+  const stopAuto = useCallback(() => {
+    window.clearInterval(autoTimer.current);
+    autoTimer.current = 0;
+  }, []);
+
+  const startAuto = useCallback(() => {
+    stopAuto();
+    autoTimer.current = window.setInterval(() => {
+      if (dragging.current || tweenRef.current) return;
+      goBy(1);
+    }, MOBILE_AUTO_INTERVAL);
+  }, [goBy, stopAuto]);
+
   useLayoutEffect(() => {
-    // Start aligned to first full card
-    requestAnimationFrame(() => {
-      snapToNearestCard();
-      ensureRAF();
-    });
+    measure();
+    const onResize = () => measure();
+    window.addEventListener("resize", onResize);
+    startAuto();
     return () => {
-      cancelAnimationFrame(rafId.current);
-      running.current = false;
-      window.clearTimeout(resumeTimer.current);
+      window.removeEventListener("resize", onResize);
+      stopAuto();
+      killTween();
     };
-  }, [ensureRAF, snapToNearestCard]);
+  }, [measure, startAuto, stopAuto, killTween]);
+
+  const onPointerDown = (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    const track = trackRef.current;
+    if (!track) return;
+
+    killTween();
+    stopAuto();
+    dragging.current = true;
+    dragMoved.current = false;
+    dragStartX.current = e.clientX;
+    dragStartOffset.current = xRef.current;
+    track.setPointerCapture?.(e.pointerId);
+  };
+
+  const onPointerMove = (e) => {
+    if (!dragging.current) return;
+    const dx = e.clientX - dragStartX.current;
+    if (Math.abs(dx) > 8) dragMoved.current = true;
+    applyX(dragStartOffset.current + dx);
+  };
+
+  const onPointerUp = (e) => {
+    if (!dragging.current) return;
+    dragging.current = false;
+    trackRef.current?.releasePointerCapture?.(e.pointerId);
+
+    const step = stepRef.current;
+    const dx = e.clientX - dragStartX.current;
+    if (step > 0 && Math.abs(dx) > Math.min(56, step * 0.18)) {
+      goBy(dx < 0 ? 1 : -1);
+    } else {
+      snapNearest();
+    }
+    startAuto();
+  };
+
+  const onCardClick = (e) => {
+    if (dragMoved.current) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
+  const onNav = (dir) => {
+    stopAuto();
+    goBy(dir);
+    startAuto();
+  };
 
   const navBtnClass =
-    "absolute top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/80 text-[#1a1a1a] shadow-sm backdrop-blur-sm transition hover:bg-white";
+    "absolute top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/80 text-[#1a1a1a] shadow-sm backdrop-blur-sm transition hover:bg-white active:scale-95";
 
   return (
-    <div
-      className="relative z-20 mb-8 w-full select-none md:hidden"
-      onTouchStart={() => pauseAuto()}
-    >
+    <div className="relative z-20 mb-8 w-full select-none md:hidden">
       <div
-        ref={trackRef}
-        className="flex w-full snap-x snap-mandatory overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [touch-action:pan-y] [&::-webkit-scrollbar]:hidden"
-        style={{ gap: `${MOBILE_GAP}px` }}
-        onScroll={() => {
-          if ((autoPaused.current || snapping.current) && trackRef.current) {
-            current.current = trackRef.current.scrollLeft;
-          }
-        }}
+        ref={viewportRef}
+        className="relative w-full overflow-hidden touch-pan-y"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
       >
-        {loopItems.map((service, index) => (
-          <Link
-            key={`${service.slug}-${index}`}
-            href={`/services/${service.slug}`}
-            data-mobile-card
-            className="relative w-full min-w-full shrink-0 snap-start snap-always"
-          >
-            <div className="relative aspect-[3/4] w-full overflow-hidden bg-black/5">
-              <img
-                src={service.image}
-                alt={service.title}
-                draggable={false}
-                className="h-full w-full object-cover"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0" />
-              <span
-                className="pointer-events-none absolute inset-x-3 bottom-4 text-[22px] text-white"
-                style={{
-                  ...titleStyle,
-                  fontFamily: '"League Spartan", sans-serif',
-                  fontSize: "clamp(22px, 2.6vw, 40px)",
-                }}
-              >
-                {service.title}
-              </span>
-            </div>
-          </Link>
-        ))}
+        <div
+          ref={trackRef}
+          className="flex w-max will-change-transform [backface-visibility:hidden] [transform:translateZ(0)]"
+          style={{ gap: `${MOBILE_GAP}px` }}
+        >
+          {loopItems.map((service, index) => (
+            <Link
+              key={`${service.slug}-${index}`}
+              href={`/services/${service.slug}`}
+              data-mobile-card
+              draggable={false}
+              onClick={onCardClick}
+              className="relative shrink-0 [backface-visibility:hidden]"
+              style={{
+                width: cardWidth || "100%",
+                minWidth: cardWidth || "100%",
+              }}
+            >
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-black/5">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  draggable={false}
+                  className="pointer-events-none h-full w-full object-cover"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0" />
+                <span
+                  className="pointer-events-none absolute inset-x-3 bottom-4 text-[22px] text-white"
+                  style={{
+                    ...titleStyle,
+                    fontFamily: '"League Spartan", sans-serif',
+                    fontSize: "clamp(22px, 2.6vw, 40px)",
+                  }}
+                >
+                  {service.title}
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
 
       <button
         type="button"
         aria-label="Previous slide"
         className={`${navBtnClass} left-1`}
-        onClick={() => scrollByDir(-1)}
+        onClick={() => onNav(-1)}
       >
         <svg
           viewBox="0 0 24 24"
@@ -631,7 +687,7 @@ const MobileImageSlider = () => {
         type="button"
         aria-label="Next slide"
         className={`${navBtnClass} right-1`}
-        onClick={() => scrollByDir(1)}
+        onClick={() => onNav(1)}
       >
         <svg
           viewBox="0 0 24 24"
@@ -648,8 +704,6 @@ const MobileImageSlider = () => {
   );
 };
 
-/* -------------------------------------------------------------------------- */
-/* Section4                                                                    */
 /* -------------------------------------------------------------------------- */
 
 const Section4 = () => {

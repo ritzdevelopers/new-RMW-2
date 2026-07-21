@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useMemo, useRef } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ServiceDetailMediaButton from "../../services/ServiceDetailMediaButton";
@@ -37,6 +38,13 @@ const SERVICES = [
 
 const Section2 = () => {
   const sectionRef = useRef(null);
+  const pathname = usePathname();
+
+  const visibleServices = useMemo(() => {
+    const path = (pathname || "").replace(/\/$/, "") || "/";
+    if (path === "/portfolio") return SERVICES;
+    return SERVICES.filter((service) => service.href !== path);
+  }, [pathname]);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -71,7 +79,7 @@ const Section2 = () => {
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [visibleServices]);
 
   return (
     <section
@@ -86,12 +94,12 @@ const Section2 = () => {
           Explore our service offerings
         </h2>
 
-        <div className="grid w-full grid-cols-4 gap-[15px] max-lg:grid-cols-2 max-sm:grid-cols-1 lg:gap-[20px] xl:gap-[30px]">
-          {SERVICES.map((service) => (
+        <div className="flex w-full flex-wrap justify-center gap-[15px] lg:gap-[20px] xl:gap-[30px]">
+          {visibleServices.map((service) => (
             <article
               key={service.label}
               data-service-card
-              className="flex w-full flex-col bg-white p-[10px] pb-[18px] shadow-[0_12px_28px_rgba(0,0,0,0.18)] will-change-transform max-md:p-[12px] max-md:pb-[16px]"
+              className="flex w-full flex-col bg-white p-[10px] pb-[18px] shadow-[0_12px_28px_rgba(0,0,0,0.18)] will-change-transform max-md:p-[12px] max-md:pb-[16px] sm:w-[calc(50%-7.5px)] lg:w-[calc(25%-15px)] xl:w-[calc(25%-22.5px)]"
             >
               <div className="relative aspect-square w-full overflow-hidden bg-[#f3f3f3]">
                 <Image

@@ -101,7 +101,7 @@ const ServiceDetailContent = ({ service }) => {
     //           className="mt-6 inline-flex min-h-[44px] items-center gap-2 rounded-full border border-white/25 bg-white/10 px-5 py-3 text-[12px] font-medium uppercase tracking-[0.1em] text-white transition-colors duration-300 hover:bg-white/20 sm:mt-8 sm:px-6 sm:text-[13px] sm:tracking-[0.12em]"
     //           style={{ fontFamily: '"Sequel Sans", sans-serif' }}
     //         >
-    //           Get in touch
+    //           Contact Us
     //           <i className="ri-arrow-right-up-line text-[15px] sm:text-[16px]" aria-hidden />
     //         </Link>
     //       </div>

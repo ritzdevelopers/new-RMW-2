@@ -94,7 +94,7 @@ const copyrightTextStyle = {
 };
 
 const connectLinks = [
-  { label: "GET IN TOUCH", href: "/contact" },
+  { label: "Contact Us", href: "/contact" },
   { label: "INSTAGRAM", href: "https://www.instagram.com/ritzmediaworld/" },
   { label: "LINKEDIN", href: "https://www.linkedin.com/company/ritzmediaworld/" },
   { label: "TWITTER", href: "https://twitter.com/ritzmediaworld" },

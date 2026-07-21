@@ -14,7 +14,7 @@ function Section10() {
         Have a project in mind? Let's bring your brand's creative vision to life.
         </p>
         <ServiceDetailMediaButton
-          label="Get in Touch"
+          label="Contact Us"
           href="/contact"
           className="mt-1"
         />
