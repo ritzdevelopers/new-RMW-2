@@ -41,6 +41,12 @@ const website_images = [
   },
 ];
 
+export const metadata = {
+  alternates: {
+    canonical: "https://ritzmediaworld.com/portfolio/web-design",
+  },
+};
+
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>

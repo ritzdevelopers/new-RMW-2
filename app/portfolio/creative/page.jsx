@@ -52,6 +52,12 @@ const social_media_creatives_images = [
   "/portfolio-page/creatives/social_media_creatives_i6.jpg",
 ];
 
+export const metadata = {
+  alternates: {
+    canonical: "https://ritzmediaworld.com/portfolio/creative",
+  },
+};
+
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>

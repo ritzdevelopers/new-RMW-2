@@ -28,6 +28,12 @@ const logos_images = [
   "/portfolio-page/logo/logo_i11.jpg",
   "/portfolio-page/logo/logo_i12.jpg",
 ];
+export const metadata = {
+  alternates: {
+    canonical: "https://ritzmediaworld.com/portfolio/logo",
+  },
+};
+
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>

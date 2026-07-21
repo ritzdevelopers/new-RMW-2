@@ -3,6 +3,12 @@ import Header from "@/app/common/Header";
 import Footer from "@/app/component/latest/Footer";
 import OverlaySection1 from "@/app/component/latest/OverlaySection1";
 
+export const metadata = {
+  alternates: {
+    canonical: "https://ritzmediaworld.com/portfolio",
+  },
+};
+
 export default function PortfolioLayout({ children }) {
   return (
     <>

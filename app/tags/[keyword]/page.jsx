@@ -16,9 +16,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { keyword } = await params;
   const title = formatTagTitle(keyword);
+  const pageUrl = `https://ritzmediaworld.com/tags/${keyword}`;
 
   return {
     title: `${title} | Ritz Media World`,
+    alternates: {
+      canonical: pageUrl,
+    },
   };
 }
 
