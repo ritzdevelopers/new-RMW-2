@@ -12,8 +12,8 @@ gsap.registerPlugin(ScrollTrigger);
 const SERVICES = [
   {
     src: "/portfolio/logo-design.png",
-    alt: "Brand Identity kardo",
-    label: "Brand Identity kardo",
+    alt: "Brand Identity ",
+    label: "Brand Identity ",
     href: "/portfolio/logo",
   },
   {
@@ -32,7 +32,13 @@ const SERVICES = [
     src: "/portfolio/ai-video.png",
     alt: "AI Video Generation",
     label: "AI Video",
-    href: "/portfolio/ai-videos",
+    href: "/portfolio/brand-films",
+  },
+  {
+    src: "/portfolio/website-design.png",
+    alt: "Walk-Through Videos",
+    label: "Walk-Through",
+    href: "/portfolio/walk-through-videos",
   },
 ];
 
@@ -86,7 +92,7 @@ const Section2 = () => {
       ref={sectionRef}
       className="w-full bg-[#FAFAFA] py-[72px] max-xl:py-[60px] max-md:py-[48px] max-sm:py-[40px]"
     >
-      <div className="mx-auto flex w-full max-w-[1340px] flex-col items-center gap-[48px] px-6 max-md:gap-[32px] max-md:px-4 max-sm:gap-[28px]">
+      <div className="mx-auto flex w-full max-w-[1560px] flex-col items-center gap-[48px] px-6 max-md:gap-[32px] max-md:px-4 max-sm:gap-[28px]">
         <h2
           className="m-0 text-center text-[32px] font-normal leading-[1.2] tracking-[-0.01em] text-black max-xl:text-[28px] max-lg:text-[26px] max-md:text-[24px] max-sm:text-[22px]"
           style={{ fontFamily: "Montserrat, sans-serif" }}
@@ -94,12 +100,12 @@ const Section2 = () => {
           Explore our latest work
         </h2>
 
-        <div className="flex w-full flex-wrap justify-center gap-[15px] lg:gap-[20px] xl:gap-[30px]">
+        <div className="flex w-full flex-wrap justify-center gap-[15px] lg:gap-[20px] xl:gap-[24px]">
           {visibleServices.map((service) => (
             <article
               key={service.label}
               data-service-card
-              className="flex w-full flex-col bg-white p-[10px] pb-[18px] shadow-[0_12px_28px_rgba(0,0,0,0.18)] will-change-transform max-md:p-[12px] max-md:pb-[16px] sm:w-[calc(50%-7.5px)] lg:w-[calc(25%-15px)] xl:w-[calc(25%-22.5px)]"
+              className="flex w-full flex-col bg-white p-[10px] pb-[18px] shadow-[0_12px_28px_rgba(0,0,0,0.18)] will-change-transform max-md:p-[12px] max-md:pb-[16px] sm:w-[calc(50%-7.5px)] lg:w-[calc(33.333%-14px)] xl:w-[calc((100%-96px)/5)]"
             >
               <div className="relative aspect-square w-full overflow-hidden bg-[#f3f3f3]">
                 <Image
@@ -107,7 +113,7 @@ const Section2 = () => {
                   alt={service.alt}
                   fill
                   className="object-cover object-center"
-                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                  sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 />
               </div>
 

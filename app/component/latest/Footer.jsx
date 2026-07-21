@@ -72,15 +72,21 @@ const serviceTextClassName =
   "text-[14px] md:text-[12px] lg:text-[13px] xl:text-[18px]";
 
 const servicesRow1 = [
-  "DIGITAL MARKETING",
-  "CONTENT MARKETING",
-  "INFLUENCER MARKETING",
+  { title: "DIGITAL MARKETING", href: "/services/digital-marketing" },
+  { title: "CREATIVE SERVICES", href: "/services/creative-services" },
+  { title: "PRINT ADVERTISING", href: "/services/print-advertising" },
 ];
 
 const servicesRow2 = [
-  "WEB DEVELOPMENT",
-  "CREATIVE SERVICES",
-  "PRINT ADVERTISEMENT",
+  { title: "RADIO ADVERTISING", href: "/services/radio-advertising" },
+  { title: "CONTENT MARKETING", href: "/services/contents-marketing" },
+  { title: "WEB DEVELOPMENT", href: "/services/web-designing-and-development" },
+];
+
+const servicesRow3 = [
+  { title: "CELEBRITY ENDORSEMENTS", href: "/services/celebrity-endorsements" },
+  { title: "INFLUENCER MARKETING", href: "/services/influencer-marketing-agency-in-india" },
+  { title: "3D RENDERING SERVICES", href: "/services/3d-rendering" },
 ];
 
 const copyrightTextStyle = {
@@ -500,20 +506,34 @@ const Footer = ({ section = null }) => {
           data-footer-brand-wrap
           className="relative mx-auto flex w-full max-w-[1500px] flex-col items-center gap-2 overflow-hidden px-4 sm:px-6 md:gap-3 md:px-8 lg:px-10 xl:px-12"
         >
-          <div className="pointer-events-none relative z-[1] mx-auto flex w-full max-w-[1320px] flex-col items-center justify-center gap-2 px-2 text-center md:px-6">
+          <div className="relative z-[1] mx-auto flex w-full max-w-[1320px] flex-col items-center justify-center gap-2 px-2 text-center md:px-6">
             <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
               {servicesRow1.map((service, index) => (
-                <React.Fragment key={service}>
+                <React.Fragment key={service.href}>
                   {index > 0 && <span className="mx-[10px]">•</span>}
-                  {service}
+                  <Link href={service.href} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">
+                    {service.title}
+                  </Link>
                 </React.Fragment>
               ))}
             </p>
             <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
               {servicesRow2.map((service, index) => (
-                <React.Fragment key={service}>
+                <React.Fragment key={service.href}>
                   {index > 0 && <span className="mx-[10px]">•</span>}
-                  {service}
+                  <Link href={service.href} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">
+                    {service.title}
+                  </Link>
+                </React.Fragment>
+              ))}
+            </p>
+            <p data-footer-services style={serviceTextStyle} className={serviceTextClassName}>
+              {servicesRow3.map((service, index) => (
+                <React.Fragment key={service.href}>
+                  {index > 0 && <span className="mx-[10px]">•</span>}
+                  <Link href={service.href} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">
+                    {service.title}
+                  </Link>
                 </React.Fragment>
               ))}
             </p>

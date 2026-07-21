@@ -10,7 +10,8 @@ const portfolioSubLinks = [
   { label: "Logo Design", href: "/portfolio/logo" },
   { label: "Creative Design", href: "/portfolio/creative" },
   { label: "Website Design", href: "/portfolio/web-design" },
-  { label: "AI Video", href: "/portfolio/ai-videos" },
+  { label: "Brand Films", href: "/portfolio/brand-films" },
+  { label: "Walk-Through Videos", href: "/portfolio/walk-through-videos" },
 ];
 
 const workLinks = [

@@ -173,9 +173,8 @@ const ServiceDetailIntro = ({ intro, activeSlug, title }) => {
                   key={index}
                   className={`m-0 self-stretch  text-[22px] leading-[34px] sm:text-[28px] sm:leading-[44px] md:text-[22px] md:leading-[35px] xl:text-[36px] lg:text-[26px] xl:leading-[61px] lg:leading-[40px]${index > 0 ? " mt-5 md:mt-6" : ""}`}
                   style={bodyTextStyle}
-                >
-                  {paragraph}
-                </p>
+                  dangerouslySetInnerHTML={{ __html: paragraph }}
+                />
               ))}
             </Reveal>
 
