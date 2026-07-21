@@ -2,9 +2,6 @@
 
 import React, { useState } from "react";
 
-const LOREM =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.";
-
 const headingStyle = {
   fontFamily: "Montserrat, sans-serif",
   fontWeight: 600,
@@ -30,7 +27,6 @@ function ServiceDetailCarousel({ carousel }) {
   if (!slides.length) return null;
 
   const handleToggle = (index) => {
-    // Open the clicked item and close the previous one
     setActiveIndex(index);
   };
 
@@ -48,7 +44,7 @@ function ServiceDetailCarousel({ carousel }) {
           {slides.map((slide, index) => {
             const isOpen = activeIndex === index;
             const title = slide.content || slide.title || `Service ${index + 1}`;
-            const description = slide.description || LOREM;
+            const description = slide.paragraph || slide.description || "";
 
             return (
               <div key={`${title}-${index}`} className="border-b border-[#E6E6E6]">
@@ -72,12 +68,14 @@ function ServiceDetailCarousel({ carousel }) {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p
-                      className="m-0  pb-6 text-[14px] leading-[1.65] md:pb-8 md:text-[18px] md:leading-[1.7]"
-                      style={descriptionStyle}
-                    >
-                      {description}
-                    </p>
+                    {description ? (
+                      <p
+                        className="m-0 pb-6 text-[14px] leading-[1.65] md:pb-8 md:text-[18px] md:leading-[1.7]"
+                        style={descriptionStyle}
+                      >
+                        {description}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
               </div>
