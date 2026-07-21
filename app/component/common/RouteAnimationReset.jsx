@@ -4,10 +4,6 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { refreshFooterScroll } from "@/lib/footerRefresh";
 
-/**
- * Re-sync scroll-driven animations after Next.js client navigations.
- * Layout-level components (e.g. Footer) can survive route changes and keep stale transforms.
- */
 export default function RouteAnimationReset() {
   const pathname = usePathname();
 
