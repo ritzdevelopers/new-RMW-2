@@ -342,7 +342,7 @@ const Header = () => {
                 }}
               >
                 <span data-header-reveal className="inline-flex items-center gap-1.5">
-                  WORK
+                  OUR WORK
                   <i
                     className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${workMenuOpen ? "rotate-180" : ""}`}
                     aria-hidden
@@ -460,7 +460,7 @@ const Header = () => {
             toggleWorkMenu();
           }}
         >
-          WORK
+          OUR WORK
           <i
             className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${workMenuOpen ? "rotate-180" : ""}`}
             aria-hidden
