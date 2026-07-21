@@ -20,17 +20,13 @@ const serviceRows = [
   ["Influencer Marketing", "Print Advertisement"],
 ];
 
-// Shared (non-size) classes.
-// Character-level break when text overflows (e.g. DIGITA / L), not whole-word wrap.
-// xl+: enough width - keep each label on one line.
 const serviceClass =
-  "uppercase leading-[1.05] tracking-[0] font-semibold text-white transition-opacity duration-300 cursor-pointer break-all xl:whitespace-nowrap xl:break-normal";
+  "shrink-0 whitespace-nowrap uppercase leading-[1.05] tracking-[0] font-semibold text-white transition-opacity duration-300 cursor-pointer";
 
-// Single-column (mobile): one label per line; still char-break if it overflows.
 const mobileFontClass = "text-[clamp(20px,7vw,46px)]";
-// Below xl: a bit larger; xl+ keeps the max size.
-const desktopFontClass = "text-[clamp(22px,4.2vw,68px)] xl:text-[clamp(28px,4.4vw,72px)]";
- 
+const desktopFontClass =
+  "text-[clamp(22px,4.2vw,68px)] xl:text-[clamp(28px,4.4vw,72px)]";
+
 const rowLayoutClasses = [
   "justify-evenly xl:justify-start xl:pl-[5%]",
   "justify-evenly xl:justify-end xl:pr-[8%]",
@@ -48,8 +44,8 @@ const OverlaySection1 = () => {
     hoveredKey && hoveredKey !== key ? "opacity-30" : "opacity-100";
 
   return (
-    <section className="relative min-h-[100dvh] w-full max-w-full overflow-x-clip bg-[#0E1125]">
-      <div className="relative min-h-[100dvh] w-full">
+    <section className="relative h-[100dvh] min-h-[100dvh] w-full max-w-full overflow-hidden bg-[#0E1125]">
+      <div className="relative h-full min-h-[100dvh] w-full">
         <Image
           src="/service/website%20banner%20%5BRecovered%5D-01.jpg"
           alt="Ritz Media World creative services"
@@ -63,10 +59,10 @@ const OverlaySection1 = () => {
         <div className="absolute inset-0 bg-black/10" aria-hidden />
 
         <div
-          className={`${leagueSpartan.className} relative z-10 flex min-h-[100dvh] flex-col p-[20px] xl:p-[50px]`}
+          className={`${leagueSpartan.className} relative z-10 flex h-full min-h-[100dvh] flex-col p-[20px] xl:p-[50px]`}
         >
           <div
-            className="flex flex-1 flex-col items-center justify-between gap-4 text-center md:hidden"
+            className="flex min-h-0 flex-1 flex-col items-center justify-between gap-4 text-center md:hidden"
             onMouseLeave={() => setHoveredKey(null)}
           >
             {serviceRows.flat().map((label, index) => {
@@ -86,13 +82,13 @@ const OverlaySection1 = () => {
           </div>
 
           <div
-            className="hidden w-full flex-1 flex-col justify-between md:justify-evenly lg:justify-between md:flex"
+            className="hidden min-h-0 w-full flex-1 flex-col justify-between md:flex lg:justify-between"
             onMouseLeave={() => setHoveredKey(null)}
           >
             {serviceRows.map((row, rowIndex) => (
               <div
                 key={rowIndex}
-                className={`flex w-full flex-wrap items-center gap-x-0 gap-y-0 xl:flex-nowrap xl:gap-x-16 ${
+                className={`flex w-full shrink-0 flex-nowrap items-center gap-x-8 xl:gap-x-16 ${
                   rowLayoutClasses[rowIndex] ?? "justify-evenly xl:justify-center"
                 }`}
               >
@@ -102,7 +98,7 @@ const OverlaySection1 = () => {
                     <span
                       key={key}
                       onMouseEnter={() => setHoveredKey(key)}
-                      className={`${serviceClass} ${desktopFontClass} min-w-0 max-w-[48%] xl:max-w-none ${getOpacityClass(
+                      className={`${serviceClass} ${desktopFontClass} ${getOpacityClass(
                         key,
                       )}`}
                     >
