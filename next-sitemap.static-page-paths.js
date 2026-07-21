@@ -25,7 +25,7 @@ const STATIC_PAGE_PATHS = [
   "/portfolio/web-design",
   "/portfolio/logo",
   "/portfolio/creative",
-  "/portfolio/ai-videos",
+  "/portfolio/brand-films",
   "/work/portfolio",
   "/work/portfolio/logo",
   "/work/portfolio/websites-and-landing-pages",

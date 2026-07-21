@@ -51,10 +51,10 @@ export const services = [
       content:
         "Behind every metric is a strategy built with purpose. These results showcase how thoughtful content, targeted campaigns, and consistent optimization translate into stronger engagement, wider reach, and meaningful business growth. For us, performance isn't a promise, it's proof.",
       slides: [
-        { src: "/digital-marketing/seo1.jpg", content: "SEO", subSlug: "search-engine-optimization-seo" },
+        { src: "/digital-marketing/seo1.jpg", content: "Search Engine Optimization (SEO)", subSlug: "search-engine-optimization-seo" },
         { src: "/digital-marketing/social-media.jpg", content: "Social Media", subSlug: "social-media-management" },
-        { src: "/digital-marketing/orm.jpg", content: "ORM", subSlug: "orm-in-digital-marketing" },
-        { src: "/digital-marketing/ppc1.jpg", content: "PPC", subSlug: "ppc-google-ads-agency" },
+        { src: "/digital-marketing/orm.jpg", content: "Online Reputation Management (ORM)", subSlug: "orm-in-digital-marketing" },
+        { src: "/digital-marketing/ppc1.jpg", content: "Pay Per Click (PPC) Advertising", subSlug: "ppc-google-ads-agency" },
         { src: "/digital-marketing/lead-generation.jpg", content: "Lead Generation", subSlug: "lead-generation" },
         { src: "/digital-marketing/brand-awarness.jpg", content: "Brand Awareness", subSlug: "brand-awareness" },
       ],

@@ -269,7 +269,7 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
                   {imageContent.body}
                 </p>
               ) : null}
-              <ServiceDetailMediaButton />
+              <ServiceDetailMediaButton   label ={"Our Work"} href = "/portfolio"/>
             </div>
             {/* {imageContent.background ? (
               <img

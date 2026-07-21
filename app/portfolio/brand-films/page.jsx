@@ -82,22 +82,22 @@ const walkthrough_images = [
 
 export const metadata = {
   alternates: {
-    canonical: "https://ritzmediaworld.com/portfolio/ai-videos",
+    canonical: "https://ritzmediaworld.com/portfolio/brand-films",
   },
 };
 
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>
-      <Header title="AI Videos Portfolio" />
+      <Header title="Brand Films" />
       <Hero title="Bringing stories to motion & ideas to screen<br />with AI-Powered Video Creation" />
       <DynamicSlider heading="Brand Films" images={brand_film_images} />
       {/* <Section3 />  */}
       {/* <Section4 />  */}
-      <DynamicSlider
+      {/* <DynamicSlider
         heading="Walk-Through Videos"
         images={walkthrough_images}
-      />
+      /> */}
       {/* <Section5 />  */}
       {/* <Section6 /> */}
       {/* <Section8 /> */}
