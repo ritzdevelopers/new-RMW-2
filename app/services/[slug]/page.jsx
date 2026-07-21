@@ -22,9 +22,14 @@ export async function generateMetadata({ params }) {
     return { title: "Service Not Found | Ritz Media World" };
   }
 
+  const pageUrl = `https://ritzmediaworld.com/services/${service.slug}`;
+
   return {
     title: `${service.title} | Ritz Media World`,
     description: service.description,
+    alternates: {
+      canonical: pageUrl,
+    },
   };
 }
 
