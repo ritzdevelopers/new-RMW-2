@@ -12,8 +12,8 @@ gsap.registerPlugin(ScrollTrigger);
 const SERVICES = [
   {
     src: "/portfolio/logo-design.png",
-    alt: "Logo Design",
-    label: "Logo Design",
+    alt: "Brand Identity kardo",
+    label: "Brand Identity kardo",
     href: "/portfolio/logo",
   },
   {
@@ -91,7 +91,7 @@ const Section2 = () => {
           className="m-0 text-center text-[32px] font-normal leading-[1.2] tracking-[-0.01em] text-black max-xl:text-[28px] max-lg:text-[26px] max-md:text-[24px] max-sm:text-[22px]"
           style={{ fontFamily: "Montserrat, sans-serif" }}
         >
-          Explore our service offerings
+          Explore our latest work
         </h2>
 
         <div className="flex w-full flex-wrap justify-center gap-[15px] lg:gap-[20px] xl:gap-[30px]">

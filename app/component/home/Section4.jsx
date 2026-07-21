@@ -75,8 +75,9 @@ const shiftClassByValue = {
 
 const ViewToggle = ({ viewMode, onChange, onGridHover }) => {
   const baseBtn =
-    "flex cursor-pointer items-center gap-2 text-sm md:text-base font-bold uppercase tracking-[0.08em] transition-colors duration-200";
+    "inline-flex h-8 cursor-pointer items-center gap-2 text-sm leading-none md:text-base font-bold uppercase tracking-[0.08em] transition-colors duration-200";
   const toggleFont = { fontFamily: '"League Spartan", sans-serif' };
+  const iconClass = "block h-4 w-4 shrink-0";
 
   return (
     <div className="relative z-40 flex items-center gap-5 md:gap-6">
@@ -89,12 +90,19 @@ const ViewToggle = ({ viewMode, onChange, onGridHover }) => {
         }`}
         aria-pressed={viewMode === "list"}
       >
-        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true">
-          <line x1="0" y1="1" x2="16" y2="1" stroke="currentColor" strokeWidth="1.4" />
-          <line x1="0" y1="6" x2="16" y2="6" stroke="currentColor" strokeWidth="1.4" />
-          <line x1="0" y1="11" x2="16" y2="11" stroke="currentColor" strokeWidth="1.4" />
+        <svg
+          className={iconClass}
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <line x1="0" y1="3" x2="16" y2="3" stroke="currentColor" strokeWidth="1.4" />
+          <line x1="0" y1="8" x2="16" y2="8" stroke="currentColor" strokeWidth="1.4" />
+          <line x1="0" y1="13" x2="16" y2="13" stroke="currentColor" strokeWidth="1.4" />
         </svg>
-        List
+        <span className="leading-none">List</span>
       </button>
 
       <button
@@ -110,13 +118,20 @@ const ViewToggle = ({ viewMode, onChange, onGridHover }) => {
         }`}
         aria-pressed={viewMode === "grid"}
       >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <svg
+          className={iconClass}
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
           <rect x="1" y="1" width="5.5" height="5.5" rx="1" fill="currentColor" />
           <rect x="9.5" y="1" width="5.5" height="5.5" rx="1" fill="currentColor" />
           <rect x="1" y="9.5" width="5.5" height="5.5" rx="1" fill="currentColor" />
           <rect x="9.5" y="9.5" width="5.5" height="5.5" rx="1" fill="currentColor" />
         </svg>
-        Grid
+        <span className="leading-none">Grid</span>
       </button>
     </div>
   );
