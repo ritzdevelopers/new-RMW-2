@@ -471,7 +471,7 @@ const section1 = () => {
         <div ref={heroRef} className="w-full overflow-x-clip">
           <AnimatedHeadingLine />
 
-          {/* Mobile/tablet: STARTS — HERE on one row, copy below.
+          {/* Mobile/tablet: STARTS - HERE on one row, copy below.
               lg+: 3-column grid so copy sits in the middle without overlapping. */}
           <div className="mt-2 grid w-full grid-cols-2 items-start gap-x-3 gap-y-3 md:mt-4 md:gap-y-4 lg:mt-3 lg:grid-cols-[minmax(0,auto)_minmax(0,1fr)_minmax(0,auto)] lg:items-center lg:gap-x-4 xl:mt-4 xl:gap-x-8">
             <span

@@ -69,7 +69,7 @@ const serviceTextStyle = {
 };
 
 const serviceTextClassName =
-  "text-[14px] md:text-[12px] lg:text-[13px] xl:text-[18px]";
+  "text-[10px] leading-snug sm:text-[13px] md:text-[12px] md:leading-[100%] lg:text-[13px] xl:text-[18px]";
 
 const servicesRow1 = [
   { title: "DIGITAL MARKETING", href: "/services/digital-marketing" },
@@ -188,7 +188,7 @@ const resetBrandMorph = (ritz, mediaworld) => {
 
 const MediaWorldText = () => (
   <span
-    className="inline-flex shrink-0 items-baseline gap-[6px] whitespace-nowrap !text-[28px] sm:!text-[32px] md:!text-[44px] lg:gap-2 lg:!text-[56px] xl:!text-[74px]"
+    className="inline-flex max-w-full shrink-0 items-baseline gap-[4px] whitespace-nowrap !text-[clamp(1.25rem,8vw,1.75rem)] sm:gap-[6px] sm:!text-[32px] md:!text-[44px] lg:gap-2 lg:!text-[56px] xl:!text-[74px]"
     style={brandTextStyle}
   >
     <span>MEDIA</span>
@@ -415,7 +415,7 @@ const Footer = ({ section = null }) => {
   }, [section, pathname]);
 
   const footerClassName =
-    "relative box-border w-full max-w-full overflow-x-clip bg-[#0E1125] px-6 pb-3 pt-6 sm:px-8 md:px-10 md:pb-3 md:pt-8 lg:px-8 lg:pb-3 lg:pt-5 xl:px-12 xl:pt-6";
+    "relative box-border w-full max-w-full overflow-x-clip bg-[#0E1125] px-4 pb-3 pt-5 sm:px-6 sm:pt-6 md:px-10 md:pb-3 md:pt-8 lg:px-8 lg:pb-3 lg:pt-5 xl:px-12 xl:pt-6";
 
   const footerPanel = (
     <div
@@ -423,17 +423,22 @@ const Footer = ({ section = null }) => {
       className="relative flex w-full flex-col lg:min-h-full lg:justify-between lg:py-2"
     >
       <div className="relative z-[2] mx-auto w-full max-w-[1500px]">
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6 lg:gap-5 xl:gap-8">
-          <div className="flex flex-col items-center gap-3 md:items-start md:gap-4">
-            <span style={connectLabelStyle}>Connect</span>
-            <nav className="flex flex-col items-center gap-2.5 md:items-start md:gap-3">
+        <div className="grid grid-cols-1 gap-6 sm:gap-5 md:grid-cols-3 md:gap-6 lg:gap-5 xl:gap-8">
+          <div className="flex flex-col items-center gap-2.5 md:items-start md:gap-4">
+            <span
+              style={connectLabelStyle}
+              className="!text-[14px] sm:!text-[16px] md:!text-[18px]"
+            >
+              Connect
+            </span>
+            <nav className="flex flex-col items-center gap-2 md:items-start md:gap-3">
               {connectLinks.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
                   title={link.label}
                   style={linkStyle}
-                  className="transition-opacity hover:opacity-70"
+                  className="!text-[14px] transition-opacity hover:opacity-70 sm:!text-[16px] md:!text-[18px]"
                   {...(link.href.startsWith("http")
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
@@ -444,14 +449,14 @@ const Footer = ({ section = null }) => {
             </nav>
           </div>
 
-          <nav className="flex flex-col items-center gap-3 md:gap-4 lg:gap-5">
+          <nav className="flex flex-col items-center gap-2.5 sm:gap-3 md:gap-4 lg:gap-5">
             {mainNavLinks.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
                 title={link.label}
                 style={navLinkStyle}
-                className="!text-[26px] transition-opacity hover:opacity-70 sm:!text-[28px] md:!text-[32px] lg:!text-[34px] xl:!text-[40px]"
+                className="!text-[22px] transition-opacity hover:opacity-70 sm:!text-[26px] md:!text-[32px] lg:!text-[34px] xl:!text-[40px]"
               >
                 {link.label}
               </Link>
@@ -460,28 +465,43 @@ const Footer = ({ section = null }) => {
 
           <div className="flex flex-col items-center gap-4 text-center">
             <div className="flex flex-col items-center">
-              <span style={connectLabelStyle}>Email</span>
+              <span
+                style={connectLabelStyle}
+                className="!text-[14px] sm:!text-[16px] md:!text-[18px]"
+              >
+                Email
+              </span>
               <a
                 href="mailto:info@ritzmediaworld.com"
                 title="Email Ritz Media World"
                 style={contactTextStyle}
-                className="mt-2 block transition-opacity hover:opacity-70"
+                className="mt-1.5 block break-all !text-[13px] !leading-5 transition-opacity hover:opacity-70 sm:mt-2 sm:break-normal sm:!text-[16px] sm:!leading-[22px] md:!text-[18px]"
               >
                 info@ritzmediaworld.com
               </a>
             </div>
 
             <div className="flex flex-col items-center">
-              <span style={connectLabelStyle}>Phone No.</span>
-              <p style={contactTextStyle} className="mt-2">
-                +91 9220516777 | +91 7290002168
+              <span
+                style={connectLabelStyle}
+                className="!text-[14px] sm:!text-[16px] md:!text-[18px]"
+              >
+                Phone No.
+              </span>
+              <p
+                style={contactTextStyle}
+                className="mt-1.5 flex flex-col items-center gap-1 !text-[13px] !leading-5 sm:mt-2 sm:block sm:!text-[16px] sm:!leading-[22px] md:!text-[18px]"
+              >
+                <span>+91 9220516777</span>
+                <span className="hidden sm:inline"> | </span>
+                <span>+91 7290002168</span>
               </p>
             </div>
           </div>
         </div>
 
-        <div className="mx-auto mt-5 w-fit max-w-full border border-white/10 bg-white/[0.02] p-2.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] backdrop-blur-sm md:mt-6 md:p-3 lg:mt-5">
-          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 lg:gap-8">
+        <div className="mx-auto mt-5 w-full max-w-[340px] border border-white/10 bg-white/[0.02] p-2.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] backdrop-blur-sm sm:w-fit sm:max-w-full md:mt-6 md:p-3 lg:mt-5">
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 sm:gap-4 md:gap-6 lg:gap-8">
             {partnerLogos.map((logo) => (
               <img
                 key={logo.src}
@@ -490,8 +510,7 @@ const Footer = ({ section = null }) => {
                 title={logo.title}
                 width={90}
                 height={55}
-                className="shrink-0 object-contain"
-                style={{ width: "77px", height: "26px" }}
+                className="h-[22px] w-[64px] shrink-0 object-contain sm:h-[26px] sm:w-[77px]"
               />
             ))}
           </div>
@@ -504,24 +523,54 @@ const Footer = ({ section = null }) => {
       >
         <div
           data-footer-brand-wrap
-          className="relative mx-auto flex w-full max-w-[1500px] flex-col items-center gap-2 overflow-hidden px-4 sm:px-6 md:gap-3 md:px-8 lg:px-10 xl:px-12"
+          className="relative mx-auto flex w-full max-w-[1500px] flex-col items-center gap-3 overflow-x-clip px-2 sm:gap-2 sm:px-6 md:gap-3 md:px-8 lg:px-10 xl:px-12"
         >
-          <div className="relative z-[1] mx-auto flex w-full max-w-[1320px] flex-col items-center justify-center gap-2 px-2 text-center md:px-6">
+          <div className="relative z-[1] mx-auto flex w-full max-w-[1320px] flex-col items-center justify-center gap-1.5 px-1 text-center sm:gap-2 sm:px-2 md:px-6">
+            {/* Mobile / tablet: 2 per row, centered */}
+            <div
+              data-footer-services
+              style={serviceTextStyle}
+              className={`${serviceTextClassName} grid w-full max-w-[420px] grid-cols-2 items-center justify-items-center gap-x-3 gap-y-2 md:hidden`}
+            >
+              {[...servicesRow1, ...servicesRow2, ...servicesRow3].map(
+                (service, index, arr) => (
+                  <Link
+                    key={service.href}
+                    href={service.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`px-1 text-center transition-colors hover:text-white${
+                      index === arr.length - 1 && arr.length % 2 === 1
+                        ? " col-span-2"
+                        : ""
+                    }`}
+                  >
+                    {service.title}
+                  </Link>
+                ),
+              )}
+            </div>
+
+            {/* Desktop: 3-column rows with bullets */}
             {[servicesRow1, servicesRow2, servicesRow3].map((row, rowIndex) => (
               <div
                 key={rowIndex}
                 data-footer-services
                 style={serviceTextStyle}
-                className={`${serviceTextClassName} grid w-full max-w-[1100px] grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-x-[10px]`}
+                className={`${serviceTextClassName} hidden w-full max-w-[1100px] grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-x-[10px] md:grid`}
               >
                 {row.map((service, index) => (
                   <React.Fragment key={service.href}>
-                    {index > 0 && <span aria-hidden className="text-center">•</span>}
+                    {index > 0 && (
+                      <span aria-hidden className="text-left">
+                        •
+                      </span>
+                    )}
                     <Link
                       href={service.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-center transition-colors hover:text-white"
+                      className="min-w-0 text-left transition-colors hover:text-white"
                     >
                       {service.title}
                     </Link>
@@ -533,26 +582,29 @@ const Footer = ({ section = null }) => {
 
           <div
             data-footer-brand-row
-            className="relative z-[2] mx-auto flex w-full max-w-[1320px] flex-wrap items-baseline justify-center gap-x-3 gap-y-1 px-2 sm:px-4 md:px-6 lg:flex-nowrap lg:justify-between lg:gap-2"
+            className="relative z-[2] mx-auto flex w-full max-w-[1320px] flex-col items-center justify-center gap-0 px-1 text-center sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-2 sm:gap-y-1 sm:px-2 md:gap-x-3 md:px-6 lg:flex-nowrap lg:justify-between lg:gap-2"
           >
             <span
               data-footer-ritz
               style={brandTextStyle}
-              className="inline-block shrink-0 !text-[28px] sm:!text-[32px] md:!text-[40px] lg:will-change-transform lg:!text-[56px] xl:!text-[74px]"
+              className="inline-block max-w-full shrink-0 !text-[clamp(1.25rem,8vw,1.75rem)] sm:!text-[32px] md:!text-[40px] lg:will-change-transform lg:!text-[56px] xl:!text-[74px]"
             >
               RITZ
             </span>
 
-            <div data-footer-mediaworld className="shrink-0 lg:will-change-transform">
+            <div
+              data-footer-mediaworld
+              className="max-w-full shrink-0 lg:will-change-transform"
+            >
               <MediaWorldText />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="relative z-[2] mx-auto max-w-[1500px]">
+      <div className="relative z-[2] mx-auto max-w-[1500px] px-2">
         <p
-          className="mt-4 mb-0 pb-2 text-center !text-[13px] md:mt-5 md:pb-2 md:!text-[16px] lg:mt-0 lg:!text-[18px]"
+          className="mt-4 mb-0 pb-2 text-center !text-[11px] !leading-snug sm:!text-[13px] md:mt-5 md:pb-2 md:!text-[16px] lg:mt-0 lg:!text-[18px]"
           style={copyrightTextStyle}
         >
           © 2026 Ritz Media World. All rights reserved.

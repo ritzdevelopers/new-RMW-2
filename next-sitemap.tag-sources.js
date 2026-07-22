@@ -25,7 +25,7 @@ function normalizeMetaKeywordsField(metaKeywords) {
   return metaKeywords.toLowerCase().replace(/, /g, ",");
 }
 
-/** Mirrors MySQL FIND_IN_SET — list items are not trimmed. */
+/** Mirrors MySQL FIND_IN_SET - list items are not trimmed. */
 function mysqlFindInSet(needle, normalizedField) {
   if (!needle || !normalizedField) return false;
   return normalizedField.split(",").some((item) => item === needle);

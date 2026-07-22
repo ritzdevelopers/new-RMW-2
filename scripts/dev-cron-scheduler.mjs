@@ -1,5 +1,5 @@
 /**
- * Local dev helper — polls the publish-scheduled-blogs cron route every minute.
+ * Local dev helper - polls the publish-scheduled-blogs cron route every minute.
  * Run alongside `npm run dev` in a second terminal:
  *   CRON_SECRET=your-secret npm run cron:scheduled-blogs
  */
@@ -31,7 +31,7 @@ async function tick() {
   }
 }
 
-console.log(`Scheduled blog cron started — checking every ${INTERVAL_MS / 1000}s`);
+console.log(`Scheduled blog cron started - checking every ${INTERVAL_MS / 1000}s`);
 console.log(`Target: ${BASE_URL}/api/cron/publish-scheduled-blogs`);
 
 tick();

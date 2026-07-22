@@ -150,7 +150,7 @@ async function fetchBlogRecords() {
   return merged;
 }
 
-/** work.html case-study cards — same source as /api/case_studies (category_id = 1). */
+/** work.html case-study cards - same source as /api/case_studies (category_id = 1). */
 async function fetchCaseStudyRecordsFromApi() {
   const endpoint =
     process.env.SITEMAP_CASE_STUDIES_API_URL || `${siteUrl}/api/case_studies`;

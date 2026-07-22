@@ -1,6 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import RouteAnimationReset from "./component/common/RouteAnimationReset";
 import "./globals.css";
+
+const GA_MEASUREMENT_ID = "G-0YHLN54GF7";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -62,6 +65,9 @@ export const metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    google: "UxPn6Ev5qoa4SEusQQ3cjHn6fqVh8eavLsme-8pKxBw",
+  },
 };
 export default function RootLayout({ children }) {
   return (
@@ -86,6 +92,18 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning
         className="min-h-full flex flex-col [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       >
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
         <RouteAnimationReset />
         {children}
       </body>

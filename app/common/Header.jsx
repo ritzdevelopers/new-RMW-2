@@ -213,7 +213,7 @@ const Header = () => {
     };
   }, [megaMenuOpen]);
 
-  // Show header on scroll up / hide on scroll down — all screen sizes
+  // Show header on scroll up / hide on scroll down - all screen sizes
   useLayoutEffect(() => {
     lastScrollY.current = window.scrollY;
 

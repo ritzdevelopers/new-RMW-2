@@ -94,8 +94,8 @@ const Section2 = () => {
     >
       <div className="mx-auto flex w-full max-w-[1560px] flex-col items-center gap-[48px] px-6 max-md:gap-[32px] max-md:px-4 max-sm:gap-[28px]">
         <h2
-          className="m-0 text-center text-[32px] font-normal leading-[1.2] tracking-[-0.01em] text-black max-xl:text-[28px] max-lg:text-[26px] max-md:text-[24px] max-sm:text-[22px]"
-          style={{ fontFamily: "Montserrat, sans-serif" }}
+          className="m-0 text-center text-[42px] font-[600] uppercase leading-[1.2] tracking-[-0.01em] text-black max-xl:text-[28px] max-lg:text-[26px] max-md:text-[24px] max-sm:text-[22px]"
+          style={{ fontFamily: "League Spartan, sans-serif" }}
         >
           Explore our latest work
         </h2>

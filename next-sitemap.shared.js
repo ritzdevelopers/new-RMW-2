@@ -1,6 +1,6 @@
 const { siteUrl } = require("./next-sitemap.blog-sources");
 
-/** One ISO timestamp per Node process — used as lastmod for all URLs in a sitemap run. */
+/** One ISO timestamp per Node process - used as lastmod for all URLs in a sitemap run. */
 let sitemapBuildLastmod = null;
 
 function getSitemapBuildLastmod() {
