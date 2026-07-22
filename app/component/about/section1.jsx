@@ -423,7 +423,7 @@ const Section1 = () => {
   };
 
   const applyCreativityLetterReveal = (letterProgress) => {
-    // Mobile has its own film reveal timeline — scrubbing here hides letters again.
+    // Mobile has its own film reveal timeline - scrubbing here hides letters again.
     if (isMobileViewport()) return;
 
     const letters = getDisruptionLetters();
@@ -1011,7 +1011,7 @@ const Section1 = () => {
         });
       }
 
-      // Desktop only — mobile snap was resetting film text to hidden (yPercent 110 / opacity 0).
+      // Desktop only - mobile snap was resetting film text to hidden (yPercent 110 / opacity 0).
       if (heroSection && film && !isMobileViewport()) {
         let isSnapping = false;
         let snapArmed = true;
@@ -1206,7 +1206,7 @@ const Section1 = () => {
       return videos;
     };
 
-    /** Only one video may carry audio — avoids double voice from duplicate <video> nodes. */
+    /** Only one video may carry audio - avoids double voice from duplicate <video> nodes. */
     const getAudioVideo = () => {
       const isMdUp = window.matchMedia("(min-width: 768px)").matches;
       const floatVideo = videoFloatRef.current?.querySelector("video");
@@ -1453,7 +1453,7 @@ const Section1 = () => {
                     </Reveal>
                   </div>
 
-                  {/* Desktop — unchanged */}
+                  {/* Desktop - unchanged */}
                   <div className="hidden md:block">
                     <Reveal className="w-full overflow-hidden py-[2px]">
                       <span className="flex w-full">

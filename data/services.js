@@ -56,7 +56,7 @@ export const services = [
           content: "Search Engine Optimization (SEO)",
           subSlug: "search-engine-optimization-seo",
           paragraph:
-            "SEO isn't just about rankings — it's about sustainable visibility and authority. Our strategy blends technical audits, keyword research, and content optimization to help your website climb search results. We focus on driving organic traffic that converts, not just visits. As a trusted SEO agency in India, we keep your brand discoverable long after the campaign ends.",
+            "SEO isn't just about rankings - it's about sustainable visibility and authority. Our strategy blends technical audits, keyword research, and content optimization to help your website climb search results. We focus on driving organic traffic that converts, not just visits. As a trusted SEO agency in India, we keep your brand discoverable long after the campaign ends.",
         },
         {
           src: "/digital-marketing/social-media.jpg",
@@ -84,14 +84,14 @@ export const services = [
           content: "Lead Generation",
           subSlug: "lead-generation",
           paragraph:
-            "Quality leads don't happen by accident — they're engineered. We design targeted campaigns across search, social, and display to capture high-intent prospects. Every lead is nurtured with a clear path toward conversion, not just collected. Our focus is turning interest into measurable revenue for your business.",
+            "Quality leads don't happen by accident - they're engineered. We design targeted campaigns across search, social, and display to capture high-intent prospects. Every lead is nurtured with a clear path toward conversion, not just collected. Our focus is turning interest into measurable revenue for your business.",
         },
         {
           src: "/digital-marketing/brand-awarness.jpg",
           content: "Brand Awareness",
           subSlug: "brand-awareness",
           paragraph:
-            "Being seen isn't enough — being remembered is what matters. We build integrated brand awareness campaigns that increase recall and admiration, not just impressions. Through consistent messaging across platforms, we make sure your audience knows and trusts your brand. The outcome is a brand people actively choose.",
+            "Being seen isn't enough - being remembered is what matters. We build integrated brand awareness campaigns that increase recall and admiration, not just impressions. Through consistent messaging across platforms, we make sure your audience knows and trusts your brand. The outcome is a brand people actively choose.",
         },
       ],
     },
@@ -204,7 +204,7 @@ export const services = [
           content: "Graphic design",
           subSlug: "graphic-designing",
           paragraph:
-            "Great design communicates before a single word is read. Our graphic design team creates visuals that convert audiences — online and offline — through clean, purposeful execution. Every design is built to communicate your message clearly and effectively. We combine creativity with strategy to make your brand visually unforgettable.",
+            "Great design communicates before a single word is read. Our graphic design team creates visuals that convert audiences - online and offline - through clean, purposeful execution. Every design is built to communicate your message clearly and effectively. We combine creativity with strategy to make your brand visually unforgettable.",
         },
         {
           src: "/creative-services/logo-design.jpg",
@@ -225,7 +225,7 @@ export const services = [
           content: "Packaging design",
           subSlug: "packaging-design",
           paragraph:
-            "Packaging is more than protection — it's a silent salesperson for your product. Our packaging designs are crafted to persuade, influence buying decisions, and reinforce brand identity on the shelf. Every design blends aesthetics with strategic messaging. The result is packaging that gets noticed and drives purchase.",
+            "Packaging is more than protection - it's a silent salesperson for your product. Our packaging designs are crafted to persuade, influence buying decisions, and reinforce brand identity on the shelf. Every design blends aesthetics with strategic messaging. The result is packaging that gets noticed and drives purchase.",
         },
       ],
     },
@@ -328,7 +328,7 @@ export const services = [
           content: "Advertisement Design",
           subSlug: "advertisement-designing",
           paragraph:
-            "We design print ads that combine eye-catching visuals with persuasive copy to capture attention instantly. Every layout is crafted for the specific publication and audience it will reach. Our designs are built to look credible, deliberate, and impossible to ignore. The goal is an ad that doesn't just get seen — it gets remembered.",
+            "We design print ads that combine eye-catching visuals with persuasive copy to capture attention instantly. Every layout is crafted for the specific publication and audience it will reach. Our designs are built to look credible, deliberate, and impossible to ignore. The goal is an ad that doesn't just get seen - it gets remembered.",
         },
         {
           src: "/print-advertising/Ad-placement.jpg",
@@ -487,7 +487,7 @@ export const services = [
           content: "Recording & Production",
           subSlug: "recording-and-production",
           paragraph:
-            "We handle end-to-end studio recording and production to deliver polished, professional radio spots. Our production process includes sound design, mixing, and mastering for broadcast-ready quality. Every element — from music to sound effects — is chosen to reinforce your message. The final product is engineered to command attention on air.",
+            "We handle end-to-end studio recording and production to deliver polished, professional radio spots. Our production process includes sound design, mixing, and mastering for broadcast-ready quality. Every element - from music to sound effects - is chosen to reinforce your message. The final product is engineered to command attention on air.",
         },
         {
           src: "/radio-advertising/media-planning.jpg",
@@ -607,7 +607,7 @@ export const services = [
           content: "Content Strategy",
           subSlug: "content-marketing",
           paragraph:
-            "Content without strategy is just noise. We build editorial plans and content roadmaps tailored to your brand's goals, audience, and industry. Every piece of content — from blogs to social posts — is mapped to a clear purpose in the customer journey. This ensures your content consistently informs, persuades, and converts.",
+            "Content without strategy is just noise. We build editorial plans and content roadmaps tailored to your brand's goals, audience, and industry. Every piece of content - from blogs to social posts - is mapped to a clear purpose in the customer journey. This ensures your content consistently informs, persuades, and converts.",
         },
         {
           src: "/content-marketing/email.jpg",
@@ -744,14 +744,14 @@ export const services = [
           content: "E-Commerce",
           subSlug: "e-commerce-web-designing",
           paragraph:
-            "Your online store needs to do more than look good — it needs to sell. We design and develop e-commerce platforms optimized for smooth browsing, fast checkout, and higher conversions. Every element, from product pages to payment gateways, is built for performance. This turns your website into a reliable revenue engine.",
+            "Your online store needs to do more than look good - it needs to sell. We design and develop e-commerce platforms optimized for smooth browsing, fast checkout, and higher conversions. Every element, from product pages to payment gateways, is built for performance. This turns your website into a reliable revenue engine.",
         },
         {
           src: "/web-designing-and-development/landing-page-development.jpg",
           content: "Landing Pages",
           subSlug: "landing-page-development-services",
           paragraph:
-            "A landing page has one job: convert. We design focused, high-converting landing pages tailored to specific campaigns and audiences. Every element — headline, layout, and call to action — is optimized to drive a single desired action. This makes your ad spend and campaigns significantly more effective.",
+            "A landing page has one job: convert. We design focused, high-converting landing pages tailored to specific campaigns and audiences. Every element - headline, layout, and call to action - is optimized to drive a single desired action. This makes your ad spend and campaigns significantly more effective.",
         },
         {
           src: "/web-designing-and-development/word-press.jpg",
@@ -882,7 +882,7 @@ export const services = [
           content: "Campaign Integration",
           subSlug: "campaign-integration",
           paragraph:
-            "A celebrity face alone isn't enough — the partnership needs to be woven into your full campaign. We integrate celebrity content seamlessly across digital, print, and traditional media. This ensures consistent messaging and maximum visibility across every touchpoint. The endorsement becomes a cohesive part of your brand story, not a standalone asset.",
+            "A celebrity face alone isn't enough - the partnership needs to be woven into your full campaign. We integrate celebrity content seamlessly across digital, print, and traditional media. This ensures consistent messaging and maximum visibility across every touchpoint. The endorsement becomes a cohesive part of your brand story, not a standalone asset.",
         },
         {
           src: "/celebrity-endorsements/public-relations.jpg",
@@ -907,7 +907,7 @@ export const services = [
         "The right celebrity partnership is more than a face on a poster - it is strategy, storytelling, and seamless integration. From talent identification to legal compliance, our work helps brands borrow the spotlight with partnerships that feel credible and convert.",
       gallery: [
         {
-          src: "/celebrity-endorsements/celebrity-image-1.jpg",
+          src: "/celebrity-endorsements/Parineeti.jpg",
           label: "Talent Reach",
           href: "https://youtu.be/ZXHlduQVn7M?si=FCpfblj3StXn26TZ",
         },
@@ -996,7 +996,7 @@ export const services = [
           content: "Influencer Identification",
           subSlug: "identification-influence-marketing-agency",
           paragraph:
-            "Finding the right influencer is about more than follower count — it's about trust and audience alignment. We identify and qualify influencers whose values genuinely match your brand. This ensures authentic engagement rather than surface-level exposure. The result is partnerships that convert followers into real customers.",
+            "Finding the right influencer is about more than follower count - it's about trust and audience alignment. We identify and qualify influencers whose values genuinely match your brand. This ensures authentic engagement rather than surface-level exposure. The result is partnerships that convert followers into real customers.",
         },
         {
           src: "/influencer-marketing-agency-in-india/cost-benefit.jpg",
@@ -1031,7 +1031,7 @@ export const services = [
           content: "Messaging Optimization",
           subSlug: "messaging-optimization",
           paragraph:
-            "A great story means little without a clear call to action. We optimize influencer messaging to motivate real outcomes — purchases, sign-ups, or loyalty engagement. Every campaign is tracked and refined based on performance data. This ensures your influencer investment delivers quantifiable results.",
+            "A great story means little without a clear call to action. We optimize influencer messaging to motivate real outcomes - purchases, sign-ups, or loyalty engagement. Every campaign is tracked and refined based on performance data. This ensures your influencer investment delivers quantifiable results.",
         },
       ],
     },
@@ -1207,7 +1207,3 @@ export function getServiceBySlug(slug) {
 export function getServiceHref(slug) {
   return `/services/${slug}`;
 }
-
-
-
-

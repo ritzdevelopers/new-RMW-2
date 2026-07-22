@@ -15,11 +15,39 @@ const DEFAULT_IMAGES = [
   "/loder/loader_i3.jpg",
 ];
 
-// Image window grows from the first size to the last (in px), per requirement.
+// Desktop image window grows from the first size to the last (in px).
 const IMG_START_W = 238;
 const IMG_START_H = 188;
 const IMG_END_W = 546;
 const IMG_END_H = 487;
+
+const isMobileViewport = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(max-width: 767px)").matches;
+
+/** Mobile: stay inside the screen - modest start size, taller end size (not full-bleed). */
+const getImageSizeRange = () => {
+  if (!isMobileViewport()) {
+    return {
+      startW: IMG_START_W,
+      startH: IMG_START_H,
+      endW: IMG_END_W,
+      endH: IMG_END_H,
+    };
+  }
+
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const maxW = vw * 0.58;
+  const maxH = vh * 0.4;
+
+  const startW = Math.min(132, maxW * 0.55);
+  const startH = startW * 1.22;
+  const endW = Math.min(maxW, startW * 1.7);
+  const endH = Math.min(maxH, endW * 1.28);
+
+  return { startW, startH, endW, endH };
+};
 
 function WebLoader({
   topText = "Ritz",
@@ -41,11 +69,15 @@ function WebLoader({
   const counterRef = useRef(null);
   const barRef = useRef(null);
   const skippedRef = useRef(false);
+  const sizeRangeRef = useRef(null);
+  const isMobileRef = useRef(false);
 
   // Show the loader only the first time per browser session. If it has already
   // played, skip straight to "done" before paint (no flash) on later visits.
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
+    isMobileRef.current = isMobileViewport();
+    sizeRangeRef.current = getImageSizeRange();
     if (window.sessionStorage.getItem(LOADER_SESSION_KEY) === "1") {
       skippedRef.current = true;
       setPhase("done");
@@ -57,11 +89,12 @@ function WebLoader({
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const sizeAt = (i) => {
+    const range = sizeRangeRef.current ?? getImageSizeRange();
     const n = images.length;
     const t = n <= 1 ? 1 : Math.min(Math.max(i / (n - 1), 0), 1);
     return {
-      w: IMG_START_W + (IMG_END_W - IMG_START_W) * t,
-      h: IMG_START_H + (IMG_END_H - IMG_START_H) * t,
+      w: range.startW + (range.endW - range.startW) * t,
+      h: range.startH + (range.endH - range.startH) * t,
     };
   };
 
@@ -199,16 +232,57 @@ function WebLoader({
       },
     });
 
-    tl.to(frameRef.current, { width: "100vw", height: "100vh", borderRadius: 0, duration: 0.6 })
-      .to(topTextRef.current, { x: "-=160", y: "-=160", opacity: 0, duration: 0.45 }, "<")
-      .to(bottomTextRef.current, { x: "+=160", y: "+=160", opacity: 0, duration: 0.45 }, "<")
-      .to([counterRef.current, barRef.current], { opacity: 0, duration: 0.3 }, "<")
-      .to(overlayRef.current, {
-        opacity: 0,
-        scale: 1.04,
-        duration: 0.5,
-        ease: "power2.inOut",
-      });
+    const mobile = isMobileRef.current;
+    const last = sizeAt(images.length - 1);
+
+    // Mobile: keep the frame on-screen (slight grow only). Desktop: full-bleed reveal.
+    if (mobile) {
+      tl.to(frameRef.current, {
+        width: last.w * 1.08,
+        height: last.h * 1.08,
+        duration: 0.45,
+      })
+        .to(
+          topTextRef.current,
+          { x: "-=48", y: "-=48", opacity: 0, duration: 0.4 },
+          "<",
+        )
+        .to(
+          bottomTextRef.current,
+          { x: "+=48", y: "+=48", opacity: 0, duration: 0.4 },
+          "<",
+        )
+        .to([counterRef.current, barRef.current], { opacity: 0, duration: 0.25 }, "<")
+        .to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.45,
+          ease: "power2.inOut",
+        });
+    } else {
+      tl.to(frameRef.current, {
+        width: "100vw",
+        height: "100vh",
+        borderRadius: 0,
+        duration: 0.6,
+      })
+        .to(
+          topTextRef.current,
+          { x: "-=160", y: "-=160", opacity: 0, duration: 0.45 },
+          "<",
+        )
+        .to(
+          bottomTextRef.current,
+          { x: "+=160", y: "+=160", opacity: 0, duration: 0.45 },
+          "<",
+        )
+        .to([counterRef.current, barRef.current], { opacity: 0, duration: 0.3 }, "<")
+        .to(overlayRef.current, {
+          opacity: 0,
+          scale: 1.04,
+          duration: 0.5,
+          ease: "power2.inOut",
+        });
+    }
   }, [phase]);
 
   // Broadcast when the loader is finished so the rest of the site (e.g. the

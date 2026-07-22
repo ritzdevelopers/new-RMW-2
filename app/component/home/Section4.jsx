@@ -141,7 +141,7 @@ const ViewToggle = ({ viewMode, onChange, onGridHover }) => {
 /* Grid (horizontal slider) mode                                              */
 /* -------------------------------------------------------------------------- */
 
-const AUTO_SCROLL_SPEED = 0.85; // px per frame — continuous marquee speed
+const AUTO_SCROLL_SPEED = 0.85; // px per frame - continuous marquee speed
 
 const GridSlider = ({ cardRefs }) => {
   const trackRef = useRef(null);
@@ -440,7 +440,7 @@ const GridSlider = ({ cardRefs }) => {
 };
 
 /* -------------------------------------------------------------------------- */
-/* Mobile image slider (list mode) — GSAP transform for smooth 60fps motion  */
+/* Mobile image slider (list mode) - GSAP transform for smooth 60fps motion  */
 /* -------------------------------------------------------------------------- */
 
 const MOBILE_GAP = 12;

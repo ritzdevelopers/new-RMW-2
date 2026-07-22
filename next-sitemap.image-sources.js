@@ -10,7 +10,7 @@ const {
 const { resolveServiceSitemapPath } = require("./next-sitemap.shared");
 
 /**
- * MySQL card.blog_image vs Mongo card.blogBanner — same rules as
+ * MySQL card.blog_image vs Mongo card.blogBanner - same rules as
  * src/allPages/Category/catergory.tsx (Image src).
  */
 function buildMysqlBlogImageAbs(blog_image) {

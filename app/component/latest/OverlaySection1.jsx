@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { League_Spartan } from "next/font/google";
+import Link from "next/link";
 
 const leagueSpartan = League_Spartan({
   subsets: ["latin"],
@@ -11,13 +12,49 @@ const leagueSpartan = League_Spartan({
 });
 
 const serviceRows = [
-  ["Digital Marketing", "Print Advertisement"],
-  ["Creative Service", "Radio Advertisement"],
-  ["Content Marketing", "Celebrity Endorsement"],
-  ["Influencer Marketing", "Web Development"],
-  ["Creative Service", "Print Advertisement"],
-  ["Digital Marketing", "Web Development"],
-  ["Influencer Marketing", "Print Advertisement"],
+  [
+    { title: "Digital Marketing", href: "/services/digital-marketing" },
+    { title: "Print Advertisement", href: "/services/print-advertising" },
+  ],
+  [
+    { title: "Creative Service", href: "/services/creative-services" },
+    { title: "Radio Advertisement", href: "/services/radio-advertising" },
+  ],
+  [
+    { title: "Content Marketing", href: "/services/contents-marketing" },
+    {
+      title: "Celebrity Endorsement",
+      href: "/services/celebrity-endorsements",
+    },
+  ],
+  [
+    {
+      title: "Influencer Marketing",
+      href: "/services/influencer-marketing-agency-in-india",
+    },
+    {
+      title: "Web Development",
+      href: "/services/web-designing-and-development",
+    },
+  ],
+  [
+    { title: "Creative Service", href: "/services/creative-services" },
+    { title: "Print Advertisement", href: "/services/print-advertising" },
+  ],
+  [
+    { title: "Digital Marketing", href: "/services/digital-marketing" },
+    {
+      title: "Web Development",
+      href: "/services/web-designing-and-development",
+    },
+  ],
+  [
+    {
+      title: "Influencer Marketing",
+      href: "/services/influencer-marketing-agency-in-india",
+    },
+    { title: "Print Advertisement", href: "/services/print-advertising" },
+  ],
 ];
 
 const serviceClass =
@@ -66,17 +103,20 @@ const OverlaySection1 = () => {
             onMouseLeave={() => setHoveredKey(null)}
           >
             {serviceRows.flat().map((label, index) => {
-              const key = `mobile-${index}-${label}`;
+              const key = `mobile-${index}-${label.href}`;
               return (
-                <span
+                <Link
                   key={key}
+                  href={label.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onMouseEnter={() => setHoveredKey(key)}
                   className={`${serviceClass} ${mobileFontClass} block w-full text-center ${getOpacityClass(
                     key,
                   )}`}
                 >
-                  {label}
-                </span>
+                  {label.title}
+                </Link>
               );
             })}
           </div>
@@ -89,21 +129,25 @@ const OverlaySection1 = () => {
               <div
                 key={rowIndex}
                 className={`flex w-full shrink-0 flex-nowrap items-center gap-x-8 xl:gap-x-16 ${
-                  rowLayoutClasses[rowIndex] ?? "justify-evenly xl:justify-center"
+                  rowLayoutClasses[rowIndex] ??
+                  "justify-evenly xl:justify-center"
                 }`}
               >
                 {row.map((label, index) => {
-                  const key = `${rowIndex}-${index}-${label}`;
+                  const key = `${rowIndex}-${index}-${label.href}`;
                   return (
-                    <span
+                    <Link
                       key={key}
+                      href={label.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       onMouseEnter={() => setHoveredKey(key)}
                       className={`${serviceClass} ${desktopFontClass} ${getOpacityClass(
                         key,
                       )}`}
                     >
-                      {label}
-                    </span>
+                      {label.title}
+                    </Link>
                   );
                 })}
               </div>

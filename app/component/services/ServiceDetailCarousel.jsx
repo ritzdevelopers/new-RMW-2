@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 const headingStyle = {
-  fontFamily: "Montserrat, sans-serif",
+  fontFamily: '"League Spartan", sans-serif',
   fontWeight: 600,
   color: "#111111",
 };
@@ -27,14 +27,14 @@ function ServiceDetailCarousel({ carousel }) {
   if (!slides.length) return null;
 
   const handleToggle = (index) => {
-    setActiveIndex(index);
+    setActiveIndex((prev) => (prev === index ? -1 : index));
   };
 
   return (
     <section className="w-full bg-white px-6 py-16 md:px-12 md:py-20 lg:py-24">
       <div className="mx-auto w-full max-w-[1340px]">
         <h2
-          className="m-0 mb-10 text-center text-[28px] leading-tight tracking-[-0.02em] md:mb-14 md:text-[40px] lg:text-[43px]"
+          className="m-0 mb-10 text-center text-[28px] leading-tight uppercase tracking-[-0.02em] md:mb-14 md:text-[40px] lg:text-[43px]"
           style={headingStyle}
         >
         Services We Provide
@@ -59,6 +59,12 @@ function ServiceDetailCarousel({ carousel }) {
                     style={titleStyle}
                   >
                     {title}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="inline-flex h-6 w-6 shrink-0 items-center justify-center text-[22px] leading-none text-[#333333] md:h-7 md:w-7 md:text-[26px]"
+                  >
+                    {isOpen ? "−" : "+"}
                   </span>
                 </button>
 
