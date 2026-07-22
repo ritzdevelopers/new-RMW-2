@@ -14,7 +14,7 @@ const SERVICES = [
     src: "/portfolio/logo-design.png",
     alt: "Brand Identity ",
     label: "Brand Identity ",
-    href: "/portfolio/logo",
+    href: "/portfolio/brand-identity",
   },
   {
     src: "/portfolio/creative.png",
@@ -31,7 +31,7 @@ const SERVICES = [
   {
     src: "/portfolio/ai-video.png",
     alt: "AI Video Generation",
-    label: "AI Video",
+    label: "Brand Films",
     href: "/portfolio/brand-films",
   },
   {

@@ -11,8 +11,8 @@ export const serviceImages = [
 ];
 
 export const servicesContactCta = {
-  heading: "The Future Won't Build Itself",
-  body: "Let's create something remarkable together.",
+  heading: "WE LET OUR WORK DO THE TALKING",
+  body: "Browse our portfolio to see what we've created for our clients.",
 };
 
 export const services = [
@@ -148,9 +148,9 @@ export const services = [
       imageContent: {
         background: "/digital-marketing/image%201005%20(14).png",
         heading:
-          "The Future Won't Build Itself",
+          "WE LET OUR WORK DO THE TALKING",
         body:
-          "Let's create something remarkable together.",
+          "Browse our portfolio to see what we've created for our clients.",
       },
     },
   },
@@ -281,8 +281,8 @@ export const services = [
       },
       imageContent: {
         background: "/creative-services/image%201005%20(14).png",
-        heading: "The Future Won't Build Itself",
-        body: "Let's create something remarkable together.",
+        heading: "WE LET OUR WORK DO THE TALKING",
+        body: "Browse our portfolio to see what we've created for our clients.",
       },
     },
   },
@@ -419,8 +419,8 @@ export const services = [
       },
       imageContent: {
         background: "/print-advertising/image%201005%20(14).png",
-        heading: "The Future Won't Build Itself",
-        body: "Let's create something remarkable together.",
+        heading: "WE LET OUR WORK DO THE TALKING",
+        body: "Browse our portfolio to see what we've created for our clients.",
       },
     },
   },
@@ -562,8 +562,8 @@ export const services = [
       },
       imageContent: {
         background: "/radio-advertising/image%201005%20(14).png",
-        heading: "The Future Won't Build Itself",
-        body: "Let's create something remarkable together.",
+        heading: "WE LET OUR WORK DO THE TALKING",
+        body: "Browse our portfolio to see what we've created for our clients.",
       },
     },
   },
@@ -684,8 +684,8 @@ export const services = [
       },
       imageContent: {
         background: "/contents-marketing/image%201005%20(14).png",
-        heading: "The Future Won't Build Itself",
-        body: "Let's create something remarkable together.",
+        heading: "WE LET OUR WORK DO THE TALKING",
+        body: "Browse our portfolio to see what we've created for our clients.",
       },
     },
   },
@@ -814,8 +814,8 @@ export const services = [
       },
       imageContent: {
         background: "/web-designing-and-development/image%201005%20(14).png",
-        heading: "The Future Won't Build Itself",
-        body: "Let's create something remarkable together.",
+        heading: "WE LET OUR WORK DO THE TALKING",
+        body: "Browse our portfolio to see what we've created for our clients.",
       },
     },
   },
@@ -949,8 +949,8 @@ export const services = [
       ],
       imageContent: {
         background: "/celebrity-endorsements/image%201005%20(14).png",
-        heading: "The Future Won't Build Itself",
-        body: "Let's create something remarkable together.",
+        heading: "WE LET OUR WORK DO THE TALKING",
+        body: "Browse our portfolio to see what we've created for our clients.",
       },
     },
   },
@@ -1060,8 +1060,8 @@ export const services = [
       ],
       imageContent: {
         background: "/influencer-marketing-agency-in-india/image%201005%20(14).png",
-        heading: "The Future Won't Build Itself",
-        body: "Let's create something remarkable together.",
+        heading: "WE LET OUR WORK DO THE TALKING",
+        body: "Browse our portfolio to see what we've created for our clients.",
       },
     },
   },
@@ -1191,8 +1191,8 @@ export const services = [
       },
       imageContent: {
         background: "/services/3drendring/3d7.png",
-        heading: "The Future Won't Build Itself",
-        body: "Let's create something remarkable together.",
+        heading: "WE LET OUR WORK DO THE TALKING",
+        body: "Browse our portfolio to see what we've created for our clients.",
       },
     },
   },
