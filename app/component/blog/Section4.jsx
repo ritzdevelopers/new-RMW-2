@@ -287,6 +287,8 @@ const Section4 = () => {
               <Link
                 href={`/${featuredPost.slug}`}
                 title={featuredPost.title}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex flex-col items-start no-underline lg:col-span-3"
               >
                 <div className="w-[340px] max-w-full">
@@ -324,6 +326,8 @@ const Section4 = () => {
                       key={post.slug}
                       href={`/${post.slug}`}
                       title={post.title}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className={`flex flex-col gap-3 no-underline sm:flex-row sm:gap-4 ${index > 0 ? "mt-10 border-t border-[#D9D9D9] pt-10" : ""}`}
                     >
                       <div className="w-full sm:h-[120px] sm:w-[160px] sm:shrink-0">

@@ -119,6 +119,8 @@ function Panel({ project, total, isActive, onActivate }) {
         {project.slug && (
           <Link
             href={getCaseStudyHref(project.slug)}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
             className="cs4-panel-cta"
           >

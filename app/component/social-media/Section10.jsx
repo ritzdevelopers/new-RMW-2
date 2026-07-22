@@ -16,6 +16,8 @@ function Section10() {
         <ServiceDetailMediaButton
           label="Contact Us"
           href="/contact"
+          target="_blank"
+          rel="noopener noreferrer"
           className="mt-1"
         />
       </div>

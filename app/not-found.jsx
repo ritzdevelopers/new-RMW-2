@@ -105,6 +105,8 @@ export default function NotFound() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-sm uppercase tracking-[0.08em] text-white/70 transition hover:text-[#F5A623]"
                   style={{ fontFamily: sequelFontFamily, fontWeight: 500 }}
                 >

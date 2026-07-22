@@ -346,6 +346,8 @@ const ServicesGrid = () => {
             <Link
               key={service.slug}
               href={getServiceHref(service.slug)}
+              target="_blank"
+              rel="noopener noreferrer"
               data-svc-card
               className={`group relative block w-full overflow-hidden rounded-none bg-[#1D1D1B] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.35)] will-change-transform max-lg:aspect-[69/73] md:w-[calc(50%-1rem)] lg:h-[621px] ${
                 index % 2 === 1 ? "md:mt-12 lg:mt-12" : ""
