@@ -12,6 +12,10 @@ const portfolioSubLinks = [
   { label: "Website Design", href: "/portfolio/web-design" },
   { label: "Brand Films", href: "/portfolio/brand-films" },
   { label: "Walk-Through Videos", href: "/portfolio/walk-through-videos" },
+  {
+    label: "Influencer Marketing Videos",
+    href: "/portfolio/infleuncer-marketing-videos",
+  },
 ];
 
 const workLinks = [
