@@ -5,6 +5,7 @@ import OverlaySection1 from "../component/latest/OverlaySection1";
 import CaseStudyHero from "../component/case-study/CaseStudyHero";
 import CaseStudyIntro from "../component/case-study/CaseStudyIntro";
 import CaseStudyStack from "../component/case-study/CaseStudyStack";
+import CaseStudyDownloads from "../component/case-study/CaseStudyDownloads";
 
 export const metadata = {
   title: "Case Studies | Ritz Media World",
@@ -23,6 +24,7 @@ const CaseStudyPage = () => {
         <CaseStudyHero />
         <CaseStudyIntro />
         <CaseStudyStack />
+        <CaseStudyDownloads />
       </main>
       <Footer section={<OverlaySection1 />} />
     </>
