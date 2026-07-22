@@ -44,30 +44,7 @@ const inputLineClass =
   "pointer-events-none absolute bottom-0 left-0 block h-px w-full origin-left scale-x-0 bg-[#FFFFFF33]";
 const selectClass = `${inputClass} appearance-none cursor-pointer`;
 
-const COUNTRY_OPTIONS = [
-  "India",
-  "UAE",
-  "Kuwait",
-  "Qatar",
-  "Jordan",
-  "Bahrain",
-  "Mauritius",
-  "Sri Lanka",
-  "Bangladesh",
-  "United Kingdom",
-  "Germany",
-  "France",
-  "Italy",
-  "Spain",
-  "Netherlands",
-  "Switzerland",
-  "Sweden",
-  "Ireland",
-  "Portugal",
-  "Belgium",
-  "Austria",
-  "Poland",
-];
+const COUNTRY_OPTIONS = ["India", "UAE", "UK", "Singapore"];
 
 /** Local mobile rules per country (digits only, no country code). */
 const COUNTRY_PHONE_RULES = {
@@ -83,125 +60,17 @@ const COUNTRY_PHONE_RULES = {
     countryCodes: ["971"],
     message: "Enter a valid 9-digit UAE mobile number starting with 5.",
   },
-  Kuwait: {
-    length: 8,
-    regex: /^[569]\d{7}$/,
-    countryCodes: ["965"],
-    message: "Enter a valid 8-digit Kuwait mobile number starting with 5, 6, or 9.",
-  },
-  Qatar: {
-    length: 8,
-    regex: /^[3567]\d{7}$/,
-    countryCodes: ["974"],
-    message: "Enter a valid 8-digit Qatar mobile number.",
-  },
-  Jordan: {
-    length: 9,
-    regex: /^7[789]\d{7}$/,
-    countryCodes: ["962"],
-    message: "Enter a valid 9-digit Jordan mobile number starting with 77, 78, or 79.",
-  },
-  Bahrain: {
-    length: 8,
-    regex: /^3\d{7}$/,
-    countryCodes: ["973"],
-    message: "Enter a valid 8-digit Bahrain mobile number starting with 3.",
-  },
-  Mauritius: {
-    length: 8,
-    regex: /^5\d{7}$/,
-    countryCodes: ["230"],
-    message: "Enter a valid 8-digit Mauritius mobile number starting with 5.",
-  },
-  "Sri Lanka": {
-    length: 9,
-    regex: /^7\d{8}$/,
-    countryCodes: ["94"],
-    message: "Enter a valid 9-digit Sri Lanka mobile number starting with 7.",
-  },
-  Bangladesh: {
-    length: 10,
-    regex: /^1[3-9]\d{8}$/,
-    countryCodes: ["880"],
-    message: "Enter a valid 10-digit Bangladesh mobile number starting with 1.",
-  },
-  "United Kingdom": {
+  UK: {
     length: 10,
     regex: /^7\d{9}$/,
     countryCodes: ["44"],
     message: "Enter a valid 10-digit UK mobile number starting with 7.",
   },
-  Germany: {
-    length: [10, 11],
-    regex: /^1[5-7]\d{8,9}$/,
-    countryCodes: ["49"],
-    message: "Enter a valid German mobile number starting with 15, 16, or 17.",
-  },
-  France: {
-    length: 9,
-    regex: /^[67]\d{8}$/,
-    countryCodes: ["33"],
-    message: "Enter a valid 9-digit French mobile number starting with 6 or 7.",
-  },
-  Italy: {
-    length: 10,
-    regex: /^3\d{9}$/,
-    countryCodes: ["39"],
-    message: "Enter a valid 10-digit Italian mobile number starting with 3.",
-  },
-  Spain: {
-    length: 9,
-    regex: /^[67]\d{8}$/,
-    countryCodes: ["34"],
-    message: "Enter a valid 9-digit Spanish mobile number starting with 6 or 7.",
-  },
-  Netherlands: {
-    length: 9,
-    regex: /^6\d{8}$/,
-    countryCodes: ["31"],
-    message: "Enter a valid 9-digit Dutch mobile number starting with 6.",
-  },
-  Switzerland: {
-    length: 9,
-    regex: /^7[5-9]\d{7}$/,
-    countryCodes: ["41"],
-    message: "Enter a valid 9-digit Swiss mobile number starting with 75–79.",
-  },
-  Sweden: {
-    length: 9,
-    regex: /^7\d{8}$/,
-    countryCodes: ["46"],
-    message: "Enter a valid 9-digit Swedish mobile number starting with 7.",
-  },
-  Ireland: {
-    length: 9,
-    regex: /^8\d{8}$/,
-    countryCodes: ["353"],
-    message: "Enter a valid 9-digit Irish mobile number starting with 8.",
-  },
-  Portugal: {
-    length: 9,
-    regex: /^9\d{8}$/,
-    countryCodes: ["351"],
-    message: "Enter a valid 9-digit Portuguese mobile number starting with 9.",
-  },
-  Belgium: {
-    length: 9,
-    regex: /^4\d{8}$/,
-    countryCodes: ["32"],
-    message: "Enter a valid 9-digit Belgian mobile number starting with 4.",
-  },
-  Austria: {
-    length: [10, 11, 12, 13],
-    regex: /^6\d{9,12}$/,
-    countryCodes: ["43"],
-    message: "Enter a valid Austrian mobile number starting with 6.",
-  },
-  Poland: {
-    length: 9,
-    regex: /^[5-9]\d{8}$/,
-    countryCodes: ["48"],
-    message: "Enter a valid 9-digit Polish mobile number.",
+  Singapore: {
+    length: 8,
+    regex: /^[89]\d{7}$/,
+    countryCodes: ["65"],
+    message: "Enter a valid 8-digit Singapore mobile number starting with 8 or 9.",
   },
 };
 
@@ -268,6 +137,64 @@ function validatePhoneForCountry(phone, country) {
 
   if (hasInvalidRepeatedPattern(local)) {
     return REPEATED_PATTERN_MESSAGE;
+  }
+
+  return null;
+}
+
+const EMAIL_INVALID_MESSAGE =
+  "Please enter a valid email address (e.g. name@example.com).";
+
+/** local-part@domain.tld with the rules described in the product form. */
+function validateEmail(email) {
+  const value = String(email || "").trim();
+  if (!value) {
+    return "Please enter your email address.";
+  }
+
+  const atIndex = value.indexOf("@");
+  if (atIndex <= 0 || atIndex !== value.lastIndexOf("@")) {
+    return EMAIL_INVALID_MESSAGE;
+  }
+
+  const local = value.slice(0, atIndex);
+  const domain = value.slice(atIndex + 1);
+
+  if (
+    !local ||
+    local.startsWith(".") ||
+    local.endsWith(".") ||
+    local.includes("..")
+  ) {
+    return EMAIL_INVALID_MESSAGE;
+  }
+
+  // A-Z a-z 0-9 and ! # $ % & ' * + - / = ? ^ _ ` { | } ~ plus single dots
+  if (!/^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+$/.test(local)) {
+    return EMAIL_INVALID_MESSAGE;
+  }
+
+  if (!domain || !domain.includes(".")) {
+    return EMAIL_INVALID_MESSAGE;
+  }
+
+  const labels = domain.split(".");
+  if (labels.length < 2) {
+    return EMAIL_INVALID_MESSAGE;
+  }
+
+  const tld = labels[labels.length - 1];
+  if (!/^[A-Za-z]{2,}$/.test(tld)) {
+    return EMAIL_INVALID_MESSAGE;
+  }
+
+  for (const label of labels) {
+    if (!label || label.startsWith("-") || label.endsWith("-")) {
+      return EMAIL_INVALID_MESSAGE;
+    }
+    if (!/^[A-Za-z0-9-]+$/.test(label)) {
+      return EMAIL_INVALID_MESSAGE;
+    }
   }
 
   return null;
@@ -460,11 +387,16 @@ const Section1 = () => {
   const [status, setStatus] = useState(null);
   const [country, setCountry] = useState("");
   const [phoneError, setPhoneError] = useState(null);
+  const [emailError, setEmailError] = useState(null);
 
   const handlePhoneInput = (e) => {
     const cleaned = e.currentTarget.value.replace(/[^0-9+]/g, "");
     e.currentTarget.value = cleaned;
     if (phoneError) setPhoneError(null);
+  };
+
+  const handleEmailInput = () => {
+    if (emailError) setEmailError(null);
   };
 
   const handleCountryChange = (e) => {
@@ -487,6 +419,13 @@ const Section1 = () => {
     const selectedCountry = (formData.get("country") || country || "").toString().trim();
     const howHeard = (formData.get("howHeard") || "").toString().trim();
     const messageText = (formData.get("message") || "").toString().trim();
+
+    const emailValidationError = validateEmail(email);
+    if (emailValidationError) {
+      setEmailError(emailValidationError);
+      setStatus({ type: "error", text: emailValidationError });
+      return;
+    }
 
     const phoneValidationError = validatePhoneForCountry(phone, selectedCountry);
     if (phoneValidationError) {
@@ -516,6 +455,7 @@ const Section1 = () => {
     setSubmitting(true);
     setStatus(null);
     setPhoneError(null);
+    setEmailError(null);
 
     try {
       const response = await fetch("/api/system-settings/contact-enquiry", {
@@ -534,6 +474,7 @@ const Section1 = () => {
         form.reset();
         setCountry("");
         setPhoneError(null);
+        setEmailError(null);
       } else {
         setStatus({
           type: "error",
@@ -712,9 +653,29 @@ const Section1 = () => {
           </div>
 
           <div className="mt-8 grid grid-cols-1 xl:gap-5 gap-8 md:mt-10 md:grid-cols-2 md:gap-x-10">
-            <Field label="EMAIL ADDRESS*">
-              <input type="email" name="email" required className={inputClass} />
-            </Field>
+            <div>
+              <Field label="EMAIL ADDRESS*">
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  className={inputClass}
+                  onInput={handleEmailInput}
+                  aria-invalid={emailError ? "true" : undefined}
+                />
+              </Field>
+              {emailError ? (
+                <p
+                  className="mt-2 text-xs"
+                  style={{
+                    fontFamily: sequelFontFamily,
+                    color: "#FF8A8A",
+                  }}
+                >
+                  {emailError}
+                </p>
+              ) : null}
+            </div>
             <div>
               <Field label="PHONE NUMBER*">
                 <input

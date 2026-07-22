@@ -84,6 +84,64 @@ function validateIndianPhone(phone) {
   return null;
 }
 
+const EMAIL_INVALID_MESSAGE =
+  "Please enter a valid email address (e.g. name@example.com).";
+
+/** local-part@domain.tld with the rules described in the product form. */
+function validateEmail(email) {
+  const value = String(email || "").trim();
+  if (!value) {
+    return "Please enter your email address.";
+  }
+
+  const atIndex = value.indexOf("@");
+  if (atIndex <= 0 || atIndex !== value.lastIndexOf("@")) {
+    return EMAIL_INVALID_MESSAGE;
+  }
+
+  const local = value.slice(0, atIndex);
+  const domain = value.slice(atIndex + 1);
+
+  if (
+    !local ||
+    local.startsWith(".") ||
+    local.endsWith(".") ||
+    local.includes("..")
+  ) {
+    return EMAIL_INVALID_MESSAGE;
+  }
+
+  // A-Z a-z 0-9 and ! # $ % & ' * + - / = ? ^ _ ` { | } ~ plus single dots
+  if (!/^[A-Za-z0-9!#$%&'*+/=?^_`{|}~.-]+$/.test(local)) {
+    return EMAIL_INVALID_MESSAGE;
+  }
+
+  if (!domain || !domain.includes(".")) {
+    return EMAIL_INVALID_MESSAGE;
+  }
+
+  const labels = domain.split(".");
+  if (labels.length < 2) {
+    return EMAIL_INVALID_MESSAGE;
+  }
+
+  const tld = labels[labels.length - 1];
+  if (!/^[A-Za-z]{2,}$/.test(tld)) {
+    return EMAIL_INVALID_MESSAGE;
+  }
+
+  for (const label of labels) {
+    if (!label || label.startsWith("-") || label.endsWith("-")) {
+      return EMAIL_INVALID_MESSAGE;
+    }
+    if (!/^[A-Za-z0-9-]+$/.test(label)) {
+      return EMAIL_INVALID_MESSAGE;
+    }
+  }
+
+  return null;
+}
+
 const Field = ({ label, children }) => (
   <div>
     <span style={labelStyle}>{label}</span>
@@ -239,10 +297,15 @@ const section1 = () => {
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
   const [phoneError, setPhoneError] = useState(null);
+  const [emailError, setEmailError] = useState(null);
 
   const handlePhoneInput = (e) => {
     e.currentTarget.value = e.currentTarget.value.replace(/[^0-9+]/g, "");
     if (phoneError) setPhoneError(null);
+  };
+
+  const handleEmailInput = () => {
+    if (emailError) setEmailError(null);
   };
 
   const uploadResume = async (resumeFile) => {
@@ -282,7 +345,15 @@ const section1 = () => {
     const form = e.currentTarget;
     const formData = new FormData(form);
     const resumeFile = formData.get("resume");
+    const email = (formData.get("email") || "").toString().trim();
     const phone = (formData.get("phone") || "").toString().trim();
+
+    const emailValidationError = validateEmail(email);
+    if (emailValidationError) {
+      setEmailError(emailValidationError);
+      setStatus({ type: "error", text: emailValidationError });
+      return;
+    }
 
     const phoneValidationError = validateIndianPhone(phone);
     if (phoneValidationError) {
@@ -296,11 +367,13 @@ const section1 = () => {
       return;
     }
 
+    formData.set("email", email);
     formData.set("phone", normalizeIndianPhone(phone));
 
     setSubmitting(true);
     setStatus(null);
     setPhoneError(null);
+    setEmailError(null);
 
     try {
       const resumeUploaded = await uploadResume(resumeFile);
@@ -334,6 +407,7 @@ const section1 = () => {
       });
       form.reset();
       setPhoneError(null);
+      setEmailError(null);
     } catch (error) {
       console.error("Error during submission:", error);
       setStatus({
@@ -512,14 +586,29 @@ const section1 = () => {
             <Field label="FIRST NAME*">
               <input type="text" name="name" required className={inputClass} />
             </Field>
-            <Field label=" EMAIL ADDRESS*">
-              <input
-                type="email"
-                name="email"
-                required
-                className={inputClass}
-              />
-            </Field>
+            <div>
+              <Field label=" EMAIL ADDRESS*">
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  className={inputClass}
+                  onInput={handleEmailInput}
+                  aria-invalid={emailError ? "true" : undefined}
+                />
+              </Field>
+              {emailError ? (
+                <p
+                  className="mt-2 text-xs"
+                  style={{
+                    fontFamily: sequelFontFamily,
+                    color: "#FF8A8A",
+                  }}
+                >
+                  {emailError}
+                </p>
+              ) : null}
+            </div>
           </div>
 
           <div className="mt-8 grid grid-cols-1 xl:gap-5 gap-8 md:mt-10 md:grid-cols-2 md:gap-x-10">

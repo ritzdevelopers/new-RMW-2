@@ -29,14 +29,14 @@ const logos_images = [
 ];
 export const metadata = {
   alternates: {
-    canonical: "https://ritzmediaworld.com/portfolio/logo",
+    canonical: "https://ritzmediaworld.com/portfolio/brand-identity",
   },
 };
 
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>
-      <Header title="Logo Design Portfolio" />
+      <Header title="Brand Identity Portfolio" />
       <Hero title="Crafting identities & shaping stories
 with Custom Logo Design" />
       <DynamicSlider heading="Logos" images={logos_images}/>

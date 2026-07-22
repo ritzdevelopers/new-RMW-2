@@ -23,11 +23,11 @@ const STATIC_PAGE_PATHS = [
   "/tags",
   "/portfolio",
   "/portfolio/web-design",
-  "/portfolio/logo",
+  "/portfolio/brand-identity",
   "/portfolio/creative",
   "/portfolio/brand-films",
   "/work/portfolio",
-  "/work/portfolio/logo",
+  "/work/portfolio/brand-identity",
   "/work/portfolio/websites-and-landing-pages",
   "/work/portfolio/creatives-and-ai-videos",
 ];

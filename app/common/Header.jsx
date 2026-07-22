@@ -7,7 +7,7 @@ import gsap from "gsap";
 import { services } from "../../data/services";
 
 const portfolioSubLinks = [
-  { label: "Logo Design", href: "/portfolio/logo" },
+  { label: "Brand Identity", href: "/portfolio/brand-identity" },
   { label: "Creative Design", href: "/portfolio/creative" },
   { label: "Website Design", href: "/portfolio/web-design" },
   { label: "Brand Films", href: "/portfolio/brand-films" },
