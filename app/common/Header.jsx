@@ -21,7 +21,6 @@ const workLinks = [
     children: portfolioSubLinks,
   },
   { label: "Case Studies", href: "/case-study" },
-  { label: "Web Stories", href: "/web-stories" },
 ];
 
 
@@ -264,7 +263,13 @@ const Header = () => {
           ref={headerRef}
           className="mx-auto flex w-full max-w-8xl items-center justify-between px-8 py-5 md:px-12"
         >
-        <Link href="/" title="Ritz Media World" className="shrink-0 overflow-hidden">
+        <Link
+          href="/"
+          title="Ritz Media World"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 overflow-hidden"
+        >
           <span data-header-reveal className="inline-block">
             <Image
               src="/logo/rmw.logo.png"
@@ -283,6 +288,8 @@ const Header = () => {
             <Link
               href="/about.html"
               title="About"
+              target="_blank"
+              rel="noopener noreferrer"
               className={`${linkClass} overflow-hidden`}
             >
               <span data-header-reveal className="inline-block">
@@ -302,6 +309,8 @@ const Header = () => {
                 <Link
                   href="/services"
                   title="Services"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={linkClass}
                 >
                   SERVICES
@@ -357,6 +366,8 @@ const Header = () => {
                 key={link.label}
                 href={link.href}
                 title={link.label}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`${linkClass} overflow-hidden`}
               >
                 <span data-header-reveal className="inline-block">
@@ -416,6 +427,8 @@ const Header = () => {
         <Link
           href="/about.html"
           title="About"
+          target="_blank"
+          rel="noopener noreferrer"
           className={linkClass}
           onClick={() => setMenuOpen(false)}
         >
@@ -426,6 +439,8 @@ const Header = () => {
           <Link
             href="/services"
             title="Services"
+            target="_blank"
+            rel="noopener noreferrer"
             className={linkClass}
             onClick={() => setMenuOpen(false)}
           >
@@ -473,6 +488,8 @@ const Header = () => {
             key={link.label}
             href={link.href}
             title={link.label}
+            target="_blank"
+            rel="noopener noreferrer"
             className={linkClass}
             onClick={() => setMenuOpen(false)}
           >
@@ -528,6 +545,8 @@ const Header = () => {
               <Link
                 href="/services"
                 title="View all services"
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setServicesMenuOpen(false)}
                 className="mt-0 md:mt-3 inline-flex items-center gap-2 font-sequel text-[19px] font-[310] uppercase tracking-normal text-white transition-colors hover:text-[#c99237]"
               >
@@ -543,6 +562,8 @@ const Header = () => {
                 key={service.slug}
                 href={`/services/${service.slug}`}
                 title={service.title}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setServicesMenuOpen(false)}
                 style={{
                   transitionDelay: servicesMenuOpen ? `${80 + index * 35}ms` : "0ms",
@@ -612,6 +633,8 @@ const Header = () => {
               <Link
                 href="/work/portfolio"
                 title="View portfolio"
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => {
               setWorkMenuOpen(false);
               setPortfolioSubOpen(false);
@@ -639,6 +662,8 @@ const Header = () => {
                 <Link
                   href={item.href}
                   title={item.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => {
                     setPortfolioSubOpen(false);
                     setWorkMenuOpen(false);
@@ -682,6 +707,8 @@ const Header = () => {
                             key={subItem.label}
                             href={subItem.href}
                             title={subItem.label}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             onClick={() => {
                               setPortfolioSubOpen(false);
                               setWorkMenuOpen(false);

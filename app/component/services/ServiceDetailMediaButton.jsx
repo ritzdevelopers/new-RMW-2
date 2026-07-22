@@ -11,6 +11,8 @@ const ServiceDetailMediaButton = ({
   <div className={`flex justify-center ${className || "mt-8 md:mt-10"}`}>
     <Link
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       className="group relative inline-flex cursor-pointer items-center gap-2 overflow-hidden rounded-full bg-white py-2 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
     >
       <span

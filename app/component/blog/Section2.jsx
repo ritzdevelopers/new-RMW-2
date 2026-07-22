@@ -149,15 +149,21 @@ function getVisiblePages(current, total) {
 
 async function fetchAllBlogsClient() {
   const allBlogs = [];
+  // API can skip/omit mid-range pages when looping with early exit;
+  // fetch pages 1–43 explicitly so the full catalog loads.
+  const TOTAL_PAGES = 43;
 
-  for (let page = 1; page <= 60; page += 1) {
-    const response = await fetch(`/api/get_all_blogs?page=${page}`);
-    if (!response.ok) break;
-    const data = await response.json();
-    const items = Array.isArray(data?.blogs) ? data.blogs : [];
-    if (!items.length) break;
-    allBlogs.push(...items.map(normalizeBlogItem));
-    if (items.length < 10) break;
+  for (let page = 1; page <= TOTAL_PAGES; page += 1) {
+    try {
+      const response = await fetch(`/api/get_all_blogs?page=${page}`);
+      if (!response.ok) continue;
+      const data = await response.json();
+      const items = Array.isArray(data?.blogs) ? data.blogs : [];
+      if (!items.length) continue;
+      allBlogs.push(...items.map(normalizeBlogItem));
+    } catch {
+      // Skip failed page and keep loading the rest.
+    }
   }
 
   return sortBlogsByDateDesc(allBlogs);
@@ -291,6 +297,8 @@ const Section2 = () => {
               <Link
                 key={post.slug}
                 href={`/${post.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 title={post.title}
                 className="flex flex-col gap-5 no-underline sm:flex-row sm:items-start sm:gap-6 md:gap-8"
               >
@@ -382,6 +390,8 @@ const Section2 = () => {
                   key={category}
                   href={`/category/${slugifyCategoryLink(category)}`}
                   title={category}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center rounded-[8px] border border-[#D9D9D9] px-4 py-2 no-underline transition-opacity hover:opacity-70"
                   style={categoryTagStyle}
                 >

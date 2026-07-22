@@ -356,6 +356,8 @@ const GridSlider = ({ cardRefs }) => {
             <Link
               key={`${service.slug}-${index}`}
               href={`/services/${service.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
               ref={(node) => {
                 if (isOriginal) cardRefs.current[index] = node;
               }}

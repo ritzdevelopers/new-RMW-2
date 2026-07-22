@@ -56,6 +56,8 @@ export default function BlogListingGrid({
                 </h3>
                 <Link
                   href={`/${blog.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="mt-auto flex cursor-pointer items-center gap-2 self-center rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
                 >
                   <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[14px]">

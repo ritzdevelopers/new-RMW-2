@@ -271,6 +271,8 @@ const Section1 = () => {
                       key={post.slug}
                       href={`/${post.slug}`}
                       title={post.title}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       onClick={() => {
                         setSearchOpen(false);
                         setSearchQuery("");
@@ -309,6 +311,8 @@ const Section1 = () => {
           <Link
             href={`/${featuredPost.slug}`}
             title={featuredPost.title}
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex flex-col gap-8 no-underline lg:flex-row lg:items-stretch lg:gap-12 xl:gap-16"
           >
             <div className="w-full min-w-0 lg:w-[52%] xl:w-[55%]">
@@ -348,6 +352,8 @@ const Section1 = () => {
                 key={post.slug}
                 href={`/${post.slug}`}
                 title={post.title}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex flex-col no-underline"
               >
                 <p className="m-0" style={categoryStyle}>

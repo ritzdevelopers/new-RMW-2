@@ -417,6 +417,8 @@ const Footer = ({ overlaySection = null }) => {
                   key={link.label}
                   href={link.href}
                   title={link.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={linkStyle}
                   className="relative z-10 pointer-events-auto !text-[17px] transition-opacity hover:opacity-70 md:!text-[18px]"
                   {...(link.href.startsWith("http")
@@ -435,6 +437,8 @@ const Footer = ({ overlaySection = null }) => {
                 key={link.label}
                 href={link.href}
                 title={link.label}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={navLinkStyle}
                 className="relative z-[1] !text-[30px] transition-opacity hover:opacity-70 md:!text-[40px]"
               >
@@ -449,6 +453,8 @@ const Footer = ({ overlaySection = null }) => {
               <a
                 href="mailto:info@ritzmediaworld.com"
                 title="Email Ritz Media World"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={contactTextStyle}
                 className="md:mt-4 mt-2 block transition-opacity hover:opacity-70 "
               >

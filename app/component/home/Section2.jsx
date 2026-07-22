@@ -77,6 +77,8 @@ const Section2 = () => {
 
           <Link
             href="/about.html"
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-5 flex shrink-0 cursor-pointer items-center gap-2 rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:col-start-2 md:row-start-1 md:mt-0 md:justify-self-end md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
           >
             <span style={aboutButtonTextStyle}>About US</span>
