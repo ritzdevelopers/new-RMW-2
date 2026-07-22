@@ -169,6 +169,7 @@ async function fetchAllBlogsClient() {
   return sortBlogsByDateDesc(allBlogs);
 }
 
+
 function Section2Skeleton() {
   return (
     <section className={`${montserrat.className} bg-[#FAFAFA] pb-12 md:pb-16 lg:pb-20`}>
