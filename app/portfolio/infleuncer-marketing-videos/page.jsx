@@ -1,12 +1,60 @@
-import React from 'react'
-import INFSection1 from '@/app/component/influencer-marketing/INFSection1'
+import React from "react";
+import Header from "@/app/component/social-media/Header";
+import Hero from "@/app/component/social-media/Hero";
+import Section10 from "@/app/component/social-media/Section10";
+import DynamicSlider3 from "@/app/component/social-media/DynamicSlider3";
+import Section2 from "@/app/component/work/portfolio/Section2";
+
+const editorsNoteLight =
+  "wfont_e6fa52_d03d36fc891b44ea946b083dc8504aac, wf_d03d36fc891b44ea946b083dc, orig_editors_note_light, serif";
+
+const influencer_marketing_videos = [
+  {
+    video: "https://otherassets.blob.core.windows.net/rmw/644Px%20X%20621Px%20-%201%20(1).mp4",
+    label: "Influencer Marketing Video 1",
+  },
+  {
+    video: "https://otherassets.blob.core.windows.net/rmw/644Px%20X%20621Px%20-%202%20(1).mp4",
+    label: "Influencer Marketing Video 2",
+  },
+  {
+    video: "https://otherassets.blob.core.windows.net/rmw/644Px%20X%20621Px%20-%203%20(1).mp4",
+    label: "Influencer Marketing Video 3",
+  },
+  {
+    video: "https://otherassets.blob.core.windows.net/rmw/644Px%20X%20621Px%20-%204%20(1).mp4",
+    label: "Influencer Marketing Video 4",
+  },
+  {
+    video: "https://otherassets.blob.core.windows.net/rmw/644Px%20X%20621Px%20-%2010%20(1).mp4",
+    label: "Influencer Marketing Video 5",
+  },
+  {
+    video: "https://otherassets.blob.core.windows.net/rmw/644Px%20X%20621Px%20-%209%20(1).mp4",
+    label: "Influencer Marketing Video 6",
+  },
+  {
+    video: "https://otherassets.blob.core.windows.net/rmw/644Px%20X%20621Px%20-%207.mp4",
+    label: "Influencer Marketing Video 7",
+  },
+];
+
+export const metadata = {
+  alternates: {
+    canonical: "https://ritzmediaworld.com/portfolio/influencer-marketing-videos",
+  },
+};
 
 function page() {
   return (
-    <>
-    <INFSection1 />
-    </>
-  )
+    <main style={{ fontFamily: editorsNoteLight }}>
+      <Header title="Influencer Marketing Videos" />
+      <Hero title="Authentic content that naturally integrates your brand into the creator’s voice." />
+      <DynamicSlider3 heading="Influencer Marketing Videos" images={influencer_marketing_videos}/>
+      <Section2 />
+      <Section10 />
+    </main>
+  );
 }
 
 export default page;

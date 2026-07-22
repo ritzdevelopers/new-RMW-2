@@ -36,10 +36,10 @@ export const metadata = {
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>
-      <Header title="Brand Identity Portfolio" />
+      <Header title="Brand Identity" />
       <Hero title="Crafting identities & shaping stories
 with Custom Logo Design" />
-      <DynamicSlider heading="Logos" images={logos_images}/>
+      <DynamicSlider heading="Brand Identity" images={logos_images}/>
       {/* <Section3 /> */}
       {/* <Section4 /> */}
       {/* <Section5 /> */}
