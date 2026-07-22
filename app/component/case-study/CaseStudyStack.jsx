@@ -77,8 +77,20 @@ function mapCaseStudyItem(item, index) {
 
 function Panel({ project, total, isActive, onActivate }) {
   const handlePanelClick = () => {
-    if (project.slug) {
-      window.location.href = getCaseStudyHref(project.slug);
+    // Desktop: whole card navigates. Mobile/tablet: click only expands.
+    if (typeof window !== "undefined" && window.matchMedia("(min-width: 1024px)").matches) {
+      if (project.slug) {
+        window.location.href = getCaseStudyHref(project.slug);
+      }
+      return;
+    }
+    onActivate();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handlePanelClick();
     }
   };
 
@@ -89,6 +101,7 @@ function Panel({ project, total, isActive, onActivate }) {
       onMouseEnter={onActivate}
       onFocus={onActivate}
       onClick={handlePanelClick}
+      onKeyDown={handleKeyDown}
       role="button"
       tabIndex={0}
       aria-expanded={isActive}
@@ -103,7 +116,7 @@ function Panel({ project, total, isActive, onActivate }) {
         <div className="cs4-panel-veil" />
       </div>
 
-      {/* collapsed: vertical spine label */}
+      {/* collapsed: horizontal spine label */}
       <div className="cs4-panel-spine">
         <span className="cs4-panel-spine-index">{String(project.index + 1).padStart(2, "0")}</span>
         <span className="cs4-panel-spine-title">{project.title}</span>
@@ -242,15 +255,20 @@ const CaseStudyAccordion = () => {
 
         .cs4-rail {
           max-width:1320px; margin:0 auto; padding:0 24px;
-          display:flex; gap:8px; height: 480px;
+          display:flex; flex-direction:column; gap:8px;
+          height: auto;
         }
 
         .cs4-panel {
           position:relative; border-radius: 18px; overflow:hidden; cursor:pointer;
-          background:#1a1a18; flex: 1 1 0%;
-          transition: flex-grow .6s cubic-bezier(.22,.9,.18,1), flex-basis .6s cubic-bezier(.22,.9,.18,1);
+          background:#1a1a18; width:100%;
+          flex: 0 0 84px; height: 84px;
+          transition: flex-basis .6s cubic-bezier(.22,.9,.18,1), height .6s cubic-bezier(.22,.9,.18,1);
         }
-        .cs4-panel.is-active { flex-grow: 6; }
+        .cs4-panel.is-active {
+          flex: 0 0 629px;
+          height: 629px;
+        }
 
         .cs4-panel-media { position:absolute; inset:0; }
         .cs4-panel-media img {
@@ -258,27 +276,32 @@ const CaseStudyAccordion = () => {
           filter: grayscale(70%) brightness(.7); transform: scale(1.08);
           transition: filter .6s ease, transform .8s cubic-bezier(.22,.9,.18,1);
         }
-        .cs4-panel.is-active .cs4-panel-media img { filter: grayscale(0%) brightness(1); transform: scale(1); }
+        .cs4-panel.is-active .cs4-panel-media img {
+          object-fit: fill;
+          filter: grayscale(0%) brightness(1);
+          transform: scale(1);
+        }
         .cs4-panel-fallback { position:absolute; inset:0; opacity:.5; }
         .cs4-panel-veil {
           position:absolute; inset:0;
           background: linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.78) 100%);
         }
 
-        /* collapsed spine label, rotated, fades out when active */
+        /* collapsed strip label (horizontal for column layout) */
         .cs4-panel-spine {
-          position:absolute; inset:0; display:flex; flex-direction:column; align-items:center;
-          justify-content:flex-end; gap:14px; padding-bottom:24px; color:#fff;
+          position:absolute; inset:0; display:flex; flex-direction:row; align-items:center;
+          justify-content:flex-start; gap:14px; padding:0 24px; color:#fff;
           opacity:1; transition: opacity .35s ease;
         }
         .cs4-panel.is-active .cs4-panel-spine { opacity:0; pointer-events:none; }
-        .cs4-panel-spine-index { font-family:${DISPLAY_FONT}; font-weight:600; font-size:12px; color:var(--accent); letter-spacing:.08em; }
+        .cs4-panel-spine-index { font-family:${DISPLAY_FONT}; font-weight:600; font-size:12px; color:var(--accent); letter-spacing:.08em; flex-shrink:0; }
         .cs4-panel-spine-title {
-          writing-mode: vertical-rl; transform:rotate(180deg);
+          writing-mode: horizontal-tb; transform:none;
           font-family:${DISPLAY_FONT}; font-weight:600; font-size:14px; letter-spacing:.04em;
-          text-transform:uppercase; white-space:nowrap; max-height: 260px; overflow:hidden;
+          text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+          max-width: calc(100% - 80px);
         }
-        .cs4-panel-spine-dot { width:8px; height:8px; border-radius:999px; background:var(--accent); }
+        .cs4-panel-spine-dot { width:8px; height:8px; border-radius:999px; background:var(--accent); margin-left:auto; flex-shrink:0; }
 
         /* expanded content */
         .cs4-panel-content {
@@ -304,10 +327,76 @@ const CaseStudyAccordion = () => {
         }
         .cs4-panel-cta:hover { background: var(--accent); border-color: var(--accent); }
 
-        @media (max-width: 860px) {
-          .cs4-rail { height: 560px; flex-wrap: nowrap; overflow-x:auto; scroll-snap-type:x mandatory; }
-          .cs4-panel { flex: 0 0 84px; scroll-snap-align:start; }
-          .cs4-panel.is-active { flex: 0 0 86%; }
+        @media (max-width: 1023px) {
+          .cs4-section { padding: 64px 0; }
+          .cs4-panel { flex: 0 0 72px; height: 72px; width:100%; }
+          .cs4-panel.is-active {
+            flex: 0 0 auto;
+            height: auto;
+            min-height: 0;
+          }
+          .cs4-panel-media {
+            position: relative;
+            inset: auto;
+            width: 100%;
+            height: auto;
+          }
+          .cs4-panel.is-active .cs4-panel-media {
+            display: block;
+          }
+          .cs4-panel-media img {
+            position: relative;
+            inset: auto;
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: unset;
+            transform: none;
+          }
+          .cs4-panel.is-active .cs4-panel-media img {
+            object-fit: unset;
+            filter: grayscale(0%) brightness(1);
+            transform: none;
+          }
+          .cs4-panel:not(.is-active) .cs4-panel-media {
+            position: absolute;
+            inset: 0;
+          }
+          .cs4-panel:not(.is-active) .cs4-panel-media img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(70%) brightness(.7);
+            transform: scale(1.08);
+          }
+          .cs4-panel-fallback {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+          }
+          .cs4-panel:not(.is-active) .cs4-panel-fallback {
+            position: absolute;
+            inset: 0;
+            aspect-ratio: auto;
+          }
+          .cs4-panel-veil {
+            position: absolute;
+            inset: 0;
+          }
+          .cs4-panel.is-active .cs4-panel-veil {
+            background: linear-gradient(180deg, rgba(0,0,0,.05) 40%, rgba(0,0,0,.78) 100%);
+          }
+          .cs4-panel-content {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 22px 20px;
+          }
+          .cs4-panel-spine { padding:0 18px; gap:12px; }
+          .cs4-panel-spine-title { font-size:13px; max-width: calc(100% - 70px); }
         }
 
         @media (prefers-reduced-motion: reduce) {
