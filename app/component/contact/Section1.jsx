@@ -44,7 +44,7 @@ const inputLineClass =
   "pointer-events-none absolute bottom-0 left-0 block h-px w-full origin-left scale-x-0 bg-[#FFFFFF33]";
 const selectClass = `${inputClass} appearance-none cursor-pointer`;
 
-const COUNTRY_OPTIONS = ["India", "UAE", "UK", "Singapore"];
+const COUNTRY_OPTIONS = ["India", "UAE", "UK", "Singapore", "USA"];
 
 /** Local mobile rules per country (digits only, no country code). */
 const COUNTRY_PHONE_RULES = {
@@ -71,6 +71,12 @@ const COUNTRY_PHONE_RULES = {
     regex: /^[89]\d{7}$/,
     countryCodes: ["65"],
     message: "Enter a valid 8-digit Singapore mobile number starting with 8 or 9.",
+  },
+  USA: {
+    length: 10,
+    regex: /^[2-9]\d{2}[2-9]\d{6}$/,
+    countryCodes: ["1"],
+    message: "Enter a valid 10-digit USA phone number (area code cannot start with 0 or 1).",
   },
 };
 

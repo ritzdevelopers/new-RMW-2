@@ -38,13 +38,13 @@ const SERVICES = [
     href: "/portfolio/brand-films",
   },
   {
-    src: "/portfolio/website-design.png",
+    src: "/portfolio/3d_walkthrough.jpg",
     alt: "Walk-Through Videos",
     label: "Walk-Through",
     href: "/portfolio/walk-through-videos",
   },
   {
-    src: "/portfolio/website-design.png",
+    src: "/portfolio/marketing_influencer_rev.jpg",
     alt: "Influencer Marketing Videos",
     label: "Influencer Marketing",
     href: "/portfolio/influencer-marketing-videos",
@@ -53,6 +53,7 @@ const SERVICES = [
 
 const GAP_PX = 24;
 const SPEED = 40; // px per second — continuous RTL marquee
+const SLIDE_STEP_DURATION = 0.4;
 
 const getVisibleCount = (width) => {
   if (width < 640) return 1;
@@ -68,7 +69,9 @@ const Section2 = () => {
   const trackRef = useRef(null);
   const tweenRef = useRef(null);
   const loopWidthRef = useRef(0);
+  const cardWidthRef = useRef(0);
   const isHoveringRef = useRef(false);
+  const isNudgingRef = useRef(false);
 
   const [cardWidth, setCardWidth] = useState(0);
 
@@ -90,6 +93,7 @@ const Section2 = () => {
       visibleCount > 0
         ? Math.floor((width - GAP_PX * (visibleCount - 1)) / visibleCount)
         : Math.floor(width);
+    cardWidthRef.current = nextWidth;
     setCardWidth(nextWidth);
     return nextWidth;
   }, []);
@@ -108,6 +112,7 @@ const Section2 = () => {
     }
 
     tweenRef.current?.kill();
+    isNudgingRef.current = false;
 
     const wrap = gsap.utils.wrap(-loopWidth, 0);
     const currentX = Number(gsap.getProperty(track, "x")) || 0;
@@ -124,6 +129,36 @@ const Section2 = () => {
       },
     });
   }, []);
+
+  const slideByCard = useCallback(
+    (dir) => {
+      const track = trackRef.current;
+      const loopWidth = loopWidthRef.current;
+      const step = cardWidthRef.current + GAP_PX;
+      if (!track || loopWidth <= 0 || step <= 0) return;
+
+      tweenRef.current?.kill();
+      isNudgingRef.current = true;
+
+      const wrap = gsap.utils.wrap(-loopWidth, 0);
+      const currentX = wrap(Number(gsap.getProperty(track, "x")) || 0);
+      const nextX = currentX + dir * step;
+
+      tweenRef.current = gsap.to(track, {
+        x: nextX,
+        duration: SLIDE_STEP_DURATION,
+        ease: "power2.out",
+        force3D: true,
+        overwrite: "auto",
+        onComplete: () => {
+          gsap.set(track, { x: wrap(nextX) });
+          isNudgingRef.current = false;
+          if (!isHoveringRef.current) startMarquee();
+        },
+      });
+    },
+    [startMarquee]
+  );
 
   useLayoutEffect(() => {
     syncMetrics();
@@ -149,11 +184,12 @@ const Section2 = () => {
 
   const pauseMarquee = () => {
     isHoveringRef.current = true;
-    tweenRef.current?.pause();
+    if (!isNudgingRef.current) tweenRef.current?.pause();
   };
 
   const resumeMarquee = () => {
     isHoveringRef.current = false;
+    if (isNudgingRef.current) return;
     if (tweenRef.current?.paused()) tweenRef.current.resume();
     else startMarquee();
   };
@@ -182,7 +218,7 @@ const Section2 = () => {
             {loopSlides.map((service, index) => (
               <article
                 key={`${service.label}-${index}`}
-                className="flex shrink-0 flex-col bg-white p-[10px] pb-[18px]  [backface-visibility:hidden] [transform:translateZ(0)] max-md:p-[12px] max-md:pb-[16px]"
+                className="flex shrink-0 flex-col bg-white p-[10px] pb-[18px] [backface-visibility:hidden] [transform:translateZ(0)] max-md:p-[12px] max-md:pb-[16px]"
                 style={{ width: cardWidth || "100%" }}
               >
                 <div className="relative aspect-square w-full overflow-hidden bg-[#f3f3f3]">
@@ -204,6 +240,42 @@ const Section2 = () => {
               </article>
             ))}
           </div>
+
+          <button
+            type="button"
+            aria-label="Slide left"
+            onClick={() => slideByCard(1)}
+            className="absolute left-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#0D1334] shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-blur-sm transition hover:bg-white sm:left-3 sm:h-11 sm:w-11 md:left-4"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              className="h-5 w-5"
+              aria-hidden="true"
+            >
+              <path d="M15 6l-6 6 6 6" />
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            aria-label="Slide right"
+            onClick={() => slideByCard(-1)}
+            className="absolute right-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#0D1334] shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-blur-sm transition hover:bg-white sm:right-3 sm:h-11 sm:w-11 md:right-4"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              className="h-5 w-5"
+              aria-hidden="true"
+            >
+              <path d="M9 6l6 6-6 6" />
+            </svg>
+          </button>
         </div>
       </div>
     </section>

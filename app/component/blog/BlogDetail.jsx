@@ -133,7 +133,7 @@ export default function BlogDetail({ blog, sidebar }) {
 
       <section className="bd-hero">
         <div className="mx-auto w-full max-w-8xl px-8 text-left md:px-12">
-          <span className="bd-eyebrow">Blog</span>
+          <span className="text-[#D59E47]">Blog</span>
           <h1 className="bd-title">{title}</h1>
         </div>
       </section>

@@ -3,11 +3,12 @@
 import React, { useState } from "react";
 
 const fontFamily = '"League Spartan", sans-serif';
+const bodyFont = '"Montserrat", sans-serif';
 
 const NAVY = "#0D1334";
 const ORANGE = "#E8542A";
 
-const COUNTRY_OPTIONS = ["India", "UAE", "UK", "Singapore"];
+const COUNTRY_OPTIONS = ["India", "UAE", "UK", "Singapore", "USA"];
 
 const COUNTRY_PHONE_RULES = {
   India: {
@@ -33,6 +34,12 @@ const COUNTRY_PHONE_RULES = {
     regex: /^[89]\d{7}$/,
     countryCodes: ["65"],
     message: "Enter a valid 8-digit Singapore mobile number starting with 8 or 9.",
+  },
+  USA: {
+    length: 10,
+    regex: /^[2-9]\d{2}[2-9]\d{6}$/,
+    countryCodes: ["1"],
+    message: "Enter a valid 10-digit USA phone number (area code cannot start with 0 or 1).",
   },
 };
 
@@ -186,20 +193,30 @@ function getPhoneMaxLength(country) {
 }
 
 const labelClass =
-  "mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.12em]";
+  "mb-2 block text-[11px] font-semibold uppercase tracking-[0.14em]";
 const inputClass =
-  "w-full rounded-[10px] border border-transparent bg-[#F4F5F8] px-3.5 py-3 text-[14px] leading-snug text-[#12141F] outline-none transition-all duration-200 placeholder:text-[#12141F66] hover:bg-[#EEEFF4] focus:bg-white";
-const selectClass = inputClass + " appearance-none cursor-pointer pr-10";
+  "w-full border-0 border-b border-[#D5D7E0] bg-transparent px-0 py-2.5 text-[14px] leading-snug text-[#12141F] outline-none transition-colors duration-200 placeholder:text-[#12141F55]";
+const selectClass = inputClass + " appearance-none cursor-pointer pr-8";
 const fieldErrorClass = "mt-1.5 text-[12px] leading-snug text-[#C23B3B]";
+const inputErrorClass = " border-[#C23B3B]";
 
 function SelectChevron() {
   return (
     <i
-      className="ri-arrow-down-s-line pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xl"
+      className="ri-arrow-down-s-line pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-xl"
       style={{ color: NAVY }}
       aria-hidden
     />
   );
+}
+
+function setFieldFocus(el, focused, hasError) {
+  if (!el) return;
+  el.style.borderBottomColor = focused
+    ? NAVY
+    : hasError
+      ? "#C23B3B"
+      : "#D5D7E0";
 }
 
 export default function DetailContactForm() {
@@ -319,40 +336,19 @@ export default function DetailContactForm() {
     }
   };
 
-  const focusRing = {
-    boxShadow: "0 0 0 3px rgba(13, 19, 52, 0.08)",
-    borderColor: NAVY,
-  };
-
   return (
-    <div className="relative w-full overflow-hidden rounded-[14px] border border-[#E7E8EE] bg-white shadow-[0_12px_40px_rgba(13,19,52,0.08)]">
+    <div className="relative w-full overflow-hidden   border border-[#ECECF2] bg-white ">
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-[3px]"
-        style={{
-          background:
-            "linear-gradient(90deg, " +
-            ORANGE +
-            " 0%, " +
-            NAVY +
-            " 55%, " +
-            ORANGE +
-            " 100%)",
-        }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full opacity-[0.07]"
-        style={{
-          background: "radial-gradient(circle, " + NAVY + " 0%, transparent 70%)",
-        }}
+       
         aria-hidden
       />
 
-      <div className="relative p-5 sm:p-6">
-        <div className="mb-5">
+      <div className="relative px-5 pb-6 pt-6 sm:px-6 sm:pb-7 sm:pt-7">
+        <div className="mb-6 border-b border-[#ECECF2] pb-5">
           <p
             className="m-0 text-[11px] font-semibold uppercase tracking-[0.18em]"
-            style={{ fontFamily: fontFamily, color: ORANGE }}
+            style={{ fontFamily: bodyFont, color: '#D59E47' }}
           >
             Contact
           </p>
@@ -363,19 +359,19 @@ export default function DetailContactForm() {
             Get in Touch
           </h3>
           <p
-            className="m-0 mt-2 text-[13px] leading-[1.45] text-[#5A5D6B]"
-            style={{ fontFamily: fontFamily }}
+            className="m-0 mt-2 max-w-[54ch] text-[14px] leading-[1.5] text-[#5A5D6B]"
+            style={{ fontFamily: bodyFont }}
           >
             Share your brief and we will connect you with the right person.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
-          <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             <label className="block">
               <span
                 className={labelClass}
-                style={{ fontFamily: fontFamily, color: NAVY }}
+                style={{ fontFamily: bodyFont, color: NAVY }}
               >
                 First Name*
               </span>
@@ -385,18 +381,15 @@ export default function DetailContactForm() {
                 required
                 placeholder="Name"
                 className={inputClass}
-                style={{ fontFamily: fontFamily }}
-                onFocus={(e) => Object.assign(e.currentTarget.style, focusRing)}
-                onBlur={(e) => {
-                  e.currentTarget.style.boxShadow = "";
-                  e.currentTarget.style.borderColor = "transparent";
-                }}
+                style={{ fontFamily: bodyFont }}
+                onFocus={(e) => setFieldFocus(e.currentTarget, true, false)}
+                onBlur={(e) => setFieldFocus(e.currentTarget, false, false)}
               />
             </label>
             <label className="block">
               <span
                 className={labelClass}
-                style={{ fontFamily: fontFamily, color: NAVY }}
+                style={{ fontFamily: bodyFont, color: NAVY }}
               >
                 Last Name*
               </span>
@@ -406,12 +399,9 @@ export default function DetailContactForm() {
                 required
                 placeholder="Name"
                 className={inputClass}
-                style={{ fontFamily: fontFamily }}
-                onFocus={(e) => Object.assign(e.currentTarget.style, focusRing)}
-                onBlur={(e) => {
-                  e.currentTarget.style.boxShadow = "";
-                  e.currentTarget.style.borderColor = "transparent";
-                }}
+                style={{ fontFamily: bodyFont }}
+                onFocus={(e) => setFieldFocus(e.currentTarget, true, false)}
+                onBlur={(e) => setFieldFocus(e.currentTarget, false, false)}
               />
             </label>
           </div>
@@ -420,7 +410,7 @@ export default function DetailContactForm() {
             <label className="block">
               <span
                 className={labelClass}
-                style={{ fontFamily: fontFamily, color: NAVY }}
+                style={{ fontFamily: bodyFont, color: NAVY }}
               >
                 Email Address*
               </span>
@@ -429,24 +419,16 @@ export default function DetailContactForm() {
                 name="email"
                 required
                 placeholder="Email"
-                className={
-                  inputClass +
-                  (emailError ? " border-[#E8A0A0] bg-[#FFF7F7]" : "")
-                }
-                style={{ fontFamily: fontFamily }}
+                className={inputClass + (emailError ? inputErrorClass : "")}
+                style={{ fontFamily: bodyFont }}
                 onInput={handleEmailInput}
                 aria-invalid={emailError ? "true" : undefined}
-                onFocus={(e) => Object.assign(e.currentTarget.style, focusRing)}
-                onBlur={(e) => {
-                  e.currentTarget.style.boxShadow = "";
-                  e.currentTarget.style.borderColor = emailError
-                    ? "#E8A0A0"
-                    : "transparent";
-                }}
+                onFocus={(e) => setFieldFocus(e.currentTarget, true, !!emailError)}
+                onBlur={(e) => setFieldFocus(e.currentTarget, false, !!emailError)}
               />
             </label>
             {emailError ? (
-              <p className={fieldErrorClass} style={{ fontFamily: fontFamily }}>
+              <p className={fieldErrorClass} style={{ fontFamily: bodyFont }}>
                 {emailError}
               </p>
             ) : null}
@@ -456,7 +438,7 @@ export default function DetailContactForm() {
             <label className="block">
               <span
                 className={labelClass}
-                style={{ fontFamily: fontFamily, color: NAVY }}
+                style={{ fontFamily: bodyFont, color: NAVY }}
               >
                 Phone Number*
               </span>
@@ -467,24 +449,16 @@ export default function DetailContactForm() {
                 inputMode="numeric"
                 maxLength={getPhoneMaxLength(country)}
                 placeholder="Number"
-                className={
-                  inputClass +
-                  (phoneError ? " border-[#E8A0A0] bg-[#FFF7F7]" : "")
-                }
-                style={{ fontFamily: fontFamily }}
+                className={inputClass + (phoneError ? inputErrorClass : "")}
+                style={{ fontFamily: bodyFont }}
                 onInput={handlePhoneInput}
                 aria-invalid={phoneError ? "true" : undefined}
-                onFocus={(e) => Object.assign(e.currentTarget.style, focusRing)}
-                onBlur={(e) => {
-                  e.currentTarget.style.boxShadow = "";
-                  e.currentTarget.style.borderColor = phoneError
-                    ? "#E8A0A0"
-                    : "transparent";
-                }}
+                onFocus={(e) => setFieldFocus(e.currentTarget, true, !!phoneError)}
+                onBlur={(e) => setFieldFocus(e.currentTarget, false, !!phoneError)}
               />
             </label>
             {phoneError ? (
-              <p className={fieldErrorClass} style={{ fontFamily: fontFamily }}>
+              <p className={fieldErrorClass} style={{ fontFamily: bodyFont }}>
                 {phoneError}
               </p>
             ) : null}
@@ -493,7 +467,7 @@ export default function DetailContactForm() {
           <label className="block">
             <span
               className={labelClass}
-              style={{ fontFamily: fontFamily, color: NAVY }}
+              style={{ fontFamily: bodyFont, color: NAVY }}
             >
               Reason for Inquiry*
             </span>
@@ -503,12 +477,9 @@ export default function DetailContactForm() {
                 required
                 defaultValue=""
                 className={selectClass}
-                style={{ fontFamily: fontFamily }}
-                onFocus={(e) => Object.assign(e.currentTarget.style, focusRing)}
-                onBlur={(e) => {
-                  e.currentTarget.style.boxShadow = "";
-                  e.currentTarget.style.borderColor = "transparent";
-                }}
+                style={{ fontFamily: bodyFont }}
+                onFocus={(e) => setFieldFocus(e.currentTarget, true, false)}
+                onBlur={(e) => setFieldFocus(e.currentTarget, false, false)}
               >
                 <option value="">Select an option</option>
                 {REASON_OPTIONS.map((option) => (
@@ -524,7 +495,7 @@ export default function DetailContactForm() {
           <label className="block">
             <span
               className={labelClass}
-              style={{ fontFamily: fontFamily, color: NAVY }}
+              style={{ fontFamily: bodyFont, color: NAVY }}
             >
               Country*
             </span>
@@ -535,12 +506,9 @@ export default function DetailContactForm() {
                 value={country}
                 onChange={handleCountryChange}
                 className={selectClass}
-                style={{ fontFamily: fontFamily }}
-                onFocus={(e) => Object.assign(e.currentTarget.style, focusRing)}
-                onBlur={(e) => {
-                  e.currentTarget.style.boxShadow = "";
-                  e.currentTarget.style.borderColor = "transparent";
-                }}
+                style={{ fontFamily: bodyFont }}
+                onFocus={(e) => setFieldFocus(e.currentTarget, true, false)}
+                onBlur={(e) => setFieldFocus(e.currentTarget, false, false)}
               >
                 <option value="">Select your country</option>
                 {COUNTRY_OPTIONS.map((option) => (
@@ -556,7 +524,7 @@ export default function DetailContactForm() {
           <label className="block">
             <span
               className={labelClass}
-              style={{ fontFamily: fontFamily, color: NAVY }}
+              style={{ fontFamily: bodyFont, color: NAVY }}
             >
               How did you hear about us?
             </span>
@@ -565,12 +533,9 @@ export default function DetailContactForm() {
                 name="howHeard"
                 defaultValue=""
                 className={selectClass}
-                style={{ fontFamily: fontFamily }}
-                onFocus={(e) => Object.assign(e.currentTarget.style, focusRing)}
-                onBlur={(e) => {
-                  e.currentTarget.style.boxShadow = "";
-                  e.currentTarget.style.borderColor = "transparent";
-                }}
+                style={{ fontFamily: bodyFont }}
+                onFocus={(e) => setFieldFocus(e.currentTarget, true, false)}
+                onBlur={(e) => setFieldFocus(e.currentTarget, false, false)}
               >
                 <option value="">Select an option</option>
                 {HOW_HEARD_OPTIONS.map((option) => (
@@ -586,7 +551,7 @@ export default function DetailContactForm() {
           <label className="block">
             <span
               className={labelClass}
-              style={{ fontFamily: fontFamily, color: NAVY }}
+              style={{ fontFamily: bodyFont, color: NAVY }}
             >
               Message (Optional)
             </span>
@@ -594,13 +559,10 @@ export default function DetailContactForm() {
               name="message"
               rows={3}
               placeholder="Message"
-              className={inputClass + " min-h-[96px] resize-none"}
-              style={{ fontFamily: fontFamily }}
-              onFocus={(e) => Object.assign(e.currentTarget.style, focusRing)}
-              onBlur={(e) => {
-                e.currentTarget.style.boxShadow = "";
-                e.currentTarget.style.borderColor = "transparent";
-              }}
+              className={inputClass + " min-h-[88px] resize-none"}
+              style={{ fontFamily: bodyFont }}
+              onFocus={(e) => setFieldFocus(e.currentTarget, true, false)}
+              onBlur={(e) => setFieldFocus(e.currentTarget, false, false)}
             />
           </label>
 
@@ -608,7 +570,7 @@ export default function DetailContactForm() {
             type="submit"
             disabled={submitting}
             className="group relative mt-1 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[10px] px-4 py-3.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-white transition-transform duration-200 hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
-            style={{ fontFamily: fontFamily, backgroundColor: NAVY }}
+            style={{ fontFamily: bodyFont, backgroundColor: NAVY }}
           >
             <span
               className="pointer-events-none absolute inset-0 -translate-x-full transition-transform duration-300 ease-out group-hover:translate-x-0"
@@ -633,7 +595,7 @@ export default function DetailContactForm() {
                   ? "bg-[#EEF9F2] text-[#1F8A4C]"
                   : "bg-[#FFF4F4] text-[#C23B3B]")
               }
-              style={{ fontFamily: fontFamily }}
+              style={{ fontFamily: bodyFont }}
             >
               {status.text}
             </p>
