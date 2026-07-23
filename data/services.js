@@ -946,6 +946,18 @@ export const services = [
           label: "Spotlight",
           href: "https://youtu.be/BA5F6h0O_Lc?si=5bq2Bhu7TxQdUNFS",
         },
+        {
+          src: "/celebrity-endorsements/boman_irani.jpg",
+          label: "Boman Irani",
+          href: "https://youtu.be/mvDnWoRsVZQ?si=3VpOGKNKkwtL3LPG",
+        },
+        {
+          src: "/celebrity-endorsements/malaika_arora.jpg",
+          label: "Malaika Arora",
+          href: "https://youtube.com/shorts/DEIO3t3UeG8?si=yD__P5RH0MtetEiw",
+         
+        },
+        
       ],
       imageContent: {
         background: "/celebrity-endorsements/image%201005%20(14).png",

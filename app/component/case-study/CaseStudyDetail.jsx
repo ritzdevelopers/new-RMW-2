@@ -1,6 +1,7 @@
 import React from "react";
 import { resolveBlogImageUrl } from "../../../lib/caseStudyApi";
 import CaseStudySidebar from "./CaseStudySidebar";
+import DetailContactForm from "../blog/DetailContactForm";
 
 const DISPLAY_FONT = '"League Spartan", sans-serif';
 const BODY_FONT = '"Montserrat", sans-serif';
@@ -173,7 +174,8 @@ export default function CaseStudyDetail({ blog, sidebar }) {
               ) : null}
             </div>
 
-            <div className="lg:col-span-4 lg:sticky lg:top-8 lg:self-start">
+            <div className="flex flex-col gap-8 lg:col-span-4 lg:sticky lg:top-8 lg:self-start">
+              <DetailContactForm />
               <CaseStudySidebar
                 allBlogs={sidebar?.allBlogs || []}
                 categories={sidebar?.categories || []}
