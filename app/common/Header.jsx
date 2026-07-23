@@ -14,7 +14,7 @@ const portfolioSubLinks = [
   { label: "Walk-Through Videos", href: "/portfolio/walk-through-videos" },
   {
     label: "Influencer Marketing Videos",
-    href: "/portfolio/infleuncer-marketing-videos",
+    href: "/portfolioinfluencer-marketing-videos",
   },
 ];
 

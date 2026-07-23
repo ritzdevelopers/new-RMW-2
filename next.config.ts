@@ -10,7 +10,6 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  // Prevent Turbopack from using C:\Users\nishi as root (extra lockfile there).
   turbopack: {
     root: configDir,
   },
