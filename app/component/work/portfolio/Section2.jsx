@@ -1,13 +1,16 @@
 "use client";
 
-import React, { useLayoutEffect, useMemo, useRef } from "react";
+import React, {
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ServiceDetailMediaButton from "../../services/ServiceDetailMediaButton";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const SERVICES = [
   {
@@ -40,11 +43,34 @@ const SERVICES = [
     label: "Walk-Through",
     href: "/portfolio/walk-through-videos",
   },
+  {
+    src: "/portfolio/website-design.png",
+    alt: "Influencer Marketing Videos",
+    label: "Influencer Marketing",
+    href: "/portfolio/influencer-marketing-videos",
+  },
 ];
 
+const GAP_PX = 24;
+const SPEED = 40; // px per second — continuous RTL marquee
+
+const getVisibleCount = (width) => {
+  if (width < 640) return 1;
+  if (width < 900) return 2;
+  if (width < 1200) return 3;
+  if (width < 1600) return 4;
+  return 5;
+};
+
 const Section2 = () => {
-  const sectionRef = useRef(null);
   const pathname = usePathname();
+  const containerRef = useRef(null);
+  const trackRef = useRef(null);
+  const tweenRef = useRef(null);
+  const loopWidthRef = useRef(0);
+  const isHoveringRef = useRef(false);
+
+  const [cardWidth, setCardWidth] = useState(0);
 
   const visibleServices = useMemo(() => {
     const path = (pathname || "").replace(/\/$/, "") || "/";
@@ -52,46 +78,88 @@ const Section2 = () => {
     return SERVICES.filter((service) => service.href !== path);
   }, [pathname]);
 
-  useLayoutEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+  const loopSlides = useMemo(
+    () => [...visibleServices, ...visibleServices],
+    [visibleServices]
+  );
+
+  const syncMetrics = useCallback(() => {
+    const width = containerRef.current?.clientWidth || 0;
+    const visibleCount = getVisibleCount(window.innerWidth);
+    const nextWidth =
+      visibleCount > 0
+        ? Math.floor((width - GAP_PX * (visibleCount - 1)) / visibleCount)
+        : Math.floor(width);
+    setCardWidth(nextWidth);
+    return nextWidth;
+  }, []);
+
+  const startMarquee = useCallback(() => {
+    const track = trackRef.current;
+    const loopWidth = loopWidthRef.current;
+    if (!track || loopWidth <= 0 || isHoveringRef.current) return;
 
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-
-    const cards = gsap.utils.toArray("[data-service-card]", section);
-
     if (prefersReducedMotion) {
-      gsap.set(cards, { clearProps: "all", opacity: 1, x: 0 });
+      gsap.set(track, { x: 0 });
       return;
     }
 
-    const ctx = gsap.context(() => {
-      cards.forEach((card, index) => {
-        gsap.from(card, {
-          x: 80,
-          opacity: 0,
-          duration: 0.85,
-          ease: "power3.out",
-          delay: index * 0.12,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 90%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      });
-    }, section);
+    tweenRef.current?.kill();
 
-    return () => ctx.revert();
-  }, [visibleServices]);
+    const wrap = gsap.utils.wrap(-loopWidth, 0);
+    const currentX = Number(gsap.getProperty(track, "x")) || 0;
+    gsap.set(track, { x: wrap(currentX) });
+
+    tweenRef.current = gsap.to(track, {
+      x: `-=${loopWidth}`,
+      duration: loopWidth / SPEED,
+      ease: "none",
+      repeat: -1,
+      force3D: true,
+      modifiers: {
+        x: (v) => `${wrap(parseFloat(v))}px`,
+      },
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    syncMetrics();
+    const onResize = () => syncMetrics();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [syncMetrics]);
+
+  useLayoutEffect(() => {
+    const track = trackRef.current;
+    if (!track || cardWidth <= 0 || visibleServices.length === 0) return;
+
+    const loopWidth = visibleServices.length * (cardWidth + GAP_PX);
+    loopWidthRef.current = loopWidth;
+
+    gsap.set(track, { x: 0, force3D: true });
+    startMarquee();
+
+    return () => {
+      tweenRef.current?.kill();
+    };
+  }, [cardWidth, visibleServices.length, startMarquee]);
+
+  const pauseMarquee = () => {
+    isHoveringRef.current = true;
+    tweenRef.current?.pause();
+  };
+
+  const resumeMarquee = () => {
+    isHoveringRef.current = false;
+    if (tweenRef.current?.paused()) tweenRef.current.resume();
+    else startMarquee();
+  };
 
   return (
-    <section
-      ref={sectionRef}
-      className="w-full bg-[#FAFAFA] py-[72px] max-xl:py-[60px] max-md:py-[48px] max-sm:py-[40px]"
-    >
+    <section className="w-full bg-[#FAFAFA] py-[72px] max-xl:py-[60px] max-md:py-[48px] max-sm:py-[40px]">
       <div className="mx-auto flex w-full max-w-[1560px] flex-col items-center gap-[48px] px-6 max-md:gap-[32px] max-md:px-4 max-sm:gap-[28px]">
         <h2
           className="m-0 text-center text-[42px] font-[600] uppercase leading-[1.2] tracking-[-0.01em] text-black max-xl:text-[28px] max-lg:text-[26px] max-md:text-[24px] max-sm:text-[22px]"
@@ -100,30 +168,42 @@ const Section2 = () => {
           Explore our latest work
         </h2>
 
-        <div className="flex w-full flex-wrap justify-center gap-[15px] lg:gap-[20px] xl:gap-[24px]">
-          {visibleServices.map((service) => (
-            <article
-              key={service.label}
-              data-service-card
-              className="flex w-full flex-col bg-white p-[10px] pb-[18px] shadow-[0_12px_28px_rgba(0,0,0,0.18)] will-change-transform max-md:p-[12px] max-md:pb-[16px] sm:w-[calc(50%-7.5px)] lg:w-[calc(33.333%-14px)] xl:w-[calc((100%-96px)/5)]"
-            >
-              <div className="relative aspect-square w-full overflow-hidden bg-[#f3f3f3]">
-                <Image
-                  src={service.src}
-                  alt={service.alt}
-                  fill
-                  className="object-cover object-center"
-                  sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                />
-              </div>
+        <div
+          ref={containerRef}
+          className="relative w-full overflow-hidden py-4"
+          onMouseEnter={pauseMarquee}
+          onMouseLeave={resumeMarquee}
+        >
+          <div
+            ref={trackRef}
+            className="flex w-max will-change-transform [backface-visibility:hidden]"
+            style={{ gap: `${GAP_PX}px` }}
+          >
+            {loopSlides.map((service, index) => (
+              <article
+                key={`${service.label}-${index}`}
+                className="flex shrink-0 flex-col bg-white p-[10px] pb-[18px]  [backface-visibility:hidden] [transform:translateZ(0)] max-md:p-[12px] max-md:pb-[16px]"
+                style={{ width: cardWidth || "100%" }}
+              >
+                <div className="relative aspect-square w-full overflow-hidden bg-[#f3f3f3]">
+                  <Image
+                    src={service.src}
+                    alt={service.alt}
+                    fill
+                    className="pointer-events-none object-cover object-center select-none"
+                    sizes="(min-width: 1600px) 20vw, (min-width: 1200px) 25vw, (min-width: 900px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    draggable={false}
+                  />
+                </div>
 
-              <ServiceDetailMediaButton
-                label={service.label}
-                href={service.href}
-                className="mt-[14px] max-md:mt-3"
-              />
-            </article>
-          ))}
+                <ServiceDetailMediaButton
+                  label={service.label}
+                  href={service.href}
+                  className="mt-[14px] max-md:mt-3"
+                />
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -560,15 +560,13 @@ const Footer = ({ section = null }) => {
                 key={rowIndex}
                 data-footer-services
                 style={serviceTextStyle}
-                className={`${serviceTextClassName} hidden w-full max-w-[1100px] grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-x-[10px] md:grid`}
+                className={`${serviceTextClassName} hidden w-full max-w-[1100px] grid-cols-[auto_1fr_auto_1fr_auto_1fr] items-center gap-x-[10px] md:grid`}
               >
-                {row.map((service, index) => (
+                {row.map((service) => (
                   <React.Fragment key={service.href}>
-                    {index > 0 && (
-                      <span aria-hidden className="text-left">
-                        •
-                      </span>
-                    )}
+                    <span aria-hidden className="text-left">
+                      •
+                    </span>
                     <Link
                       href={service.href}
                       target="_blank"
