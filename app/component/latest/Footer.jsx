@@ -101,6 +101,7 @@ const copyrightTextStyle = {
 
 const connectLinks = [
   { label: "Contact Us", href: "/contact" },
+  { label: "FACEBOOK", href: "https://www.facebook.com/ritzmediaworld/" },
   { label: "INSTAGRAM", href: "https://www.instagram.com/ritzmediaworld/" },
   { label: "LINKEDIN", href: "https://www.linkedin.com/company/ritzmediaworld/" },
   { label: "TWITTER", href: "https://twitter.com/ritzmediaworld" },
