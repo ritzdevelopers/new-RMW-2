@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
-import { normalizeBlogItem, resolveBlogImageUrl, sortBlogsByDateDesc } from "../../../lib/caseStudyApi";
+import { fetchAllBlogsClient, resolveBlogImageUrl } from "../../../lib/caseStudyApi";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -149,18 +149,9 @@ const Section1 = () => {
 
     async function loadBlogs() {
       try {
-        const allItems = [];
-        for (let page = 1; page <= 10; page += 1) {
-          const response = await fetch(`/api/get_all_blogs?page=${page}`);
-          if (!response.ok) break;
-          const data = await response.json();
-          const items = Array.isArray(data?.blogs) ? data.blogs : [];
-          if (!items.length) break;
-          allItems.push(...items.map(normalizeBlogItem));
-          if (items.length < 10) break;
-        }
+        const allItems = await fetchAllBlogsClient();
         if (!cancelled) {
-          setBlogs(sortBlogsByDateDesc(allItems));
+          setBlogs(allItems);
         }
       } catch {
         if (!cancelled) setBlogs([]);
