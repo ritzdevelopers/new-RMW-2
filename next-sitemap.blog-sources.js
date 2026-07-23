@@ -72,7 +72,6 @@ async function fetchBlogRecordsFromApi() {
         if (!Array.isArray(records) || records.length === 0) break;
 
         allRecords.push(...records);
-        if (records.length < 10) break;
       }
 
       if (allRecords.length) return allRecords;

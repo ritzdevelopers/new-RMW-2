@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
-import { normalizeBlogItem, resolveBlogImageUrl, sortBlogsByDateDesc } from "../../../lib/caseStudyApi";
+import { fetchAllBlogsClient, resolveBlogImageUrl } from "../../../lib/caseStudyApi";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -146,29 +146,6 @@ function getVisiblePages(current, total) {
   pages.push(total);
   return pages;
 }
-
-async function fetchAllBlogsClient() {
-  const allBlogs = [];
-  // API can skip/omit mid-range pages when looping with early exit;
-  // fetch pages 1–43 explicitly so the full catalog loads.
-  const TOTAL_PAGES = 43;
-
-  for (let page = 1; page <= TOTAL_PAGES; page += 1) {
-    try {
-      const response = await fetch(`/api/get_all_blogs?page=${page}`);
-      if (!response.ok) continue;
-      const data = await response.json();
-      const items = Array.isArray(data?.blogs) ? data.blogs : [];
-      if (!items.length) continue;
-      allBlogs.push(...items.map(normalizeBlogItem));
-    } catch {
-      // Skip failed page and keep loading the rest.
-    }
-  }
-
-  return sortBlogsByDateDesc(allBlogs);
-}
-
 
 function Section2Skeleton() {
   return (
