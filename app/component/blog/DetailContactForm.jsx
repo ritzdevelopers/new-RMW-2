@@ -6,7 +6,6 @@ const fontFamily = '"League Spartan", sans-serif';
 const bodyFont = '"Montserrat", sans-serif';
 
 const NAVY = "#0D1334";
-const ORANGE = "#E8542A";
 
 const COUNTRY_OPTIONS = ["India", "UAE", "UK", "Singapore", "USA"];
 
@@ -566,24 +565,31 @@ export default function DetailContactForm() {
             />
           </label>
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="group relative mt-1 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[10px] px-4 py-3.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-white transition-transform duration-200 hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
-            style={{ fontFamily: bodyFont, backgroundColor: NAVY }}
-          >
-            <span
-              className="pointer-events-none absolute inset-0 -translate-x-full transition-transform duration-300 ease-out group-hover:translate-x-0"
-              style={{ backgroundColor: ORANGE }}
-              aria-hidden
-            />
-            <span className="relative z-[1]">
-              {submitting ? "Submitting..." : "Submit Enquiry"}
-            </span>
-            {!submitting ? (
-              <i className="ri-arrow-right-line relative z-[1] text-lg transition-transform duration-200 group-hover:translate-x-0.5" />
-            ) : null}
-          </button>
+          <div className="mt-1 flex justify-center">
+            <button
+              type="submit"
+              disabled={submitting}
+              className="group relative inline-flex cursor-pointer items-center gap-2 overflow-hidden rounded-full bg-white py-2 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] transition-opacity duration-200 disabled:cursor-not-allowed disabled:opacity-60 md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
+            >
+              <span
+                aria-hidden
+                className="absolute inset-0 origin-left scale-x-0 rounded-full bg-[#1D1D1B] transition-transform duration-[550ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100 group-disabled:scale-x-0"
+              />
+              <span className="relative z-10 font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] transition-colors duration-300 group-hover:text-white group-disabled:text-[#1D1D1B] md:text-[14px]">
+                {submitting ? "Submitting..." : "Submit Enquiry"}
+              </span>
+              <span className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white transition-[background-color,color,transform] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45 group-hover:bg-white group-hover:text-[#1D1D1B] group-disabled:rotate-0 group-disabled:bg-[#1D1D1B] group-disabled:text-white md:h-9 md:w-9">
+                <i
+                  className={
+                    submitting
+                      ? "ri-loader-4-line animate-spin text-[14px] md:text-[16px]"
+                      : "ri-arrow-right-up-line text-[14px] md:text-[16px]"
+                  }
+                  aria-hidden
+                />
+              </span>
+            </button>
+          </div>
 
           {status ? (
             <p
