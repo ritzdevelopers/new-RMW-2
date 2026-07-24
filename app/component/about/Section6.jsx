@@ -38,7 +38,7 @@ const carouselItems = [
     fixedWidth: 480,
     heightReduce: 50,
   },
-  { type: "news", href: "https://www.linkedin.com", label: "Linkedin" },
+  { type: "news", href: "https://www.linkedin.com/company/ritzmediaworld", label: "Linkedin" },
   {
     type: "image",
     src: "/Deliver/secondimage.jpeg",
@@ -55,7 +55,7 @@ const carouselItems = [
     fixedWidth: 480,
     heightReduce: 50,
   },
-  { type: "news", href: "https://www.instagram.com", label: "Instagram", subtitle: "the creative side" },
+  { type: "news", href: "https://www.instagram.com/ritzmediaworld", label: "Instagram", subtitle: "the creative side" },
   {
     type: "image",
     src: "/Deliver/fourthimage.jpeg",

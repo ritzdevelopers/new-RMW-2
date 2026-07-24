@@ -29,7 +29,6 @@ const aboutButtonTextStyle = {
   lineHeight: "100%",
   letterSpacing: "0",
   textTransform: "capitalize",
-  color: "#000000",
 };
 
 const Section2 = () => {
@@ -79,10 +78,19 @@ const Section2 = () => {
             href="/about.html"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-5 flex shrink-0 cursor-pointer items-center gap-2 rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:col-start-2 md:row-start-1 md:mt-0 md:justify-self-end md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
+            className="group relative mt-5 flex shrink-0 cursor-pointer items-center gap-2 overflow-hidden rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:col-start-2 md:row-start-1 md:mt-0 md:justify-self-end md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
           >
-            <span style={aboutButtonTextStyle}>About US</span>
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
+            <span
+              aria-hidden
+              className="absolute inset-0 origin-left scale-x-0 rounded-full bg-[#1D1D1B] transition-transform duration-[550ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100"
+            />
+            <span
+              className="relative z-10 text-[#1D1D1B] transition-colors duration-300 group-hover:text-white"
+              style={aboutButtonTextStyle}
+            >
+              About US
+            </span>
+            <span className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white transition-[background-color,color,transform] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45 group-hover:bg-white group-hover:text-[#1D1D1B] md:h-9 md:w-9">
               <i
                 className="ri-arrow-right-up-line text-[14px] md:text-[16px]"
                 aria-hidden

@@ -669,24 +669,7 @@ const section1 = () => {
             </Field>
           </div>
 
-          <div className="mt-8 md:mt-20">
-            <div className="flex items-center gap-3">
-              <div className="h-4 w-4 shrink-0 border border-white/60" />
-              <span
-                style={{
-                  fontFamily: sequelFontFamily,
-                  fontWeight: 310,
-                  fontSize: "12px",
-                  lineHeight: "16px",
-                  letterSpacing: "0",
-                  textTransform: "uppercase",
-                  color: "#FFFFFF",
-                }}
-              >
-                SIGN UP TO RECEIVE OUR LATEST NEWS &amp; VIEWS
-              </span>
-            </div>
-          </div>
+          
 
           <SubmitButton
             disabled={submitting}
