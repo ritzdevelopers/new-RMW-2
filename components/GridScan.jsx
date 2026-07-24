@@ -1,6 +1,5 @@
 "use client";
 
-import * as faceapi from 'face-api.js';
 import { BloomEffect, ChromaticAberrationEffect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
@@ -667,9 +666,16 @@ export const GridScan = ({
   }, [enableGyro, uiFaceActive]);
 
   useEffect(() => {
+    if (!enableWebcam) {
+      setModelsReady(false);
+      return;
+    }
+
     let canceled = false;
     const load = async () => {
       try {
+        const faceapi = await import('face-api.js');
+        if (canceled) return;
         await Promise.all([
           faceapi.nets.tinyFaceDetector.loadFromUri(modelsPath),
           faceapi.nets.faceLandmark68TinyNet.loadFromUri(modelsPath)
@@ -683,7 +689,7 @@ export const GridScan = ({
     return () => {
       canceled = true;
     };
-  }, [modelsPath]);
+  }, [enableWebcam, modelsPath]);
 
   useEffect(() => {
     let stop = false;
@@ -693,6 +699,13 @@ export const GridScan = ({
     const start = async () => {
       if (!enableWebcam || !modelsReady) return;
       if (!video) return;
+
+      let faceapi;
+      try {
+        faceapi = await import('face-api.js');
+      } catch {
+        return;
+      }
 
       try {
         const stream = await navigator.mediaDevices.getUserMedia({

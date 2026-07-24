@@ -88,7 +88,7 @@ const OverlaySection1 = () => {
           alt="Ritz Media World creative services"
           title="Ritz Media World creative services"
           fill
-          priority
+          loading="lazy"
           className="object-cover object-center"
           sizes="100vw"
         />

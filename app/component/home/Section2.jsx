@@ -1,7 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { GridScan } from "@/components/GridScan";
+import { useEffect, useRef, useState } from "react";
+
+const GridScan = dynamic(
+  () => import("@/components/GridScan").then((mod) => mod.GridScan),
+  { ssr: false },
+);
 
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
@@ -33,29 +39,54 @@ const aboutButtonTextStyle = {
 };
 
 const Section2 = () => {
+  const sectionRef = useRef(null);
+  const [mountScan, setMountScan] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setMountScan(true);
+        observer.disconnect();
+      },
+      { rootMargin: "180px 0px" },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="relative w-full overflow-hidden px-8 py-[35px] md:px-12 md:py-[70px]">
+    <section
+      ref={sectionRef}
+      className="relative w-full overflow-hidden px-8 py-[35px] md:px-12 md:py-[70px]"
+    >
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[#0F0E14]" aria-hidden />
-        <GridScan
-          className="absolute inset-0"
-          style={{ width: "100%", height: "100%" }}
-          sensitivity={0.55}
-          lineThickness={1}
-          linesColor="#5A5568"
-          gridScale={0.1}
-          scanColor="#4DA6FF"
-          scanOpacity={0.4}
-          enablePost
-          bloomIntensity={0.6}
-          chromaticAberration={0.002}
-          noiseIntensity={0.01}
-          lineJitter={0.1}
-          scanGlow={0.5}
-          scanSoftness={2}
-          enableWebcam={false}
-          showPreview={false}
-        />
+        {mountScan ? (
+          <GridScan
+            className="absolute inset-0"
+            style={{ width: "100%", height: "100%" }}
+            sensitivity={0.55}
+            lineThickness={1}
+            linesColor="#5A5568"
+            gridScale={0.1}
+            scanColor="#4DA6FF"
+            scanOpacity={0.4}
+            enablePost
+            bloomIntensity={0.6}
+            chromaticAberration={0.002}
+            noiseIntensity={0.01}
+            lineJitter={0.1}
+            scanGlow={0.5}
+            scanSoftness={2}
+            enableWebcam={false}
+            showPreview={false}
+          />
+        ) : null}
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-8xl">

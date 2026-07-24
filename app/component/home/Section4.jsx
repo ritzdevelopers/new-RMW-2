@@ -47,7 +47,7 @@ const linkRowClass =
   "inline-flex items-baseline justify-center gap-4 md:gap-6 lg:gap-10";
 
 const services = [
-  { title: "GULSHAN", slug: "gulshan", image: "/home/gulshan.png", xlShift: 0 },
+  { title: "GULSHAN", slug: "gulshan", image: "/home/gulshan.jpg", xlShift: 0 },
   { title: "VEDVAN", slug: "vedvan", image: "/home/vedvan.jpg", xlShift: 100 },
   { title: "EXOTICA", slug: "exotica", image: "/home/exotica.jpg", xlShift: -200 },
   { title: "SPLENDOR ONYX", slug: "splendor-onyx", image: "/home/onyx.png", xlShift: 100 },
@@ -369,6 +369,8 @@ const GridSlider = ({ cardRefs }) => {
                   src={service.image}
                   alt={service.title}
                   draggable={false}
+                  loading="lazy"
+                  decoding="async"
                   className="pointer-events-none h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0" />

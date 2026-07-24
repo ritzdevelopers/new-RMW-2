@@ -1,19 +1,9 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import RouteAnimationReset from "./component/common/RouteAnimationReset";
+import "remixicon/fonts/remixicon.css";
 import "./globals.css";
 
 const GA_MEASUREMENT_ID = "G-0YHLN54GF7";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   metadataBase: new URL("https://ritzmediaworld.com/"),
@@ -74,19 +64,16 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden`}
+      className="h-full antialiased [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
           rel="stylesheet"
         />
-        <link
-          href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css"
-          rel="stylesheet"
-        />
+        <link rel="dns-prefetch" href="https://otherassets.blob.core.windows.net" />
       </head>
       <body
         suppressHydrationWarning
@@ -94,9 +81,9 @@ export default function RootLayout({ children }) {
       >
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

@@ -4,7 +4,7 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
-import { services } from "../../data/services";
+import { navServices as services } from "../../data/navServices";
 
 const portfolioSubLinks = [
   { label: "Brand Identity", href: "/portfolio/brand-identity" },

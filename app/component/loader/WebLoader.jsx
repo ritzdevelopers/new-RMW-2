@@ -315,6 +315,8 @@ function WebLoader({
               alt=""
               style={styles.image}
               draggable={false}
+              decoding="async"
+              fetchPriority={index === 0 ? "high" : "low"}
             />
           </div>
 

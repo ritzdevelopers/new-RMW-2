@@ -9,13 +9,29 @@ const Section1 = () => {
   const videoRef = useRef(null);
   const isMutedRef = useRef(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [videoSrc, setVideoSrc] = useState(undefined);
 
   useEffect(() => {
+    const begin = () => setVideoSrc(HOME_VIDEO_SRC);
+
+    if (window.__rmwLoaderDone) {
+      begin();
+    } else {
+      window.addEventListener("rmw:loader-done", begin, { once: true });
+    }
+
+    return () => {
+      window.removeEventListener("rmw:loader-done", begin);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!videoSrc) return;
+
     const video = videoRef.current;
     if (!video) return;
 
     let unlockBound = false;
-    let started = false;
 
     const playVideo = () => {
       video.play().catch(() => {});
@@ -49,30 +65,18 @@ const Section1 = () => {
       }
     };
 
-    // Only start once the intro loader has finished.
-    const begin = () => {
-      if (started) return;
-      started = true;
-      startPlayback();
-      video.addEventListener("loadeddata", playVideo);
-      video.addEventListener("canplay", playVideo);
-    };
-
-    if (window.__rmwLoaderDone) {
-      begin();
-    } else {
-      window.addEventListener("rmw:loader-done", begin, { once: true });
-    }
+    startPlayback();
+    video.addEventListener("loadeddata", playVideo);
+    video.addEventListener("canplay", playVideo);
 
     return () => {
-      window.removeEventListener("rmw:loader-done", begin);
       video.removeEventListener("loadeddata", playVideo);
       video.removeEventListener("canplay", playVideo);
       ["pointerdown", "click", "touchstart", "keydown"].forEach((eventName) => {
         document.removeEventListener(eventName, unlockSound, { capture: true });
       });
     };
-  }, []);
+  }, [videoSrc]);
 
   const toggleMute = () => {
     const video = videoRef.current;
@@ -92,10 +96,10 @@ const Section1 = () => {
     <section className="relative w-full bg-black">
       <video
         ref={videoRef}
-        src={HOME_VIDEO_SRC}
+        src={videoSrc}
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
         className="block h-auto w-full object-cover lg:max-h-[calc(100vh-100px)] md:max-h-[calc(100vh-200px)]"
       />
 
