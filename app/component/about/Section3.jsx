@@ -2,10 +2,10 @@
 
 import React, { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Montserrat } from "next/font/google";
+import ServiceDetailMediaButton from "../services/ServiceDetailMediaButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -147,21 +147,11 @@ const Section3 = () => {
             </div>
           </div>
 
-          <div className="mt-12 flex justify-center md:mt-14">
-            <Link
-              href="/gallery"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex cursor-pointer items-center gap-2 rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
-            >
-              <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[14px]">
-                Load More Images
-              </span>
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white md:h-9 md:w-9">
-                <i className="ri-arrow-right-up-line text-[14px] md:text-[16px]" aria-hidden />
-              </span>
-            </Link>
-          </div>
+          <ServiceDetailMediaButton
+            label="Load More Images"
+            href="/gallery"
+            className="mt-12 md:mt-14"
+          />
         </div>
       </section>
     </>

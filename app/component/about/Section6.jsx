@@ -164,21 +164,25 @@ const NewsCard = ({
       href={item.href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`relative z-10 inline-flex cursor-pointer items-center rounded-full bg-white shadow-[0_6px_24px_rgba(0,0,0,0.22)] ${
+      className={`group/cta relative z-10 inline-flex cursor-pointer items-center overflow-hidden rounded-full bg-white shadow-[0_6px_24px_rgba(0,0,0,0.22)] ${
         compact
           ? "gap-1.5 py-0.5 pl-3 pr-1"
           : "gap-2 py-1 pl-5 pr-2 md:gap-2.5 md:py-1 md:pl-6 md:pr-2"
       }`}
     >
       <span
-        className={`font-league-spartan font-medium uppercase tracking-[0.08em] text-[#1D1D1B] ${
+        aria-hidden
+        className="absolute inset-0 origin-left scale-x-0 rounded-full bg-[#1D1D1B] transition-transform duration-[550ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/cta:scale-x-100"
+      />
+      <span
+        className={`relative z-10 font-league-spartan font-medium uppercase tracking-[0.08em] text-[#1D1D1B] transition-colors duration-300 group-hover/cta:text-white ${
           compact ? "text-[9px]" : "text-[12px] md:text-[14px]"
         }`}
       >
         {item.label}
       </span>
       <span
-        className={`flex items-center justify-center rounded-full bg-[#1D1D1B] text-white ${
+        className={`relative z-10 flex items-center justify-center rounded-full bg-[#1D1D1B] text-white transition-[background-color,color,transform] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/cta:rotate-45 group-hover/cta:bg-white group-hover/cta:text-[#1D1D1B] ${
           compact ? "h-5 w-5" : "h-8 w-8 md:h-9 md:w-9"
         }`}
       >

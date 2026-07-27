@@ -86,7 +86,18 @@ const REPORTS = [
     period: "Mid-Year 2026",
     pages: 13,
     fileName: "RMW Ghaziabad Market Intelligence Reports.pdf",
-  },
+  }, 
+  {
+    id: "north-india",
+    region: "North India",
+    title: "North India Market Trends",
+    subtitle: "RMW Market Intelligence Report",
+    description:
+      "The Define Features of North India's 2026 Cycle Is That Outside Capital And Outside Developers .",
+    period: "Mid-Year 2026",
+    pages: 25,
+    fileName: "RMW_North India Report creative_24 july_Revised.pdf",
+  }
 ];
 
 function getPdfHref(fileName) {
