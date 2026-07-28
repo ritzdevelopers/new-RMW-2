@@ -119,7 +119,7 @@ const Section5 = () => {
     <section className="bg-[#FAFAFA] px-8 py-[35px] md:px-12 md:py-[70px]">
       <div className="mx-auto grid w-full max-w-8xl grid-cols-1 gap-10 overflow-hidden lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14 xl:gap-20">
         <div className="min-w-0">
-          <h2
+          <p
             className="m-0 text-[30px] md:text-[clamp(36px,5vw,56px)] text-center md:text-left"
             style={{
               fontFamily: headingStyle.fontFamily,
@@ -131,7 +131,7 @@ const Section5 = () => {
             }}
           >
             WHAT CLIENTS SAY
-          </h2>
+          </p>
 
           <p className="m-0 mx-auto mt-4 text-center md:text-left " style={introStyle}>
           Trusted by leading brands to create meaningful growth.

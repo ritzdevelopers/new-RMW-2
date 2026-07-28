@@ -63,15 +63,14 @@ const Section2 = () => {
             className="m-0 min-w-0 w-full text-center text-[28px] md:col-start-1 md:row-start-1 md:text-left md:text-[30px] lg:text-[48px]"
             style={headingStyle}
           >
-            WE CREATE IMPACT THROUGH EXPERIENCE
+            Creative Advertising, Branding & Digital <br className="md:hidden lg:block"/> Marketing Agency in India
           </h1>
 
           <p
             className="m-0 mt-5 w-full text-center md:col-span-2 md:row-start-2 md:text-left xl:max-w-[1150px] lg:max-w-[800px] md:max-w-[800px]"
             style={bodyStyle}
           >
-            18 years of digital marketing expertise. We drive growth, visibility
-            and results for the world&apos;s most ambitious brands.
+           18 years of transforming brands through creativity, strategy & innovation
           </p>
 
           <Link
