@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const HOME_VIDEO_SRC =
   "https://otherassets.blob.core.windows.net/rmw/home-website.mp4";
@@ -16,8 +16,10 @@ const Section1 = () => {
 
     let unlockBound = false;
     let started = false;
+    let cancelled = false;
 
     const playVideo = () => {
+      if (cancelled) return;
       video.play().catch(() => {});
     };
 
@@ -32,11 +34,16 @@ const Section1 = () => {
       if (unlockBound || isMutedRef.current) return;
       unlockBound = true;
       ["pointerdown", "click", "touchstart", "keydown"].forEach((eventName) => {
-        document.addEventListener(eventName, unlockSound, { once: true, capture: true });
+        document.addEventListener(eventName, unlockSound, {
+          once: true,
+          capture: true,
+        });
       });
     };
 
-    const startPlayback = async () => {
+    const tryPlayWithSound = async () => {
+      if (cancelled) return;
+
       video.volume = 1;
       video.muted = false;
 
@@ -44,17 +51,32 @@ const Section1 = () => {
         await video.play();
       } catch {
         video.muted = true;
+        isMutedRef.current = true;
+        setIsMuted(true);
         playVideo();
         bindUnlockListeners();
       }
     };
 
-    // Only start once the intro loader has finished.
+    // Buffer during the intro loader so the first frame is ready on reveal.
+    if (!video.getAttribute("src")) {
+      video.src = HOME_VIDEO_SRC;
+    }
+    video.preload = "auto";
+    if (video.readyState === 0) {
+      video.load();
+    }
+
     const begin = () => {
-      if (started) return;
+      if (started || cancelled) return;
       started = true;
-      startPlayback();
-      video.addEventListener("loadeddata", playVideo);
+
+      // Play as soon as a frame is available (may already be buffered).
+      if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+        tryPlayWithSound();
+      } else {
+        video.addEventListener("loadeddata", tryPlayWithSound, { once: true });
+      }
       video.addEventListener("canplay", playVideo);
     };
 
@@ -64,9 +86,22 @@ const Section1 = () => {
       window.addEventListener("rmw:loader-done", begin, { once: true });
     }
 
+    // Pause off-screen to cut decode/CPU after the user scrolls away.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!started) return;
+        if (entry.isIntersecting) playVideo();
+        else video.pause();
+      },
+      { rootMargin: "100px 0px", threshold: 0.05 }
+    );
+    observer.observe(video);
+
     return () => {
+      cancelled = true;
+      observer.disconnect();
       window.removeEventListener("rmw:loader-done", begin);
-      video.removeEventListener("loadeddata", playVideo);
+      video.removeEventListener("loadeddata", tryPlayWithSound);
       video.removeEventListener("canplay", playVideo);
       ["pointerdown", "click", "touchstart", "keydown"].forEach((eventName) => {
         document.removeEventListener(eventName, unlockSound, { capture: true });
@@ -96,6 +131,7 @@ const Section1 = () => {
         loop
         playsInline
         preload="auto"
+        disableRemotePlayback
         className="block h-auto w-full object-cover lg:max-h-[calc(100vh-100px)] md:max-h-[calc(100vh-200px)]"
       />
 

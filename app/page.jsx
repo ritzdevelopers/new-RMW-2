@@ -37,15 +37,33 @@ const pageHeadings = [
   "Let's Build Your Brand Together",
 ];
 
+const HOME_VIDEO_SRC =
+  "https://otherassets.blob.core.windows.net/rmw/home-website.mp4";
+const SECTION3_VIDEO_SRC =
+  "https://otherassets.blob.core.windows.net/rmw/home-section2.mp4";
+
 export default function Home() {
   return (
     <WebLoader>
+      {/* Start hero videos fetch as early as possible (during loader). */}
+      <link rel="preconnect" href="https://otherassets.blob.core.windows.net" />
+      <link
+        rel="preload"
+        as="video"
+        href={HOME_VIDEO_SRC}
+        type="video/mp4"
+      />
+      <link
+        rel="preload"
+        as="video"
+        href={SECTION3_VIDEO_SRC}
+        type="video/mp4"
+      />
       <Header />
-    
       <Section1 />
       <Section2 />
-        {/* SEO heading hierarchy — present in source, hidden visually */}
-        <div className="sr-only">
+      {/* SEO heading hierarchy — present in source, hidden visually */}
+      <div className="sr-only">
         <h2>Our Services</h2>
         {serviceHeadings.map((title) => (
           <h3 key={title}>{title}</h3>

@@ -143,7 +143,7 @@ const ViewToggle = ({ viewMode, onChange, onGridHover }) => {
 
 const AUTO_SCROLL_SPEED = 0.85; // px per frame - continuous marquee speed
 
-const GridSlider = ({ cardRefs }) => {
+const GridSlider = ({ cardRefs, loadMedia = false }) => {
   const trackRef = useRef(null);
   const containerRef = useRef(null);
   const isDragging = useRef(false);
@@ -366,9 +366,12 @@ const GridSlider = ({ cardRefs }) => {
             >
               <div className="relative aspect-[3/4] w-full overflow-hidden bg-black/5 md:h-full md:w-auto">
                 <img
-                  src={service.image}
+                  src={loadMedia ? service.image : undefined}
                   alt={service.title}
                   draggable={false}
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
                   className="pointer-events-none h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0" />
@@ -449,7 +452,7 @@ const MOBILE_GAP = 12;
 const MOBILE_AUTO_INTERVAL = 3200;
 const MOBILE_SLIDE_DURATION = 0.55;
 
-const MobileImageSlider = () => {
+const MobileImageSlider = ({ loadMedia = false }) => {
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
   const xRef = useRef(0);
@@ -661,9 +664,12 @@ const MobileImageSlider = () => {
             >
               <div className="relative aspect-[3/4] w-full overflow-hidden bg-black/5">
                 <img
-                  src={service.image}
+                  src={loadMedia ? service.image : undefined}
                   alt={service.title}
                   draggable={false}
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
                   className="pointer-events-none h-full w-full object-cover"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0" />
@@ -733,6 +739,8 @@ const Section4 = () => {
   // a long, gentle transition instead of snapping.
   const [revealBlack, setRevealBlack] = useState(false);
   const [revealSlow, setRevealSlow] = useState(false);
+  // Keep multi‑MB portfolio images off the critical path until near viewport.
+  const [shouldLoadMedia, setShouldLoadMedia] = useState(false);
   const sectionRef = useRef(null);
   const pinRef = useRef(null);
   const listRef = useRef(null);
@@ -754,6 +762,33 @@ const Section4 = () => {
     if (viewMode !== "list") return;
     setGridPreview(enter);
   };
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setShouldLoadMedia(true);
+        observer.disconnect();
+      },
+      // Start early so images are warm before pin/FLIP animations run.
+      { rootMargin: "900px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldLoadMedia) return;
+    services.forEach(({ image }) => {
+      const img = new window.Image();
+      img.decoding = "async";
+      img.fetchPriority = "low";
+      img.src = image;
+    });
+  }, [shouldLoadMedia]);
 
   // Applies the same starting Y offset the pinned ScrollTrigger uses, so that
   // when we morph *into* list mode the ghosts land exactly where the real list
@@ -1377,13 +1412,16 @@ const Section4 = () => {
           >
             <img
               key={activeService.slug}
-              src={activeService.image}
+              src={shouldLoadMedia ? activeService.image : undefined}
               alt=""
+              loading="lazy"
+              decoding="async"
+              fetchPriority="low"
               className="block h-auto w-[min(300px,26vw)] object-contain shadow-[0_20px_50px_rgba(0,0,0,0.18)]"
             />
           </div>
 
-          <MobileImageSlider />
+          <MobileImageSlider loadMedia={shouldLoadMedia} />
 
           <ul
             ref={listRef}
@@ -1443,9 +1481,12 @@ const Section4 = () => {
                       style={{ transitionDelay: showGridPreview ? `${index * 45}ms` : "0ms" }}
                     >
                       <img
-                        src={service.image}
+                        src={shouldLoadMedia ? service.image : undefined}
                         alt=""
                         draggable={false}
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
                         className="block h-[64px] w-[64px] object-cover lg:h-[88px] lg:w-[88px]"
                       />
                     </span>
@@ -1464,7 +1505,9 @@ const Section4 = () => {
                             style={{
                               ...titleStyle,
                               ...imageOverlayTextStyle,
-                              backgroundImage: `url(${service.image})`,
+                              backgroundImage: shouldLoadMedia
+                                ? `url(${service.image})`
+                                : undefined,
                             }}
                           >
                             {service.title}
@@ -1484,7 +1527,7 @@ const Section4 = () => {
             pendingReveal ? "pointer-events-none opacity-0" : "opacity-100"
           }`}
         >
-          <GridSlider cardRefs={gridCardRefs} />
+          <GridSlider cardRefs={gridCardRefs} loadMedia={shouldLoadMedia} />
 
           <div className="z-[60] hidden w-full md:flex">
             <ViewToggle

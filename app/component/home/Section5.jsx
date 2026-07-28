@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useRef, useState } from "react";
-import gsap from "gsap";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
@@ -84,10 +83,39 @@ const slides = [
 
 const Section5 = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [shouldLoadMedia, setShouldLoadMedia] = useState(false);
+  const [isLg, setIsLg] = useState(false);
+  const sectionRef = useRef(null);
   const contentRef = useRef(null);
   const imageRef = useRef(null);
   const isFirstRender = useRef(true);
   const slide = slides[activeIndex];
+
+  // Defer all section media until near viewport so hero LCP keeps bandwidth.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setShouldLoadMedia(true);
+        observer.disconnect();
+      },
+      { rootMargin: "400px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Portrait image is desktop-only — skip download on smaller viewports.
+  useLayoutEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setIsLg(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   useLayoutEffect(() => {
     if (isFirstRender.current) {
@@ -97,30 +125,63 @@ const Section5 = () => {
 
     const content = contentRef.current;
     const image = imageRef.current;
-    if (!content || !image) return;
+    if (!content) return;
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        content,
-        { x: 80, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.6, ease: "power3.out" }
-      );
-      gsap.fromTo(
-        image,
-        { x: 80, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.6, ease: "power3.out", delay: 0.08 }
-      );
+    let ctx;
+    let cancelled = false;
+
+    // Load GSAP only when the user changes slides.
+    import("gsap").then(({ default: gsap }) => {
+      if (cancelled) return;
+      ctx = gsap.context(() => {
+        gsap.fromTo(
+          content,
+          { x: 80, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.6, ease: "power3.out" }
+        );
+        if (image) {
+          gsap.fromTo(
+            image,
+            { x: 80, opacity: 0 },
+            { x: 0, opacity: 1, duration: 0.6, ease: "power3.out", delay: 0.08 }
+          );
+        }
+      });
     });
 
-    return () => ctx.revert();
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
   }, [activeIndex]);
 
+  // Prefetch neighbors only after the section is in range (desktop).
+  useEffect(() => {
+    if (!shouldLoadMedia || !isLg) return;
+
+    const indexes = [
+      (activeIndex + 1) % slides.length,
+      (activeIndex - 1 + slides.length) % slides.length,
+    ];
+
+    indexes.forEach((index) => {
+      const src = slides[index]?.image;
+      if (!src) return;
+      const img = new window.Image();
+      img.decoding = "async";
+      img.src = src;
+    });
+  }, [activeIndex, shouldLoadMedia, isLg]);
+
   return (
-    <section className="bg-[#FAFAFA] px-8 py-[35px] md:px-12 md:py-[70px]">
+    <section
+      ref={sectionRef}
+      className="bg-[#FAFAFA] px-8 py-[35px] md:px-12 md:py-[70px] [content-visibility:auto] [contain-intrinsic-size:auto_720px]"
+    >
       <div className="mx-auto grid w-full max-w-8xl grid-cols-1 gap-10 overflow-hidden lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14 xl:gap-20">
         <div className="min-w-0">
           <p
-            className="m-0 text-[30px] md:text-[clamp(36px,5vw,56px)] text-center md:text-left"
+            className="m-0 text-center text-[30px] md:text-left md:text-[clamp(36px,5vw,56px)]"
             style={{
               fontFamily: headingStyle.fontFamily,
               fontWeight: headingStyle.fontWeight,
@@ -133,17 +194,32 @@ const Section5 = () => {
             WHAT CLIENTS SAY
           </p>
 
-          <p className="m-0 mx-auto mt-4 text-center md:text-left " style={introStyle}>
-          Trusted by leading brands to create meaningful growth.
+          <p
+            className="m-0 mx-auto mt-4 text-center md:text-left"
+            style={introStyle}
+          >
+            Trusted by leading brands to create meaningful growth.
           </p>
 
           <div className="mt-10 overflow-hidden md:mt-12">
-            <img
-              src="/home/double-quotes.svg"
-              alt=""
-              className="block h-[72px] w-[72px] md:h-[88px] md:w-[88px]"
-              aria-hidden
-            />
+            {shouldLoadMedia ? (
+              <img
+                src="/home/double-quotes.svg"
+                alt=""
+                width={88}
+                height={88}
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
+                className="block h-[72px] w-[72px] md:h-[88px] md:w-[88px]"
+                aria-hidden
+              />
+            ) : (
+              <div
+                className="h-[72px] w-[72px] md:h-[88px] md:w-[88px]"
+                aria-hidden
+              />
+            )}
 
             <div ref={contentRef}>
               <p
@@ -185,12 +261,19 @@ const Section5 = () => {
         </div>
 
         <div className="mx-auto hidden w-full max-w-[420px] shrink-0 lg:mx-0 lg:block lg:max-w-[460px]">
-          <img
-            ref={imageRef}
-            src={slide.image}
-            alt={slide.author}
-            className="lg:mt-35 mt-3 block h-auto w-full object-contain shadow-md"
-          />
+          {shouldLoadMedia && isLg ? (
+            <img
+              ref={imageRef}
+              src={slide.image}
+              alt={slide.author}
+              width={460}
+              height={580}
+              loading="lazy"
+              decoding="async"
+              fetchPriority="low"
+              className="mt-3 block h-auto w-full object-contain shadow-md lg:mt-35"
+            />
+          ) : null}
         </div>
       </div>
     </section>

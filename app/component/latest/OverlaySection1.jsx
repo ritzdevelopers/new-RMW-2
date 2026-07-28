@@ -1,15 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { League_Spartan } from "next/font/google";
 import Link from "next/link";
 
-const leagueSpartan = League_Spartan({
-  subsets: ["latin"],
-  weight: ["600"],
-  display: "swap",
-});
+const BANNER_SRC = "/service/website%20banner%20%5BRecovered%5D-01.jpg";
 
 const serviceRows = [
   [
@@ -76,28 +71,51 @@ const rowLayoutClasses = [
 
 const OverlaySection1 = () => {
   const [hoveredKey, setHoveredKey] = useState(null);
+  const [shouldLoadMedia, setShouldLoadMedia] = useState(false);
+  const sectionRef = useRef(null);
 
   const getOpacityClass = (key) =>
     hoveredKey && hoveredKey !== key ? "opacity-30" : "opacity-100";
 
+  // Footer banner is far below the fold — keep it off the LCP / priority path.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setShouldLoadMedia(true);
+        observer.disconnect();
+      },
+      { rootMargin: "600px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="relative h-[100dvh] min-h-[100dvh] w-full max-w-full overflow-hidden bg-[#0E1125]">
+    <section
+      ref={sectionRef}
+      className="relative h-[100dvh] min-h-[100dvh] w-full max-w-full overflow-hidden bg-[#0E1125]"
+    >
       <div className="relative h-full min-h-[100dvh] w-full">
-        <Image
-          src="/service/website%20banner%20%5BRecovered%5D-01.jpg"
-          alt="Ritz Media World creative services"
-          title="Ritz Media World creative services"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
+        {shouldLoadMedia ? (
+          <Image
+            src={BANNER_SRC}
+            alt="Ritz Media World creative services"
+            title="Ritz Media World creative services"
+            fill
+            loading="lazy"
+            fetchPriority="low"
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+        ) : null}
 
         <div className="absolute inset-0 bg-black/10" aria-hidden />
 
-        <div
-          className={`${leagueSpartan.className} relative z-10 flex h-full min-h-[100dvh] flex-col p-[20px] xl:p-[50px]`}
-        >
+        <div className="font-league-spartan relative z-10 flex h-full min-h-[100dvh] flex-col p-[20px] xl:p-[50px]">
           <div
             className="flex min-h-0 flex-1 flex-col items-center justify-between gap-4 text-center md:hidden"
             onMouseLeave={() => setHoveredKey(null)}
