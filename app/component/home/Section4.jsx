@@ -47,11 +47,11 @@ const linkRowClass =
   "inline-flex items-baseline justify-center gap-4 md:gap-6 lg:gap-10";
 
 const services = [
-  { title: "GULSHAN", slug: "gulshan", image: "/home/gulshan.png", xlShift: 0 },
+  { title: "GULSHAN", slug: "gulshan", image: "/home/gulshan_optim.jpg", xlShift: 0 },
   { title: "VEDVAN", slug: "vedvan", image: "/home/vedvan.jpg", xlShift: 100 },
   { title: "EXOTICA", slug: "exotica", image: "/home/exotica.jpg", xlShift: -200 },
   { title: "SPLENDOR ONYX", slug: "splendor-onyx", image: "/home/onyx.png", xlShift: 100 },
-  { title: "LUMORA", slug: "lumora", image: "/home/lumora.jpg", xlShift: -200 },
+  { title: "LUMORA", slug: "lumora", image: "/home/lumora_optim.jpg", xlShift: -200 },
   { title: "SANSKAR", slug: "sanskar", image: "/home/SANSKAR.jpg", xlShift: 200 },
   { title: "VVIP MADHUBAN", slug: "vvip-madhuban", image: "/home/vvip.jpg", xlShift: -100 },
   { title: "GHD", slug: "ghd", image: "/home/GHD.jpg", xlShift: 200 },
