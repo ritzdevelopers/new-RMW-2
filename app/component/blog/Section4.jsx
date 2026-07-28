@@ -1,14 +1,9 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import { Montserrat, Inter } from "next/font/google";
-import {
-  fetchCategoryBlogsClient,
-  normalizeBlogItem,
-  resolveBlogImageUrl,
-  sortBlogsByDateDesc,
-} from "../../../lib/caseStudyApi";
+import { resolveBlogImageUrl } from "../../../lib/caseStudyApi";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -126,15 +121,6 @@ const sidebarButtonStyle = {
   color: "#000000",
 };
 
-function slugifyCategoryLink(name) {
-  return String(name || "")
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/[\s_-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
 function stripHtml(html) {
   return String(html || "")
     .replace(/<[^>]*>/g, " ")
@@ -171,76 +157,12 @@ function mapBlogToSection4Post(blog, categoryName) {
   };
 }
 
-const Section4 = () => {
-  const [categories, setCategories] = useState([]);
-  const [activeCategoryLink, setActiveCategoryLink] = useState("");
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
+const Section4 = ({ categories = [], blogsByCategory = {} }) => {
+  const [activeCategoryLink, setActiveCategoryLink] = useState(
+    () => categories[0]?.link || "",
+  );
 
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadCategories() {
-      try {
-        const response = await fetch("/api/blog/categories");
-        if (!response.ok) throw new Error(String(response.status));
-        const data = await response.json();
-        if (!Array.isArray(data)) return;
-
-        const items = data
-          .map((category) => ({
-            name: category.name,
-            link: slugifyCategoryLink(category.name),
-          }))
-          .filter((category) => category.name && category.link)
-          .slice(0, 4);
-
-        if (!cancelled && items.length) {
-          setCategories(items);
-          setActiveCategoryLink(items[0].link);
-        }
-      } catch {
-        if (!cancelled) {
-          setCategories([]);
-          setActiveCategoryLink("");
-        }
-      }
-    }
-
-    loadCategories();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!activeCategoryLink) {
-      setBlogs([]);
-      setLoading(false);
-      return;
-    }
-
-    let cancelled = false;
-    setLoading(true);
-
-    fetchCategoryBlogsClient(activeCategoryLink)
-      .then((items) => {
-        if (!cancelled) {
-          setBlogs(sortBlogsByDateDesc(items));
-        }
-      })
-      .catch(() => {
-        if (!cancelled) setBlogs([]);
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [activeCategoryLink]);
+  const blogs = blogsByCategory[activeCategoryLink] || [];
 
   const activeCategoryName =
     categories.find((category) => category.link === activeCategoryLink)?.name || "";
@@ -280,9 +202,7 @@ const Section4 = () => {
         </div>
 
         <div className="mt-10 grid grid-cols-1 gap-8 lg:mt-15 lg:grid-cols-12 lg:gap-x-10 lg:gap-y-6">
-          {loading ? (
-            <p className="m-0 text-[16px] text-[#666] lg:col-span-8">Loading...</p>
-          ) : featuredPost ? (
+          {featuredPost ? (
             <>
               <Link
                 href={`/${featuredPost.slug}`}

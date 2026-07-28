@@ -356,6 +356,7 @@ const GridSlider = ({ cardRefs, loadMedia = false }) => {
             <Link
               key={`${service.slug}-${index}`}
               href={`/services/${service.slug}`}
+              title={service.title}
               target="_blank"
               rel="noopener noreferrer"
               ref={(node) => {
@@ -368,6 +369,7 @@ const GridSlider = ({ cardRefs, loadMedia = false }) => {
                 <img
                   src={loadMedia ? service.image : undefined}
                   alt={service.title}
+                  title={service.title}
                   draggable={false}
                   loading="lazy"
                   decoding="async"
@@ -653,6 +655,7 @@ const MobileImageSlider = ({ loadMedia = false }) => {
             <Link
               key={`${service.slug}-${index}`}
               href={`/services/${service.slug}`}
+              title={service.title}
               data-mobile-card
               draggable={false}
               onClick={onCardClick}
@@ -666,6 +669,7 @@ const MobileImageSlider = ({ loadMedia = false }) => {
                 <img
                   src={loadMedia ? service.image : undefined}
                   alt={service.title}
+                  title={service.title}
                   draggable={false}
                   loading="lazy"
                   decoding="async"
@@ -1115,7 +1119,7 @@ const Section4 = () => {
         });
         const [topPart, bottomPart] = splitTitleParts(service.title);
         imgGhost.innerHTML = `
-            <img src="${service.image}" style="width:100%;height:100%;object-fit:cover;display:block" />
+            <img src="${service.image}" style="width:100%;height:100%;object-fit:cover;display:block"  />
             <div class="s4-card-label" style="position:absolute;inset:0;opacity:0">
               <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.7), rgba(0,0,0,0) 55%)"></div>
               <div style="position:absolute;left:24px;right:24px;bottom:40px;display:flex;flex-direction:column;color:rgba(255,255,255,0.4);-webkit-text-stroke:1px rgba(255,255,255,0.25);font-family:'League Spartan',sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(40px,8vw,104px);line-height:0.82;letter-spacing:0.02em;"><span style="display:block;word-break:break-all;">${topPart}</span><span style="display:block;word-break:break-all;">${bottomPart}</span></div>
@@ -1413,7 +1417,8 @@ const Section4 = () => {
             <img
               key={activeService.slug}
               src={shouldLoadMedia ? activeService.image : undefined}
-              alt=""
+              alt={activeService.title}
+              title={activeService.title}
               loading="lazy"
               decoding="async"
               fetchPriority="low"
@@ -1482,7 +1487,8 @@ const Section4 = () => {
                     >
                       <img
                         src={shouldLoadMedia ? service.image : undefined}
-                        alt=""
+                        alt={service.title}
+                        title={service.title}
                         draggable={false}
                         loading="lazy"
                         decoding="async"

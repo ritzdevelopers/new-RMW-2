@@ -1,4 +1,5 @@
 import React from "react";
+import { notFound } from "next/navigation";
 import Header from "../common/Header";
 import Footer from "../component/latest/Footer";
 import OverlaySection1 from "../component/latest/OverlaySection1";
@@ -8,17 +9,37 @@ import {
   getBlogBySlug,
   isCaseStudySlug,
 } from "../../lib/caseStudyApi";
+import { getSlugDetailPageData } from "../../lib/blogServerData";
+
+const PLACEHOLDER_SLUG = "__placeholder__";
 
 export async function generateStaticParams() {
-  const slugs = await getAllBlogSlugs();
-  return slugs.map((slug) => ({ slug }));
+  try {
+    const slugs = await getAllBlogSlugs();
+    const params = slugs
+      .filter((slug) => typeof slug === "string" && slug.trim())
+      .map((slug) => ({ slug: slug.trim() }));
+
+    if (params.length) return params;
+  } catch (error) {
+    console.warn("generateStaticParams (slug) failed:", error);
+  }
+
+  // `output: "export"` cannot build dynamic routes with an empty params list.
+  return [{ slug: PLACEHOLDER_SLUG }];
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
+  if (slug === PLACEHOLDER_SLUG) {
+    return { title: "Blog | Ritz Media World" };
+  }
+
   const blog = await getBlogBySlug(slug);
   const caseStudy = await isCaseStudySlug(slug);
-  const fallbackTitle = caseStudy ? "Case Study | Ritz Media World" : "Blog | Ritz Media World";
+  const fallbackTitle = caseStudy
+    ? "Case Study | Ritz Media World"
+    : "Blog | Ritz Media World";
 
   if (!blog) {
     return { title: fallbackTitle };
@@ -55,13 +76,28 @@ export async function generateMetadata({ params }) {
 export default async function SlugDetailPage({ params }) {
   const { slug } = await params;
 
+  if (slug === PLACEHOLDER_SLUG) {
+    notFound();
+  }
+
+  const data = await getSlugDetailPageData(slug);
+
+  if (!data) {
+    notFound();
+  }
+
   return (
     <>
       <Header />
       <main>
-        <SlugDetailClient slug={slug} />
+        <SlugDetailClient
+          slug={slug}
+          blog={data.blog}
+          sidebar={data.sidebar}
+          caseStudy={data.caseStudy}
+        />
       </main>
-      <Footer section={< OverlaySection1 />} />
+      <Footer section={<OverlaySection1 />} />
     </>
   );
 }

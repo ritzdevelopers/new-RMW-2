@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
-import { fetchAllBlogsClient, resolveBlogImageUrl } from "../../../lib/caseStudyApi";
+import { resolveBlogImageUrl } from "../../../lib/caseStudyApi";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -136,36 +136,11 @@ function Section1Skeleton() {
   );
 }
 
-const Section1 = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
+const Section1 = ({ blogs = [] }) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchWrapRef = useRef(null);
   const searchInputRef = useRef(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadBlogs() {
-      try {
-        const allItems = await fetchAllBlogsClient();
-        if (!cancelled) {
-          setBlogs(allItems);
-        }
-      } catch {
-        if (!cancelled) setBlogs([]);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-
-    loadBlogs();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   useEffect(() => {
     if (!searchOpen) return undefined;
@@ -215,10 +190,6 @@ const Section1 = () => {
       gridPosts: posts.slice(1, 4),
     };
   }, [posts]);
-
-  if (loading) {
-    return <Section1Skeleton />;
-  }
 
   if (!featuredPost) {
     return null;

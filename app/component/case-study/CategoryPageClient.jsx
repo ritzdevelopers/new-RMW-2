@@ -1,41 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import BlogListingGrid from "./BlogListingGrid";
-import { fetchCategoryBlogsClient, formatCategoryTitle } from "../../../lib/caseStudyApi";
 import { refreshFooterScroll } from "../../../lib/footerRefresh";
 
-export default function CategoryPageClient({ categorypage }) {
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const title = formatCategoryTitle(categorypage);
-
+export default function CategoryPageClient({ categorypage, blogs = [], title = "" }) {
   useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-
-    fetchCategoryBlogsClient(categorypage)
-      .then((items) => {
-        if (!cancelled) setBlogs(items);
-      })
-      .catch(() => {
-        if (!cancelled) setBlogs([]);
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [categorypage]);
-
-  useEffect(() => {
-    if (loading) return;
     refreshFooterScroll();
     const timer = window.setTimeout(refreshFooterScroll, 400);
     return () => window.clearTimeout(timer);
-  }, [loading, blogs]);
+  }, [categorypage, blogs]);
 
   return (
     <>
@@ -58,16 +32,7 @@ export default function CategoryPageClient({ categorypage }) {
 
       <section className="bg-white px-8 py-12 md:px-12 md:py-16">
         <div className="mx-auto w-full max-w-8xl">
-          {loading ? (
-            <p
-              className="py-10 text-center text-[16px] text-[#666]"
-              style={{ fontFamily: '"Montserrat", sans-serif' }}
-            >
-              Loading...
-            </p>
-          ) : (
-            <BlogListingGrid blogs={blogs} />
-          )}
+          <BlogListingGrid blogs={blogs} />
         </div>
       </section>
     </>

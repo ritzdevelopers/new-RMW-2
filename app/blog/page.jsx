@@ -7,6 +7,7 @@ import Section3 from "../component/blog/Section3";
 import Section4 from "../component/blog/Section4";
 import OverlaySection1 from "../component/latest/OverlaySection1";
 import BlogScrollGate from "../component/blog/BlogScrollGate";
+import { getBlogListingPageData } from "../../lib/blogServerData";
 
 export const metadata = {
   title: "Insights & Marketing Trends | Ritz Media World Blog Delhi NCR",
@@ -57,27 +58,28 @@ export const metadata = {
   },
 };
 
-const page = () => {
+export default async function BlogPage() {
+  const { blogs, categoryNames, categories, blogsByCategory } =
+    await getBlogListingPageData();
+
   return (
     <>
       <Header />
       <BlogScrollGate
         top={
           <>
-            <Section1 />
-            <Section2 />
+            <Section1 blogs={blogs} />
+            <Section2 blogs={blogs} categories={categoryNames} />
           </>
         }
         bottom={
           <>
             <Section3 />
-            <Section4 />
+            <Section4 categories={categories} blogsByCategory={blogsByCategory} />
             <Footer section={<OverlaySection1 />} />
           </>
         }
       />
     </>
   );
-};
-
-export default page;
+}

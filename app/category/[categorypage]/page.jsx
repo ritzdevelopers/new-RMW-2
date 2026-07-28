@@ -5,6 +5,7 @@ import Footer from "../../component/latest/Footer";
 import OverlaySection1 from "../../component/latest/OverlaySection1";
 import CategoryPageClient from "../../component/case-study/CategoryPageClient";
 import { formatCategoryTitle, getCategoryLinks } from "../../../lib/caseStudyApi";
+import { getCategoryPageData } from "../../../lib/blogServerData";
 
 const PLACEHOLDER_CATEGORY = "__placeholder__";
 
@@ -40,11 +41,13 @@ export default async function CategoryPage({ params }) {
     notFound();
   }
 
+  const { blogs, title } = await getCategoryPageData(categorypage);
+
   return (
     <>
       <Header />
       <main>
-        <CategoryPageClient categorypage={categorypage} />
+        <CategoryPageClient categorypage={categorypage} blogs={blogs} title={title} />
       </main>
       <Footer section={<OverlaySection1 />} />
     </>

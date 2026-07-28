@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
-import { fetchAllBlogsClient, resolveBlogImageUrl } from "../../../lib/caseStudyApi";
+import { resolveBlogImageUrl } from "../../../lib/caseStudyApi";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -180,49 +180,9 @@ function Section2Skeleton() {
   );
 }
 
-const Section2 = () => {
+const Section2 = ({ blogs = [], categories = [] }) => {
   const sectionRef = useRef(null);
-  const [blogs, setBlogs] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadData() {
-      try {
-        const [blogItems, categoriesResponse] = await Promise.all([
-          fetchAllBlogsClient(),
-          fetch("/api/blog/categories"),
-        ]);
-
-        if (!cancelled) {
-          setBlogs(blogItems);
-        }
-
-        if (categoriesResponse.ok && !cancelled) {
-          const data = await categoriesResponse.json();
-          if (Array.isArray(data)) {
-            setCategories(data.map((category) => category.name).filter(Boolean));
-          }
-        }
-      } catch {
-        if (!cancelled) {
-          setBlogs([]);
-          setCategories([]);
-        }
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-
-    loadData();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   const latestPosts = useMemo(() => blogs.map(mapBlogToPost), [blogs]);
 
@@ -251,10 +211,6 @@ const Section2 = () => {
     },
     [totalPages],
   );
-
-  if (loading) {
-    return <Section2Skeleton />;
-  }
 
   return (
     <section
