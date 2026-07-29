@@ -142,12 +142,12 @@ const ServiceDetailIntro = ({ intro, activeSlug, title }) => {
               />
               {bannerLabel ? (
                 <div className="absolute inset-0 flex items-center justify-center px-6 sm:px-10">
-                  <h1
+                  <p
                     className="m-0 text-center text-[32px] leading-[1.05] sm:text-[44px] md:text-[56px] lg:text-[72px] xl:text-[82px]"
                     style={bannerTitleStyle}
                   >
                     {bannerLabel}
-                  </h1>
+                  </p>
                 </div>
               ) : null}
             </div>

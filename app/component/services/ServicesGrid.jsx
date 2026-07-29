@@ -417,7 +417,7 @@ const ServicesGrid = () => {
             className="flex w-full items-center justify-center py-10 max-lg:order-last md:w-[calc(50%-1rem)] md:justify-start md:py-0 md:pl-2 lg:h-[621px] lg:pl-6"
           >
             <div className="flex w-full max-w-[420px] flex-col items-center px-4 text-center md:max-w-[360px] md:items-start md:px-0 md:text-left lg:max-w-[400px]">
-              <h2
+              <p
                 data-svc-contact-reveal
                 className="m-0 w-full uppercase text-[24px] leading-[34px] text-[#333333] sm:text-[28px] sm:leading-[38px] md:text-[30px] md:leading-[38px] lg:text-[35px] lg:leading-[48px] xl:text-[40px] xl:leading-[52px]"
                 style={{
@@ -427,7 +427,7 @@ const ServicesGrid = () => {
                 }}
               >
                 {servicesContactCta.heading}
-              </h2>
+              </p>
               <p
                 data-svc-contact-reveal
                 className="m-0 mt-5 w-full text-[16px] leading-6 text-[#333333] sm:mt-6 lg:text-[18px] lg:leading-7 xl:text-[20px] xl:leading-[28px]"

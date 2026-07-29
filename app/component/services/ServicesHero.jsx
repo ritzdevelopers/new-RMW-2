@@ -467,7 +467,7 @@ const ServicesHero = ({
       ref={headlineWrapRef}
       className={`relative w-full min-w-0 max-w-full overflow-x-clip ${isSubService ? "mx-auto" : ""}`}
     >
-      <h1
+      <div
         ref={headlineRef}
         style={headingStyle}
         className={`m-0 w-full max-w-full leading-[0.95] ${
@@ -491,7 +491,7 @@ const ServicesHero = ({
             <HeadlineRows rows={headlineRows} variant="gold" isSubService={isSubService} />
           </div>
         </div>
-      </h1>
+      </div>
     </div>
   );
 

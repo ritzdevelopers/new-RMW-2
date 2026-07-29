@@ -41,9 +41,9 @@ export const services = [
           height: 630,
         },
       ],
-      eyebrow: "Taking brands where they've never been",
+      eyebrow: "Digital Marketing Solutions Built for Sustainable Growth",
       body:
-        "Visibility without strategy is just noise. We create data-driven digital experiences that build awareness, spark engagement, and accelerate growth. Through social media, SEO, performance marketing, and paid media, we help brands stay relevant, competitive, and impossible to ignore.",
+        "Grow your business with data-driven digital marketing solutions from Ritz Media World. Our expertise in SEO, Google Ads, Social Media Marketing, Content Marketing, and Performance Marketing helps increase visibility, generate quality leads, improve conversions, and deliver measurable business growth.",
       sidebarLabel: "Services",
     },
     carousel: {

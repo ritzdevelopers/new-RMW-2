@@ -33,12 +33,12 @@ function ServiceDetailCarousel({ carousel }) {
   return (
     <section className="w-full bg-white px-6 py-16 md:px-12 md:py-20 lg:py-24">
       <div className="mx-auto w-full max-w-[1340px]">
-        <h2
+        <p
           className="m-0 mb-10 text-center text-[28px] leading-tight uppercase tracking-[-0.02em] md:mb-14 md:text-[40px] lg:text-[43px]"
           style={headingStyle}
         >
         Services We Provide
-        </h2>
+        </p>
 
         <div className="w-full border-t border-[#E6E6E6]">
           {slides.map((slide, index) => {

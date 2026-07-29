@@ -93,12 +93,12 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
         <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-8 xl:gap-16">
           <div className="flex w-full min-w-0 flex-col items-center lg:max-w-[48%] xl:max-w-[561px] xl:shrink-0">
             {title ? (
-              <h2
+              <p
                 className="m-0 mt-0 w-full uppercase text-center text-[28px] leading-[42px] sm:text-[44px] sm:leading-[50px] lg:text-[54px] lg:leading-[62px] xl:mt-25 xl:max-w-[456px] xl:text-[65px] xl:leading-[74px]"
                 style={titleStyle}
               >
                 {title}
-              </h2>
+              </p>
             ) : null}
 
             {video?.src ? (
@@ -257,12 +257,12 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
           <div className="mx-auto mt-12 flex w-full max-w-full flex-col items-center md:mt-16 xl:max-w-[1135px]">
             <div className="flex w-full flex-col items-center px-6 sm:px-10 max-lg:px-0 max-lg:sm:px-4">
               {imageContent.heading ? (
-                <h2
+                <p
                   className="m-0 w-full uppercase text-center text-[24px] leading-[34px]  sm:leading-[42px] lg:text-[35px] md:text-[30px] md:leading-[38px] lg:leading-[48px] xl:max-w-[1135px] xl:text-[48px] xl:leading-[57px]"
                   style={imageContentHeadingStyle}
                 >
                   {imageContent.heading}
-                </h2>
+                </p>
               ) : null}
               {imageContent.body ? (
                 <p className="m-0 mt-6 w-full text-center text-[16px] leading-6 lg:text-[18px] lg:leading-7 xl:max-w-[986px] xl:text-[20px] xl:leading-[28px]" style={imageContentBodyStyle}>
