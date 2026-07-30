@@ -8,7 +8,7 @@ function Hero({ title }) {
     >
       <div className="w-full h-full flex justify-center items-center bg-[#000000a3]">
         <div className="w-full h-full flex justify-center items-center text-center">
-          <h1
+          <h2
             className="text-white text-2xl lg:text-[43px] font-[300]"
             dangerouslySetInnerHTML={{
               __html: title

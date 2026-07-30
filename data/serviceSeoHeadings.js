@@ -1,5 +1,5 @@
 /**
- * Visually hidden SEO heading hierarchies per service slug.
+ * Visually hidden SEO heading hierarchies.
  * Rendered with `sr-only` - present in source, not on the UI.
  */
 
@@ -21,6 +21,126 @@ const defaultProcess = [
   "Reporting & Continuous Improvement",
 ];
 
+/** SEO headings for `/services` listing page */
+export const servicesPageSeoHeadings = {
+  h1: [
+    "Advertising & Digital Services by Ritz Media World",
+  ],
+  sections: [
+    {
+      h2: "Our Full-Service Marketing Solutions",
+      h3: [
+        "Digital Marketing",
+        "Creative Services",
+        "Print Advertising",
+        "Radio Advertising",
+        "Content Marketing",
+        "Web Design & Development",
+        "Celebrity Endorsements",
+        "Influencer Marketing",
+        "3D Rendering Services",
+      ],
+    },
+    {
+      h2: "Digital Marketing Services",
+      h3: [
+        "Search Engine Optimization (SEO)",
+        "Social Media Marketing (SMM)",
+        "Online Reputation Management (ORM)",
+        "Pay Per Click (PPC) Advertising",
+        "Lead Generation",
+        "Brand Awareness",
+      ],
+    },
+    {
+      h2: "Creative Services",
+      h3: [
+        "Branding & Identity Development",
+        "Graphic Design",
+        "Logo Design",
+        "Print Advertising Design",
+        "Packaging Design",
+      ],
+    },
+    {
+      h2: "Print Advertising Services",
+      h3: [
+        "Advertisement Design",
+        "Ad Placement",
+        "Copywriting",
+        "Cost Negotiation",
+        "Ad Size Optimization",
+        "Ad Scheduling",
+      ],
+    },
+    {
+      h2: "Radio Advertising Services",
+      h3: [
+        "Concept Development",
+        "Scriptwriting",
+        "Voiceover Casting",
+        "Recording & Production",
+        "Media Planning",
+        "Cost Negotiations",
+      ],
+    },
+    {
+      h2: "Content Marketing Services",
+      h3: [
+        "Content Strategy",
+        "Email & Newsletters",
+        "Assets & Infographics",
+        "Promotion & Optimization",
+      ],
+    },
+    {
+      h2: "Web Design & Development Services",
+      h3: [
+        "UI/UX Design",
+        "Custom Development",
+        "E-Commerce",
+        "Landing Pages",
+        "WordPress",
+      ],
+    },
+    {
+      h2: "Celebrity Endorsement Services",
+      h3: [
+        "Celebrity Identification",
+        "Contract Negotiations",
+        "Creative Collaboration",
+        "Campaign Integration",
+        "Public Relations",
+        "Legal Compliance",
+      ],
+    },
+    {
+      h2: "Influencer Marketing Services",
+      h3: [
+        "Influencer Identification",
+        "Cost-Benefit Analysis",
+        "Terms Negotiations",
+        "Creative Collaboration",
+        "Campaign Integration",
+        "Messaging Optimization",
+      ],
+    },
+    {
+      h2: "3D Rendering Services",
+      h3: [
+        "3D Exterior Rendering",
+        "3D Interior Rendering",
+        "Aerial & Township",
+        "3D Floor Plan Rendering",
+        "Amenity & Landscape Rendering",
+      ],
+    },
+    { h2: "Why Choose Ritz Media World" },
+    { h2: "Industries We Serve", h3: industries },
+    { h2: "Get a Free Marketing Consultation" },
+  ],
+};
+
 /** @type {Record<string, { h1: string[], sections: Array<{ h2: string, h3?: string[] }> }>} */
 export const serviceSeoHeadingsBySlug = {
   "digital-marketing": {
@@ -28,18 +148,18 @@ export const serviceSeoHeadingsBySlug = {
       "Digital Marketing Solutions Built for Sustainable Growth",
     ],
     sections: [
-      { h2: "Accelerate Your Business Growth with Digital Marketing" },
+      {
+        h2: "Accelerate Your Business Growth with Digital Marketing",
+      },
       {
         h2: "Our Digital Marketing Services",
         h3: [
           "Search Engine Optimization (SEO)",
-          "Pay-Per-Click (PPC) Advertising",
           "Social Media Marketing (SMM)",
-          "Content Marketing",
           "Online Reputation Management (ORM)",
-          "Conversion Rate Optimization (CRO)",
-          "Email Marketing",
-          "AI-Powered Digital Marketing Solutions",
+          "Pay Per Click (PPC) Advertising",
+          "Lead Generation",
+          "Brand Awareness",
         ],
       },
       {
@@ -56,10 +176,12 @@ export const serviceSeoHeadingsBySlug = {
 
   "creative-services": {
     h1: [
-      "Design that Defies Convention",
+      "Design That Defines Convention",
     ],
     sections: [
-      { h2: "Build a Brand Identity That Stands Out" },
+      {
+        h2: "Build a Brand Identity That Stands Out",
+      },
       {
         h2: "Our Creative Services",
         h3: [
@@ -128,7 +250,6 @@ export const serviceSeoHeadingsBySlug = {
   "radio-advertising": {
     h1: [
       "When Sound Commands Attention",
-      "Radio Advertising Agency in Noida | Radio Spot Production & Media Buying",
     ],
     sections: [
       { h2: "Build Brand Recall with Powerful Radio Campaigns" },
@@ -233,7 +354,7 @@ export const serviceSeoHeadingsBySlug = {
 
   "celebrity-endorsements": {
     h1: [
-      "When Star Power Builds Trust", 
+      "When Star Power Builds Trust",
     ],
     sections: [
       { h2: "Amplify Your Brand with the Right Celebrity Partnerships" },
@@ -269,7 +390,7 @@ export const serviceSeoHeadingsBySlug = {
 
   "influencer-marketing-agency-in-india": {
     h1: [
-      "Trust Over Hype", 
+      "Trust Over Hype",
     ],
     sections: [
       { h2: "Grow Your Brand with Authentic Influencer Campaigns" },
@@ -305,7 +426,7 @@ export const serviceSeoHeadingsBySlug = {
 
   "3d-rendering": {
     h1: [
-      "See It Before It Exists", 
+      "See It Before It Exists",
     ],
     sections: [
       { h2: "Turn Architectural Ideas into Photorealistic Visuals" },
@@ -341,4 +462,8 @@ export const serviceSeoHeadingsBySlug = {
 
 export function getServiceSeoHeadings(slug) {
   return serviceSeoHeadingsBySlug[slug] || null;
+}
+
+export function getServicesPageSeoHeadings() {
+  return servicesPageSeoHeadings;
 }
