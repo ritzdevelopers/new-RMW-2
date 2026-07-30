@@ -86,8 +86,7 @@ export default function BlogDetail({ blog, sidebar }) {
         }
         .bd-featured-image img {
           width: 100%;
-          height: 100%;
-          object-fit: cover;
+          height: 100%; 
           object-position: center;
           display: block;
         }

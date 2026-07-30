@@ -16,6 +16,7 @@ const PLACEHOLDER_SLUG = "__placeholder__";
 export async function generateStaticParams() {
   try {
     const slugs = await getAllBlogSlugs();
+    console.log("Total Slugs:", slugs.length);
     const params = slugs
       .filter((slug) => typeof slug === "string" && slug.trim())
       .map((slug) => ({ slug: slug.trim() }));
