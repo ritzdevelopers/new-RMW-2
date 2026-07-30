@@ -23,7 +23,7 @@ async function fetch_all_blogs_title_and_url() {
         : payload?.blogs || payload?.data || [];
 
       if (!Array.isArray(records) || records.length === 0) {
-        console.log(`Page ${page} returned [] — stopping.`);
+        console.log(`Page ${page} returned [] - stopping.`);
         break;
       }
 

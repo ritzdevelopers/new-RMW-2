@@ -77,7 +77,7 @@ const OverlaySection1 = () => {
   const getOpacityClass = (key) =>
     hoveredKey && hoveredKey !== key ? "opacity-30" : "opacity-100";
 
-  // Footer banner is far below the fold — keep it off the LCP / priority path.
+  // Footer banner is far below the fold - keep it off the LCP / priority path.
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
