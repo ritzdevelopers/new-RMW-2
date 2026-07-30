@@ -236,12 +236,12 @@ const Section2 = ({ blogs = [], categories = [] }) => {
                 title={post.title}
                 className="flex flex-col gap-5 no-underline sm:flex-row sm:items-start sm:gap-6 md:gap-8"
               >
-                <div className="w-full shrink-0 sm:w-[200px] md:w-[240px] lg:w-[260px] xl:w-[280px]">
+                <div className="aspect-[16/10] w-full shrink-0 overflow-hidden rounded-2xl sm:aspect-auto sm:h-[140px] sm:w-[200px] md:h-[150px] md:w-[240px] lg:h-[160px] lg:w-[260px] xl:h-[170px] xl:w-[280px]">
                   <img
                     src={post.image}
                     alt={post.title}
                     title={post.title}
-                    className="block h-auto w-full rounded-2xl object-cover object-center"
+                    className="block h-full w-full object-cover object-center"
                   />
                 </div>
 

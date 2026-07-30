@@ -212,7 +212,7 @@ const Section4 = ({ categories = [], blogsByCategory = {} }) => {
                 className="flex flex-col items-start no-underline lg:col-span-3"
               >
                 <div className="w-[340px] max-w-full">
-                  <div className="overflow-hidden rounded-2xl xl:h-[200px]">
+                  <div className="aspect-[16/10] overflow-hidden rounded-2xl xl:aspect-auto xl:h-[200px]">
                     <img
                       src={featuredPost.image}
                       alt={featuredPost.title}
@@ -250,12 +250,12 @@ const Section4 = ({ categories = [], blogsByCategory = {} }) => {
                       rel="noopener noreferrer"
                       className={`flex flex-col gap-3 no-underline sm:flex-row sm:gap-4 ${index > 0 ? "mt-10 border-t border-[#D9D9D9] pt-10" : ""}`}
                     >
-                      <div className="w-full sm:h-[120px] sm:w-[160px] sm:shrink-0">
+                      <div className="aspect-[16/10] w-full overflow-hidden rounded-lg sm:aspect-auto sm:h-[120px] sm:w-[160px] sm:shrink-0">
                         <img
                           src={post.image}
                           alt={post.title}
                           title={post.title}
-                          className="block h-auto w-full rounded-lg object-cover object-center sm:h-full"
+                          className="block h-full w-full object-cover object-center"
                         />
                       </div>
 

@@ -277,12 +277,12 @@ const Section1 = ({ blogs = [] }) => {
             rel="noopener noreferrer"
             className="flex flex-col gap-8 no-underline lg:flex-row lg:items-stretch lg:gap-12 xl:gap-16"
           >
-            <div className="w-full min-w-0 lg:w-[52%] xl:w-[55%]">
+            <div className="w-full min-w-0 overflow-hidden rounded-2xl aspect-[16/10] sm:aspect-[16/9] lg:aspect-[4/3] lg:w-[52%] xl:aspect-[16/10] xl:w-[55%]">
               <img
                 src={featuredPost.image}
                 alt={featuredPost.title}
                 title={featuredPost.title}
-                className="block h-auto w-full rounded-2xl object-contain object-center"
+                className="block h-full w-full object-cover object-center"
               />
             </div>
 
@@ -322,12 +322,12 @@ const Section1 = ({ blogs = [] }) => {
                   {post.category}
                 </p>
 
-                <div className="mt-3 overflow-hidden rounded-2xl">
+                <div className="mt-3 aspect-[16/10] overflow-hidden rounded-2xl">
                   <img
                     src={post.image}
                     alt={post.title}
                     title={post.title}
-                    className="block h-auto w-full object-contain object-center"
+                    className="block h-full w-full object-cover object-center"
                   />
                 </div>
 
