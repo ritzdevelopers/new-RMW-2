@@ -80,13 +80,21 @@ export default function BlogDetail({ blog, sidebar }) {
         .bd-featured-image {
           position: relative;
           width: 100%;
+          aspect-ratio: 16 / 9;
+          overflow: hidden;
           border-radius: 5px;
         }
         .bd-featured-image img {
           width: 100%;
-          height: auto;
-          object-fit: contain;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
           display: block;
+        }
+        @media (max-width: 640px) {
+          .bd-featured-image {
+            aspect-ratio: 4 / 3;
+          }
         }
         .bd-body {
           font-family: ${BODY_FONT};
@@ -108,10 +116,14 @@ export default function BlogDetail({ blog, sidebar }) {
         .bd-body h3 { font-size: clamp(18px, 2.4vw, 24px); }
         .bd-body p { margin: 0 0 1em; }
         .bd-body img {
+          display: block;
           max-width: 100%;
+          max-height: min(70vh, 560px);
+          width: auto;
           height: auto;
+          object-fit: contain;
           border-radius: 12px;
-          margin: 1.5em 0;
+          margin: 1.5em auto;
         }
         .bd-body a { color: #3B71E8; text-decoration: underline; }
         .bd-body ul,

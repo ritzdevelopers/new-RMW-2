@@ -80,13 +80,21 @@ export default function CaseStudyDetail({ blog, sidebar }) {
         .csd-featured-image {
           position: relative;
           width: 100%;
+          aspect-ratio: 16 / 9;
+          overflow: hidden;
           border-radius: 5px;
         }
         .csd-featured-image img {
           width: 100%;
-          height: auto;
-          object-fit: contain;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
           display: block;
+        }
+        @media (max-width: 640px) {
+          .csd-featured-image {
+            aspect-ratio: 4 / 3;
+          }
         }
         .csd-body {
           font-family: ${BODY_FONT};
@@ -108,10 +116,14 @@ export default function CaseStudyDetail({ blog, sidebar }) {
         .csd-body h3 { font-size: clamp(18px, 2.4vw, 24px); }
         .csd-body p { margin: 0 0 1em; }
         .csd-body img {
+          display: block;
           max-width: 100%;
+          max-height: min(70vh, 560px);
+          width: auto;
           height: auto;
+          object-fit: contain;
           border-radius: 12px;
-          margin: 1.5em 0;
+          margin: 1.5em auto;
         }
         .csd-body a { color: #3B71E8; text-decoration: underline; }
         .csd-body ul,
