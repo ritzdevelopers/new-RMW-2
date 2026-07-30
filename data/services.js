@@ -21,10 +21,12 @@ export const services = [
     number: "01",
     category: "Digital Marketing",
     title: "Digital Marketing",
+    metaTitle:
+      "Digital Marketing Agency in India | ROI-Driven Marketing Solutions | Ritz Media World",
     headline: "Own the Attention",
     image: serviceImages[0],
     description:
-      "Data-driven campaigns that cut through the noise - from performance media and SEO to full-funnel brand growth across every digital touchpoint.",
+      "Accelerate your business growth with Ritz Media World, a leading Digital Marketing Agency in India. We deliver expert SEO, Social Media Marketing, PPC Advertising, Online Reputation Management, Lead Generation, and Brand Awareness solutions that drive measurable results.",
     highlights: [
       "Performance & paid media strategy",
       "SEO, SEM & analytics",
@@ -43,55 +45,55 @@ export const services = [
       ],
       eyebrow: "Digital Marketing Solutions Built for Sustainable Growth",
       body:
-        "Grow your business with data-driven digital marketing solutions from Ritz Media World. Our expertise in SEO, Google Ads, Social Media Marketing, Content Marketing, and Performance Marketing helps increase visibility, generate quality leads, improve conversions, and deliver measurable business growth.",
+        "Accelerate your business growth with Ritz Media World, a leading Digital Marketing Agency in India. We deliver expert SEO, Social Media Marketing, PPC Advertising, Online Reputation Management, Lead Generation, and Brand Awareness solutions that drive measurable results.",
       sidebarLabel: "Services",
     },
     carousel: {
       background: "/digital-marketing/bg-image.jpg",
       content:
-        "Behind every metric is a strategy built with purpose. These results showcase how thoughtful content, targeted campaigns, and consistent optimization translate into stronger engagement, wider reach, and meaningful business growth. For us, performance isn't a promise, it's proof.",
+        "Accelerate your business growth with Ritz Media World, a leading Digital Marketing Agency in India. We deliver expert SEO, Social Media Marketing, PPC Advertising, Online Reputation Management, Lead Generation, and Brand Awareness solutions that drive measurable results.",
       slides: [
         {
           src: "/digital-marketing/seo1.jpg",
           content: "Search Engine Optimization (SEO)",
           subSlug: "search-engine-optimization-seo",
           paragraph:
-            "SEO isn't just about rankings - it's about sustainable visibility and authority. Our strategy blends technical audits, keyword research, and content optimization to help your website climb search results. We focus on driving organic traffic that converts, not just visits. As a trusted SEO agency in India, we keep your brand discoverable long after the campaign ends.",
+            "In today's competitive digital landscape, ranking on Google requires more than simply adding keywords to your website. It demands a strategic SEO approach that aligns with search intent, user experience, and evolving search engine algorithms. At Ritz Media World, we help businesses improve their online visibility through customized Search Engine Optimization (SEO) strategies that attract qualified visitors, strengthen brand authority, and drive sustainable business growth.\n\nAs a trusted SEO company in India, we develop data-driven SEO solutions tailored to your industry, business objectives, and target audience. Our goal is not only to improve your search rankings but also to increase meaningful website traffic that converts into enquiries, leads, and long-term customers. Every SEO strategy is designed to deliver measurable performance while supporting your brand's long-term digital success.\n\nWhether you're a startup looking to establish your online presence or an established enterprise aiming to outperform competitors, our SEO specialists create scalable strategies that help your business stay visible where your customers are actively searching. Through continuous optimization, performance monitoring, and strategic improvements, we ensure your website remains competitive in an ever-changing digital environment.\n\nWhy Choose Our SEO Services?\n• Improve your visibility across major search engines\n• Attract high-intent organic traffic that converts\n• Strengthen your brand's online credibility and authority\n• Deliver a better website experience for your visitors\n• Generate sustainable, long-term business growth\n• Receive customized SEO strategies backed by data and industry insights",
         },
         {
           src: "/digital-marketing/social-media.jpg",
-          content: "Social Media",
+          content: "Social Media Marketing (SMM)",
           subSlug: "social-media-management",
           paragraph:
-            "We turn your social platforms into growth engines with strategy-led content and community management. From Instagram to LinkedIn, our team crafts posts that spark engagement and build brand loyalty. We manage scheduling, creative, and performance tracking so your presence stays consistent. The goal is real connection, not just followers.",
+            "Social media is more than just posting content—it's about building meaningful relationships, increasing brand visibility, and turning engagement into business growth. At Ritz Media World, we create strategic Social Media Marketing (SMM) campaigns that help businesses connect with their target audience across platforms like Facebook, Instagram, LinkedIn, X (Twitter), YouTube, and more.\n\nAs a trusted Social Media Marketing Agency in India, we combine creative storytelling, audience insights, and data-driven strategies to strengthen your online presence and foster lasting customer relationships. Every campaign is tailored to your brand's goals, ensuring your content reaches the right audience, encourages meaningful interactions, and supports measurable business outcomes.\n\nWhether you're looking to grow your followers, increase engagement, launch a new product, or build a recognizable brand, our team develops customized social media strategies that align with your marketing objectives. From content planning to campaign optimization, we help your business stay relevant, competitive, and connected in today's fast-moving digital landscape.\n\nWhy Choose Our Social Media Marketing Services?\n• Build a strong and consistent brand presence\n• Increase audience engagement across social platforms\n• Reach the right customers with targeted campaigns\n• Strengthen customer trust and brand loyalty\n• Improve brand awareness and online visibility\n• Drive qualified traffic, leads, and business growth\n• Data-driven social media strategies tailored to your goals",
         },
         {
           src: "/digital-marketing/orm.jpg",
           content: "Online Reputation Management (ORM)",
           subSlug: "orm-in-digital-marketing",
           paragraph:
-            "Your brand's reputation shapes every customer decision. We actively monitor conversations about your brand, respond to negative feedback, and amplify positive sentiment. Our ORM approach protects your credibility while building long-term trust online. Think of us as your brand's reputation firewall.",
+            "Your online reputation is one of your brand's most valuable assets. Every review, customer comment, and online mention influences how potential customers perceive your business and whether they choose to trust your brand. At Ritz Media World, we provide strategic Online Reputation Management (ORM) services that help businesses monitor, protect, and strengthen their digital reputation across search engines, review platforms, social media, and other online channels.\n\nAs a trusted Online Reputation Management Company, we develop proactive reputation strategies that help businesses build credibility, manage customer feedback, and maintain a positive brand image. Our team focuses on enhancing your online presence by promoting authentic customer experiences, addressing reputation challenges professionally, and helping your brand earn long-term trust in an increasingly competitive digital landscape.\n\nWhether you're looking to improve customer confidence, protect your brand image, or strengthen your online credibility, our customized ORM solutions are designed to support sustainable business growth and create a positive digital impression that lasts.\n\nWhy Choose Our ORM Services?\n• Strengthen your brand's online reputation\n• Build customer trust and credibility\n• Monitor your digital presence across multiple platforms\n• Encourage positive customer engagement\n• Improve brand perception and online visibility\n• Protect your business reputation with proactive strategies\n• Customized ORM solutions aligned with your business goals",
         },
         {
           src: "/digital-marketing/ppc1.jpg",
           content: "Pay Per Click (PPC) Advertising",
           subSlug: "ppc-google-ads-agency",
           paragraph:
-            "Our PPC experts build laser-targeted Google Ads campaigns designed to capture users at their peak intent. Every campaign is continuously optimized for maximum ROI, so your ad spend works harder, not just longer. From keyword bidding to ad copy and landing pages, we manage the full funnel. The result is faster leads and measurable business growth.",
+            "Pay Per Click (PPC) Advertising is one of the fastest and most effective ways to reach potential customers who are actively searching for your products or services. At Ritz Media World, we create data-driven PPC campaigns that help businesses generate qualified leads, increase website traffic, and maximize return on investment through strategic paid advertising across leading digital platforms.\n\nAs a trusted PPC Advertising Agency, we develop customized advertising strategies aligned with your business goals, target audience, and market competition. Our campaigns are designed to deliver measurable results by reaching the right customers at the right time with compelling ad experiences that encourage clicks, conversions, and long-term business growth.\n\nWhether your objective is to increase sales, generate high-quality leads, promote a new product, or expand your brand's online reach, our PPC specialists build scalable campaigns that focus on performance, budget efficiency, and continuous optimization. Every strategy is backed by data, ensuring your advertising investment delivers meaningful business outcomes.\n\nWhy Choose Our PPC Advertising Services?\n• Reach high-intent customers through targeted advertising\n• Generate qualified leads and increase conversions\n• Maximize return on your advertising investment\n• Improve brand visibility across leading digital platforms\n• Scale campaigns based on business growth objectives\n• Data-driven campaign management and performance optimization\n• Customized PPC strategies tailored to your business goals",
         },
         {
           src: "/digital-marketing/lead-generation.jpg",
           content: "Lead Generation",
           subSlug: "lead-generation",
           paragraph:
-            "Quality leads don't happen by accident - they're engineered. We design targeted campaigns across search, social, and display to capture high-intent prospects. Every lead is nurtured with a clear path toward conversion, not just collected. Our focus is turning interest into measurable revenue for your business.",
+            "Generating leads is not just about increasing enquiries—it's about attracting the right prospects who are genuinely interested in your products or services. At Ritz Media World, we provide strategic Lead Generation Services that help businesses connect with high-intent audiences, generate qualified leads, and build a consistent sales pipeline that supports long-term business growth.\n\nAs a trusted Lead Generation Company, we create customized lead generation strategies tailored to your industry, target audience, and business objectives. By combining audience insights, performance-driven campaigns, and conversion-focused marketing, we help businesses attract potential customers who are more likely to engage, enquire, and convert into loyal clients.\n\nWhether you're looking to generate B2B leads, B2C enquiries, increase website conversions, or accelerate business growth, our data-driven approach ensures every campaign is designed to deliver measurable results. We focus on lead quality, customer intent, and continuous optimization to maximize your marketing investment and help your business achieve sustainable growth.\n\nWhy Choose Our Lead Generation Services?\n• Generate high-quality and qualified business leads\n• Reach customers actively searching for your products or services\n• Build a consistent and scalable sales pipeline\n• Improve conversion opportunities and customer acquisition\n• Increase ROI with data-driven lead generation strategies\n• Customized campaigns aligned with your business goals\n• Drive sustainable business growth through measurable results",
         },
         {
           src: "/digital-marketing/brand-awarness.jpg",
           content: "Brand Awareness",
           subSlug: "brand-awareness",
           paragraph:
-            "Being seen isn't enough - being remembered is what matters. We build integrated brand awareness campaigns that increase recall and admiration, not just impressions. Through consistent messaging across platforms, we make sure your audience knows and trusts your brand. The outcome is a brand people actively choose.",
+            "Building a successful brand goes beyond visibility—it requires creating meaningful connections that inspire recognition, trust, and customer loyalty. At Ritz Media World, we provide strategic Brand Awareness Services that help businesses increase their market presence, strengthen brand identity, and connect with the right audience across multiple digital channels.\n\nAs a trusted Brand Building Agency, we develop customized brand awareness strategies that combine compelling storytelling, creative campaigns, and data-driven marketing to position your business in front of potential customers. Our goal is to increase brand recognition, improve customer recall, and build lasting credibility that supports long-term business growth.\n\nWhether you're launching a new brand, expanding into new markets, or strengthening your existing market position, our tailored Brand Marketing solutions help your business stand out in a competitive landscape. By delivering consistent messaging and engaging customer experiences, we help transform awareness into trust, engagement, and lasting brand value.\n\nWhy Choose Our Brand Awareness Services?\n• Increase brand visibility across digital platforms\n• Strengthen brand recognition and customer recall\n• Build trust and long-term customer relationships\n• Reach the right audience with strategic brand campaigns\n• Create consistent and impactful brand messaging\n• Improve market presence and competitive positioning\n• Drive sustainable business growth through brand marketing",
         },
       ],
     },
@@ -103,7 +105,7 @@ export const services = [
         height: 342,
       },
       description:
-        "Behind every metric is a strategy built with purpose. These results showcase how thoughtful content, targeted campaigns, and consistent optimization translate into stronger engagement, wider reach, and meaningful business growth. For us, performance isn't a promise, it's proof.",
+        "Accelerate your business growth with Ritz Media World, a leading Digital Marketing Agency in India. We deliver expert SEO, Social Media Marketing, PPC Advertising, Online Reputation Management, Lead Generation, and Brand Awareness solutions that drive measurable results.",
       image: {
         src: "/digital-marketing/rmw-29.jpg    ",
         width: 720.953,
@@ -136,7 +138,7 @@ export const services = [
           {
             src: "/digital-marketing/graph.jpg",
             className: "lg:col-span-2 lg:row-start-2",
-            aspectRatio: "696 / 572", 
+            aspectRatio: "696 / 572",
           },
           {
             src: "/digital-marketing/digital-1.jpg",
@@ -147,10 +149,8 @@ export const services = [
       },
       imageContent: {
         background: "/digital-marketing/image%201005%20(14).png",
-        heading:
-          "WE LET OUR WORK DO THE TALKING",
-        body:
-          "Browse our portfolio to see what we've created for our clients.",
+        heading: "WE LET OUR WORK DO THE TALKING",
+        body: "Browse our portfolio to see what we've created for our clients.",
       },
     },
   },

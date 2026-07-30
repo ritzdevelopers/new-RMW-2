@@ -110,7 +110,6 @@ const ServiceDetailIntro = ({ intro, activeSlug, title }) => {
       <div className="flex w-full flex-col gap-5 sm:flex-row sm:items-start">
         {introImages.map((image, index) => {
           const bannerLabel = intro.bannerTitle ?? title;
-
           return (
             <div
               key={`${image.src}-${index}`}

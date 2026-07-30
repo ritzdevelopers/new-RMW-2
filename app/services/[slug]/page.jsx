@@ -47,7 +47,7 @@ export async function generateMetadata({ params }) {
   const pageUrl = `https://ritzmediaworld.com/services/${service.slug}`;
 
   return {
-    title: `${service.title} | Ritz Media World`,
+    title: service.metaTitle || `${service.title} | Ritz Media World`,
     description: service.description,
     alternates: {
       canonical: pageUrl,
