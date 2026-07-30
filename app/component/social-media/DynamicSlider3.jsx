@@ -162,7 +162,7 @@ function DynamicSlider3({ heading, images, enableLightbox = false }) {
   const startMarquee = useCallback(() => {
     const track = trackRef.current;
     const loopWidth = loopWidthRef.current;
-    // Mobile uses one-card snap only — no continuous marquee (avoids cut cards).
+    // Mobile uses one-card snap only - no continuous marquee (avoids cut cards).
     if (!track || loopWidth <= 0 || isHoveringRef.current || isMobileRef.current) {
       return;
     }

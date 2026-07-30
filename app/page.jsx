@@ -62,7 +62,7 @@ export default function Home() {
       <Header />
       <Section1 />
       <Section2 />
-      {/* SEO heading hierarchy — present in source, hidden visually */}
+      {/* SEO heading hierarchy - present in source, hidden visually */}
       <div className="sr-only">
         <h2>Our Services</h2>
         {serviceHeadings.map((title) => (

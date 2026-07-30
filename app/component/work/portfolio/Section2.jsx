@@ -52,7 +52,7 @@ const SERVICES = [
 ];
 
 const GAP_PX = 24;
-const SPEED = 40; // px per second — continuous RTL marquee
+const SPEED = 40; // px per second - continuous RTL marquee
 const SLIDE_STEP_DURATION = 0.4;
 
 const getVisibleCount = (width) => {

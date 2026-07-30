@@ -108,7 +108,7 @@ const Section5 = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Portrait image is desktop-only — skip download on smaller viewports.
+  // Portrait image is desktop-only - skip download on smaller viewports.
   useLayoutEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
     const sync = () => setIsLg(mq.matches);

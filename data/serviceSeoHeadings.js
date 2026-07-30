@@ -1,6 +1,6 @@
 /**
  * Visually hidden SEO heading hierarchies per service slug.
- * Rendered with `sr-only` — present in source, not on the UI.
+ * Rendered with `sr-only` - present in source, not on the UI.
  */
 
 const industries = [
