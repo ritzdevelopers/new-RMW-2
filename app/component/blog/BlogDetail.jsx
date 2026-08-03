@@ -208,3 +208,5 @@ export default function BlogDetail({ blog, sidebar }) {
     </>
   );
 }
+
+// #3B0758, 

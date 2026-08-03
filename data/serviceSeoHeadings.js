@@ -213,7 +213,7 @@ export const serviceSeoHeadingsBySlug = {
 
   "print-advertising": {
     h1: [
-      "Where Ink Still Wins the Room",
+      "WHERE PRINT STILL MAKES AN IMPACT",
     ],
     sections: [
       { h2: "Capture Attention with High-Impact Print Campaigns" },
