@@ -23,10 +23,37 @@ const headingStyle = {
 };
 
 const galleryImages = [
-  { src: "/gallery/gallery-1.png", width: 720, height: 1280, displayHeight: 380 },
-  { src: "/gallery/gallery-2.png", width: 364, height: 370, displayHeight: 280 },
-  { src: "/gallery/gallery-3.png", width: 364, height: 646, displayHeight: 480 },
-  { src: "/gallery/gallery-5.png", width: 400, height: 400, displayHeight: 320 },
+  {
+    src: "/gallery/gallery-1.png",
+    width: 720,
+    height: 1280,
+    displayHeight: 380,
+  },
+  {
+    src: "/gallery/gallery-2.png",
+    width: 364,
+    height: 370,
+    displayHeight: 280,
+  },
+ 
+  {
+    src: "/gallery/gallery-3.png",
+    width: 364,
+    height: 646,
+    displayHeight: 480,
+  },
+  {
+    src: "/gallery/rmw-latest-photo.jpg",
+    width: 700,
+    height: 400,
+    displayHeight: 320,
+  },
+  {
+    src: "/gallery/gallery-5.png",
+    width: 400,
+    height: 400,
+    displayHeight: 320,
+  },  //rmw-latest-photo.jpg
 ];
 
 const GALLERY_TRACK_HEIGHT = 480;
@@ -84,7 +111,7 @@ const Section2 = () => {
             invalidateOnRefresh: true,
             onUpdate: (self) => {
               const slideIndex = Math.round(
-                self.progress * Math.max(trackImages.length - 1, 1)
+                self.progress * Math.max(trackImages.length - 1, 1),
               );
               setActiveIndex(slideIndex % galleryImages.length);
             },
@@ -134,8 +161,8 @@ const Section2 = () => {
               style={headingStyle}
               className="m-0 text-[22px] leading-[32px] md:text-[30px] md:leading-[40px] lg:text-[28px] lg:leading-[47px] xl:text-[36px] xl:leading-[61px]"
             >
-             Team moments, big and small
-             Capturing the spirit that drives us forward
+              Team moments, big and small Capturing the spirit that drives us
+              forward
             </p>
           </div>
         </div>
@@ -151,7 +178,7 @@ const Section2 = () => {
             >
               {trackImages.map((item, index) => {
                 const displayWidth = Math.round(
-                  item.displayHeight * (item.width / item.height)
+                  item.displayHeight * (item.width / item.height),
                 );
 
                 return (
@@ -183,7 +210,9 @@ const Section2 = () => {
                 aria-label={`Go to slide ${index + 1}`}
                 onClick={() => scrollToIndex(index)}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  activeIndex === index ? "w-8 bg-[#333333]" : "w-2 bg-[#D9D9D9]"
+                  activeIndex === index
+                    ? "w-8 bg-[#333333]"
+                    : "w-2 bg-[#D9D9D9]"
                 }`}
               />
             ))}
