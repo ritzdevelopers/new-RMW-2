@@ -27,6 +27,35 @@ const detailLinkStyle = {
   color: "#111111",
 };
 
+function renderDescription(description) {
+  return description.split("\n").map((line, index) => {
+    const trimmed = line.trimStart();
+
+    if (trimmed.startsWith("•")) {
+      return (
+        <span key={index} className="flex items-start gap-2.5 md:gap-3">
+          <span
+            aria-hidden
+            className="mt-[0.55em] inline-block h-[0.35em] w-[0.35em] shrink-0 rounded-full bg-current md:mt-[0.6em] md:h-[0.4em] md:w-[0.4em]"
+          />
+          <span>{trimmed.slice(1).trimStart()}</span>
+        </span>
+      );
+    }
+
+    if (line === "") {
+      return <span key={index}>{"\n"}</span>;
+    }
+
+    return (
+      <span key={index}>
+        {line}
+        {"\n"}
+      </span>
+    );
+  });
+}
+
 function ServiceDetailCarousel({ carousel, serviceSlug }) {
   const slides = carousel?.slides ?? [];
   const [activeIndex, setActiveIndex] = useState(0);
@@ -92,7 +121,7 @@ function ServiceDetailCarousel({ carousel, serviceSlug }) {
                             className="m-0 whitespace-pre-line text-[14px] leading-[1.65] md:text-[18px] md:leading-[1.7]"
                             style={descriptionStyle}
                           >
-                            {description}
+                            {renderDescription(description)}
                           </p>
                         ) : null}
                         {detailHref ? (
