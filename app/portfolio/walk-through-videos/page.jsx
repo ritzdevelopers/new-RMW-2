@@ -16,29 +16,29 @@ const walkthrough_images = [
     href: "https://youtu.be/LMz36aAXPus",
   },
   {
-    src: "/walkthrough/walkthrough-image-2.jpg",
+    src: "/walkthrough/walkthrough-image-2.jpg", // edelistine
     label: "Walkthrough 2",
-    href: "https://youtu.be/qWkW1VoC1Sk",
+    href: "https://youtu.be/M6Dm4SiqSsc?si=gXfwXLS4fPmrt0H8",
   },
   {
     src: "/walkthrough/walkthrough-image-3.jpg",
     label: "Walkthrough 3",
-    href: "https://youtu.be/30CNbp-KwY4",
+    href: "https://youtu.be/lag2D6b2RIs?si=fjXNUY8xnQGBPp6g",
   },
   {
     src: "/walkthrough/walkthrough-image-4.jpg",
     label: "Walkthrough 4",
-    href: "https://youtu.be/PW4wdsxYFMU",
+    href: "https://youtu.be/pbXiujM1QjM?si=SnxvG4Pyyzi-f8MU",
   },
   {
     src: "/walkthrough/walkthrought-image-5.jpg",
     label: "Walkthrough 5",
-    href: "https://youtu.be/kzE_FfxJrdM",
+    href: "https://youtu.be/T8GtiRWPvKM?si=6oYUD5l0nEvBeuFT",
   },
   {
     src: "/walkthrough/walk-throught-6.jpg",
     label: "Walkthrough 6",
-    href: "https://youtu.be/SA4H1oMFQOU",
+    href: "https://youtu.be/ukRR5iNZv4I?si=hVwZjvApiZGmJZZr",
   },
 ];
 
