@@ -224,7 +224,6 @@ const Section1 = ({ blogs = [] }) => {
                 />
               </div>
             )}
-
             {searchOpen && searchQuery.trim() ? (
               <div className="absolute left-1/2 top-[calc(100%+12px)] z-30 w-[min(90vw,360px)] -translate-x-1/2 max-h-[320px] overflow-y-auto rounded-[12px] border border-[#E5E4E3] bg-white shadow-[0_12px_40px_rgba(0,0,0,0.12)]">
                 {searchResults.length ? (

@@ -44,8 +44,7 @@ export const services = [
         },
       ],
       eyebrow: "Digital Marketing Solutions Built for Sustainable Growth",
-      body:
-        "Accelerate your business growth with Ritz Media World, a leading Digital Marketing Agency in India. We deliver expert SEO, Social Media Marketing, PPC Advertising, Online Reputation Management, Lead Generation, and Brand Awareness solutions that drive measurable results.",
+      body: "Accelerate your business growth with Ritz Media World, a leading Digital Marketing Agency in India. We deliver expert SEO, Social Media Marketing, PPC Advertising, Online Reputation Management, Lead Generation, and Brand Awareness solutions that drive measurable results.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -293,10 +292,12 @@ export const services = [
     number: "03",
     category: "Print Advertising",
     title: "Print Advertising",
+    metaTitle:
+      "Print Advertising Services | Newspaper Advertising Agency in India | Ritz Media World",
     headline: "Ink Meets Impact",
     image: serviceImages[2],
     description:
-      "High-impact print campaigns across newspapers, magazines, and outdoor - where craft, placement, and message still win the room.",
+      "Grow your brand with Ritz Media World's Print Advertising Services in India. We specialize in Advertisement Design, Newspaper Advertising, Magazine Advertising, Ad Placement, Copywriting, Media Planning, Cost Negotiation, Ad Scheduling, and strategic print campaigns that maximize brand visibility, audience engagement, and business growth.",
     highlights: [
       "Advertisement design",
       "Ad placement",
@@ -315,57 +316,56 @@ export const services = [
           height: 630,
         },
       ],
-      eyebrow: "Where ink still wins the room",
-      body:
-        "Rumors of print's demise have been greatly exaggerated - it's simply moved from crowded to prestigious. We harness the unmatched credibility and focused engagement that print advertising uniquely offers, combining eye-catching visuals, persuasive copy, and strategic placements that capture attention and influence decisions.",
+      eyebrow: "WHERE PRINT STILL MAKES AN IMPACT",
+      body: "Print advertising remains a trusted way to build brand credibility and increase visibility. Ritz Media World delivers strategic Print Advertising Services with creative design, compelling messaging, and targeted media planning across newspapers, magazines, brochures, flyers, and catalogs. We create impactful campaigns that strengthen brand recognition, engage audiences, and drive measurable business growth.",
       sidebarLabel: "Services",
     },
     carousel: {
       background: "/digital-marketing/bg-image.jpg",
       content:
-        "From newspaper spreads to magazine inserts, every print placement we manage is built with intent. These highlights showcase how strong design, sharp copy, and smart media buying come together to deliver visibility, credibility, and results that digital alone cannot replicate.",
+        "Grow your brand with Ritz Media World's Print Advertising Services in India. We specialize in Advertisement Design, Newspaper Advertising, Magazine Advertising, Ad Placement, Copywriting, Media Planning, Cost Negotiation, Ad Scheduling, and strategic print campaigns that maximize brand visibility, audience engagement, and business growth.",
       slides: [
         {
           src: "/print-advertising/Advertisement-design.jpg",
           content: "Advertisement Design",
           subSlug: "advertisement-designing",
           paragraph:
-            "We design print ads that combine eye-catching visuals with persuasive copy to capture attention instantly. Every layout is crafted for the specific publication and audience it will reach. Our designs are built to look credible, deliberate, and impossible to ignore. The goal is an ad that doesn't just get seen - it gets remembered.",
+            "Advertisement Design is more than creating attractive visuals—it's about delivering the right message that captures attention, builds brand recognition, and inspires customer action. At Ritz Media World, we create strategic Advertisement Design Services that combine creative excellence, compelling storytelling, and audience-focused communication to help businesses maximize the impact of their print advertising campaigns.\n\nAs a trusted Advertisement Design Agency in India, we develop customized advertising creatives tailored to your brand identity, campaign objectives, and target audience. Every advertisement is thoughtfully designed to communicate your message with clarity while maintaining visual consistency across newspapers, magazines, brochures, flyers, and other print marketing materials. Our creative approach ensures every design strengthens your brand presence and delivers measurable marketing value.\n\nWhether you're promoting a new product, launching a marketing campaign, or increasing brand awareness, our creative specialists design advertisements that engage your audience and support your business objectives. By combining innovative design, persuasive communication, and strategic planning, we create print advertisements that leave a lasting impression and help your brand stand out in a competitive marketplace.\n\nWhy Choose Our Advertisement Design Services?\n• Creative advertisement designs tailored to your brand identity\n• Visually engaging layouts that capture audience attention\n• Strategic designs focused on communication and conversions\n• Professional creatives for newspapers, magazines, brochures, and print campaigns\n• Consistent visual branding across all advertising materials\n• Customized advertising solutions designed to support long-term business growth",
         },
         {
           src: "/print-advertising/Ad-placement.jpg",
           content: "Ad Placement",
           subSlug: "ad-placements",
           paragraph:
-            "Placement can make or break a print campaign's impact. We identify the right newspapers, magazines, and positions to ensure your ad reaches the audience that matters most. Our media buying expertise secures placements that maximize visibility and value. Every decision is backed by data on readership and reach.",
+            "Effective advertising is not only about creative design—it's about reaching the right audience at the right time through the right publication. At Ritz Media World, our Ad Placement Services are strategically planned to maximize your campaign's visibility across leading newspapers, magazines, and print publications. We carefully select media channels that align with your business objectives, target audience, and marketing goals to ensure every advertisement delivers maximum exposure and measurable impact.\n\nAs a trusted Print Advertising Agency in India, we leverage market insights, readership analysis, and media planning expertise to identify the most valuable advertising opportunities for your brand. Whether you're launching a new product, promoting a service, or building brand awareness, our strategic media placement approach helps increase audience reach, strengthen brand credibility, and optimize your advertising investment.\n\nEvery placement strategy is designed to improve campaign performance while ensuring your message reaches the right customers at the right moment. Through data-driven planning and industry expertise, we help businesses achieve greater visibility, stronger customer engagement, and long-term marketing success.\n\nWhy Choose Our Ad Placement Services?\n• Strategic placement across leading newspapers and magazines\n• Targeted media planning based on audience insights\n• Increased brand visibility and campaign reach\n• Cost-effective advertising placement strategies\n• Data-driven media selection for better campaign performance\n• Customized solutions aligned with your marketing objectives",
         },
         {
           src: "/print-advertising/copywriting.jpg",
           content: "Copywriting",
           subSlug: "copywriting",
           paragraph:
-            "Words sell just as much as visuals do. Our copywriters craft persuasive, concise messaging that captures attention and drives action within seconds of a reader's glance. Every headline and line of body copy is written to support the ad's core objective. We make sure your message lands exactly as intended.",
+            "Compelling copy is the foundation of every successful advertising campaign, turning ideas into messages that inform, engage, and inspire action. At Ritz Media World, we provide professional Advertising Copywriting Services that combine strategic thinking, persuasive storytelling, and brand-focused communication to create impactful content for print advertisements, brochures, magazines, and marketing campaigns.\n\nAs a trusted Copywriting Agency in India, we develop customized advertising copy that reflects your brand voice, communicates your unique value proposition, and connects with your target audience. Every headline, tagline, and message is carefully crafted to capture attention, build credibility, and encourage meaningful customer engagement while supporting your campaign objectives.\n\nWhether you're launching a new product, promoting a service, or building brand awareness, our copywriting specialists create clear, persuasive, and conversion-focused content that strengthens your marketing efforts and delivers measurable business results through effective communication.\n\nWhy Choose Our Copywriting Services?\n• Persuasive advertising copy tailored to your brand\n• Clear and engaging messaging for print campaigns\n• Strategic content that supports marketing objectives\n• Professional copy for advertisements, brochures, and promotional materials\n• Consistent brand communication across every campaign\n• Creative copywriting designed to improve customer engagement and conversions",
         },
         {
           src: "/print-advertising/cost-negotiations.jpg",
           content: "Cost Negotiation",
           subSlug: "negotiating-rates",
           paragraph:
-            "Print media rates are rarely fixed, and we know how to get you the best value. Our team negotiates directly with publications to secure competitive rates without compromising placement quality. This means your budget stretches further while still delivering premium visibility. We handle the negotiations so you don't overspend.",
+            "Effective print advertising is not just about securing premium placements—it's about maximizing the value of every advertising investment. At Ritz Media World, our Cost Negotiation Services leverage strong industry relationships and strategic media expertise to secure competitive advertising rates across leading newspapers, magazines, and print publications without compromising campaign quality or visibility.\n\nAs an experienced Print Advertising Agency in India, we negotiate directly with publishers to optimize your media budget while maintaining the best possible ad placements for your brand. Our strategic approach helps businesses reduce advertising costs, improve campaign efficiency, and achieve greater return on investment through transparent planning and cost-effective media buying solutions.\n\nWhether you're running a local promotion or a nationwide print campaign, our team ensures every advertising opportunity delivers maximum reach, value, and measurable marketing performance. We focus on helping your business achieve premium exposure while making every advertising investment work harder for your long-term growth.\n\nWhy Choose Our Cost Negotiation Services?\n• Competitive advertising rates through strategic media negotiations\n• Cost-effective media buying without compromising placement quality\n• Maximize advertising budget and campaign performance\n• Strong relationships with leading print publications\n• Transparent planning and value-driven advertising solutions\n• Optimized media investments that support long-term business growth",
         },
         {
           src: "/print-advertising/ad-size-optimization.jpg",
           content: "Ad Size Optimization",
           subSlug: "ad-size-optimization",
           paragraph:
-            "The right ad size depends on your budget, goals, and the publication's layout. We help you choose sizes that balance cost-efficiency with maximum visual impact. Every recommendation is based on what drives the best response for your specific campaign. This ensures you're never paying for more space than you need.",
+            "Selecting the right advertisement size is essential for maximizing visibility, controlling costs, and achieving the best campaign performance. At Ritz Media World, our Ad Size Optimization Services help businesses choose the most effective ad formats based on their marketing objectives, target audience, publication specifications, and advertising budget. Every recommendation is strategically planned to deliver maximum visual impact while ensuring efficient use of your media investment.\n\nAs a trusted Print Advertising Agency in India, we analyze campaign requirements, publication layouts, and audience engagement to recommend advertisement sizes that enhance brand visibility and improve response rates. Whether you're advertising in newspapers, magazines, brochures, or other print publications, our optimized ad sizing strategies ensure your message stands out without unnecessary advertising expenses.\n\nOur data-driven approach helps businesses create impactful print campaigns that balance creativity, performance, and cost efficiency. Every advertising placement is designed to strengthen brand recognition, increase audience engagement, and deliver measurable marketing results.\n\nWhy Choose Our Ad Size Optimization Services?\n• Strategic advertisement sizing based on campaign objectives\n• Maximize visual impact while optimizing advertising costs\n• Customized ad formats for newspapers, magazines, and print media\n• Improve campaign visibility and audience engagement\n• Data-driven recommendations for better advertising performance\n• Cost-effective print advertising solutions that support business growth",
         },
         {
           src: "/print-advertising/ad-scheduling.jpg",
           content: "Ad Scheduling",
           subSlug: "advertisement-scheduling",
           paragraph:
-            "Timing determines whether your ad gets noticed or gets lost. We plan publication dates and frequency strategically, aligning with your campaign goals and audience habits. Our scheduling ensures consistent visibility without unnecessary spend. The result is a print campaign that appears at exactly the right moments.",
+            "Strategic timing is a critical factor in the success of every print advertising campaign. At Ritz Media World, our Ad Scheduling Services are designed to ensure your advertisements are published at the right time, in the right publication, and with the right frequency to maximize audience engagement and campaign effectiveness. Every scheduling strategy is aligned with your marketing objectives, target audience, seasonal trends, and promotional calendar to deliver the greatest possible impact.\n\nAs a trusted Print Advertising Agency in India, we carefully plan advertisement schedules that improve brand visibility, increase customer reach, and optimize campaign performance. Whether you're promoting a product launch, festive campaign, corporate announcement, or brand awareness initiative, our strategic media scheduling helps your business achieve consistent exposure while maximizing the value of your advertising investment.\n\nOur data-driven scheduling approach ensures your print campaigns reach potential customers when they are most likely to engage, creating stronger brand recall, improved campaign performance, and measurable business growth.\n\nWhy Choose Our Ad Scheduling Services?\n• Strategic scheduling based on campaign objectives and audience insights\n• Maximize advertisement visibility through optimal publication timing\n• Consistent brand exposure across newspapers and magazines\n• Data-driven planning to improve campaign performance\n• Cost-effective scheduling that optimizes advertising investment\n• Customized media schedules designed for long-term business growth",
         },
       ],
     },
@@ -454,8 +454,7 @@ export const services = [
         },
       ],
       eyebrow: "When sound commands attention",
-      body:
-        "In a visually crowded world, audio remains the only way to command undivided attention. We develop compelling radio campaigns that break through the clutter, stay memorable, and stick in the consumer's head - turning airtime into impactful brand communication.",
+      body: "In a visually crowded world, audio remains the only way to command undivided attention. We develop compelling radio campaigns that break through the clutter, stay memorable, and stick in the consumer's head - turning airtime into impactful brand communication.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -595,8 +594,7 @@ export const services = [
         },
       ],
       eyebrow: "Content with purpose",
-      body:
-        "Content without strategy is mere decoration. We develop content marketing strategies that not only inform but also persuade, inspire, and convert - across SEO content, social media, email, video, infographics, and promotional activity built for engagement and results.",
+      body: "Content without strategy is mere decoration. We develop content marketing strategies that not only inform but also persuade, inspire, and convert - across SEO content, social media, email, video, infographics, and promotional activity built for engagement and results.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -712,14 +710,14 @@ export const services = [
       images: [
         {
           src: "/web-designing-and-development/web-devlopment-1.jpg",
-          mobileSrc: "/web-designing-and-development/web-developer-mobile-banner.jpg",
+          mobileSrc:
+            "/web-designing-and-development/web-developer-mobile-banner.jpg",
           width: 1440,
           height: 630,
         },
       ],
       eyebrow: "Built for performance and conversion",
-      body:
-        "Your website is your brand's digital front door. We design and develop fast, beautiful, and conversion-focused websites and digital products - from UI/UX and custom builds to e-commerce, landing pages, and WordPress sites engineered for performance and growth.",
+      body: "Your website is your brand's digital front door. We design and develop fast, beautiful, and conversion-focused websites and digital products - from UI/UX and custom builds to e-commerce, landing pages, and WordPress sites engineered for performance and growth.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -849,8 +847,7 @@ export const services = [
         },
       ],
       eyebrow: "When star power builds trust",
-      body:
-        "Celebrity endorsement services help brands earn trust, achieve recognition, and shape consumer behavior beyond glitz and glamour. We develop partnerships with the right talent to attract attention, build credibility, and turn admiration into action.",
+      body: "Celebrity endorsement services help brands earn trust, achieve recognition, and shape consumer behavior beyond glitz and glamour. We develop partnerships with the right talent to attract attention, build credibility, and turn admiration into action.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -957,9 +954,7 @@ export const services = [
           src: "/celebrity-endorsements/malaika_arora.jpg",
           label: "Malaika Arora",
           href: "https://youtube.com/shorts/DEIO3t3UeG8?si=yD__P5RH0MtetEiw",
-         
         },
-        
       ],
       imageContent: {
         background: "/celebrity-endorsements/image%201005%20(14).png",
@@ -990,14 +985,14 @@ export const services = [
       images: [
         {
           src: "/influencer-marketing-agency-in-india/Influencer-Marketing-banner.jpg",
-          mobileSrc: "/influencer-marketing-agency-in-india/Influencer-Marketing-mobile-banner.jpg",
+          mobileSrc:
+            "/influencer-marketing-agency-in-india/Influencer-Marketing-mobile-banner.jpg",
           width: 1440,
           height: 630,
         },
       ],
       eyebrow: "Trust over hype",
-      body:
-        "Influencer marketing goes beyond hype - it is about trust, reach, and results. We connect brands with the right creators through partnerships that engage audiences, build credibility, and deliver measurable impact across every campaign.",
+      body: "Influencer marketing goes beyond hype - it is about trust, reach, and results. We connect brands with the right creators through partnerships that engage audiences, build credibility, and deliver measurable impact across every campaign.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -1073,7 +1068,8 @@ export const services = [
         },
       ],
       imageContent: {
-        background: "/influencer-marketing-agency-in-india/image%201005%20(14).png",
+        background:
+          "/influencer-marketing-agency-in-india/image%201005%20(14).png",
         heading: "WE LET OUR WORK DO THE TALKING",
         body: "Browse our portfolio to see what we've created for our clients.",
       },
@@ -1107,8 +1103,7 @@ export const services = [
       ],
       eyebrow: "See It Before It Exists.",
       bannerTitle: "3D Rendering Services",
-      body:
-        "All innovations start as an idea - but they sell when viewed. <br> At Ritz Media World, the vision is crystal clear: to produce imagery which enhances value and influence choice. Our 3D architecture rendering and real estate visualization approach goes above and beyond - seamlessly merging photorealistic 3D renders, walkthroughs and interior and exterior design visuals, coupled with high-quality CGI, to produce visuals that inspire decision-making and deliver tangible results.  At Ritz Media World, technology and architecture collide. The outcome is far beyond an image; instead, these high-impact visuals have been developed to improve presentation, attract attention and ensure conversions quicker. Experience cutting-edge 3D + AI walkthroughs at 5X speed and 5X lower cost, now available at Ritz Media World - bringing your projects to life faster and more affordably than ever.",
+      body: "All innovations start as an idea - but they sell when viewed. <br> At Ritz Media World, the vision is crystal clear: to produce imagery which enhances value and influence choice. Our 3D architecture rendering and real estate visualization approach goes above and beyond - seamlessly merging photorealistic 3D renders, walkthroughs and interior and exterior design visuals, coupled with high-quality CGI, to produce visuals that inspire decision-making and deliver tangible results.  At Ritz Media World, technology and architecture collide. The outcome is far beyond an image; instead, these high-impact visuals have been developed to improve presentation, attract attention and ensure conversions quicker. Experience cutting-edge 3D + AI walkthroughs at 5X speed and 5X lower cost, now available at Ritz Media World - bringing your projects to life faster and more affordably than ever.",
       sidebarLabel: "Services",
     },
     carousel: {
