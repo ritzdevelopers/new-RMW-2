@@ -23,7 +23,7 @@ const walkthrough_images = [
   {
     src: "/walkthrough/walkthrough-image-3.jpg",
     label: "Walkthrough 3",
-    href: "https://youtu.be/lag2D6b2RIs?si=fjXNUY8xnQGBPp6g",
+    href: "https://www.youtube.com/watch?v=XRYVFJ5u_2g",
   },
   {
     src: "/walkthrough/walkthrough-image-4.jpg",
