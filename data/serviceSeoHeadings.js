@@ -81,7 +81,7 @@ export const servicesPageSeoHeadings = {
         "Voiceover Casting",
         "Recording & Production",
         "Media Planning",
-        "Cost Negotiations",
+        "Media Buying & Cost Negotiation",
       ],
     },
     {
@@ -309,11 +309,12 @@ export const serviceSeoHeadingsBySlug = {
   },
 
   "radio-advertising": {
-    h1: [
-      "When Sound Commands Attention",
-    ],
+    h1: ["Radio Advertising Agency in India"],
     sections: [
-      { h2: "Build Brand Recall with Powerful Radio Campaigns" },
+      {
+        h2: "Radio Advertising Agency in India | Strategic FM Radio Advertising Services",
+      },
+      { h2: "Amplify Your Brand with Professional Radio Advertising Solutions" },
       {
         h2: "Our Radio Advertising Services",
         h3: [
@@ -322,22 +323,40 @@ export const serviceSeoHeadingsBySlug = {
           "Voiceover Casting",
           "Recording & Production",
           "Media Planning",
-          "Cost Negotiations",
+          "Media Buying & Cost Negotiation",
         ],
       },
       {
         h2: "Our Radio Advertising Process",
         h3: [
-          "Brand & Audience Discovery",
-          "Concept & Script Development",
-          "Casting & Production",
-          "Station Planning & Buying",
-          "On-Air Scheduling",
-          "Performance Tracking & Optimization",
+          "Business Consultation & Campaign Objectives",
+          "Audience Research & Market Analysis",
+          "Creative Concept Development",
+          "Professional Radio Scriptwriting",
+          "Voiceover Casting & Audio Production",
+          "Media Planning & Radio Station Selection",
+          "Media Buying & Cost Negotiation",
+          "Campaign Launch & Broadcasting",
+          "Performance Monitoring & Campaign Optimization",
+          "Reporting & Continuous Improvement",
         ],
       },
-      { h2: "Why Choose Ritz Media World" },
-      { h2: "Industries We Serve", h3: industries },
+      { h2: "Why Choose Ritz Media World for Radio Advertising" },
+      {
+        h2: "Industries We Serve",
+        h3: [
+          "Real Estate",
+          "Healthcare",
+          "Education",
+          "Retail",
+          "Automotive",
+          "Hospitality",
+          "E-commerce",
+          "FMCG",
+          "Corporate",
+          "Government & Public Sector",
+        ],
+      },
       { h2: "Our Success Stories" },
       { h2: "Frequently Asked Questions (FAQs)" },
       { h2: "Get a Free Radio Advertising Consultation" },

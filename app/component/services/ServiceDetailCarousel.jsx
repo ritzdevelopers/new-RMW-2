@@ -55,7 +55,6 @@ function renderDescription(description) {
     );
   });
 }
-
 function ServiceDetailCarousel({ carousel, serviceSlug }) {
   const slides = carousel?.slides ?? [];
   const [activeIndex, setActiveIndex] = useState(0);
@@ -65,7 +64,6 @@ function ServiceDetailCarousel({ carousel, serviceSlug }) {
   const handleToggle = (index) => {
     setActiveIndex((prev) => (prev === index ? -1 : index));
   };
-
   return (
     <section className="w-full bg-white px-6 py-16 md:px-12 md:py-20 lg:py-24">
       <div className="mx-auto w-full max-w-[1340px]">
@@ -79,7 +77,8 @@ function ServiceDetailCarousel({ carousel, serviceSlug }) {
         <div className="w-full border-t border-[#E6E6E6]">
           {slides.map((slide, index) => {
             const isOpen = activeIndex === index;
-            const title = slide.content || slide.title || `Service ${index + 1}`;
+            const title =
+              slide.content || slide.title || `Service ${index + 1}`;
             const description = slide.paragraph || slide.description || "";
             const detailHref =
               serviceSlug && slide.subSlug
@@ -87,7 +86,10 @@ function ServiceDetailCarousel({ carousel, serviceSlug }) {
                 : null;
 
             return (
-              <div key={`${title}-${index}`} className="border-b border-[#E6E6E6]">
+              <div
+                key={`${title}-${index}`}
+                className="border-b border-[#E6E6E6]"
+              >
                 <button
                   type="button"
                   onClick={() => handleToggle(index)}
