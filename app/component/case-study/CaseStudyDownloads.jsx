@@ -127,7 +127,6 @@ function DownloadButton({ href, fileName, title }) {
     </a>
   );
 }
-
 function ReportCard({ report, index }) {
   return (
     <article className="flex h-full min-h-[340px] rounded-[16px] flex-col border border-[#0D1334]/10 bg-white p-5 sm:min-h-[360px] sm:p-6 md:p-7">
