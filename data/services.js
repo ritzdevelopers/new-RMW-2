@@ -26,7 +26,7 @@ export const services = [
     headline: "Own the Attention",
     image: serviceImages[0],
     description:
-      "Accelerate your business growth with Ritz Media World, a leading Digital Marketing Agency in India. We deliver expert SEO, Social Media Marketing, PPC Advertising, Online Reputation Management, Lead Generation, and Brand Awareness solutions that drive measurable results.",
+      "Grow your business with Ritz Media World, a trusted Digital Marketing Agency in India providing SEO, PPC, Social Media Marketing, ORM, lead generation, and brand awareness services.",
     highlights: [
       "Performance & paid media strategy",
       "SEO, SEM & analytics",
@@ -163,7 +163,7 @@ export const services = [
     headline: "Distinct by Design",
     image: serviceImages[1],
     description:
-      "Transform your brand with Ritz Media World's Creative Services. We specialize in Branding & Identity Development, Graphic Design, Logo Design, Print Advertising Design, and Packaging Design to create impactful visual experiences that strengthen your brand and drive business growth.",
+      "Ritz Media World offers Creative Services including branding, logo design, graphic design, packaging design, and print advertising to elevate your brand.",
     highlights: [
       "Branding & identity development",
       "Graphic design",
@@ -297,7 +297,7 @@ export const services = [
     headline: "Ink Meets Impact",
     image: serviceImages[2],
     description:
-      "Grow your brand with Ritz Media World's Print Advertising Services in India. We specialize in Advertisement Design, Newspaper Advertising, Magazine Advertising, Ad Placement, Copywriting, Media Planning, Cost Negotiation, Ad Scheduling, and strategic print campaigns that maximize brand visibility, audience engagement, and business growth.",
+      "Ritz Media World provides Print Advertising Services in India, including newspaper and magazine advertising, ad design, media planning, and campaign execution.",
     highlights: [
       "Advertisement design",
       "Ad placement",
@@ -436,7 +436,7 @@ export const services = [
     headline: "Voices That Travel",
     image: serviceImages[3],
     description:
-      "Ritz Media World is a leading Radio Advertising Agency in India offering FM Radio Advertising Services, Radio Commercial Production, Scriptwriting, Voiceover Casting, Media Planning, Media Buying, and PAN India radio campaigns that maximize brand awareness, audience engagement, and business growth.",
+      "Reach millions with Ritz Media World's Radio Advertising Services in India. Expert FM radio ads, media planning, scriptwriting, voiceovers, and campaign management.",
     highlights: [
       "Advertising concept development",
       "Scriptwriting",
@@ -575,10 +575,12 @@ export const services = [
     number: "05",
     category: "Content Marketing",
     title: "Content Marketing",
+    metaTitle:
+      "Content Marketing Agency in India | SEO Content Writing Services | Ritz Media World",
     headline: "Stories That Sell",
     image: serviceImages[4],
     description:
-      "Stories that move people - editorial calendars, branded content, and narrative-led campaigns built to earn attention and trust.",
+      "Grow your business with Ritz Media World's Content Marketing Services. Expert SEO content, blogs, website copy, email marketing, and content strategies.",
     highlights: [
       "Customized content strategy",
       "Email & newsletters marketing",
@@ -596,41 +598,41 @@ export const services = [
         },
       ],
       eyebrow: "Content with purpose",
-      body: "Content without strategy is mere decoration. We develop content marketing strategies that not only inform but also persuade, inspire, and convert - across SEO content, social media, email, video, infographics, and promotional activity built for engagement and results.",
+      body: "Content marketing is more than creating words-it’s about delivering value that attracts, engages, and converts. At Ritz Media World, we craft SEO-driven content strategies, compelling website copy, blogs, social media content, email campaigns, and brand stories that build authority, improve search rankings, and generate measurable business growth.",
       sidebarLabel: "Services",
     },
     carousel: {
       background: "/digital-marketing/bg-image.jpg",
       content:
-        "Every piece of content we create is designed to earn attention and drive action. These highlights showcase how strategy, storytelling, and distribution come together to build credibility, engagement, and measurable business growth.",
+        "Partner with Ritz Media World for premium Content Marketing Services, SEO Content Writing, Website Content, Blogs, Email Marketing, and Content Strategy that increase organic traffic, improve Google rankings, and generate qualified business leads.",
       slides: [
         {
           src: "/content-marketing/content-stretagy.jpg",
           content: "Content Strategy",
           subSlug: "content-marketing",
           paragraph:
-            "Content without strategy is just noise. We build editorial plans and content roadmaps tailored to your brand's goals, audience, and industry. Every piece of content - from blogs to social posts - is mapped to a clear purpose in the customer journey. This ensures your content consistently informs, persuades, and converts.",
+            "In a digital-first world, content is more than communication-it's your brand's most valuable business asset. Every article, landing page, campaign, and customer interaction shapes how your audience discovers, trusts, and chooses your business. At Ritz Media World, we create strategic content marketing solutions that combine creativity, audience insights, and SEO expertise to build lasting brand authority, increase online visibility, and deliver measurable business growth.\n\nAs a leading Content Marketing Agency in India, we develop tailored content strategies that align with your business objectives and customer journey. From website content, SEO-focused blogs, and landing pages to social media campaigns, email marketing, and brand storytelling, every piece of content is designed to engage the right audience, strengthen your digital presence, and convert interest into meaningful business opportunities.\n\nOur approach extends beyond content creation. We combine market research, search intent analysis, editorial planning, and performance optimization to ensure every asset contributes to your long-term marketing success. Whether you're launching a new brand, expanding into new markets, or scaling an established business, we create content that builds credibility, drives qualified traffic, and supports sustainable growth in an increasingly competitive digital landscape.\n\nWhy Choose Our Content Marketing Services?\n• Strategic content tailored to your business goals and audience\n• SEO-driven content that improves search visibility and organic growth\n• Consistent brand messaging across every digital platform\n• Engaging content that builds trust and strengthens customer relationships\n• Data-backed strategies designed to generate qualified leads and measurable ROI\n• Continuous content optimization to maximize long-term business performance",
         },
         {
           src: "/content-marketing/email.jpg",
           content: "Email & Newsletters",
           subSlug: "email-and-newsletters-marketing",
           paragraph:
-            "Email remains one of the most direct ways to build trust with your audience. We craft newsletters and email campaigns that inform, engage, and nurture leads over time. Every email is designed with clear messaging and strong calls to action. The result is a channel that consistently drives opens, clicks, and conversions.",
+            "In today's competitive digital landscape, effective communication is essential for building meaningful customer relationships and driving long-term business growth. Email marketing continues to be one of the highest-performing digital marketing channels, enabling businesses to connect directly with their audience through personalized, timely, and value-driven communication. At Ritz Media World, we create strategic Email Marketing and Newsletter solutions that help businesses engage prospects, nurture leads, retain existing customers, and maximize return on investment.\n\nAs a leading digital marketing agency in India, we develop customized email marketing strategies tailored to your business objectives, customer lifecycle, and audience behavior. Our team combines compelling copywriting, responsive email design, audience segmentation, marketing automation, and data-driven optimization to ensure every campaign delivers the right message to the right audience at the right time. From welcome email sequences and promotional campaigns to product launches, newsletters, event invitations, and customer retention programs, every email is designed to inspire action and strengthen your brand relationship.\n\nWe believe successful email marketing goes beyond sending promotional messages. It requires understanding customer intent, delivering valuable content, and creating personalized experiences that encourage engagement. By leveraging advanced analytics, A/B testing, behavioral targeting, and continuous campaign optimization, we help businesses improve open rates, click-through rates, customer engagement, and conversions while building long-term brand loyalty.\n\nWhether you're a startup looking to build your subscriber base, an e-commerce business aiming to increase repeat purchases, or an enterprise seeking to automate customer communication, our email marketing specialists create scalable campaigns that support sustainable business growth. Every strategy is focused on delivering measurable performance, increasing customer lifetime value, and helping your business stay connected with your audience at every stage of the customer journey.\n\nWhy Choose Our Email Marketing Services?\n• Create personalized email campaigns tailored to your audience\n• Increase open rates, click-through rates, and customer engagement\n• Generate quality leads through automated email nurturing\n• Build stronger customer relationships and long-term brand loyalty\n• Promote products, services, events, and special offers effectively\n• Implement audience segmentation for highly targeted communication\n• Optimize campaign performance through A/B testing and analytics\n• Improve customer retention and maximize lifetime value\n• Deliver responsive, mobile-friendly email designs\n• Receive data-driven email marketing strategies focused on measurable ROI",
         },
         {
           src: "/content-marketing/assest.jpg",
           content: "Assets & Infographics",
           subSlug: "asset-creation-and-infographics",
           paragraph:
-            "Visual content simplifies complex ideas and boosts engagement. We design infographics, videos, and branded assets that communicate your message clearly and memorably. Every asset is built to be shareable and aligned with your brand's visual identity. This makes your content easier to consume and more likely to be shared.",
+            "In today's information-driven marketplace, the ability to communicate complex ideas quickly and effectively can define how audiences perceive your brand. At Ritz Media World, we create premium visual assets and professionally designed infographics that transform data, insights, and brand messaging into compelling visual stories. Every asset is strategically crafted to simplify information, enhance understanding, and create meaningful interactions that leave a lasting impression.\n\nOur creative team combines data visualization, brand strategy, and modern design principles to develop high-impact visual content that strengthens communication across every marketing channel. From infographics, corporate presentations, eBooks, whitepapers, brochures, annual reports, pitch decks, social media creatives, and sales collateral to custom illustrations and branded digital assets, every design reflects your brand identity while delivering clarity, consistency, and visual excellence.\n\nWe believe great design is more than aesthetics-it is a strategic communication tool. Our visual assets help businesses explain complex concepts, present research and statistics, showcase products and services, educate customers, and support decision-making through engaging, easy-to-understand content. Designed for both digital and print platforms, every creative asset is optimized to increase audience engagement, improve content retention, strengthen brand credibility, and encourage social sharing.\n\nWhether you're launching a marketing campaign, presenting to investors, publishing industry research, or building thought leadership, our visual communication experts deliver creative solutions that combine innovation, storytelling, and strategic design. The result is premium content that not only captures attention but also builds trust, reinforces your brand authority, and delivers measurable marketing impact.\n\nWhy Choose Our Visual Assets & Infographic Services?\n• Transform complex information into clear, engaging visual experiences\n• Design premium infographics that simplify data and strengthen communication\n• Create branded marketing assets that reflect a consistent visual identity\n• Enhance audience engagement through strategic visual storytelling\n• Develop high-quality presentations, brochures, eBooks, and corporate collateral\n• Increase content shareability across digital and social media platforms\n• Support marketing campaigns with visually compelling creative assets\n• Deliver responsive designs optimized for web, mobile, presentations, and print\n• Strengthen brand credibility with professional, insight-driven visual communication\n• Drive better engagement, stronger recall, and measurable business results through impactful design",
         },
         {
           src: "/content-marketing/promotion.jpg",
           content: "Promotion & Optimization",
           subSlug: "content-promotion-and-optimization",
           paragraph:
-            "Great content deserves to be seen, not just published. We promote your content across the right channels and continuously optimize based on performance data. This includes SEO refinement, distribution strategy, and audience targeting. The goal is maximizing reach and return on every piece of content you create.",
+            "Creating exceptional content is only the first step-ensuring it reaches the right audience and delivers measurable business results is what drives long-term marketing success. At Ritz Media World, our Content Promotion & Optimization Services are designed to maximize the visibility, reach, and performance of every content asset you publish. We combine strategic content distribution, advanced SEO optimization, audience targeting, and performance analytics to help your content generate higher search rankings, increased organic traffic, stronger engagement, and quality business leads.\n\nAs a leading Content Marketing Agency in India, we develop customized content promotion strategies that extend the reach of your blogs, website pages, case studies, whitepapers, infographics, videos, and digital assets across multiple marketing channels. Our specialists leverage Search Engine Optimization (SEO), social media marketing, email marketing, content syndication, digital PR, and strategic distribution networks to ensure your content reaches the audiences that matter most. Every campaign is built around user intent, search behavior, and data-driven insights to maximize discoverability and long-term content performance.\n\nOur optimization process goes beyond publishing. We continuously analyze keyword rankings, user engagement, search visibility, click-through rates, conversions, and content performance to identify new growth opportunities. Through on-page SEO enhancements, keyword optimization, internal linking strategies, metadata improvements, content refreshes, technical SEO recommendations, and conversion optimization, we help your content maintain its relevance while improving its ability to rank on search engines and generate sustainable organic growth.\n\nWhether you're looking to improve your Google search rankings, increase website traffic, amplify brand awareness, or maximize the return on your content marketing investment, our promotion and optimization experts deliver scalable strategies that drive measurable results. Every optimization initiative is designed to strengthen your online presence, expand your digital reach, and transform high-quality content into a powerful engine for lead generation and long-term business growth.\n\nWhy Choose Our Content Promotion & Optimization Services?\n• Increase organic visibility through advanced SEO content optimization\n• Improve Google keyword rankings with strategic on-page enhancements\n• Maximize content reach through multi-channel distribution strategies\n• Drive qualified website traffic with audience-focused content promotion\n• Enhance content performance using analytics and continuous optimization\n• Strengthen internal linking and website authority for better SEO results\n• Refresh existing content to maintain relevance and search visibility\n• Improve user engagement, click-through rates, and conversion performance\n• Extend content reach through social media, email marketing, and digital PR\n• Achieve sustainable business growth with data-driven content marketing strategies",
         },
       ],
     },
@@ -642,7 +644,7 @@ export const services = [
         height: 342,
       },
       description:
-        "Great content marketing is more than publishing - it is strategy, craft, and distribution working together. From editorial planning to asset creation and promotion, our work helps brands build trust, earn attention, and turn ideas into their most profitable asset.",
+        "As a leading Content Marketing Agency in India, we develop tailored content strategies that align with your business objectives and customer journey. From website content, SEO-focused blogs, and landing pages to social media campaigns, email marketing, and brand storytelling, every piece of content is designed to engage the right audience, strengthen your digital presence, and convert interest into meaningful business opportunities.",
       image: {
         src: "/content-marketing/content-first.jpg",
         width: 720.953,

@@ -365,35 +365,30 @@ export const serviceSeoHeadingsBySlug = {
 
   "contents-marketing": {
     h1: [
-      "Content with Purpose",
+      "Content Marketing Services That Drive Organic Traffic, Brand Authority & Business Growth",
     ],
     sections: [
-      { h2: "Earn Attention and Trust with Strategic Content" },
+      { h2: "Build Your Brand with Strategic Content Marketing" },
+      { h2: "Why Choose Our Content Marketing Services?" },
       {
         h2: "Our Content Marketing Services",
         h3: [
-          "Content Strategy",
-          "Email & Newsletters",
-          "Assets & Infographics",
-          "Promotion & Optimization",
+          "Website Content Writing",
+          "SEO Content Writing",
+          "Blog Writing Services",
+          "Copywriting Services",
+          "Social Media Content",
+          "Email Marketing & Newsletters",
+          "Visual Assets & Infographics",
+          "Content Promotion & Optimization",
         ],
       },
-      {
-        h2: "Our Content Marketing Process",
-        h3: [
-          "Audience & Keyword Research",
-          "Editorial Strategy Planning",
-          "Content Creation",
-          "Distribution & Promotion",
-          "Engagement & Lead Nurturing",
-          "Analytics & Continuous Improvement",
-        ],
-      },
-      { h2: "Why Choose Ritz Media World" },
+      { h2: "Our Content Marketing Process" },
       { h2: "Industries We Serve", h3: industries },
-      { h2: "Our Success Stories" },
-      { h2: "Frequently Asked Questions (FAQs)" },
-      { h2: "Get a Free Content Marketing Consultation" },
+      { h2: "Benefits of Professional Content Marketing" },
+      { h2: "Why Choose Ritz Media World?" },
+      { h2: "Frequently Asked Questions (FAQ)" },
+      { h2: "Ready to Grow Your Business with Strategic Content Marketing" },
     ],
   },
 
