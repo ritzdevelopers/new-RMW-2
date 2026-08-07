@@ -469,6 +469,7 @@ const Footer = ({ section = null }) => {
             >
               Connect
             </span>
+            
             <nav className="flex flex-col items-center gap-2 md:items-start md:gap-3">
               {connectLinks.map((link) => (
                 <Link
