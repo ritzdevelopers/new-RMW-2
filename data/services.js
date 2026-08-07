@@ -724,7 +724,7 @@ export const services = [
         },
       ],
       eyebrow: "Building Digital Experiences That Inspire Results",
-      body: "Your website is more than just an online presence-it's the foundation of your brand's digital success. At Ritz Media World, we design and develop responsive, SEO-friendly, and conversion-focused websites that help businesses attract more visitors, generate qualified leads, and accelerate growth. From custom business websites and WordPress development to eCommerce platforms, landing pages, and scalable web applications, every solution is crafted with modern UI/UX design, fast loading performance, robust security, and SEO best practices to deliver exceptional user experiences and measurable business results.",
+      body: "Your website is your brand's digital foundation. Ritz Media World designs and develops responsive, SEO-friendly, and conversion-focused websites that enhance user experience, strengthen your online presence, and drive sustainable business growth.",
       sidebarLabel: "Services",
     },
     carousel: {
