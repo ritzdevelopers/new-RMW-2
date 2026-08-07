@@ -698,16 +698,19 @@ export const services = [
     number: "06",
     category: "Web Development",
     title: "Web Development",
-    headline: "Digital Front Door",
+    metaTitle:
+      "Website Design & Development Company in India | Ritz Media World",
+    headline: "Digital Experiences That Inspire Results",
     image: serviceImages[5],
     description:
-      "Fast, beautiful websites and digital products engineered for performance, accessibility, and seamless brand experiences.",
+      "Looking for a website design & development company in India? Ritz Media World builds responsive, SEO-friendly, WordPress, and custom websites.",
     highlights: [
-      "UI/UX design",
-      "Custom design & development",
-      "E-commerce website development",
-      "Landing page development",
-      "WordPress web design",
+      "UI/UX design services",
+      "Custom website development",
+      "WordPress website development",
+      "eCommerce website development",
+      "Landing page design & development",
+      "Website maintenance & support",
     ],
     featured: true,
     intro: {
@@ -720,49 +723,55 @@ export const services = [
           height: 630,
         },
       ],
-      eyebrow: "Built for performance and conversion",
-      body: "Your website is your brand's digital front door. We design and develop fast, beautiful, and conversion-focused websites and digital products - from UI/UX and custom builds to e-commerce, landing pages, and WordPress sites engineered for performance and growth.",
+      eyebrow: "Building Digital Experiences That Inspire Results",
+      body: "Your website is more than just an online presence-it's the foundation of your brand's digital success. At Ritz Media World, we design and develop responsive, SEO-friendly, and conversion-focused websites that help businesses attract more visitors, generate qualified leads, and accelerate growth. From custom business websites and WordPress development to eCommerce platforms, landing pages, and scalable web applications, every solution is crafted with modern UI/UX design, fast loading performance, robust security, and SEO best practices to deliver exceptional user experiences and measurable business results.",
       sidebarLabel: "Services",
     },
     carousel: {
       background: "/digital-marketing/bg-image.jpg",
       content:
-        "Every website we build is shaped by strategy and refined by craft. These highlights showcase how user-centric design, clean development, and performance-focused thinking come together to create digital experiences that convert.",
+        "Partner with Ritz Media World for professional Website Design & Development Services in India. We build responsive, SEO-friendly, and conversion-focused websites-from UI/UX design and custom development to WordPress, eCommerce, landing pages, and ongoing maintenance-that help businesses attract visitors, generate leads, and accelerate growth.",
       slides: [
         {
           src: "/web-designing-and-development/ui-ux.jpg",
-          content: "UI/UX Design",
+          content: "UI/UX Design Services",
           subSlug: "ui-ux-design",
           paragraph:
-            "A website's usability determines whether visitors stay or leave. Our UI/UX design focuses on intuitive navigation, clean layouts, and seamless user journeys. Every design decision is guided by how real users interact with your site. The result is an experience that feels effortless and drives conversions.",
+            "In today's digital world, exceptional user experience is the key to building customer trust and increasing conversions. At Ritz Media World, our UI/UX Design Services focus on creating intuitive, visually appealing, and user-centric digital experiences that engage visitors and encourage meaningful interactions. We combine creativity, strategy, and usability to design interfaces that are both aesthetically impressive and functionally efficient.\n\nOur UI/UX experts conduct user research, wireframing, prototyping, and interface design to develop responsive layouts that deliver seamless experiences across desktops, tablets, and mobile devices. Every design is carefully crafted to improve navigation, enhance usability, reduce bounce rates, and guide users toward conversion-focused actions.\n\nWhether you're launching a new website, redesigning an existing platform, or building a custom web application, we create modern UI/UX solutions that strengthen your brand identity, improve customer satisfaction, and support long-term business growth.\n\nWhy Choose Our UI/UX Design Services?\n• User-centric and conversion-focused design approach\n• Modern, responsive, and mobile-friendly interfaces\n• Improved website usability and customer engagement\n• Interactive wireframing and prototyping\n• Optimized user journeys for higher conversions\n• Consistent brand identity across every digital touchpoint",
         },
         {
           src: "/web-designing-and-development/custom-development.jpg",
-          content: "Custom Development",
+          content: "Custom Website Development Services",
           subSlug: "custom-design-development",
           paragraph:
-            "Every business has unique needs that off-the-shelf solutions can't fully address. We build custom websites and web applications engineered specifically for your goals and workflows. Our development process prioritizes performance, scalability, and security. This ensures your digital platform grows with your business.",
-        },
-        {
-          src: "/web-designing-and-development/e-commerce.jpg",
-          content: "E-Commerce",
-          subSlug: "e-commerce-web-designing",
-          paragraph:
-            "Your online store needs to do more than look good - it needs to sell. We design and develop e-commerce platforms optimized for smooth browsing, fast checkout, and higher conversions. Every element, from product pages to payment gateways, is built for performance. This turns your website into a reliable revenue engine.",
-        },
-        {
-          src: "/web-designing-and-development/landing-page-development.jpg",
-          content: "Landing Pages",
-          subSlug: "landing-page-development-services",
-          paragraph:
-            "A landing page has one job: convert. We design focused, high-converting landing pages tailored to specific campaigns and audiences. Every element - headline, layout, and call to action - is optimized to drive a single desired action. This makes your ad spend and campaigns significantly more effective.",
+            "Every business has unique goals, and your website should be built to achieve them. At Ritz Media World, we provide Custom Website Development Services that deliver scalable, secure, and high-performance digital solutions tailored to your business requirements. Our experienced developers build websites that combine innovative functionality, responsive design, and clean coding practices to deliver outstanding user experiences.\n\nFrom corporate websites and business portals to enterprise web applications and customer platforms, every solution is developed using modern technologies and SEO-friendly architecture. We focus on website speed, security, scalability, and seamless performance to ensure your digital platform continues to grow alongside your business.\n\nWhether you're launching a startup, modernizing an existing website, or developing a complex business application, our custom development solutions are designed to improve operational efficiency, strengthen your online presence, and generate measurable business results.\n\nWhy Choose Our Custom Website Development Services?\n• Fully customized solutions tailored to your business\n• Secure, scalable, and future-ready development\n• SEO-friendly website architecture\n• High-performance and fast-loading websites\n• Modern development frameworks and technologies\n• Flexible solutions designed for long-term business growth",
         },
         {
           src: "/web-designing-and-development/word-press.jpg",
-          content: "WordPress",
+          content: "WordPress Website Development Services",
           subSlug: "wordpress-web-designing",
           paragraph:
-            "WordPress offers flexibility, and we make sure you get the most out of it. We design and develop WordPress websites that are fast, secure, and easy to manage on your own. Every site is built with clean code and an SEO-friendly structure. This gives you a platform that's both powerful and simple to maintain.",
+            "Build a powerful online presence with our WordPress Website Development Services, designed to deliver flexibility, performance, and business growth. At Ritz Media World, we develop custom WordPress websites that are responsive, SEO-friendly, secure, and easy to manage through a user-friendly content management system.\n\nWhether you require a corporate website, service website, portfolio, blog, or WooCommerce store, our WordPress developers create tailored solutions that combine premium design with advanced functionality. Every website is optimized for search engines, mobile responsiveness, website speed, and security to ensure exceptional user experiences and higher search visibility.\n\nOur scalable WordPress development solutions give businesses complete control over their website while supporting future expansion, content management, and digital marketing initiatives.\n\nWhy Choose Our WordPress Website Development Services?\n• Custom WordPress website design and development\n• SEO-friendly and mobile-responsive websites\n• Easy-to-manage content management system (CMS)\n• WooCommerce and custom plugin integration\n• Optimized website speed and security\n• Flexible and scalable WordPress solutions",
+        },
+        {
+          src: "/web-designing-and-development/e-commerce.jpg",
+          content: "eCommerce Website Development Services",
+          subSlug: "e-commerce-web-designing",
+          paragraph:
+            "Create exceptional online shopping experiences with our eCommerce Website Development Services that help businesses increase sales, improve customer engagement, and grow their online presence. We develop secure, scalable, and mobile-friendly eCommerce websites using WooCommerce, Shopify, and custom eCommerce platforms tailored to your business objectives.\n\nOur online stores feature intuitive navigation, optimized product pages, secure payment gateway integration, inventory management, shopping cart functionality, and conversion-focused user experiences. Every eCommerce website is built with SEO best practices, responsive design, and high-performance architecture to maximize online visibility and revenue.\n\nWhether you're launching a new online store or upgrading an existing eCommerce platform, we build digital shopping experiences that encourage customer trust, repeat purchases, and long-term business success.\n\nWhy Choose Our eCommerce Website Development Services?\n• Secure and scalable online store development\n• WooCommerce, Shopify, and custom eCommerce solutions\n• Mobile-friendly shopping experiences\n• Secure payment gateway integration\n• SEO-optimized product and category pages\n• Built to improve conversions and online sales",
+        },
+        {
+          src: "/web-designing-and-development/landing-page-development.jpg",
+          content: "Landing Page Design & Development Services",
+          subSlug: "landing-page-development-services",
+          paragraph:
+            "Maximize your marketing performance with our Landing Page Design & Development Services that are strategically designed to generate more leads and improve campaign conversions. At Ritz Media World, we create high-converting landing pages for Google Ads, Meta Ads, email marketing campaigns, and product promotions that encourage visitors to take action.\n\nEvery landing page combines persuasive content, compelling calls-to-action, responsive layouts, fast loading speed, and SEO best practices to improve user experience and campaign performance. We focus on delivering landing pages that reduce bounce rates, increase engagement, and generate qualified enquiries.\n\nWhether you're promoting a product, service, or event, our landing page solutions help businesses achieve better conversion rates and maximize their digital marketing return on investment.\n\nWhy Choose Our Landing Page Design & Development Services?\n• High-converting landing page design\n• Optimized for Google Ads and Meta Ads campaigns\n• Fast-loading and mobile-responsive layouts\n• Clear call-to-action and lead generation strategy\n• SEO and conversion-focused development\n• Designed to improve campaign ROI",
+        },
+        {
+          src: "/web-designing-and-development/custom-development.jpg",
+          content: "Website Maintenance & Support Services",
+          paragraph:
+            "A successful website requires continuous updates, monitoring, and optimization to deliver the best user experience. Our Website Maintenance & Support Services ensure your website remains secure, up-to-date, and fully optimized for performance. We provide regular software updates, security monitoring, website backups, bug fixes, speed optimization, and ongoing technical support to keep your website running smoothly.\n\nOur proactive maintenance approach helps prevent downtime, improve website reliability, and protect your business from security threats. By continuously monitoring performance and implementing improvements, we ensure your website remains fast, secure, and aligned with the latest technology standards.\n\nWhether you operate a business website, eCommerce store, or enterprise platform, our maintenance services provide the technical expertise needed to support long-term digital success.\n\nWhy Choose Our Website Maintenance & Support Services?\n• Regular website updates and technical maintenance\n• Security monitoring and malware protection\n• Website speed and performance optimization\n• Automated backups and recovery solutions\n• Bug fixes and content management support\n• Reliable technical assistance and long-term website management",
         },
       ],
     },
@@ -774,7 +783,7 @@ export const services = [
         height: 342,
       },
       description:
-        "A great website is more than aesthetics - it is usability, speed, and conversion working in harmony. From UI/UX to custom development and e-commerce builds, our work helps brands launch digital experiences that feel polished, purposeful, and built to perform.",
+        "A great website is more than aesthetics-it is usability, speed, and conversion working in harmony. From UI/UX design and custom development to WordPress, eCommerce, landing pages, and ongoing maintenance, our work helps brands launch digital experiences that feel polished, purposeful, and built to perform.",
       image: {
         src: "https://otherassets.blob.core.windows.net/rmw/720px%20x%20762px.mp4",
         width: 720.953,
