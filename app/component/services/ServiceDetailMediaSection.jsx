@@ -86,7 +86,6 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
   }
 
   const { title, video, description, image, container, grid, imageContent } = mediaSection;
-
   return (
     <section className={`${montserrat.className} overflow-x-clip bg-[#F1F1F1] py-12 md:py-16 lg:py-20`}>
       <div className="mx-auto w-full max-w-[1440px] px-6 sm:px-10 md:px-[50px]">
