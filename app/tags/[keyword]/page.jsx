@@ -5,11 +5,10 @@ import OverlaySection1 from "../../component/latest/OverlaySection1";
 import { TagsKeywordPage } from "../../component/case-study/TagsQueryPage";
 import { formatTagTitle, getAllTagSlugs } from "../../../lib/caseStudyApi";
 
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
   const tags = await getAllTagSlugs();
-  if (!tags.length) {
-    return [{ keyword: "__placeholder__" }];
-  }
   return tags.map((keyword) => ({ keyword }));
 }
 
