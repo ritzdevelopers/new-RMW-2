@@ -3,16 +3,8 @@
 import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Montserrat } from "next/font/google";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["300"],
-  style: ["italic"],
-  display: "swap",
-});
 
 const goldColor = "#FFD188";
 const circleSpotlightDuration = 15;
@@ -430,18 +422,26 @@ const ServicesHero = ({
       fitHeadline();
       hideHeadlineGold();
 
-      const onResize = () => {
-        fitHeadline();
-        if (spotlightStarted) startHeadlineSpotlight();
+      let fitRaf = 0;
+      const scheduleFitHeadline = (refreshSpotlight = false) => {
+        if (fitRaf) cancelAnimationFrame(fitRaf);
+        fitRaf = requestAnimationFrame(() => {
+          fitRaf = 0;
+          fitHeadline();
+          if (refreshSpotlight && spotlightStarted) startHeadlineSpotlight();
+        });
       };
 
+      const onResize = () => scheduleFitHeadline(true);
+      const onLoad = () => scheduleFitHeadline(false);
+
       window.addEventListener("resize", onResize);
-      window.addEventListener("load", fitHeadline);
-      document.fonts?.ready?.then(() => requestAnimationFrame(fitHeadline));
+      window.addEventListener("load", onLoad);
+      document.fonts?.ready?.then(onLoad);
 
       const resizeObserver =
         typeof ResizeObserver !== "undefined"
-          ? new ResizeObserver(() => fitHeadline())
+          ? new ResizeObserver(() => scheduleFitHeadline(false))
           : null;
       if (headline?.parentElement && resizeObserver) {
         resizeObserver.observe(headline.parentElement);
@@ -452,9 +452,10 @@ const ServicesHero = ({
 
       return () => {
         spotlightTween?.kill();
+        if (fitRaf) cancelAnimationFrame(fitRaf);
         window.removeEventListener("header-reveal-complete", onHeaderComplete);
         window.removeEventListener("resize", onResize);
-        window.removeEventListener("load", fitHeadline);
+        window.removeEventListener("load", onLoad);
         resizeObserver?.disconnect();
       };
     }, hero);
@@ -496,7 +497,7 @@ const ServicesHero = ({
   );
 
   const subtextBlock = (
-    <div className={`${montserrat.className} relative z-40 w-full`}>
+    <div className="font-montserrat relative z-40 w-full">
       {subtextLines.map((phrases, index) => (
         <Reveal
           key={`${phrases.join("-")}-${index}`}

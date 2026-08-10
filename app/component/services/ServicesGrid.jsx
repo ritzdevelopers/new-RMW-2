@@ -357,6 +357,11 @@ const ServicesGrid = () => {
                 data-svc-image
                 src={service.image}
                 alt=""
+                width={690}
+                height={730}
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "low"}
+                decoding={index === 0 ? "sync" : "async"}
                 className="absolute inset-0 h-full w-full object-cover object-top will-change-transform"
                 draggable={false}
               />
