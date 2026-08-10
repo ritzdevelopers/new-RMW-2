@@ -183,8 +183,7 @@ export const services = [
       ],
       eyebrow: "Design that defines convention",
       body: [
-        "Exceptional brands are built through creativity, strategy, and meaningful design. At Ritz Media World, our Creative Services combine innovative ideas with compelling visual communication to help businesses create memorable brand experiences. From Brand Identity and Logo Design to Graphic Design, Packaging Design, and Print Advertising, we develop creative solutions that strengthen brand recognition and connect with the right audience.",
-        "As a leading Creative Agency in India, we create designs that inspire trust, improve engagement, and support long-term business growth.",
+        "At Ritz Media World, our Creative Services transform bold ideas into distinctive brand experiences through strategy, imagination, and refined design. As a leading Creative Agency in India, we craft compelling identities and visual stories that elevate brands, strengthen recognition, and leave lasting impressions.",
       ],
       sidebarLabel: "Services",
     },
@@ -317,7 +316,7 @@ export const services = [
         },
       ],
       eyebrow: "WHERE PRINT STILL MAKES AN IMPACT",
-      body: "Print advertising remains a trusted way to build brand credibility and increase visibility. Ritz Media World delivers strategic Print Advertising Services with creative design, compelling messaging, and targeted media planning across newspapers, magazines, brochures, flyers, and catalogs. We create impactful campaigns that strengthen brand recognition, engage audiences, and drive measurable business growth.",
+      body: "Print Advertising Services at Ritz Media World turn powerful ideas into tangible brand experiences. Through strategic planning, distinctive design, and compelling storytelling, we create premium print campaigns that command attention, strengthen brand presence, and connect businesses with audiences across meaningful offline touchpoints.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -456,7 +455,7 @@ export const services = [
         },
       ],
       eyebrow: "When sound commands attention",
-      body: "Every memorable radio advertising campaign begins with a strategic concept that connects business objectives with audience expectations. As a trusted Radio Advertising Agency in India, Ritz Media World delivers FM Radio Advertising Services-from concept development and scriptwriting to voiceover casting, production, media planning, and media buying-that capture attention, strengthen brand recall, and inspire meaningful customer action.",
+      body: "At Ritz Media World, our Radio Advertising Services transform strategic ideas into memorable audio experiences. As a trusted Radio Advertising Agency in India, we create compelling FM campaigns through creative storytelling, professional production, and targeted media planning that build recall and inspire action.",
       sidebarLabel: "Services",
     },
     carousel: {
@@ -837,12 +836,13 @@ export const services = [
     number: "07",
     category: "Celebrity Endorsements",
     title: "Celebrity Endorsements",
+    metaTitle: "Celebrity Endorsement Agency in India | Ritz Media World",
     headline: "Borrow the Spotlight",
     image: serviceImages[6],
     description:
-      "Strategic celebrity partnerships that lend credibility and reach - from talent matchmaking to full campaign integration.",
+      "Ritz Media World is a leading celebrity endorsement agency in India, offering celebrity marketing, brand partnerships, campaign management, PR and talent selection services.",
     highlights: [
-      "Celebrity identification",
+      "Celebrity identification & selection",
       "Contract negotiations",
       "Creative collaboration",
       "Campaign integration",
@@ -859,56 +859,56 @@ export const services = [
           height: 630,
         },
       ],
-      eyebrow: "When star power builds trust",
-      body: "Celebrity endorsement services help brands earn trust, achieve recognition, and shape consumer behavior beyond glitz and glamour. We develop partnerships with the right talent to attract attention, build credibility, and turn admiration into action.",
+      eyebrow: "Celebrity Endorsement Agency in India",
+      body: "Ritz Media World helps ambitious brands build trust, recognition, and influence through strategic celebrity partnerships. As a leading celebrity endorsement agency in India, we connect brands with the right talent to create distinctive campaigns that elevate brand value and deliver meaningful audience impact.",
       sidebarLabel: "Services",
     },
     carousel: {
       background: "/digital-marketing/bg-image.jpg",
       content:
-        "Every celebrity partnership we build is strategic, authentic, and designed for impact. These highlights showcase how identification, negotiation, and integration come together to amplify brands across every channel.",
+        "Every celebrity partnership we build is strategic, authentic, and designed for impact. From celebrity identification and contract negotiations to creative collaboration, campaign integration, PR, and legal compliance, we help brands create partnerships that strengthen credibility and amplify reach across every channel.",
       slides: [
         {
           src: "/celebrity-endorsements/celebrity-identification.jpg",
-          content: "Celebrity Identification",
+          content: "Celebrity Identification & Selection",
           subSlug: "celebrity-identification-services",
           paragraph:
-            "Finding the right celebrity partner starts with alignment, not just popularity. We identify talent whose image and audience genuinely match your brand values and goals. This ensures the partnership feels authentic rather than forced. The right match builds credibility that resonates with your target audience.",
+            "Finding the right celebrity partner is about more than popularity-it is about strategic alignment, audience relevance, and brand compatibility. At Ritz Media World, we provide strategic Celebrity Identification & Selection Services that help brands discover influential personalities whose image, audience, values, and expertise align with their brand objectives. As a trusted Celebrity Endorsement Agency in India, we develop customized celebrity selection strategies that connect brands with the right talent to build credibility, strengthen recognition, and create meaningful audience connections.\n\nOur Celebrity Identification Services combine market research, audience analysis, brand positioning, and talent evaluation to identify personalities who can authentically represent your brand. From Bollywood celebrities and sports personalities to television stars, digital creators, and influential public figures, we assess each potential partner based on audience fit, reputation, relevance, influence, campaign objectives, and overall brand compatibility. Whether you're launching a new product, building brand awareness, entering a new market, or planning a high-impact marketing campaign, we help you select celebrity talent that can enhance your brand's presence and influence.\n\nOur Celebrity Selection Services bring together strategy, research, and creative thinking to create partnerships that feel authentic rather than forced. We look beyond popularity and focus on finding the right balance between celebrity influence and your brand's identity. By connecting the right personality with the right brand message, we help businesses create powerful celebrity endorsement campaigns that capture attention, strengthen trust, increase brand recall, and establish lasting connections with target audiences.\n\nWhy Choose Our Celebrity Identification & Selection Services?\n• Identify celebrities aligned with your brand values and target audience\n• Evaluate talent based on relevance, reputation, influence, and audience fit\n• Build authentic and strategically aligned celebrity partnerships\n• Strengthen brand credibility, recognition, and audience engagement\n• Discover suitable Bollywood, sports, television, and digital personalities\n• Develop celebrity selection strategies aligned with campaign objectives\n• Create impactful celebrity endorsement opportunities for long-term brand growth",
         },
         {
           src: "/celebrity-endorsements/contract-negotiations.jpg",
           content: "Contract Negotiations",
           subSlug: "negotiating-contracts",
           paragraph:
-            "Celebrity partnerships involve complex terms, and we handle every detail on your behalf. Our team negotiates contracts that protect your interests while securing fair, workable terms for both sides. We ensure clarity on deliverables, exclusivity, and compensation from the start. This keeps every partnership smooth and risk-free.",
+            "Celebrity partnerships require more than securing the right talent-they require carefully structured agreements that protect your brand and establish clear expectations. At Ritz Media World, our Celebrity Contract Negotiation Services help brands navigate commercial terms, deliverables, usage rights, exclusivity, compensation, timelines, appearances, and campaign obligations with precision and professionalism.\n\nAs a trusted Celebrity Endorsement Agency in India, we manage negotiations between brands and celebrity representatives to create balanced, transparent, and mutually beneficial partnerships. Our approach ensures that every important detail is clearly defined before the campaign begins, minimizing uncertainty and helping protect your investment throughout the collaboration.\n\nOur Celebrity Contract Management Services combine strategic negotiation, commercial understanding, and attention to detail to establish strong foundations for successful celebrity endorsement campaigns. Whether you're engaging a celebrity as a brand ambassador, launching a product endorsement, or developing a long-term celebrity partnership, we help structure agreements that support your campaign objectives while maintaining clarity for all parties.\n\nWhy Choose Our Celebrity Contract Negotiation Services?\n• Negotiate fair and strategically aligned commercial terms\n• Clearly define celebrity deliverables, responsibilities, and timelines\n• Manage usage rights, exclusivity, appearances, and compensation\n• Protect your brand interests throughout the partnership\n• Establish transparent and mutually beneficial agreements\n• Minimize contractual uncertainty and potential campaign risks\n• Create a strong foundation for successful celebrity collaborations",
         },
         {
           src: "/celebrity-endorsements/creative-collaboration.jpg",
           content: "Creative Collaboration",
           subSlug: "creative-collaboration",
           paragraph:
-            "A celebrity endorsement works best when the creative feels natural, not scripted. We collaborate closely with talent to develop campaigns that reflect their authentic voice while staying true to your brand message. This partnership approach makes endorsements more believable and engaging. The result is content audiences actually trust.",
+            "A powerful celebrity endorsement begins with a creative idea that feels authentic, relevant, and unmistakably aligned with the brand. At Ritz Media World, our Celebrity Creative Collaboration Services bring together strategic storytelling, creative direction, and celebrity talent to develop campaigns that reflect the personality of both the brand and its chosen representative.\n\nWe work closely with celebrities and their teams to create celebrity-led campaigns that feel natural while maintaining a clear and compelling brand message. From campaign concepts and brand films to social media content, advertisements, digital videos, and promotional assets, we develop creative experiences designed to capture attention, strengthen brand recall, and build genuine audience connections.\n\nOur Celebrity Collaboration Services combine creativity, strategy, and authentic storytelling to transform celebrity influence into meaningful brand experiences. By allowing talent to contribute their personality and voice while staying aligned with your brand identity, we create endorsements that feel credible, engaging, and memorable.\n\nWhy Choose Our Celebrity Creative Collaboration Services?\n• Develop authentic celebrity-led creative campaigns\n• Align celebrity personality with your brand's identity and message\n• Create compelling concepts, stories, videos, and campaign assets\n• Build natural and credible celebrity-brand connections\n• Strengthen audience engagement and brand recall\n• Transform celebrity influence into meaningful brand storytelling",
         },
         {
           src: "/celebrity-endorsements/campaign-integration.jpg",
           content: "Campaign Integration",
           subSlug: "campaign-integration",
           paragraph:
-            "A celebrity face alone isn't enough - the partnership needs to be woven into your full campaign. We integrate celebrity content seamlessly across digital, print, and traditional media. This ensures consistent messaging and maximum visibility across every touchpoint. The endorsement becomes a cohesive part of your brand story, not a standalone asset.",
+            "A successful celebrity endorsement extends far beyond a single appearance-it becomes an integral part of your broader brand strategy. At Ritz Media World, our Celebrity Campaign Integration Services seamlessly connect celebrity-led content with digital, social media, print, television, events, and other relevant marketing channels.\n\nWe create a unified campaign experience where every communication carries a consistent brand message while leveraging the celebrity's influence across multiple audience touchpoints. From digital advertising and social media campaigns to traditional media and experiential activations, we ensure your celebrity partnership delivers cohesive storytelling, broader reach, and stronger brand visibility.\n\nOur Celebrity Marketing Campaign Integration approach combines strategy, creativity, media planning, and execution to transform a celebrity endorsement into a powerful extension of your brand identity. Instead of functioning as a standalone asset, the partnership becomes an integral part of your communication ecosystem-strengthening recognition, engagement, and long-term brand impact.\n\nWhy Choose Our Campaign Integration Services?\n• Integrate celebrity campaigns across digital and traditional media\n• Maintain consistent brand messaging across every touchpoint\n• Extend celebrity content across social media, advertising, PR, and events\n• Maximize campaign reach, visibility, and audience engagement\n• Create cohesive celebrity-led brand storytelling\n• Connect celebrity influence with your broader marketing strategy\n• Build stronger and more memorable brand experiences",
         },
         {
           src: "/celebrity-endorsements/public-relations.jpg",
           content: "Public Relations",
           subSlug: "public-relations",
           paragraph:
-            "Celebrity partnerships need the right narrative to land well publicly. We manage PR around the endorsement, from press coverage to public messaging, ensuring the partnership is framed positively. This builds credibility and generates organic buzz beyond paid media. It's how we turn a partnership into a public conversation.",
+            "A successful celebrity partnership deserves a compelling narrative that extends beyond the campaign itself. At Ritz Media World, our Celebrity Public Relations Services strategically position your celebrity association through impactful storytelling, media outreach, press coverage, and coordinated public communication.\n\nWe develop PR strategies that present the partnership in a credible, relevant, and engaging manner, helping brands generate meaningful media attention and strengthen their public presence. From celebrity announcement campaigns and press releases to digital PR, media relations, and social amplification, we create opportunities that extend the reach of your endorsement beyond paid advertising.\n\nOur Celebrity PR & Promotion Services combine strategic communication, media expertise, and brand storytelling to transform celebrity collaborations into conversations that audiences and media want to follow. By building authentic narratives around your partnership, we help enhance brand credibility, generate organic visibility, and create lasting public impact.\n\nWhy Choose Our Celebrity Public Relations Services?\n• Build a strong and credible narrative around celebrity partnerships\n• Generate strategic media coverage and public visibility\n• Strengthen brand credibility through celebrity associations\n• Amplify endorsements through digital PR and media outreach\n• Create compelling press releases and brand stories\n• Extend campaign visibility beyond paid media\n• Turn celebrity partnerships into meaningful public conversations",
         },
         {
           src: "/celebrity-endorsements/legal-complaince.jpg",
           content: "Legal Compliance",
           subSlug: "legal-compliance",
           paragraph:
-            "Celebrity endorsements come with legal and regulatory considerations that can't be overlooked. We ensure every partnership complies with advertising standards, disclosure norms, and contractual obligations. This protects your brand from legal risk while keeping campaigns transparent. You get peace of mind alongside star power.",
+            "Celebrity endorsements require careful attention to legal, regulatory, and contractual requirements. At Ritz Media World, our Celebrity Endorsement Legal Compliance Services help brands navigate advertising standards, disclosure requirements, usage rights, contractual obligations, and campaign-specific compliance considerations.\n\nWe work to ensure that every celebrity partnership is structured with clarity and transparency, helping protect your brand reputation while reducing potential legal and regulatory exposure. From endorsement agreements and image rights to campaign disclosures and content approvals, we help ensure critical requirements are addressed before your campaign goes live.\n\nOur Celebrity Contract & Compliance Services combine strategic oversight with meticulous attention to detail, allowing brands to build celebrity partnerships with greater confidence. Whether you are appointing a brand ambassador, launching a celebrity endorsement campaign, or collaborating with public figures, we help create compliant, transparent, and professionally managed partnerships that protect your brand and strengthen long-term value.\n\nWhy Choose Our Legal Compliance Services?\n• Navigate advertising and celebrity endorsement regulations\n• Support clear and transparent contractual arrangements\n• Address celebrity image, content, and usage rights\n• Manage disclosure and campaign compliance requirements\n• Reduce potential legal and reputational risks\n• Ensure campaign obligations and approvals are clearly defined\n• Protect your brand while building credible celebrity partnerships",
         },
       ],
     },
