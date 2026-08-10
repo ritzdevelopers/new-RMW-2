@@ -1,10 +1,13 @@
 import React from "react";
+import dynamic from "next/dynamic";
+import { preload } from "react-dom";
 import Header from "../common/Header";
-import Footer from "../component/latest/Footer";
-import OverlaySection1 from "../component/latest/OverlaySection1";
 import ServicesHero from "../component/services/ServicesHero";
 import ServicesGrid from "../component/services/ServicesGrid";
 import { getServicesPageSeoHeadings } from "../../data/serviceSeoHeadings";
+
+const Footer = dynamic(() => import("../component/latest/Footer"));
+const OverlaySection1 = dynamic(() => import("../component/latest/OverlaySection1"));
 
 export const metadata = {
   title: "Advertising & Digital Services | Ritz Media World Delhi-NCR",
@@ -34,6 +37,8 @@ function ServicesPageSeoHeadings() {
 }
 
 const ServicesPage = () => {
+  preload("/services/Digital.jpg", { as: "image", fetchPriority: "high" });
+
   return (
     <>
       <Header />
