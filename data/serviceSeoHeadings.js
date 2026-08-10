@@ -480,15 +480,13 @@ export const serviceSeoHeadingsBySlug = {
   },
 
   "celebrity-endorsements": {
-    h1: [
-      "When Star Power Builds Trust",
-    ],
+    h1: ["Celebrity Endorsement Agency in India"],
     sections: [
-      { h2: "Amplify Your Brand with the Right Celebrity Partnerships" },
+      { h2: "Celebrity Endorsement Services" },
       {
         h2: "Our Celebrity Endorsement Services",
         h3: [
-          "Celebrity Identification",
+          "Celebrity Identification & Selection",
           "Contract Negotiations",
           "Creative Collaboration",
           "Campaign Integration",
@@ -496,22 +494,31 @@ export const serviceSeoHeadingsBySlug = {
           "Legal Compliance",
         ],
       },
+      { h2: "Why Choose Our Celebrity Endorsement Services?" },
       {
         h2: "Our Celebrity Endorsement Process",
         h3: [
-          "Brand Fit Analysis",
-          "Talent Shortlisting",
-          "Negotiation & Contracting",
-          "Creative Collaboration",
-          "Campaign Rollout",
-          "PR, Tracking & Optimization",
+          "Understand Your Brand & Objectives",
+          "Identify the Right Celebrity",
+          "Negotiate the Partnership",
+          "Develop the Creative Campaign",
+          "Execute & Integrate the Campaign",
+          "Amplify Through PR & Media",
+          "Measure Campaign Impact",
         ],
       },
-      { h2: "Why Choose Ritz Media World" },
-      { h2: "Industries We Serve", h3: industries },
-      { h2: "Our Success Stories" },
-      { h2: "Frequently Asked Questions (FAQs)" },
-      { h2: "Get a Free Celebrity Endorsement Consultation" },
+      {
+        h2: "Why Celebrity Endorsements Matter for Brands",
+        h3: [
+          "Build Brand Recognition",
+          "Strengthen Brand Credibility",
+          "Expand Audience Reach",
+          "Increase Brand Engagement",
+          "Support Product Launches",
+          "Strengthen Brand Recall",
+        ],
+      },
+      { h2: "Build Your Brand with the Right Celebrity Partnership" },
     ],
   },
 
