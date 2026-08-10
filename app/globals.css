@@ -244,6 +244,67 @@ body::-webkit-scrollbar {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@keyframes call-triangle-burst {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(var(--call-tri-rot, 0deg)) scale(0.35);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(
+        calc(-50% + var(--call-tri-x, 0px)),
+        calc(-50% + var(--call-tri-y, 0px)),
+        0
+      )
+      rotate(calc(var(--call-tri-rot, 0deg) + 160deg))
+      scale(0.55);
+    opacity: 0;
+  }
+}
+
+.call-float-btn {
+  box-shadow:
+    0 8px 22px rgba(14, 17, 37, 0.2),
+    0 3px 10px rgba(255, 153, 51, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.call-float-btn:hover {
+  box-shadow:
+    0 10px 28px rgba(14, 17, 37, 0.24),
+    0 4px 14px rgba(19, 136, 8, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.call-burst-layer {
+  z-index: 5;
+}
+
+.call-triangle-particle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: translate3d(-50%, -50%, 0);
+  animation: call-triangle-burst var(--call-tri-duration, 0.75s) ease-out forwards;
+  animation-delay: var(--call-tri-delay, 0s);
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .call-triangle-particle {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  .call-float-btn {
+    transition: none !important;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

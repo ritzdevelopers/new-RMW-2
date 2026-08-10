@@ -255,11 +255,17 @@ const Header = () => {
   return (
     <header className="relative z-[100] w-full">
       {/* Reserves layout space so content doesn't jump under the fixed bar */}
-      <div aria-hidden className="w-full" style={{ height: headerHeight }} />
+      <div
+        aria-hidden
+        className="w-full"
+        style={{
+          height: `calc(${headerHeight}px + var(--independence-banner-height, 0px))`,
+        }}
+      />
 
       <div
         ref={headerBarRef}
-        className={`fixed inset-x-0 top-0 z-[110] w-full bg-[#0D1334] transition-transform duration-300 ease-out will-change-transform ${
+        className={`fixed inset-x-0 top-[var(--independence-banner-height,0px)] z-[110] w-full bg-[#0D1334] transition-transform duration-300 ease-out will-change-transform ${
           headerVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
@@ -276,7 +282,7 @@ const Header = () => {
         >
           <span data-header-reveal className="inline-block">
             <Image
-              src="/logo/rmw.logo.png"
+              src="/logo/tri_color_logo.png"
               alt="Ritz Media World"
               title="Ritz Media World"
               width={180}
@@ -506,7 +512,9 @@ const Header = () => {
         className={`fixed inset-x-0 bottom-0 z-[105] ${
           servicesMenuOpen ? "pointer-events-auto" : "pointer-events-none"
         }`}
-        style={{ top: headerHeight }}
+        style={{
+          top: `calc(${headerHeight}px + var(--independence-banner-height, 0px))`,
+        }}
         onMouseEnter={isDesktop ? openServicesMenu : undefined}
         onMouseLeave={isDesktop ? closeServicesMenu : undefined}
         aria-hidden={!servicesMenuOpen}
@@ -592,7 +600,9 @@ const Header = () => {
         className={`fixed inset-x-0 bottom-0 z-[105] ${
           workMenuOpen ? "pointer-events-auto" : "pointer-events-none"
         }`}
-        style={{ top: headerHeight }}
+        style={{
+          top: `calc(${headerHeight}px + var(--independence-banner-height, 0px))`,
+        }}
         onMouseEnter={isDesktop ? openWorkMenu : undefined}
         onMouseLeave={isDesktop ? closeWorkMenu : undefined}
         aria-hidden={!workMenuOpen}

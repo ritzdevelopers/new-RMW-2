@@ -1,0 +1,645 @@
+/* Independence Day — lightweight CSS animations (transform + opacity only) */
+
+@keyframes id-kite-fly {
+  0% {
+    transform: translate3d(110vw, var(--id-kite-y, 0px), 0) rotate(var(--id-kite-rot-start, -8deg));
+    opacity: 0;
+  }
+  8% {
+    opacity: var(--id-kite-opacity, 0.45);
+  }
+  92% {
+    opacity: var(--id-kite-opacity, 0.45);
+  }
+  100% {
+    transform: translate3d(-15vw, calc(var(--id-kite-y, 0px) + var(--id-kite-drift, -24px)), 0)
+      rotate(var(--id-kite-rot-end, 6deg));
+    opacity: 0;
+  }
+}
+
+@keyframes id-kite-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes id-bird-fly {
+  0% {
+    transform: translate3d(105vw, var(--id-bird-y, 0px), 0) scaleX(-1);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--id-bird-opacity, 0.35);
+  }
+  90% {
+    opacity: var(--id-bird-opacity, 0.35);
+  }
+  100% {
+    transform: translate3d(-10vw, calc(var(--id-bird-y, 0px) + -16px), 0) scaleX(-1);
+    opacity: 0;
+  }
+}
+
+@keyframes id-bird-flap {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.85);
+  }
+}
+
+@keyframes id-tricolor-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes id-particle-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0;
+  }
+  15% {
+    opacity: var(--id-particle-opacity, 0.85);
+  }
+  100% {
+    transform: translate3d(var(--id-particle-x, 0px), var(--id-particle-y, -120px), 0) scale(0.6);
+    opacity: 0;
+  }
+}
+
+@keyframes id-confetti-burst {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg) scale(0.4);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(
+        calc(-50% + var(--id-confetti-x, 0px)),
+        calc(-50% + var(--id-confetti-y, 80px)),
+        0
+      )
+      rotate(var(--id-confetti-rot, 180deg))
+      scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes id-chakra-enter {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes id-chakra-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes id-celebration-text {
+  0% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes id-celebration-fadeout {
+  0%,
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.id-kite-animate {
+  animation: id-kite-fly var(--id-kite-duration, 28s) linear infinite;
+  animation-delay: var(--id-kite-delay, 0s);
+  will-change: transform, opacity;
+}
+
+.id-kite-animate .id-kite-body {
+  animation: id-kite-bob 3.5s ease-in-out infinite;
+  animation-delay: var(--id-kite-delay, 0s);
+}
+
+.id-bird-animate {
+  animation: id-bird-fly var(--id-bird-duration, 22s) linear infinite;
+  animation-delay: var(--id-bird-delay, 0s);
+  will-change: transform, opacity;
+}
+
+.id-bird-animate .id-bird-wings {
+  animation: id-bird-flap 0.6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.id-tricolor-line {
+  background: linear-gradient(
+    90deg,
+    #ff9933 0%,
+    #ff9933 33.33%,
+    #ffffff 33.33%,
+    #ffffff 66.66%,
+    #138808 66.66%,
+    #138808 100%
+  );
+  background-size: 200% 100%;
+  animation: id-tricolor-shimmer 8s ease-in-out infinite alternate;
+}
+
+.id-particle {
+  animation: id-particle-rise var(--id-particle-duration, 2.4s) ease-out forwards;
+  animation-delay: var(--id-particle-delay, 0s);
+}
+
+.id-confetti-piece {
+  animation: id-confetti-burst var(--id-confetti-duration, 2.2s) ease-out forwards;
+  animation-delay: var(--id-confetti-delay, 0s);
+}
+
+.id-chakra-enter {
+  animation: id-chakra-enter 0.6s ease-out forwards;
+}
+
+.id-chakra-spin {
+  animation: id-chakra-spin 12s linear infinite;
+}
+
+.id-celebration-text-animate {
+  animation: id-celebration-text 2.6s ease-out forwards;
+}
+
+.id-celebration-unity-text {
+  text-shadow:
+    0 0 4px rgba(13, 19, 52, 0.55),
+    0 1px 3px rgba(13, 19, 52, 0.45),
+    0 0 1px rgba(13, 19, 52, 0.8);
+}
+
+.id-celebration-unity-word {
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow:
+    0 0 1px #0d1334,
+    0 0 3px #0d1334,
+    0 1px 2px rgba(13, 19, 52, 0.9),
+    1px 0 0 rgba(13, 19, 52, 0.55),
+    -1px 0 0 rgba(13, 19, 52, 0.55),
+    0 -1px 0 rgba(13, 19, 52, 0.45);
+}
+
+.id-celebration-overlay {
+  animation: id-celebration-fadeout 2.8s ease-out forwards;
+}
+
+/*
+ * Chakra path: top-right → arc → bottom-left (hold 15s) → sink away → loop
+ * Wrapper uses translate/scale only — text stays upright; chakra spins via .id-chakra-spin
+ */
+@keyframes id-chakra-journey {
+  0% {
+    transform: translate(
+        calc(100vw - var(--id-chakra-size, 92px)),
+        calc(var(--independence-banner-height, 28px) + 8px)
+      )
+      scale(0.45);
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  10% {
+    transform: translate(
+        calc(62vw - calc(var(--id-chakra-size, 92px) / 2)),
+        32vh
+      )
+      scale(0.72);
+    opacity: 1;
+  }
+  19% {
+    transform: translate(16px, calc(100vh - var(--id-chakra-rest-offset, 172px))) scale(1);
+    opacity: 1;
+  }
+  90% {
+    transform: translate(16px, calc(100vh - var(--id-chakra-rest-offset, 172px))) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-24px, calc(100vh + 16px)) scale(0.15);
+    opacity: 0;
+  }
+}
+
+/* Tricolor particle trail — bursts while chakra travels (synced to 21s journey loop) */
+@keyframes id-chakra-trail-burst {
+  0% {
+    transform: translate3d(-50%, -50%, 0) scale(0.55);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(
+        calc(-50% + var(--trail-x, 0px)),
+        calc(-50% + var(--trail-y, 0px)),
+        0
+      )
+      scale(0.2);
+    opacity: 0;
+  }
+}
+
+@keyframes id-chakra-trail-window {
+  0%,
+  20% {
+    visibility: visible;
+  }
+  20.5%,
+  100% {
+    visibility: hidden;
+  }
+}
+
+@keyframes id-chakra-trail-twinkle {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.45);
+  }
+}
+
+.id-chakra-trail {
+  width: 280px;
+  height: 280px;
+  overflow: visible;
+}
+
+.id-chakra-trail-particle {
+  animation:
+    id-chakra-trail-burst var(--trail-duration, 0.85s) ease-out infinite,
+    id-chakra-trail-window 21s linear infinite;
+  animation-delay: var(--trail-delay, 0s), 0s;
+  will-change: transform, opacity;
+}
+
+.id-chakra-trail-particle.id-chakra-trail-sparkle {
+  animation:
+    id-chakra-trail-burst var(--trail-duration, 0.6s) ease-out infinite,
+    id-chakra-trail-window 21s linear infinite,
+    id-chakra-trail-twinkle 0.6s ease-in-out infinite;
+  animation-delay: var(--trail-delay, 0s), 0s, var(--trail-delay, 0s);
+}
+
+.id-chakra-journey-wheel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.id-chakra-journey > div {
+  overflow: visible;
+}
+
+@keyframes id-chakra-journey-label {
+  0%,
+  18% {
+    opacity: 0;
+  }
+  22%,
+  88% {
+    opacity: 1;
+  }
+  95%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.id-chakra-journey {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 201;
+  overflow: visible;
+  --id-chakra-size: 92px;
+  --id-chakra-rest-offset: 172px;
+  animation: id-chakra-journey 21s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.id-chakra-journey-label {
+  animation: id-chakra-journey-label 21s ease-in-out infinite;
+}
+
+.id-chakra-journey-static {
+  position: fixed;
+  left: 16px;
+  bottom: 24px;
+  z-index: 201;
+}
+
+@media (max-width: 767px) {
+  .id-chakra-journey,
+  .id-chakra-journey-static {
+    --id-chakra-size: 68px;
+    --id-chakra-rest-offset: 128px;
+  }
+
+  .id-chakra-trail {
+    width: 220px;
+    height: 220px;
+  }
+
+  .id-chakra-journey-static {
+    bottom: 20px;
+  }
+}
+
+@keyframes id-banner-enter {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes id-banner-light-sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes id-banner-chakra-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes id-banner-text-shimmer {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.88;
+  }
+}
+
+@keyframes id-banner-flag-sway {
+  0%,
+  100% {
+    transform: perspective(500px) rotateY(-1.5deg) skewX(-0.6deg);
+  }
+  50% {
+    transform: perspective(500px) rotateY(1.5deg) skewX(0.6deg);
+  }
+}
+
+@keyframes id-banner-stripe-wave {
+  0%,
+  100% {
+    transform: translateX(-1%) skewX(-1.4deg) scaleY(1.06);
+  }
+  33% {
+    transform: translateX(0.5%) skewX(0.3deg) scaleY(1);
+  }
+  66% {
+    transform: translateX(1%) skewX(1.4deg) scaleY(1.06);
+  }
+}
+
+@keyframes id-banner-wave-edge {
+  0%,
+  100% {
+    clip-path: polygon(
+      0% 0%,
+      20% 4%,
+      40% 0%,
+      60% 4%,
+      80% 0%,
+      100% 4%,
+      100% 100%,
+      80% 96%,
+      60% 100%,
+      40% 96%,
+      20% 100%,
+      0% 96%
+    );
+  }
+  50% {
+    clip-path: polygon(
+      0% 4%,
+      20% 0%,
+      40% 4%,
+      60% 0%,
+      80% 4%,
+      100% 0%,
+      100% 96%,
+      80% 100%,
+      60% 96%,
+      40% 100%,
+      20% 96%,
+      0% 100%
+    );
+  }
+}
+
+.id-banner-enter {
+  animation: id-banner-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.id-banner-shimmer {
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 62%
+  );
+  animation: id-banner-light-sweep 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.id-banner-chakra-spin {
+  animation: id-banner-chakra-spin 18s linear infinite;
+  transform-origin: center;
+}
+
+.id-banner-text-shimmer {
+  animation: id-banner-text-shimmer 4s ease-in-out infinite;
+}
+
+.id-banner-flag-sway {
+  animation: id-banner-flag-sway 3.6s ease-in-out infinite;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.id-banner-flag-wave {
+  animation: id-banner-wave-edge 3.2s ease-in-out infinite;
+  will-change: clip-path;
+}
+
+.id-banner-stripe-wave {
+  animation: id-banner-stripe-wave 2.8s ease-in-out infinite;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Banner pigeons — cross the flag continuously */
+@keyframes id-banner-wing-flap {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-18deg);
+  }
+}
+
+@keyframes id-banner-pigeon-bob-inner {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes id-banner-pigeon-ltr {
+  0% {
+    transform: translateX(-28px);
+  }
+  100% {
+    transform: translateX(calc(100vw - 28px));
+  }
+}
+
+@keyframes id-banner-pigeon-rtl {
+  0% {
+    transform: translateX(calc(100vw - 28px));
+  }
+  100% {
+    transform: translateX(-28px);
+  }
+}
+
+.id-banner-pigeon-wing-back,
+.id-banner-pigeon-wing-front {
+  transform-origin: 30px 30px;
+  animation: id-banner-wing-flap 0.45s ease-in-out infinite;
+}
+
+.id-banner-pigeon-wing-front {
+  animation-delay: 0.1s;
+}
+
+.id-banner-pigeon-bob-inner {
+  animation: id-banner-pigeon-bob-inner 3.2s ease-in-out infinite;
+}
+
+.id-banner-pigeon-bob-inner-delayed {
+  animation-delay: 0.8s;
+}
+
+.id-banner-pigeon-fly-ltr {
+  animation: id-banner-pigeon-ltr 48s linear infinite;
+  will-change: transform;
+}
+
+.id-banner-pigeon-fly-rtl {
+  animation: id-banner-pigeon-rtl 40s linear infinite;
+  animation-delay: -10s;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .id-kite-animate,
+  .id-kite-animate .id-kite-body,
+  .id-bird-animate,
+  .id-bird-animate .id-bird-wings,
+  .id-tricolor-line,
+  .id-particle,
+  .id-confetti-piece,
+  .id-chakra-spin,
+  .id-banner-enter,
+  .id-banner-shimmer,
+  .id-banner-chakra-spin,
+  .id-banner-text-shimmer,
+  .id-banner-flag-sway,
+  .id-banner-flag-wave,
+  .id-banner-stripe-wave,
+  .id-banner-pigeon-fly-ltr,
+  .id-banner-pigeon-fly-rtl,
+  .id-banner-pigeon-bob-inner,
+  .id-banner-pigeon-wing-back,
+  .id-banner-pigeon-wing-front,
+  .id-chakra-journey,
+  .id-chakra-journey-label,
+  .id-chakra-trail,
+  .id-chakra-trail-particle,
+  .id-chakra-trail-sparkle {
+    animation: none !important;
+  }
+
+  .id-banner-pigeon-fly-ltr {
+    transform: translateX(12%) !important;
+  }
+
+  .id-banner-pigeon-fly-rtl {
+    transform: translateX(72%) !important;
+  }
+}
