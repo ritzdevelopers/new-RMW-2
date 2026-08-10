@@ -1,0 +1,608 @@
+/* Premium Independence Day banner — moved from styled-jsx for Turbopack SSR compatibility */
+
+.id-banner-bg {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 40%, rgba(0, 0, 0, 0.08)),
+    linear-gradient(90deg, #ff9933 0%, #ff9f35 31%, #ffffff 48%, #ffffff 52%, #31a85b 69%, #138808 100%);
+}
+
+.id-tricolor-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0.9;
+}
+
+.id-saffron {
+  background: radial-gradient(ellipse at 15% 50%, rgba(255, 255, 255, 0.38), transparent 45%);
+  animation: id-color-flow 6s ease-in-out infinite;
+}
+
+.id-white {
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.85), transparent 48%);
+}
+
+.id-green {
+  background: radial-gradient(ellipse at 85% 50%, rgba(255, 255, 255, 0.3), transparent 45%);
+  animation: id-color-flow 7s ease-in-out infinite reverse;
+}
+
+@keyframes id-color-flow {
+  0%,
+  100% {
+    transform: translateX(-2%);
+  }
+  50% {
+    transform: translateX(2%);
+  }
+}
+
+.id-fabric-wave {
+  position: absolute;
+  width: 120%;
+  height: 70px;
+  left: -10%;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.22;
+  filter: blur(1px);
+}
+
+.id-fabric-wave-1 {
+  top: -45px;
+  background: rgba(255, 255, 255, 0.45);
+  transform: rotate(-2deg);
+  animation: id-wave-one 5s ease-in-out infinite;
+}
+
+.id-fabric-wave-2 {
+  bottom: -48px;
+  background: rgba(0, 0, 0, 0.12);
+  transform: rotate(2deg);
+  animation: id-wave-two 6s ease-in-out infinite;
+}
+
+@keyframes id-wave-one {
+  0%,
+  100% {
+    transform: translateX(-3%) rotate(-2deg);
+  }
+  50% {
+    transform: translateX(3%) rotate(2deg);
+  }
+}
+
+@keyframes id-wave-two {
+  0%,
+  100% {
+    transform: translateX(3%) rotate(2deg);
+  }
+  50% {
+    transform: translateX(-3%) rotate(-2deg);
+  }
+}
+
+.id-light-sweep {
+  position: absolute;
+  inset: 0;
+  width: 30%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: skewX(-20deg) translateX(-250%);
+  animation: id-light-sweep 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes id-light-sweep {
+  0% {
+    transform: skewX(-20deg) translateX(-250%);
+  }
+  35%,
+  100% {
+    transform: skewX(-20deg) translateX(500%);
+  }
+}
+
+.id-center-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(92vw, 420px);
+  height: 22px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.18) 45%,
+    transparent 72%
+  );
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.id-content-pill-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-block: 4px;
+  filter: drop-shadow(0 2px 10px rgba(14, 17, 37, 0.22));
+}
+
+.id-banner-slogan-group {
+  position: absolute;
+  z-index: 25;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
+  animation: id-slogan-shimmer 3.8s ease-in-out infinite;
+}
+
+.id-banner-slogan-group-left {
+  left: 10px;
+}
+
+.id-banner-slogan-group-right {
+  right: 10px;
+}
+
+.id-banner-slogan-text {
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.id-banner-slogan-group-left .id-banner-slogan-text {
+  color: #000080;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95),
+    0 0 8px rgba(255, 255, 255, 0.65);
+}
+
+.id-banner-slogan-group-right .id-banner-slogan-text {
+  color: #ff6b35;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95),
+    0 0 10px rgba(255, 107, 53, 0.5);
+}
+
+.id-banner-slogan-icon {
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));
+}
+
+.id-banner-slogan-icon-lotus {
+  animation: id-slogan-icon-float 2.8s ease-in-out infinite;
+}
+
+.id-banner-slogan-icon-unity {
+  animation: id-banner-chakra-icon-spin 14s linear infinite;
+}
+
+@keyframes id-slogan-icon-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-1px) scale(1.06);
+  }
+}
+
+@keyframes id-slogan-shimmer {
+  0%,
+  100% {
+    opacity: 0.82;
+    filter: brightness(0.96);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.08);
+  }
+}
+
+.id-content-pill {
+  position: relative;
+  padding: 1px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 153, 51, 0.95) 0%,
+    rgba(255, 255, 255, 0.98) 42%,
+    rgba(255, 255, 255, 0.98) 58%,
+    rgba(19, 136, 8, 0.95) 100%
+  );
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.65),
+    0 4px 14px rgba(0, 0, 0, 0.16),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.35);
+}
+
+.id-content-pill-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 1px 14px 1px 12px;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.82) 100%),
+    linear-gradient(90deg, rgba(255, 153, 51, 0.06) 0%, transparent 28%, transparent 72%, rgba(19, 136, 8, 0.06) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+  -webkit-backdrop-filter: blur(12px) saturate(1.35);
+  backdrop-filter: blur(12px) saturate(1.35);
+}
+
+.id-content-pill-shine {
+  position: absolute;
+  z-index: 2;
+  top: 2px;
+  left: 10%;
+  right: 10%;
+  height: 42%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+.id-banner-chakra-icon {
+  animation:
+    id-banner-chakra-icon-spin 8s linear infinite,
+    id-banner-chakra-icon-glow 2s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.15));
+}
+
+@keyframes id-banner-chakra-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes id-banner-chakra-icon-glow {
+  from {
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.1));
+  }
+  to {
+    filter: drop-shadow(0 0 5px rgba(0, 70, 130, 0.35));
+  }
+}
+
+.id-divider {
+  flex-shrink: 0;
+  width: 2px;
+  height: 11px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ff9933 0%, rgba(255, 255, 255, 0.95) 48%, #138808 100%);
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.55);
+  opacity: 0.9;
+}
+
+.id-mini-star {
+  flex-shrink: 0;
+  color: #ff9933;
+  font-size: 8px;
+  line-height: 1;
+  text-shadow:
+    0 0 4px rgba(255, 153, 51, 0.55),
+    0 1px 0 rgba(255, 255, 255, 0.9);
+  animation: id-star-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes id-star-pulse {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+}
+
+.id-banner-text {
+  color: #000080;
+  font-weight: 700;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 1),
+    0 0 8px rgba(255, 255, 255, 0.75);
+  animation: id-text-shimmer 3.5s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+@keyframes id-text-shimmer {
+  0%,
+  100% {
+    opacity: 0.88;
+    letter-spacing: 0.07em;
+  }
+  50% {
+    opacity: 1;
+    letter-spacing: 0.095em;
+  }
+}
+
+.id-banner-float-particle {
+  position: absolute;
+  display: block;
+  border-radius: 999px;
+  opacity: 0;
+  animation-name: id-banner-float-rise;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes id-banner-float-rise {
+  0% {
+    transform: translate3d(0, 5px, 0) scale(0.4);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  70% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translate3d(calc(var(--random-x, 0) * 1px), -42px, 0) scale(1);
+    opacity: 0;
+  }
+}
+
+.id-pigeon {
+  position: absolute;
+  left: -80px;
+  top: 2px;
+  opacity: 0.7;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+  animation: id-pigeon-flight 11s linear infinite;
+}
+
+@keyframes id-pigeon-flight {
+  0% {
+    left: -80px;
+    transform: translateY(8px) scale(0.7);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.72;
+  }
+  25% {
+    transform: translateY(-2px) scale(0.85);
+  }
+  50% {
+    transform: translateY(5px) scale(1);
+  }
+  75% {
+    transform: translateY(-3px) scale(0.9);
+  }
+  92% {
+    opacity: 0.55;
+  }
+  100% {
+    left: 110%;
+    transform: translateY(4px) scale(0.7);
+    opacity: 0;
+  }
+}
+
+.id-pigeon-wing-front {
+  transform-origin: 30px 34px;
+  animation: id-wing-front 0.7s ease-in-out infinite alternate;
+}
+
+.id-pigeon-wing-back {
+  transform-origin: 30px 32px;
+  animation: id-wing-back 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes id-wing-front {
+  from {
+    transform: rotate(8deg);
+  }
+  to {
+    transform: rotate(-22deg);
+  }
+}
+
+@keyframes id-wing-back {
+  from {
+    transform: rotate(-10deg);
+  }
+  to {
+    transform: rotate(25deg);
+  }
+}
+
+.id-spark-burst {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  animation: id-burst 3.8s ease-out infinite;
+}
+
+.id-spark-burst span {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  width: 2px;
+  height: 7px;
+  border-radius: 999px;
+  background: white;
+  box-shadow:
+    0 0 4px white,
+    0 0 7px rgba(255, 170, 60, 0.7);
+  transform-origin: 1px 1px;
+}
+
+.id-spark-burst span:nth-child(1) {
+  transform: rotate(0deg) translateY(-6px);
+}
+.id-spark-burst span:nth-child(2) {
+  transform: rotate(60deg) translateY(-6px);
+}
+.id-spark-burst span:nth-child(3) {
+  transform: rotate(120deg) translateY(-6px);
+}
+.id-spark-burst span:nth-child(4) {
+  transform: rotate(180deg) translateY(-6px);
+}
+.id-spark-burst span:nth-child(5) {
+  transform: rotate(240deg) translateY(-6px);
+}
+.id-spark-burst span:nth-child(6) {
+  transform: rotate(300deg) translateY(-6px);
+}
+
+@keyframes id-burst {
+  0%,
+  65%,
+  100% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(0.8);
+  }
+  82% {
+    opacity: 0.3;
+    transform: scale(1.4);
+  }
+  90% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+.id-bottom-glow {
+  position: absolute;
+  z-index: 30;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #ff9933, white 45%, white 55%, #138808);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
+
+@media (min-width: 640px) {
+  .id-banner-slogan-text {
+    font-size: 16px;
+  }
+
+  .id-banner-slogan-icon {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+@media (min-width: 768px) {
+  .id-banner-slogan-text {
+    font-size: 17px;
+  }
+
+  .id-banner-slogan-group-left {
+    left: 14px;
+  }
+
+  .id-banner-slogan-group-right {
+    right: 14px;
+  }
+
+  .id-banner-slogan-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .id-banner-slogan-text {
+    font-size: 11px;
+    letter-spacing: 0.02em;
+  }
+
+  .id-banner-slogan-group {
+    gap: 4px;
+  }
+
+  .id-banner-slogan-group-left {
+    left: 6px;
+  }
+
+  .id-banner-slogan-group-right {
+    right: 6px;
+  }
+
+  .id-banner-slogan-icon {
+    width: 13px;
+    height: 13px;
+  }
+
+  .id-content-pill-wrap {
+    margin-block: 3px;
+  }
+
+  .id-content-pill-inner {
+    gap: 5px;
+    padding: 1px 9px 1px 8px;
+  }
+
+  .id-content-pill-shine {
+    left: 8%;
+    right: 8%;
+  }
+
+  .id-banner-chakra-icon {
+    width: 17px;
+    height: 17px;
+  }
+
+  .id-banner-text {
+    font-size: 8px;
+    letter-spacing: 0.055em;
+  }
+
+  .id-divider {
+    height: 8px;
+    width: 1.5px;
+  }
+
+  .id-mini-star {
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 360px) {
+  .id-banner-slogan-group {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .id-banner-chakra-icon,
+  .id-pigeon,
+  .id-banner-float-particle,
+  .id-spark-burst,
+  .id-light-sweep,
+  .id-fabric-wave,
+  .id-banner-text,
+  .id-banner-slogan-group,
+  .id-banner-slogan-icon-lotus,
+  .id-banner-slogan-icon-unity,
+  .id-saffron,
+  .id-green {
+    animation: none !important;
+  }
+}

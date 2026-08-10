@@ -7,7 +7,7 @@ export const TRICOLOR = {
 } as const;
 
 /** Banner height in px — keep in sync with IndependenceDayBanner */
-export const INDEPENDENCE_BANNER_HEIGHT_PX = 28;
+export const INDEPENDENCE_BANNER_HEIGHT_PX = 38;
 
 /** Inclusive active window — adjust these dates each year */
 export const INDEPENDENCE_DAY_START = "2026-08-10";
