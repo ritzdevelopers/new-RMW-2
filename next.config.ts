@@ -9,10 +9,6 @@ const API_BASE =
 const configDir = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
-  // Static export only for production builds. In `next dev` + Turbopack,
-  // `output: "export"` throws if you hit any dynamic path not yet listed in
-  // generateStaticParams (error: missing param "/[slug]").
-  ...(process.env.NODE_ENV === "production" ? { output: "export" as const } : {}),
   images: {
     unoptimized: true,
   },

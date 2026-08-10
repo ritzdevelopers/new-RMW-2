@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "sitemap": "next-sitemap --config next-sitemap.routes.config.js && next-sitemap --config next-sitemap.post.config.js && next-sitemap --config next-sitemap.page.config.js && next-sitemap --config next-sitemap.images.config.js && node scripts/finalize-sitemaps.mjs && node scripts/build-sitemap-0-base.mjs",
-    "postbuild": "npm run sitemap && node scripts/copy-sitemaps-to-out.mjs"
+    "postbuild": "npm run sitemap"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
