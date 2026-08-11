@@ -524,10 +524,13 @@ export const serviceSeoHeadingsBySlug = {
 
   "influencer-marketing-agency-in-india": {
     h1: [
-      "Trust Over Hype",
+      "Influencer Marketing Agency in India",
     ],
     sections: [
-      { h2: "Grow Your Brand with Authentic Influencer Campaigns" },
+      {
+        h2: "Influencer Marketing Services That Build Authentic Brand Connections",
+      },
+      { h2: "Why Choose Our Influencer Marketing Services?" },
       {
         h2: "Our Influencer Marketing Services",
         h3: [
@@ -540,21 +543,36 @@ export const serviceSeoHeadingsBySlug = {
         ],
       },
       {
-        h2: "Our Influencer Marketing Process",
+        h2: "Influencer Marketing Strategies for Business Growth",
         h3: [
-          "Audience & Goal Definition",
-          "Influencer Discovery & Vetting",
-          "Briefing & Negotiation",
-          "Content Creation & Approval",
-          "Campaign Launch & Amplification",
-          "Reporting & Performance Optimization",
+          "Brand Awareness & Audience Reach",
+          "Authentic Creator Partnerships",
+          "Social Media Engagement",
+          "Product & Service Promotion",
+          "Lead Generation & Conversions",
         ],
       },
-      { h2: "Why Choose Ritz Media World" },
-      { h2: "Industries We Serve", h3: industries },
-      { h2: "Our Success Stories" },
-      { h2: "Frequently Asked Questions (FAQs)" },
-      { h2: "Get a Free Influencer Marketing Consultation" },
+      {
+        h2: "Influencer Marketing Across Social Media Platforms",
+        h3: [
+          "Instagram Influencer Marketing",
+          "YouTube Influencer Marketing",
+          "Facebook Influencer Marketing",
+          "LinkedIn Influencer Marketing",
+          "Regional & Niche Influencer Marketing",
+        ],
+      },
+      {
+        h2: "Our Influencer Marketing Process",
+        h3: [
+          "Campaign Planning & Strategy",
+          "Influencer Research & Selection",
+          "Campaign & Content Development",
+          "Influencer Collaboration & Management",
+          "Campaign Monitoring & Optimization",
+          "Performance Analysis & Reporting",
+        ],
+      },
     ],
   },
 
