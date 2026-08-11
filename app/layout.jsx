@@ -69,7 +69,7 @@ export default function RootLayout({ children }) {
     >
       <head>
         {/* Preload critical self-hosted faces (replaces Google Fonts / jsDelivr CDN). */}
-        <meta charSet="utf-8"/>
+        
         
         <link
           rel="preload"
