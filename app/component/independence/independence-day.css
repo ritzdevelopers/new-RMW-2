@@ -175,12 +175,12 @@
 .id-tricolor-line {
   background: linear-gradient(
     90deg,
-    #ff9933 0%,
-    #ff9933 33.33%,
-    #ffffff 33.33%,
-    #ffffff 66.66%,
-    #138808 66.66%,
-    #138808 100%
+    var(--id-tricolor-saffron, #ff9933) 0%,
+    var(--id-tricolor-saffron, #ff9933) 33.33%,
+    var(--id-tricolor-white, #ffffff) 33.33%,
+    var(--id-tricolor-white, #ffffff) 66.66%,
+    var(--id-tricolor-green, #138808) 66.66%,
+    var(--id-tricolor-green, #138808) 100%
   );
   background-size: 200% 100%;
   animation: id-tricolor-shimmer 8s ease-in-out infinite alternate;

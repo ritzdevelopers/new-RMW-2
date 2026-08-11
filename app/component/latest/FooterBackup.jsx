@@ -49,13 +49,14 @@ const navLinkStyle = {
   color: "#FFFFFF99",
 };
 
-const brandFontStyle = {
+const brandTextStyle = {
   fontFamily: sequelFontFamily,
   fontWeight: 420,
   lineHeight: "100%",
   letterSpacing: "0",
   textAlign: "center",
   textTransform: "uppercase",
+  color: "#FFFFFF",
 };
 
 const serviceTextStyle = {
@@ -327,10 +328,10 @@ const resetBrandMorph = (ritz, mediaworld) => {
 const MediaWorldText = () => (
   <span
     className="inline-flex max-w-full shrink-0 items-baseline gap-[4px] whitespace-nowrap !text-[clamp(1.25rem,8vw,1.75rem)] sm:gap-[6px] sm:!text-[32px] md:!text-[44px] lg:gap-2 lg:!text-[56px] xl:!text-[74px]"
-    style={brandFontStyle}
+    style={brandTextStyle}
   >
-    <span className="footer-brand-flag">MEDIA</span>
-    <span className="footer-brand-flag">WORLD</span>
+    <span>MEDIA</span>
+    <span>WORLD</span>
   </span>
 );
 
@@ -726,8 +727,8 @@ const Footer = ({ section = null }) => {
           >
             <span
               data-footer-ritz
-              style={brandFontStyle}
-              className="footer-brand-flag inline-block max-w-full shrink-0 !text-[clamp(1.25rem,8vw,1.75rem)] sm:!text-[32px] md:!text-[40px] lg:will-change-transform lg:!text-[56px] xl:!text-[74px]"
+              style={brandTextStyle}
+              className="inline-block max-w-full shrink-0 !text-[clamp(1.25rem,8vw,1.75rem)] sm:!text-[32px] md:!text-[40px] lg:will-change-transform lg:!text-[56px] xl:!text-[74px]"
             >
               RITZ
             </span>

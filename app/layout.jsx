@@ -1,16 +1,9 @@
 import Script from "next/script";
 import RouteAnimationReset from "./component/common/RouteAnimationReset";
-import IndependenceDayExperience from "./component/independence/IndependenceDayExperience";
-import { independenceDayConfig } from "@/lib/independence-day/config";
-import { isIndependenceDayActive } from "@/lib/independence-day/is-active";
 import "./fonts.css";
 import "./remixicon.css";
 import "./globals.css";
 
-const independenceDayActive = isIndependenceDayActive({ includePreview: true });
-const independenceDayStyles = independenceDayActive
-  ? { "--independence-banner-height": `${independenceDayConfig.bannerHeightPx}px` }
-  : undefined;
 
 const GA_MEASUREMENT_ID = "G-0YHLN54GF7";
 
@@ -73,7 +66,6 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       suppressHydrationWarning
-      style={independenceDayStyles}
       className="h-full antialiased [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
     >
       <head>
@@ -117,7 +109,6 @@ export default function RootLayout({ children }) {
           `}
         </Script>
         <RouteAnimationReset />
-        <IndependenceDayExperience initiallyActive={independenceDayActive} />
         {children}
       </body>
     </html>

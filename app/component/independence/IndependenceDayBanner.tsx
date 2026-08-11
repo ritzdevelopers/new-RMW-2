@@ -31,7 +31,7 @@ function SloganLotusIcon() {
           transform={`rotate(${rotation} 12 12)`}
         />
       ))}
-      <circle cx="12" cy="11.5" r="2.2" fill="#ffb347" />
+      <circle cx="12" cy="11.5" r="2.2" fill={TRICOLOR.saffron} />
       <path d="M9.5 14.5 Q12 17.5 14.5 14.5" fill={TRICOLOR.green} />
       <path
         d="M12 14.5 V18.5"
@@ -234,11 +234,11 @@ function CelebrationParticles() {
     const duration = 2.8 + ((i * 17) % 5) * 0.25;
 
     const colors = [
-      "#ffffff",
-      "#ffb347",
-      "#ffffff",
-      "#9fffc0",
-      "#ffffff",
+      TRICOLOR.white,
+      TRICOLOR.saffron,
+      TRICOLOR.white,
+      TRICOLOR.green,
+      TRICOLOR.white,
     ];
 
     return {
@@ -320,14 +320,11 @@ export default function IndependenceDayBanner() {
 
         <div className="absolute inset-0 id-banner-bg">
 
-          {/* Saffron layer */}
-          <div className="id-tricolor-layer id-saffron" />
-
-          {/* White layer */}
-          <div className="id-tricolor-layer id-white" />
-
-          {/* Green layer */}
-          <div className="id-tricolor-layer id-green" />
+          <div className="id-tricolor-stripes" aria-hidden="true">
+            <div className="id-tricolor-layer id-saffron" />
+            <div className="id-tricolor-layer id-white" />
+            <div className="id-tricolor-layer id-green" />
+          </div>
 
           {/* Flowing fabric highlights */}
           <div className="id-fabric-wave id-fabric-wave-1" />

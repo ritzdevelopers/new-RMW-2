@@ -1,39 +1,38 @@
 /* Premium Independence Day banner — moved from styled-jsx for Turbopack SSR compatibility */
 
 .id-banner-bg {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 40%, rgba(0, 0, 0, 0.08)),
-    linear-gradient(90deg, #ff9933 0%, #ff9f35 31%, #ffffff 48%, #ffffff 52%, #31a85b 69%, #138808 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.18),
+    transparent 40%,
+    rgba(0, 0, 0, 0.08)
+  );
+}
+
+.id-tricolor-stripes {
+  position: absolute;
+  inset: 0;
+  display: flex;
 }
 
 .id-tricolor-layer {
-  position: absolute;
-  inset: 0;
-  opacity: 0.9;
+  flex: 1;
+  height: 100%;
 }
 
 .id-saffron {
-  background: radial-gradient(ellipse at 15% 50%, rgba(255, 255, 255, 0.38), transparent 45%);
-  animation: id-color-flow 6s ease-in-out infinite;
+  background: var(--id-tricolor-saffron, #ff9933);
 }
 
 .id-white {
-  background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.85), transparent 48%);
+  background: var(--id-tricolor-white, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .id-green {
-  background: radial-gradient(ellipse at 85% 50%, rgba(255, 255, 255, 0.3), transparent 45%);
-  animation: id-color-flow 7s ease-in-out infinite reverse;
-}
-
-@keyframes id-color-flow {
-  0%,
-  100% {
-    transform: translateX(-2%);
-  }
-  50% {
-    transform: translateX(2%);
-  }
+  background: var(--id-tricolor-green, #138808);
 }
 
 .id-fabric-wave {
@@ -282,14 +281,19 @@
   width: 2px;
   height: 11px;
   border-radius: 999px;
-  background: linear-gradient(180deg, #ff9933 0%, rgba(255, 255, 255, 0.95) 48%, #138808 100%);
+  background: linear-gradient(
+    180deg,
+    var(--id-tricolor-saffron, #ff9933) 0%,
+    var(--id-tricolor-white, #ffffff) 48%,
+    var(--id-tricolor-green, #138808) 100%
+  );
   box-shadow: 0 0 3px rgba(255, 255, 255, 0.55);
   opacity: 0.9;
 }
 
 .id-mini-star {
   flex-shrink: 0;
-  color: #ff9933;
+  color: var(--id-tricolor-saffron, #ff9933);
   font-size: 8px;
   line-height: 1;
   text-shadow:
@@ -493,7 +497,13 @@
   right: 0;
   bottom: 0;
   height: 1px;
-  background: linear-gradient(90deg, #ff9933, white 45%, white 55%, #138808);
+  background: linear-gradient(
+    90deg,
+    var(--id-tricolor-saffron, #ff9933),
+    var(--id-tricolor-white, #ffffff) 45%,
+    var(--id-tricolor-white, #ffffff) 55%,
+    var(--id-tricolor-green, #138808)
+  );
   box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
 }
 
@@ -601,8 +611,7 @@
   .id-banner-slogan-group,
   .id-banner-slogan-icon-lotus,
   .id-banner-slogan-icon-unity,
-  .id-saffron,
-  .id-green {
+  .id-tricolor-stripes {
     animation: none !important;
   }
 }

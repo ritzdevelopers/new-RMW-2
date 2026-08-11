@@ -146,6 +146,21 @@ const Section1 = () => {
           aria-hidden
         />
       </button>
+
+      <div className="absolute bottom-0 left-0 z-10 h-[150px] w-full overflow-hidden border-t border-white/20 bg-white/10 backdrop-blur-md shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12)]">
+        <div className="section1-girl-walk-track" aria-hidden="true">
+          <div className="section1-girl-walk-path">
+            <div className="section1-girl-walk-body">
+              <img
+                src="/15_august/girl.png"
+                alt=""
+                className="block h-[132px] w-auto max-w-none object-contain object-bottom"
+                draggable={false}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

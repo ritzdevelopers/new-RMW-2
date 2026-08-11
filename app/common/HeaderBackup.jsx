@@ -27,26 +27,14 @@ const workLinks = [
   { label: "Case Studies", href: "/case-study" },
 ];
 
-const navLinks = [{ label: "Contact Us", href: "/contact" }];
+
+
+const navLinks = [
+  { label: "Contact Us", href: "/contact" },
+];
 
 const linkClass =
   "font-sequel text-base font-[310] uppercase leading-none tracking-normal text-[#FFFFFF]";
-
-// Colors used for the looping "tricolor sweep" background animation on the
-// header bar (navy -> green -> saffron -> white -> green -> navy -> repeat).
-const HEADER_BG_BASE = "#0D1334";
-const HEADER_BG_CYCLE_COLORS = [
-  "#158805", // deep green
-  "#FE9A35", // saffron / orange
-  "#FFFFFF", // white
-  "#158805", // deep green
-  HEADER_BG_BASE, // back to navy (loop point)
-];
-
-// Desktop nav (and its hover mega-menus) switches on at this breakpoint.
-// Kept in one place so the JSX classes and the matchMedia query never drift
-// apart.
-const DESKTOP_QUERY = "(min-width: 1024px) and (hover: hover) and (pointer: fine)";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -147,8 +135,7 @@ const Header = () => {
       if (!items.length) return;
 
       gsap.set(items, { yPercent: -110 });
-      gsap
-        .timeline({ delay: 0.15 })
+      gsap.timeline({ delay: 0.15 })
         .to(items, {
           yPercent: 0,
           duration: 1.05,
@@ -161,38 +148,6 @@ const Header = () => {
     }, header);
 
     return () => ctx.revert();
-  }, []);
-
-  // Independence Day themed background: loops the header bar through
-  // green -> saffron -> white -> green -> navy, smoothly and continuously.
-  useLayoutEffect(() => {
-    const bar = headerBarRef.current;
-    if (!bar) return;
-
-    gsap.set(bar, { backgroundColor: HEADER_BG_BASE });
-
-    const tl = gsap.timeline({
-      repeat: -1,
-      delay: 0.6,
-      defaults: { duration: 0.95, ease: "sine.inOut" },
-    });
-
-    HEADER_BG_CYCLE_COLORS.forEach((color, index) => {
-      tl.to(bar, {
-        backgroundColor: color,
-        ...(index === HEADER_BG_CYCLE_COLORS.length - 1
-          ? { duration: 0.9 }
-          : {}),
-      });
-    });
-
-    // brief hold on navy before the loop restarts
-    tl.to(bar, { backgroundColor: HEADER_BG_BASE, duration: 0.3 });
-
-    return () => {
-      tl.kill();
-      gsap.set(bar, { backgroundColor: HEADER_BG_BASE });
-    };
   }, []);
 
   useLayoutEffect(() => {
@@ -216,10 +171,10 @@ const Header = () => {
   }, []);
 
   useLayoutEffect(() => {
-    // Hover mega-menus only on real desktop pointers, matching the
-    // breakpoint where the desktop nav itself becomes visible (lg / 1024px).
-    // Below that, touch/click handles opening the menus instead.
-    const media = window.matchMedia(DESKTOP_QUERY);
+    // Hover menus only on real desktop pointers; touch/tablet uses click
+    const media = window.matchMedia(
+      "(min-width: 768px) and (hover: hover) and (pointer: fine)"
+    );
     const syncDesktop = () => setIsDesktop(media.matches);
 
     syncDesktop();
@@ -316,178 +271,154 @@ const Header = () => {
       >
         <div
           ref={headerRef}
-          className="mx-auto flex w-full max-w-8xl flex-wrap items-center justify-between gap-y-2 px-4 py-3 sm:px-6 sm:py-4 md:px-8 lg:px-12 lg:py-5"
+          className="mx-auto flex w-full max-w-8xl items-center justify-between px-8 py-5 md:px-12"
         >
-          <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4 md:gap-6 lg:flex-none lg:gap-10 xl:gap-16">
-            <Link
-              href="/"
+        <Link
+          href="/"
+          title="Ritz Media World"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 overflow-hidden"
+        >
+          <span data-header-reveal className="inline-block">
+            <Image
+              src="/logo/rmw.logo.png"
+              alt="Ritz Media World"
               title="Ritz Media World"
+              width={180}
+              height={72}
+              className="h-12 w-auto md:h-14"
+              priority
+            />
+          </span>
+        </Link>
+
+        <div className="flex items-center gap-8 text-right md:gap-10">
+          <nav className="hidden items-center gap-8 md:flex md:gap-10">
+            <Link
+              href="/about.html"
+              title="About"
               target="_blank"
               rel="noopener noreferrer"
-              className="shrink-0 overflow-hidden"
+              className={`${linkClass} overflow-hidden`}
             >
               <span data-header-reveal className="inline-block">
-                <Image
-                  src="/logo/rmw.logo.png"
-                  alt="Ritz Media World"
-                  title="Ritz Media World"
-                  width={240}
-                  height={96}
-                  className="h-9 w-auto sm:h-11 md:h-14 lg:h-16 xl:h-20"
-                  priority
-                />
+                ABOUT
               </span>
             </Link>
 
-            {/* Right Side  */}
-            <div className="hidden min-w-0 items-center gap-1.5 sm:flex sm:gap-2 md:gap-3 lg:gap-4">
-              <img
-                src="/15_august/delhi.png"
-                alt=""
-                className="header-independence-zoom h-auto w-9 shrink-0 sm:w-12 md:w-16 lg:w-20 xl:w-[122px]"
-              />
-              <p
-                className="header-independence-zoom2 m-0 truncate text-[13px] font-normal leading-tight text-white sm:text-[15px] sm:leading-normal md:text-[19px] lg:text-[24px] xl:text-[34px]"
-                style={{ fontFamily: '"Baskerville Old Face", Baskerville, serif' }}
+            <div
+              className="relative"
+              onMouseEnter={isDesktop ? openServicesMenu : undefined}
+              onMouseLeave={isDesktop ? closeServicesMenu : undefined}
+            >
+              <span
+                data-header-reveal
+                className="inline-flex items-center gap-1.5 overflow-hidden"
               >
-                Happy Independence Day
-              </p>
+                <Link
+                  href="/services"
+                  title="Services"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={linkClass}
+                >
+                  SERVICES
+                </Link>
+                <button
+                  type="button"
+                  aria-label={
+                    servicesMenuOpen ? "Close services menu" : "Open services menu"
+                  }
+                  aria-haspopup="true"
+                  aria-expanded={servicesMenuOpen}
+                  className={`${linkClass} inline-flex cursor-pointer items-center p-0`}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    toggleServicesMenu();
+                  }}
+                >
+                  <i
+                    className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${servicesMenuOpen ? "rotate-180" : ""}`}
+                    aria-hidden
+                  />
+                </button>
+              </span>
             </div>
-          </div>
 
-          <div className="flex shrink-0 items-center gap-4 text-right sm:gap-6 lg:gap-8 xl:gap-10">
-            <nav className="hidden items-center gap-4 lg:flex lg:gap-6 xl:gap-10">
+            <div
+              className="relative"
+              onMouseEnter={isDesktop ? openWorkMenu : undefined}
+              onMouseLeave={isDesktop ? closeWorkMenu : undefined}
+            >
+              <button
+                type="button"
+                className={`${linkClass} overflow-hidden`}
+                aria-haspopup="true"
+                aria-expanded={workMenuOpen}
+                onClick={(event) => {
+                  event.preventDefault();
+                  toggleWorkMenu();
+                }}
+              >
+                <span data-header-reveal className="inline-flex items-center gap-1.5">
+                  OUR WORK
+                  <i
+                    className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${workMenuOpen ? "rotate-180" : ""}`}
+                    aria-hidden
+                  />
+                </span>
+              </button>
+            </div>
+
+            {navLinks.map((link) => (
               <Link
-                href="/about.html"
-                title="About"
+                key={link.label}
+                href={link.href}
+                title={link.label}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${linkClass} overflow-hidden`}
               >
                 <span data-header-reveal className="inline-block">
-                  ABOUT
+                  {link.label}
                 </span>
               </Link>
+            ))}
+          </nav>
 
-              <div
-                className="relative"
-                onMouseEnter={isDesktop ? openServicesMenu : undefined}
-                onMouseLeave={isDesktop ? closeServicesMenu : undefined}
-              >
-                <span
-                  data-header-reveal
-                  className="inline-flex items-center gap-1.5 overflow-hidden"
-                >
-                  <Link
-                    href="/services"
-                    title="Services"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={linkClass}
-                  >
-                    SERVICES
-                  </Link>
-                  <button
-                    type="button"
-                    aria-label={
-                      servicesMenuOpen
-                        ? "Close services menu"
-                        : "Open services menu"
-                    }
-                    aria-haspopup="true"
-                    aria-expanded={servicesMenuOpen}
-                    className={`${linkClass} inline-flex cursor-pointer items-center p-0`}
-                    onClick={(event) => {
-                      event.preventDefault();
-                      toggleServicesMenu();
-                    }}
-                  >
-                    <i
-                      className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${servicesMenuOpen ? "rotate-180" : ""}`}
-                      aria-hidden
-                    />
-                  </button>
-                </span>
-              </div>
-
-              <div
-                className="relative"
-                onMouseEnter={isDesktop ? openWorkMenu : undefined}
-                onMouseLeave={isDesktop ? closeWorkMenu : undefined}
-              >
-                <button
-                  type="button"
-                  className={`${linkClass} overflow-hidden`}
-                  aria-haspopup="true"
-                  aria-expanded={workMenuOpen}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    toggleWorkMenu();
-                  }}
-                >
-                  <span
-                    data-header-reveal
-                    className="inline-flex items-center gap-1.5"
-                  >
-                    OUR WORK
-                    <i
-                      className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${workMenuOpen ? "rotate-180" : ""}`}
-                      aria-hidden
-                    />
-                  </span>
-                </button>
-              </div>
-
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  title={link.label}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${linkClass} overflow-hidden`}
-                >
-                  <span data-header-reveal className="inline-block">
-                    {link.label}
-                  </span>
-                </Link>
-              ))}
-            </nav>
-
-            <button
-              type="button"
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={menuOpen}
-              onClick={() => setMenuOpen((open) => !open)}
-              className="shrink-0 cursor-pointer overflow-hidden lg:hidden"
-            >
-              <span data-header-reveal className="inline-block">
-                <Image
-                  src="/logo/menu.png"
-                  alt={menuOpen ? "Close menu" : "Open menu"}
-                  title={menuOpen ? "Close menu" : "Open menu"}
-                  width={36}
-                  height={28}
-                  className="h-5 w-auto sm:h-6"
-                />
-              </span>
-            </button>
-          </div>
+          <button
+            type="button"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+            className="shrink-0 cursor-pointer overflow-hidden md:hidden"
+          >
+            <span data-header-reveal className="inline-block">
+              <Image
+                src="/logo/menu.png"
+                alt={menuOpen ? "Close menu" : "Open menu"}
+                title={menuOpen ? "Close menu" : "Open menu"}
+                width={36}
+                height={28}
+                className="h-5 w-auto md:h-6"
+              />
+            </span>
+          </button>
+        </div>
         </div>
       </div>
 
       <div
-        className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 lg:hidden ${
-          menuOpen
-            ? "pointer-events-auto opacity-100"
-            : "pointer-events-none opacity-0"
+        className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 md:hidden ${
+          menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={() => setMenuOpen(false)}
         aria-hidden={!menuOpen}
       />
 
       <nav
-        className={`fixed top-0 right-0 z-[70] flex h-full w-[85vw] max-w-[320px] flex-col gap-6 overflow-y-auto bg-[#0D1334] px-6 pb-8 pt-20 transition-transform duration-300 ease-out sm:w-[280px] sm:gap-8 sm:px-8 sm:pt-24 lg:hidden ${
+        className={`fixed top-0 right-0 z-[70] flex h-full w-[280px] max-w-[80vw] flex-col gap-8 bg-[#0D1334] px-8 pb-8 pt-24 transition-transform duration-300 ease-out md:hidden ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
         aria-hidden={!menuOpen}
@@ -499,7 +430,7 @@ const Header = () => {
             setMenuOpen(false);
             setWorkMenuOpen(false);
           }}
-          className="absolute top-6 right-6 flex cursor-pointer items-center justify-center text-white sm:top-8 sm:right-8"
+          className="absolute top-8 right-8 flex cursor-pointer items-center justify-center text-white"
         >
           <i className="ri-close-line text-[22px]" aria-hidden />
         </button>
@@ -514,9 +445,7 @@ const Header = () => {
           ABOUT
         </Link>
 
-        <div
-          className={`${linkClass} flex w-full items-center justify-between gap-3 text-left`}
-        >
+        <div className={`${linkClass} flex w-full items-center justify-between gap-3 text-left`}>
           <Link
             href="/services"
             title="Services"
@@ -598,46 +527,41 @@ const Header = () => {
 
         <div
           className={`relative flex h-full w-full flex-col overflow-hidden transition-all duration-500 ease-out md:flex-row ${
-            servicesMenuOpen
-              ? "translate-y-0 opacity-100"
-              : "-translate-y-3 opacity-0"
+            servicesMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
           }`}
         >
           <button
             type="button"
             aria-label="Close services menu"
             onClick={() => setServicesMenuOpen(false)}
-            className="absolute top-[14px] right-6 z-10 flex h-10 w-10 cursor-pointer items-center justify-center text-[#c99237] transition-transform duration-300 hover:rotate-90 sm:h-12 sm:w-12 md:right-10 lg:top-[24px] lg:mt-5 xl:top-[0px] xl:mt-5"
+            className="absolute top-[14px] right-6 z-10 flex h-12 w-12 cursor-pointer items-center justify-center text-[#c99237] transition-transform duration-300 hover:rotate-90 md:right-10 lg:top-[24px] lg:mt-5 xl:top-[0px] xl:mt-5"
           >
-            <i className="ri-close-line text-[32px] leading-none sm:text-[42px]" aria-hidden />
+            <i className="ri-close-line text-[42px] leading-none" aria-hidden />
           </button>
 
           <div className="order-2 flex w-full shrink-0 flex-col justify-start px-6 pb-8 pt-6 md:order-1 md:w-[38%] md:justify-between md:px-8 md:py-14 lg:w-[42%] lg:px-14 xl:px-20 xl:py-16">
             <p
-              className="m-0 max-w-[420px] text-[22px] leading-[1.15] text-white sm:text-[28px] md:text-[40px] lg:text-[55px] xl:text-[80px]"
-              style={{
-                fontFamily: '"League Spartan", sans-serif',
-                fontWeight: 600,
-              }}
+              className="m-0 max-w-[420px] text-[24px] leading-[1.15] text-white md:text-[40px] lg:text-[55px] xl:text-[80px]"
+              style={{ fontFamily: '"League Spartan", sans-serif', fontWeight: 600 }}
             >
               We craft brands that{" "}
               <span className="text-[#c99237]">get noticed</span>.
             </p>
             <div className="mt-6 md:mt-0">
               <p
-                className="m-0 text-[14px] uppercase tracking-[0.18em] text-white/55 sm:text-[16px]"
+                className="m-0 text-[16px] uppercase tracking-[0.18em] text-white/55"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Explore our services
               </p>
-
+              
               <Link
                 href="/services"
                 title="View all services"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setServicesMenuOpen(false)}
-                className="mt-2 inline-flex items-center gap-2 font-sequel text-[16px] font-[310] uppercase tracking-normal text-white transition-colors hover:text-[#c99237] sm:text-[19px] md:mt-3"
+                className="mt-0 md:mt-3 inline-flex items-center gap-2 font-sequel text-[19px] font-[310] uppercase tracking-normal text-white transition-colors hover:text-[#c99237]"
               >
                 View all services
                 <i className="ri-arrow-right-up-line text-[21px]" aria-hidden />
@@ -655,13 +579,11 @@ const Header = () => {
                 rel="noopener noreferrer"
                 onClick={() => setServicesMenuOpen(false)}
                 style={{
-                  transitionDelay: servicesMenuOpen
-                    ? `${80 + index * 35}ms`
-                    : "0ms",
+                  transitionDelay: servicesMenuOpen ? `${80 + index * 35}ms` : "0ms",
                   fontFamily: '"League Spartan", sans-serif',
                   fontWeight: 600,
                 }}
-                className={`block w-full max-w-full text-[18px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] sm:text-[22px] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${
+                className={`block w-full max-w-full text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${
                   servicesMenuOpen
                     ? "translate-x-0 opacity-100"
                     : "translate-x-4 opacity-0 md:translate-x-8"
@@ -693,9 +615,7 @@ const Header = () => {
 
         <div
           className={`relative flex h-full w-full flex-col overflow-hidden transition-all duration-500 ease-out md:flex-row ${
-            workMenuOpen
-              ? "translate-y-0 opacity-100"
-              : "-translate-y-3 opacity-0"
+            workMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
           }`}
         >
           <button
@@ -705,25 +625,22 @@ const Header = () => {
               setWorkMenuOpen(false);
               setPortfolioSubOpen(false);
             }}
-            className="absolute top-[14px] right-6 z-10 flex h-10 w-10 cursor-pointer items-center justify-center text-[#c99237] transition-transform duration-300 hover:rotate-90 sm:h-12 sm:w-12 md:right-10 lg:top-[24px] lg:mt-5 xl:top-[0px] xl:mt-5"
+            className="absolute top-[14px] right-6 z-10 flex h-12 w-12 cursor-pointer items-center justify-center text-[#c99237] transition-transform duration-300 hover:rotate-90 md:right-10 lg:top-[24px] lg:mt-5 xl:top-[0px] xl:mt-5"
           >
-            <i className="ri-close-line text-[32px] leading-none sm:text-[42px]" aria-hidden />
+            <i className="ri-close-line text-[42px] leading-none" aria-hidden />
           </button>
 
           <div className="order-2 flex w-full shrink-0 flex-col justify-start px-6 pb-8 pt-6 md:order-1 md:w-[38%] md:justify-between md:px-8 md:py-14 lg:w-[42%] lg:px-14 xl:px-20 xl:py-16">
             <p
-              className="m-0 max-w-[420px] text-[22px] leading-[1.15] text-white sm:text-[28px] md:text-[40px] lg:text-[55px] xl:text-[80px]"
-              style={{
-                fontFamily: '"League Spartan", sans-serif',
-                fontWeight: 600,
-              }}
+              className="m-0 max-w-[420px] text-[24px] leading-[1.15] text-white md:text-[40px] lg:text-[55px] xl:text-[80px]"
+              style={{ fontFamily: '"League Spartan", sans-serif', fontWeight: 600 }}
             >
               We create work that{" "}
               <span className="text-[#c99237]">stands out</span>.
             </p>
             <div className="mt-6 md:mt-0">
               <p
-                className="m-0 text-[14px] uppercase tracking-[0.18em] text-white/55 sm:text-[16px]"
+                className="m-0 text-[16px] uppercase tracking-[0.18em] text-white/55"
                 style={{ fontFamily: "Montserrat, sans-serif" }}
               >
                 Explore our work
@@ -734,10 +651,10 @@ const Header = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => {
-                  setWorkMenuOpen(false);
-                  setPortfolioSubOpen(false);
-                }}
-                className="mt-2 inline-flex items-center gap-2 font-sequel text-[16px] font-[310] uppercase tracking-normal text-white transition-colors hover:text-[#c99237] sm:text-[19px] md:mt-3"
+              setWorkMenuOpen(false);
+              setPortfolioSubOpen(false);
+            }}
+                className="mt-3 inline-flex items-center gap-2 font-sequel text-[19px] font-[310] uppercase tracking-normal text-white transition-colors hover:text-[#c99237]"
               >
                 View portfolio
                 <i className="ri-arrow-right-up-line text-[21px]" aria-hidden />
@@ -767,13 +684,11 @@ const Header = () => {
                     setWorkMenuOpen(false);
                   }}
                   style={{
-                    transitionDelay: workMenuOpen
-                      ? `${80 + index * 35}ms`
-                      : "0ms",
+                    transitionDelay: workMenuOpen ? `${80 + index * 35}ms` : "0ms",
                     fontFamily: '"League Spartan", sans-serif',
                     fontWeight: 600,
                   }}
-                  className={`flex w-full max-w-full items-center justify-end text-[18px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] sm:text-[22px] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${
+                  className={`flex w-full max-w-full items-center justify-end text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${
                     workMenuOpen
                       ? "translate-x-0 opacity-100"
                       : "translate-x-4 opacity-0 md:translate-x-8"
@@ -820,7 +735,7 @@ const Header = () => {
                               fontFamily: '"League Spartan", sans-serif',
                               fontWeight: 500,
                             }}
-                            className={`block w-full max-w-full text-[14px] uppercase leading-[1.1] tracking-[-0.01em] text-white/75 transition-all duration-500 ease-out hover:text-[#c99237] sm:text-[15px] md:text-[17px] lg:text-[18px] xl:text-[22px] ${
+                            className={`block w-full max-w-full text-[15px] uppercase leading-[1.1] tracking-[-0.01em] text-white/75 transition-all duration-500 ease-out hover:text-[#c99237] md:text-[17px] lg:text-[18px] xl:text-[22px] ${
                               portfolioSubOpen
                                 ? "translate-y-0 opacity-100"
                                 : "-translate-y-2 opacity-0"
