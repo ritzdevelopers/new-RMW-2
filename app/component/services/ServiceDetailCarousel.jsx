@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
 
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
@@ -19,12 +18,6 @@ const descriptionStyle = {
   fontFamily: "Montserrat, sans-serif",
   fontWeight: 400,
   color: "#333333",
-};
-
-const detailLinkStyle = {
-  fontFamily: "Montserrat, sans-serif",
-  fontWeight: 500,
-  color: "#111111",
 };
 
 function renderDescription(description) {
@@ -55,7 +48,7 @@ function renderDescription(description) {
     );
   });
 }
-function ServiceDetailCarousel({ carousel, serviceSlug }) {
+function ServiceDetailCarousel({ carousel }) {
   const slides = carousel?.slides ?? [];
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -80,10 +73,6 @@ function ServiceDetailCarousel({ carousel, serviceSlug }) {
             const title =
               slide.content || slide.title || `Service ${index + 1}`;
             const description = slide.paragraph || slide.description || "";
-            const detailHref =
-              serviceSlug && slide.subSlug
-                ? `/services/${serviceSlug}/${slide.subSlug}`
-                : null;
 
             return (
               <div
@@ -116,27 +105,14 @@ function ServiceDetailCarousel({ carousel, serviceSlug }) {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    {description || detailHref ? (
+                    {description ? (
                       <div className="pb-6 md:pb-8">
-                        {description ? (
-                          <p
-                            className="m-0 whitespace-pre-line text-[14px] leading-[1.65] md:text-[18px] md:leading-[1.7]"
-                            style={descriptionStyle}
-                          >
-                            {renderDescription(description)}
-                          </p>
-                        ) : null}
-                        {detailHref ? (
-                          <Link
-                            href={detailHref}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mt-3 inline-flex items-center gap-1 text-[14px] underline underline-offset-4 transition-opacity duration-300 hover:opacity-70 md:mt-4 md:text-[16px]"
-                            style={detailLinkStyle}
-                          >
-                            Learn more
-                          </Link>
-                        ) : null}
+                        <p
+                          className="m-0 whitespace-pre-line text-[14px] leading-[1.65] md:text-[18px] md:leading-[1.7]"
+                          style={descriptionStyle}
+                        >
+                          {renderDescription(description)}
+                        </p>
                       </div>
                     ) : null}
                   </div>

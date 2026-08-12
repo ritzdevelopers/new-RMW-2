@@ -70,13 +70,15 @@ const COUNTRY_PHONE_RULES = {
     length: 8,
     regex: /^[89]\d{7}$/,
     countryCodes: ["65"],
-    message: "Enter a valid 8-digit Singapore mobile number starting with 8 or 9.",
+    message:
+      "Enter a valid 8-digit Singapore mobile number starting with 8 or 9.",
   },
   USA: {
     length: 10,
     regex: /^[2-9]\d{2}[2-9]\d{6}$/,
     countryCodes: ["1"],
-    message: "Enter a valid 10-digit USA phone number (area code cannot start with 0 or 1).",
+    message:
+      "Enter a valid 10-digit USA phone number (area code cannot start with 0 or 1).",
   },
 };
 
@@ -105,7 +107,9 @@ function normalizeLocalPhone(phone, country) {
   const maxLen = Math.max(...lengths);
 
   // Strip leading country code when pasted with it
-  const codes = [...(rule.countryCodes || [])].sort((a, b) => b.length - a.length);
+  const codes = [...(rule.countryCodes || [])].sort(
+    (a, b) => b.length - a.length,
+  );
   for (const code of codes) {
     if (digits.startsWith(code) && digits.length > maxLen) {
       digits = digits.slice(code.length);
@@ -150,6 +154,81 @@ function validatePhoneForCountry(phone, country) {
 
 const EMAIL_INVALID_MESSAGE =
   "Please enter a valid email address (e.g. name@example.com).";
+
+const NAME_INVALID_MESSAGE =
+  "Please enter a valid name using letters only (no numbers or special characters).";
+
+const DUMMY_NAMES = new Set([
+  "abc",
+  "abcd",
+  "xyz",
+  "test",
+  "asdf",
+  "ritz",
+  "ritzmediaworld",
+  "ritzmedia",
+  "ritzmediaworld.com",
+  "ritzmediaworld.in",
+  "ritzmediaworld.org",
+  "ritzmediaworld.net",
+  "ritzmediaworld.io",
+  "ritzmediaworld.co",
+  "ritzmediaworld.com.au",
+  "ritzmediaworld.com.br",
+  "ritzmediaworld.com.mx",
+  "ritzmediaworld.com.nz",
+  "testing",
+  "testing123",
+  "testing456",
+  "testing789",
+  "testing101",
+  "testing102",
+  "testing103",
+  "testing104",
+  "testing105",
+  "demo",
+  "demo123",
+  "demo456",
+  "demo789",
+  "demo101",
+  "demo102",
+  "demo103",
+  "demo104",
+  "demo105",
+  "qwerty",
+  "name",
+  "fullname",
+  "aaa",
+  "bbb",
+  "xxx",
+  "zzz",
+  "null",
+  "undefined",
+]);
+
+/** Letters only (spaces, hyphens, apostrophes allowed). Rejects numbers, symbols, and dummy values like "abc". */
+function validateName(name, fieldLabel = "name") {
+  const value = String(name || "").trim();
+  if (!value) {
+    return `Please enter your ${fieldLabel}.`;
+  }
+
+  if (!/^[A-Za-z]+(?:[ '-][A-Za-z]+)*$/.test(value)) {
+    return NAME_INVALID_MESSAGE;
+  }
+
+  const lettersOnly = value.replace(/[^A-Za-z]/g, "");
+  if (lettersOnly.length < 2) {
+    return NAME_INVALID_MESSAGE;
+  }
+
+  const normalized = lettersOnly.toLowerCase();
+  if (DUMMY_NAMES.has(normalized) || /^(.)\1+$/i.test(lettersOnly)) {
+    return NAME_INVALID_MESSAGE;
+  }
+
+  return null;
+}
 
 /** local-part@domain.tld with the rules described in the product form. */
 function validateEmail(email) {
@@ -239,13 +318,15 @@ const SelectField = ({
         className={selectClass}
         name={name}
         required={required}
-        {...(value !== undefined
-          ? { value, onChange }
-          : { defaultValue: "" })}
+        {...(value !== undefined ? { value, onChange } : { defaultValue: "" })}
       >
         <option value="">{placeholder}</option>
         {options.map((option) => (
-          <option key={option} value={option} className="bg-[#0D1334] text-white">
+          <option
+            key={option}
+            value={option}
+            className="bg-[#0D1334] text-white"
+          >
             {option}
           </option>
         ))}
@@ -329,7 +410,9 @@ const AnimatedHeadingLine = () => {
       const startEntrance = () => {
         const entrance = gsap.timeline({
           onComplete: () => {
-            window.dispatchEvent(new CustomEvent("section1-heading-entrance-complete"));
+            window.dispatchEvent(
+              new CustomEvent("section1-heading-entrance-complete"),
+            );
           },
         });
 
@@ -337,7 +420,7 @@ const AnimatedHeadingLine = () => {
           entrance.to(
             word,
             { yPercent: 0, duration: 2, ease: "power4.out" },
-            index * 0.08
+            index * 0.08,
           );
         });
       };
@@ -360,7 +443,10 @@ const AnimatedHeadingLine = () => {
         window.removeEventListener("header-reveal-complete", onHeaderComplete);
       }
       if (onStartSpotlight) {
-        window.removeEventListener("section1-start-spotlight", onStartSpotlight);
+        window.removeEventListener(
+          "section1-start-spotlight",
+          onStartSpotlight,
+        );
       }
       ctx.revert();
     };
@@ -392,8 +478,15 @@ const Section1 = () => {
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
   const [country, setCountry] = useState("");
+  const [firstNameError, setFirstNameError] = useState(null);
+  const [lastNameError, setLastNameError] = useState(null);
   const [phoneError, setPhoneError] = useState(null);
   const [emailError, setEmailError] = useState(null);
+
+  const handleNameInput = (e, clearError) => {
+    e.currentTarget.value = e.currentTarget.value.replace(/[^A-Za-z '-]/g, "");
+    if (clearError) clearError();
+  };
 
   const handlePhoneInput = (e) => {
     const cleaned = e.currentTarget.value.replace(/[^0-9+]/g, "");
@@ -422,9 +515,25 @@ const Section1 = () => {
     const email = (formData.get("email") || "").toString().trim();
     const phone = (formData.get("phone") || "").toString().trim();
     const reason = (formData.get("reason") || "").toString().trim();
-    const selectedCountry = (formData.get("country") || country || "").toString().trim();
+    const selectedCountry = (formData.get("country") || country || "")
+      .toString()
+      .trim();
     const howHeard = (formData.get("howHeard") || "").toString().trim();
     const messageText = (formData.get("message") || "").toString().trim();
+
+    const firstNameValidationError = validateName(firstName, "first name");
+    if (firstNameValidationError) {
+      setFirstNameError(firstNameValidationError);
+      setStatus({ type: "error", text: firstNameValidationError });
+      return;
+    }
+
+    const lastNameValidationError = validateName(lastName, "last name");
+    if (lastNameValidationError) {
+      setLastNameError(lastNameValidationError);
+      setStatus({ type: "error", text: lastNameValidationError });
+      return;
+    }
 
     const emailValidationError = validateEmail(email);
     if (emailValidationError) {
@@ -433,7 +542,10 @@ const Section1 = () => {
       return;
     }
 
-    const phoneValidationError = validatePhoneForCountry(phone, selectedCountry);
+    const phoneValidationError = validatePhoneForCountry(
+      phone,
+      selectedCountry,
+    );
     if (phoneValidationError) {
       setPhoneError(phoneValidationError);
       setStatus({ type: "error", text: phoneValidationError });
@@ -460,6 +572,8 @@ const Section1 = () => {
 
     setSubmitting(true);
     setStatus(null);
+    setFirstNameError(null);
+    setLastNameError(null);
     setPhoneError(null);
     setEmailError(null);
 
@@ -479,6 +593,8 @@ const Section1 = () => {
         });
         form.reset();
         setCountry("");
+        setFirstNameError(null);
+        setLastNameError(null);
         setPhoneError(null);
         setEmailError(null);
       } else {
@@ -519,11 +635,17 @@ const Section1 = () => {
       onAllTextDone();
     };
 
-    window.addEventListener("section1-heading-entrance-complete", onHeadingDone);
+    window.addEventListener(
+      "section1-heading-entrance-complete",
+      onHeadingDone,
+    );
     window.addEventListener("section1-hero-reveal-complete", onHeroDone);
 
     return () => {
-      window.removeEventListener("section1-heading-entrance-complete", onHeadingDone);
+      window.removeEventListener(
+        "section1-heading-entrance-complete",
+        onHeadingDone,
+      );
       window.removeEventListener("section1-hero-reveal-complete", onHeroDone);
     };
   }, []);
@@ -547,7 +669,9 @@ const Section1 = () => {
           ease: "power4.out",
           stagger: 0.08,
           onComplete: () => {
-            window.dispatchEvent(new CustomEvent("section1-hero-reveal-complete"));
+            window.dispatchEvent(
+              new CustomEvent("section1-hero-reveal-complete"),
+            );
           },
         });
       };
@@ -601,7 +725,10 @@ const Section1 = () => {
 
     return () => {
       if (onStartInputLines) {
-        window.removeEventListener("section1-start-input-lines", onStartInputLines);
+        window.removeEventListener(
+          "section1-start-input-lines",
+          onStartInputLines,
+        );
       }
       ctx.revert();
     };
@@ -638,7 +765,8 @@ const Section1 = () => {
             >
               <span data-hero-reveal className="block">
                 Got a project brewing, an RFP to share or something you want to
-                ask? Drop your details and we&apos;ll get you to the right person
+                ask? Drop your details and we&apos;ll get you to the right
+                person
               </span>
             </p>
           </div>
@@ -650,12 +778,60 @@ const Section1 = () => {
           className="mx-auto mt-7 w-full max-w-[765px] md:mt-7 lg:mt-16"
         >
           <div className="grid grid-cols-1 xl:gap-5 gap-8 md:grid-cols-2 md:gap-x-10">
-            <Field label="FIRST NAME*">
-              <input type="text" name="firstName" required className={inputClass} />
-            </Field>
-            <Field label="LAST NAME*">
-              <input type="text" name="lastName" required className={inputClass} />
-            </Field>
+            <div>
+              <Field label="FIRST NAME*">
+                <input
+                  type="text"
+                  name="firstName"
+                  required
+                  className={inputClass}
+                  onInput={(e) =>
+                    handleNameInput(e, () => {
+                      if (firstNameError) setFirstNameError(null);
+                    })
+                  }
+                  aria-invalid={firstNameError ? "true" : undefined}
+                />
+              </Field>
+              {firstNameError ? (
+                <p
+                  className="mt-2 text-xs"
+                  style={{
+                    fontFamily: sequelFontFamily,
+                    color: "#FF8A8A",
+                  }}
+                >
+                  {firstNameError}
+                </p>
+              ) : null}
+            </div>
+            <div>
+              <Field label="LAST NAME*">
+                <input
+                  type="text"
+                  name="lastName"
+                  required
+                  className={inputClass}
+                  onInput={(e) =>
+                    handleNameInput(e, () => {
+                      if (lastNameError) setLastNameError(null);
+                    })
+                  }
+                  aria-invalid={lastNameError ? "true" : undefined}
+                />
+              </Field>
+              {lastNameError ? (
+                <p
+                  className="mt-2 text-xs"
+                  style={{
+                    fontFamily: sequelFontFamily,
+                    color: "#FF8A8A",
+                  }}
+                >
+                  {lastNameError}
+                </p>
+              ) : null}
+            </div>
           </div>
 
           <div className="mt-8 grid grid-cols-1 xl:gap-5 gap-8 md:mt-10 md:grid-cols-2 md:gap-x-10">
@@ -747,11 +923,13 @@ const Section1 = () => {
 
           <div className="mt-8 md:mt-10">
             <Field label="MESSAGE (OPTIONAL)">
-              <textarea rows={4} name="message" className={`${inputClass} resize-none`} />
+              <textarea
+                rows={4}
+                name="message"
+                className={`${inputClass} resize-none`}
+              />
             </Field>
           </div>
-
-         
 
           <SubmitButton
             disabled={submitting}
