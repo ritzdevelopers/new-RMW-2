@@ -480,15 +480,13 @@ export const serviceSeoHeadingsBySlug = {
   },
 
   "celebrity-endorsements": {
-    h1: [
-      "When Star Power Builds Trust",
-    ],
+    h1: ["Celebrity Endorsement Agency in India"],
     sections: [
-      { h2: "Amplify Your Brand with the Right Celebrity Partnerships" },
+      { h2: "Celebrity Endorsement Services" },
       {
         h2: "Our Celebrity Endorsement Services",
         h3: [
-          "Celebrity Identification",
+          "Celebrity Identification & Selection",
           "Contract Negotiations",
           "Creative Collaboration",
           "Campaign Integration",
@@ -496,31 +494,43 @@ export const serviceSeoHeadingsBySlug = {
           "Legal Compliance",
         ],
       },
+      { h2: "Why Choose Our Celebrity Endorsement Services?" },
       {
         h2: "Our Celebrity Endorsement Process",
         h3: [
-          "Brand Fit Analysis",
-          "Talent Shortlisting",
-          "Negotiation & Contracting",
-          "Creative Collaboration",
-          "Campaign Rollout",
-          "PR, Tracking & Optimization",
+          "Understand Your Brand & Objectives",
+          "Identify the Right Celebrity",
+          "Negotiate the Partnership",
+          "Develop the Creative Campaign",
+          "Execute & Integrate the Campaign",
+          "Amplify Through PR & Media",
+          "Measure Campaign Impact",
         ],
       },
-      { h2: "Why Choose Ritz Media World" },
-      { h2: "Industries We Serve", h3: industries },
-      { h2: "Our Success Stories" },
-      { h2: "Frequently Asked Questions (FAQs)" },
-      { h2: "Get a Free Celebrity Endorsement Consultation" },
+      {
+        h2: "Why Celebrity Endorsements Matter for Brands",
+        h3: [
+          "Build Brand Recognition",
+          "Strengthen Brand Credibility",
+          "Expand Audience Reach",
+          "Increase Brand Engagement",
+          "Support Product Launches",
+          "Strengthen Brand Recall",
+        ],
+      },
+      { h2: "Build Your Brand with the Right Celebrity Partnership" },
     ],
   },
 
   "influencer-marketing-agency-in-india": {
     h1: [
-      "Trust Over Hype",
+      "Influencer Marketing Agency in India",
     ],
     sections: [
-      { h2: "Grow Your Brand with Authentic Influencer Campaigns" },
+      {
+        h2: "Influencer Marketing Services That Build Authentic Brand Connections",
+      },
+      { h2: "Why Choose Our Influencer Marketing Services?" },
       {
         h2: "Our Influencer Marketing Services",
         h3: [
@@ -533,21 +543,36 @@ export const serviceSeoHeadingsBySlug = {
         ],
       },
       {
-        h2: "Our Influencer Marketing Process",
+        h2: "Influencer Marketing Strategies for Business Growth",
         h3: [
-          "Audience & Goal Definition",
-          "Influencer Discovery & Vetting",
-          "Briefing & Negotiation",
-          "Content Creation & Approval",
-          "Campaign Launch & Amplification",
-          "Reporting & Performance Optimization",
+          "Brand Awareness & Audience Reach",
+          "Authentic Creator Partnerships",
+          "Social Media Engagement",
+          "Product & Service Promotion",
+          "Lead Generation & Conversions",
         ],
       },
-      { h2: "Why Choose Ritz Media World" },
-      { h2: "Industries We Serve", h3: industries },
-      { h2: "Our Success Stories" },
-      { h2: "Frequently Asked Questions (FAQs)" },
-      { h2: "Get a Free Influencer Marketing Consultation" },
+      {
+        h2: "Influencer Marketing Across Social Media Platforms",
+        h3: [
+          "Instagram Influencer Marketing",
+          "YouTube Influencer Marketing",
+          "Facebook Influencer Marketing",
+          "LinkedIn Influencer Marketing",
+          "Regional & Niche Influencer Marketing",
+        ],
+      },
+      {
+        h2: "Our Influencer Marketing Process",
+        h3: [
+          "Campaign Planning & Strategy",
+          "Influencer Research & Selection",
+          "Campaign & Content Development",
+          "Influencer Collaboration & Management",
+          "Campaign Monitoring & Optimization",
+          "Performance Analysis & Reporting",
+        ],
+      },
     ],
   },
 

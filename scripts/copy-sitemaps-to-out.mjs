@@ -32,6 +32,48 @@ function copySitemaps() {
   }
 
   console.log(`[copy-sitemaps-to-out] Copied ${copied} sitemap file(s) to out/`);
+
+  writeServeJson(outDir);
+}
+
+function writeServeJson(outDir) {
+  const serveConfig = {
+    headers: [
+      {
+        source: "/_next/static/**",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/fonts/**",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "**/*.{jpg,jpeg,png,webp,gif,svg,ico,woff,woff2,otf,mp4}",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=2592000, stale-while-revalidate=86400",
+          },
+        ],
+      },
+    ],
+  };
+
+  fs.writeFileSync(
+    path.join(outDir, "serve.json"),
+    `${JSON.stringify(serveConfig, null, 2)}\n`,
+  );
+  console.log("[copy-sitemaps-to-out] Wrote serve.json cache headers to out/");
 }
 
 copySitemaps();

@@ -9,6 +9,8 @@ import OverlaySection1 from "../component/latest/OverlaySection1";
 import BlogScrollGate from "../component/blog/BlogScrollGate";
 import { getBlogListingPageData } from "../../lib/blogServerData";
 
+export const revalidate = 60;
+
 export const metadata = {
   title: "Insights & Marketing Trends | Ritz Media World Blog Delhi NCR",
   description:

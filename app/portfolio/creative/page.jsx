@@ -29,6 +29,14 @@ const stationary_images = [
   "/portfolio-page/creatives/stationary_i4.jpg",
   "/portfolio-page/creatives/stationary_i5.jpg",
   "/portfolio-page/creatives/stationary_i6.jpg",
+  "/portfolio-page/creatives/stationary_i7.jpg",
+  "/portfolio-page/creatives/stationary_i8.jpg",
+  "/portfolio-page/creatives/stationary_i9.jpg",
+  "/portfolio-page/creatives/stationary_i10.jpg",
+  "/portfolio-page/creatives/stationary_i11.jpg",
+  "/portfolio-page/creatives/stationary_i12.jpg",
+  "/portfolio-page/creatives/stationary_i13.jpg",
+  "/portfolio-page/creatives/stationary_i14.jpg",
 ];
 
 const paper_prints = [
@@ -38,6 +46,10 @@ const paper_prints = [
   "/portfolio-page/creatives/paper_prints_i4.jpg",
   "/portfolio-page/creatives/paper_prints_i5.jpg",
   "/portfolio-page/creatives/paper_prints_i6.jpg",
+  "/portfolio-page/creatives/paper_prints_i7.jpg",
+  "/portfolio-page/creatives/paper_prints_i8.jpg",
+  "/portfolio-page/creatives/paper_prints_i9.jpg",
+  "/portfolio-page/creatives/paper_prints_i10.jpg",
 ];
 
 const brochures_adaptations_images = [

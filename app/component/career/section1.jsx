@@ -87,6 +87,81 @@ function validateIndianPhone(phone) {
 const EMAIL_INVALID_MESSAGE =
   "Please enter a valid email address (e.g. name@example.com).";
 
+const NAME_INVALID_MESSAGE =
+  "Please enter a valid name using letters only (no numbers or special characters).";
+
+const DUMMY_NAMES = new Set([
+  "abc",
+  "abcd",
+  "xyz",
+  "test",
+  "ritz",
+  "ritzmediaworld",
+  "ritzmedia",
+  "ritzmediaworld.com",
+  "ritzmediaworld.in",
+  "ritzmediaworld.org",
+  "ritzmediaworld.net",
+  "ritzmediaworld.io",
+  "ritzmediaworld.co",
+  "ritzmediaworld.com.au",
+  "ritzmediaworld.com.br",
+  "ritzmediaworld.com.mx",
+  "ritzmediaworld.com.nz",
+  "testing",
+  "testing123",
+  "testing456",
+  "testing789",
+  "testing101",
+  "testing102",
+  "testing103",
+  "testing104",
+  "testing105",
+  "demo",
+  "demo123",
+  "demo456",
+  "demo789",
+  "demo101",
+  "demo102",
+  "demo103",
+  "demo104",
+  "demo105",
+  "asdf",
+  "qwerty",
+  "name",
+  "fullname",
+  "aaa",
+  "bbb",
+  "xxx",
+  "zzz",
+  "null",
+  "undefined",
+]);
+
+/** Letters only (spaces, hyphens, apostrophes allowed). Rejects numbers, symbols, and dummy values like "abc". */
+function validateName(name, fieldLabel = "name") {
+  const value = String(name || "").trim();
+  if (!value) {
+    return `Please enter your ${fieldLabel}.`;
+  }
+
+  if (!/^[A-Za-z]+(?:[ '-][A-Za-z]+)*$/.test(value)) {
+    return NAME_INVALID_MESSAGE;
+  }
+
+  const lettersOnly = value.replace(/[^A-Za-z]/g, "");
+  if (lettersOnly.length < 2) {
+    return NAME_INVALID_MESSAGE;
+  }
+
+  const normalized = lettersOnly.toLowerCase();
+  if (DUMMY_NAMES.has(normalized) || /^(.)\1+$/i.test(lettersOnly)) {
+    return NAME_INVALID_MESSAGE;
+  }
+
+  return null;
+}
+
 /** local-part@domain.tld with the rules described in the product form. */
 function validateEmail(email) {
   const value = String(email || "").trim();
@@ -296,8 +371,17 @@ const section1 = () => {
 
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
+  const [nameError, setNameError] = useState(null);
   const [phoneError, setPhoneError] = useState(null);
   const [emailError, setEmailError] = useState(null);
+
+  const handleNameInput = (e) => {
+    e.currentTarget.value = e.currentTarget.value.replace(
+      /[^A-Za-z '-]/g,
+      "",
+    );
+    if (nameError) setNameError(null);
+  };
 
   const handlePhoneInput = (e) => {
     e.currentTarget.value = e.currentTarget.value.replace(/[^0-9+]/g, "");
@@ -345,8 +429,16 @@ const section1 = () => {
     const form = e.currentTarget;
     const formData = new FormData(form);
     const resumeFile = formData.get("resume");
+    const name = (formData.get("name") || "").toString().trim();
     const email = (formData.get("email") || "").toString().trim();
     const phone = (formData.get("phone") || "").toString().trim();
+
+    const nameValidationError = validateName(name, "first name");
+    if (nameValidationError) {
+      setNameError(nameValidationError);
+      setStatus({ type: "error", text: nameValidationError });
+      return;
+    }
 
     const emailValidationError = validateEmail(email);
     if (emailValidationError) {
@@ -367,11 +459,13 @@ const section1 = () => {
       return;
     }
 
+    formData.set("name", name);
     formData.set("email", email);
     formData.set("phone", normalizeIndianPhone(phone));
 
     setSubmitting(true);
     setStatus(null);
+    setNameError(null);
     setPhoneError(null);
     setEmailError(null);
 
@@ -406,6 +500,7 @@ const section1 = () => {
         text: formSubmitted.message || "Application submitted successfully!",
       });
       form.reset();
+      setNameError(null);
       setPhoneError(null);
       setEmailError(null);
     } catch (error) {
@@ -583,9 +678,29 @@ const section1 = () => {
           className="mx-auto mt-7 w-full max-w-[765px] md:mt-8 lg:mt-14"
         >
           <div className="grid grid-cols-1 xl:gap-5 gap-8 md:grid-cols-2 md:gap-x-10">
-            <Field label="FIRST NAME*">
-              <input type="text" name="name" required className={inputClass} />
-            </Field>
+            <div>
+              <Field label="FIRST NAME*">
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  className={inputClass}
+                  onInput={handleNameInput}
+                  aria-invalid={nameError ? "true" : undefined}
+                />
+              </Field>
+              {nameError ? (
+                <p
+                  className="mt-2 text-xs"
+                  style={{
+                    fontFamily: sequelFontFamily,
+                    color: "#FF8A8A",
+                  }}
+                >
+                  {nameError}
+                </p>
+              ) : null}
+            </div>
             <div>
               <Field label=" EMAIL ADDRESS*">
                 <input

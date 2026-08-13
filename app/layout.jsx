@@ -70,6 +70,8 @@ export default function RootLayout({ children }) {
     >
       <head>
         {/* Preload critical self-hosted faces (replaces Google Fonts / jsDelivr CDN). */}
+        
+        
         <link
           rel="preload"
           href="/fonts/google/league-spartan-latin-wght-normal.woff2"
