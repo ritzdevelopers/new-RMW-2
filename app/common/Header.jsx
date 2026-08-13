@@ -340,14 +340,14 @@ const Header = () => {
             </Link>
 
             {/* Right Side  */}
-            <div className="hidden min-w-0 items-center gap-1.5 sm:flex sm:gap-2 md:gap-3 lg:gap-4">
+            <div className="flex min-w-0 items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4">
               <img
-                src="/15_august/delhi.png"
+                src="/15_august/15_AUG.png"
                 alt=""
-                className="header-independence-zoom h-auto w-9 shrink-0 sm:w-12 md:w-16 lg:w-20 xl:w-[122px]"
+                className="header-independence-zoom h-auto w-9 shrink-0 sm:w-12 md:w-16 lg:w-20 xl:w-[92px]"
               />
               <p
-                className="header-independence-zoom2 m-0 truncate text-[13px] font-normal leading-tight text-white sm:text-[15px] sm:leading-normal md:text-[19px] lg:text-[24px] xl:text-[34px]"
+                className="header-independence-zoom  m-0 truncate text-[13px] font-normal leading-tight text-white sm:text-[15px] sm:leading-normal md:text-[19px] lg:text-[24px] xl:text-[34px]"
                 style={{ fontFamily: '"Baskerville Old Face", Baskerville, serif' }}
               >
                 Happy Independence Day
