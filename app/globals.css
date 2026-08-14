@@ -316,7 +316,7 @@ body::-webkit-scrollbar {
 }
 
 .header-independence-zoom {
-  animation: header-independence-zoom 2.4s ease-in-out infinite;
+  animation: header-independence-zoom 3s ease-in-out infinite;
   transform-origin: center;
   will-change: transform;
 }
@@ -327,38 +327,21 @@ body::-webkit-scrollbar {
   }
 }
 
-@keyframes header-independence-zoom2 {
-  0%,
-  100% {
-    transform: scale(0.8);
-  }
-  50% {
-    transform: scale(1);
-  }
-}
-
-.header-independence-zoom2 {
-  animation: header-independence-zoom2 2.4s ease-in-out infinite;
-  transform-origin: center;
-  will-change: transform;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .header-independence-zoom2 {
-    animation: none;
-  }
-}
-
 .footer-brand-flag {
   background-image: url("/15_august/flag3.png");
   background-repeat: no-repeat;
-  /* background-size: cover; */
+  background-size: cover;
   background-position: center;
-  background-attachment: fixed;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+}
+
+@media (min-width: 768px) {
+  .footer-brand-flag {
+    background-attachment: fixed;
+  }
 }
 
 @layer base {
