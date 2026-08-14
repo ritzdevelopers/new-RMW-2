@@ -74,6 +74,13 @@ const social_media_creatives_images = [
   "/portfolio-page/creatives/social_media_creatives_i10.jpg",
   "/portfolio-page/creatives/social_media_creatives_i11.jpg",
   "/portfolio-page/creatives/social_media_creatives_i12.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i13.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i14.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i15.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i16.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i17.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i18.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i19.jpg",
 ];
 
 export const metadata = {
