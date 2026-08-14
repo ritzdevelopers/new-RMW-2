@@ -4,6 +4,7 @@ import "./fonts.css";
 import "./remixicon.css";
 import "./globals.css";
 
+
 const GA_MEASUREMENT_ID = "G-0YHLN54GF7";
 
 export const metadata = {
