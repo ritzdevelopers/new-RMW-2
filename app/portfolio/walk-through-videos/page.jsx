@@ -53,13 +53,10 @@ function page() {
     <main style={{ fontFamily: editorsNoteLight }}>
       <Header title="Walk-Through Videos" />
       <Hero title="Bringing stories to motion & ideas to screen<br />with AI-Powered Video Creation" />
-     
- 
-    <DynamicSlider
+      <DynamicSlider
         heading="Walk-Through Videos"
         images={walkthrough_images}
-      /> 
-
+      />
       <Section2 />
       <Section10 />
     </main>

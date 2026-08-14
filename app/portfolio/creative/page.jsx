@@ -5,6 +5,7 @@ import Section10 from "@/app/component/social-media/Section10";
 import DynamicSlider from "@/app/component/social-media/DynamicSlider";
 import Section2 from "@/app/component/work/portfolio/Section2";
 /** Webflow Editor's Note Light custom font stack */
+
 const editorsNoteLight =
   "wfont_e6fa52_d03d36fc891b44ea946b083dc8504aac, wf_d03d36fc891b44ea946b083dc, orig_editors_note_light, serif";
 const ooh_images = [
@@ -74,6 +75,13 @@ const social_media_creatives_images = [
   "/portfolio-page/creatives/social_media_creatives_i10.jpg",
   "/portfolio-page/creatives/social_media_creatives_i11.jpg",
   "/portfolio-page/creatives/social_media_creatives_i12.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i13.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i14.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i15.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i16.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i17.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i18.jpg",
+  "/portfolio-page/creatives/social_media_creatives_i19.jpg",
 ];
 
 export const metadata = {
