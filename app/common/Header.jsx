@@ -316,7 +316,7 @@ const Header = () => {
       >
         <div
           ref={headerRef}
-          className="mx-auto flex w-full max-w-8xl flex-wrap items-center justify-between gap-y-2 px-4 py-3 sm:px-6 sm:py-4 md:px-8 lg:px-12 lg:py-5"
+          className="relative mx-auto flex w-full max-w-8xl flex-wrap items-center justify-between gap-y-2 px-4 py-3 sm:px-6 sm:py-4 md:px-8 lg:px-12 lg:py-5"
         >
           <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4 md:gap-6 lg:flex-none lg:gap-10 xl:gap-16">
             <Link
@@ -340,7 +340,7 @@ const Header = () => {
             </Link>
 
             {/* Right Side  */}
-            <div className="flex min-w-0 items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4">
+            <div className="hidden md:flex min-w-0 items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4">
               <img
                 src="/15_august/15_AUG.png"
                 alt=""
@@ -354,6 +354,20 @@ const Header = () => {
               </p>
             </div>
           </div>
+
+          <div className="pointer-events-none absolute left-1/2 top-1/2 z-[1] flex max-w-[min(52vw,220px)] -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-1.5 md:hidden">
+              <img
+                src="/15_august/15_AUG.png"
+                alt=""
+                className="header-independence-zoom h-auto w-10 shrink-0 sm:w-10"
+              />
+              <p
+                className="header-independence-zoom m-0 truncate text-[14px] font-normal leading-tight text-white sm:text-[14px]"
+                style={{ fontFamily: '"Baskerville Old Face", Baskerville, serif' }}
+              >
+                Happy Independence Day
+              </p>
+            </div>
 
           <div className="flex shrink-0 items-center gap-4 text-right sm:gap-6 lg:gap-8 xl:gap-10">
             <nav className="hidden items-center gap-4 lg:flex lg:gap-6 xl:gap-10">
