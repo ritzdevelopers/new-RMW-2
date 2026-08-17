@@ -267,15 +267,13 @@ body::-webkit-scrollbar {
 .call-float-btn {
   box-shadow:
     0 8px 22px rgba(14, 17, 37, 0.2),
-    0 3px 10px rgba(255, 153, 51, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    0 3px 10px rgba(14, 17, 37, 0.16);
 }
 
 .call-float-btn:hover {
   box-shadow:
     0 10px 28px rgba(14, 17, 37, 0.24),
-    0 4px 14px rgba(19, 136, 8, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    0 4px 14px rgba(14, 17, 37, 0.18);
 }
 
 .call-burst-layer {
