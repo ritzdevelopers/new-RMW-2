@@ -775,7 +775,7 @@ const section1 = () => {
           </div>
 
           <div className="mt-8 md:mt-10">
-            <Field label="MESSAGE (OPTIONAL)">
+            <Field label="MESSAGE*">
               <textarea
                 rows={4}
                 name="message"

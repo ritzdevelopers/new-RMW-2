@@ -87,7 +87,7 @@ const Section2 = () => {
               className="relative z-10 text-[#1D1D1B] transition-colors duration-300 group-hover:text-white"
               style={aboutButtonTextStyle}
             >
-              About US
+              About Us
             </span>
             <span className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white transition-[background-color,color,transform] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45 group-hover:bg-white group-hover:text-[#1D1D1B] md:h-9 md:w-9">
               <i
