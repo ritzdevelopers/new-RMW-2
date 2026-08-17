@@ -3,6 +3,7 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { services } from "../../data/services";
 
@@ -49,6 +50,20 @@ const Header = () => {
   const lastScrollY = useRef(0);
   const servicesCloseTimer = useRef(null);
   const workCloseTimer = useRef(null);
+  const pathname = usePathname();
+
+  const handleLogoClick = (event) => {
+    const isHome = pathname === "/" || window.location.pathname === "/";
+    if (!isHome) return;
+
+    event.preventDefault();
+    setMenuOpen(false);
+    setServicesMenuOpen(false);
+    setWorkMenuOpen(false);
+    setPortfolioSubOpen(false);
+    // Menus lock the body and restore scroll on close, so scroll after that settles
+    setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
+  };
 
   const openServicesMenu = () => {
     if (servicesCloseTimer.current) {
@@ -278,6 +293,7 @@ const Header = () => {
           title="Ritz Media World"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={handleLogoClick}
           className="shrink-0 overflow-hidden"
         >
           <span data-header-reveal className="inline-block">

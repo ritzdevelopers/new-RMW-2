@@ -81,6 +81,9 @@ const slides = [
   },
 ];
 
+// Pointer travel before a gesture is claimed as a horizontal slide drag.
+const DRAG_ACTIVATION = 8;
+
 const Section5 = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [shouldLoadMedia, setShouldLoadMedia] = useState(false);
@@ -89,7 +92,98 @@ const Section5 = () => {
   const contentRef = useRef(null);
   const imageRef = useRef(null);
   const isFirstRender = useRef(true);
+  const dragRef = useRef({ pointerId: null, startX: 0, startY: 0, dx: 0, axis: null });
+  const slideDirection = useRef(1);
   const slide = slides[activeIndex];
+
+  const applyDragOffset = (x, animate) => {
+    [contentRef.current, imageRef.current].forEach((el) => {
+      if (!el) return;
+      el.style.transition = animate
+        ? "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)"
+        : "";
+      el.style.transform = x ? `translate3d(${x}px, 0, 0)` : "";
+    });
+  };
+
+  const endDrag = (event) => {
+    const state = dragRef.current;
+    const target = event.currentTarget;
+    if (target.hasPointerCapture?.(event.pointerId)) {
+      target.releasePointerCapture(event.pointerId);
+    }
+    document.body.style.removeProperty("user-select");
+    state.pointerId = null;
+    state.axis = null;
+    state.dx = 0;
+  };
+
+  const handleDragStart = (event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    const state = dragRef.current;
+    state.pointerId = event.pointerId;
+    state.startX = event.clientX;
+    state.startY = event.clientY;
+    state.dx = 0;
+    state.axis = null;
+  };
+
+  const handleDragMove = (event) => {
+    const state = dragRef.current;
+    if (state.pointerId !== event.pointerId) return;
+
+    const dx = event.clientX - state.startX;
+    const dy = event.clientY - state.startY;
+
+    if (!state.axis) {
+      if (Math.abs(dx) < DRAG_ACTIVATION && Math.abs(dy) < DRAG_ACTIVATION) return;
+      // A mostly vertical gesture belongs to page scrolling, not the slider
+      if (Math.abs(dy) >= Math.abs(dx)) {
+        state.pointerId = null;
+        return;
+      }
+      state.axis = "x";
+      event.currentTarget.setPointerCapture?.(event.pointerId);
+      document.body.style.userSelect = "none";
+    }
+
+    state.dx = dx;
+    applyDragOffset(dx * 0.45, false);
+  };
+
+  const handleDragEnd = (event) => {
+    const state = dragRef.current;
+    if (state.pointerId !== event.pointerId) return;
+
+    const { dx, axis } = state;
+    const width = event.currentTarget.offsetWidth || 320;
+    endDrag(event);
+    if (axis !== "x") return;
+
+    if (Math.abs(dx) > Math.min(120, width * 0.15)) {
+      const direction = dx < 0 ? 1 : -1;
+      slideDirection.current = direction;
+      applyDragOffset(0, false);
+      setActiveIndex((index) => (index + direction + slides.length) % slides.length);
+    } else {
+      applyDragOffset(0, true);
+    }
+  };
+
+  const handleDragCancel = (event) => {
+    if (dragRef.current.pointerId !== event.pointerId) return;
+    endDrag(event);
+    applyDragOffset(0, true);
+  };
+
+  const dragBind = {
+    onPointerDown: handleDragStart,
+    onPointerMove: handleDragMove,
+    onPointerUp: handleDragEnd,
+    onPointerCancel: handleDragCancel,
+    onDragStart: (event) => event.preventDefault(),
+    style: { touchAction: "pan-y" },
+  };
 
   // Defer all section media until near viewport so hero LCP keeps bandwidth.
   useEffect(() => {
@@ -127,6 +221,16 @@ const Section5 = () => {
     const image = imageRef.current;
     if (!content) return;
 
+    // Drop any leftover drag transform/transition so GSAP owns the element
+    [content, image].forEach((el) => {
+      if (!el) return;
+      el.style.transition = "";
+      el.style.transform = "";
+    });
+
+    const fromX = 80 * slideDirection.current;
+    slideDirection.current = 1;
+
     let ctx;
     let cancelled = false;
 
@@ -136,13 +240,13 @@ const Section5 = () => {
       ctx = gsap.context(() => {
         gsap.fromTo(
           content,
-          { x: 80, opacity: 0 },
+          { x: fromX, opacity: 0 },
           { x: 0, opacity: 1, duration: 0.6, ease: "power3.out" }
         );
         if (image) {
           gsap.fromTo(
             image,
-            { x: 80, opacity: 0 },
+            { x: fromX, opacity: 0 },
             { x: 0, opacity: 1, duration: 0.6, ease: "power3.out", delay: 0.08 }
           );
         }
@@ -201,7 +305,10 @@ const Section5 = () => {
             Trusted by leading brands to create meaningful growth.
           </p>
 
-          <div className="mt-10 overflow-hidden md:mt-12">
+          <div
+            {...dragBind}
+            className="mt-10 cursor-grab overflow-hidden active:cursor-grabbing md:mt-12"
+          >
             {shouldLoadMedia ? (
               <img
                 src="/home/double-quotes.svg"
@@ -223,7 +330,7 @@ const Section5 = () => {
 
             <div ref={contentRef}>
               <p
-                className="m-0 mt-0 max-w-[900px] text-[16px] leading-[22px] md:text-[22px] md:leading-[30px]"
+                className="m-0 mt-0 max-w-[1200px] text-[16px] leading-[22px] md:text-[22px] md:leading-[30px]"
                 style={{
                   fontFamily: quoteStyle.fontFamily,
                   fontWeight: quoteStyle.fontWeight,
@@ -260,7 +367,10 @@ const Section5 = () => {
           </div>
         </div>
 
-        <div className="mx-auto hidden w-full max-w-[420px] shrink-0 lg:mx-0 lg:block lg:max-w-[460px]">
+        <div
+          {...dragBind}
+          className="mx-auto hidden w-full max-w-[420px] shrink-0 cursor-grab active:cursor-grabbing lg:mx-0 lg:block lg:max-w-[460px]"
+        >
           {shouldLoadMedia && isLg ? (
             <img
               ref={imageRef}

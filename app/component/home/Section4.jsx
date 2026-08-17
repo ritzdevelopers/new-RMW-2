@@ -15,8 +15,6 @@ const titleStyle = {
   textTransform: "uppercase",
 };
 
-// Splits a title into a top/bottom half for the grid-card hover effect
-// (multi-word titles split on words, single words split by characters).
 const splitTitleParts = (title) => {
   const words = title.trim().split(/\s+/);
   if (words.length > 1) {
@@ -28,9 +26,6 @@ const splitTitleParts = (title) => {
 };
 
 const IMAGE_CLIP_WIDTH = "min(300px, 26vw)";
-// Feathered edges (a soft ~14px fade instead of a hard cut) so letters that
-// straddle the image window cross-fade between the black text and the
-// image-filled text rather than being sliced mid-glyph.
 const ROW_CLIP_MASK = `linear-gradient(to right, #000 0, #000 calc(50% - min(150px, 13vw) - 14px), transparent calc(50% - min(150px, 13vw) + 14px), transparent calc(50% + min(150px, 13vw) - 14px), #000 calc(50% + min(150px, 13vw) + 14px), #000 100%)`;
 const IMAGE_TEXT_MASK = `linear-gradient(to right, transparent 0, transparent calc(50% - min(150px, 13vw) - 14px), #000 calc(50% - min(150px, 13vw) + 14px), #000 calc(50% + min(150px, 13vw) - 14px), transparent calc(50% + min(150px, 13vw) + 14px), transparent 100%)`;
 const imageOverlayTextStyle = {
@@ -794,9 +789,6 @@ const Section4 = () => {
     });
   }, [shouldLoadMedia]);
 
-  // Applies the same starting Y offset the pinned ScrollTrigger uses, so that
-  // when we morph *into* list mode the ghosts land exactly where the real list
-  // rows will sit - even before ScrollTrigger is (re)created.
   const applyListStartY = useCallback(() => {
     if (typeof window === "undefined" || window.innerWidth < 768) return;
     const pin = pinRef.current;
@@ -808,13 +800,6 @@ const Section4 = () => {
     });
   }, []);
 
-  // Choreographed grid -> list transition (the mirror image of runListToGrid):
-  //   1) each grid card shrinks + travels back to a small thumb beside its
-  //      list title, its card label fading out,
-  //   2) the real list number + title fade back in at their exact measured
-  //      positions and font sizes,
-  // so the grid visually collapses into the list - no size pop, no clipped
-  // text - instead of one view popping out and the other popping in.
   const runGridToList = () => {
     const overlay = overlayRef.current;
 
