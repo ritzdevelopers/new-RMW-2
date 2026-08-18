@@ -54,7 +54,6 @@ export default function NotFound() {
           >
             404
           </h1>
-
           <h2
             className="mb-4 max-w-2xl text-[28px] leading-tight text-white sm:text-[36px] md:text-[44px]"
             style={{
@@ -74,7 +73,7 @@ export default function NotFound() {
             explore our services, portfolio, and latest work.
           </p>
 
-          <div className="mb-12 flex flex-wrap items-center justify-center gap-4">
+          <div classNa me="mb-12 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/"
               className="inline-flex items-center gap-3 bg-[#E2E2E2] px-8 py-4 text-xs uppercase tracking-[0.12em] text-[#0D1334] transition hover:bg-white"
