@@ -20,6 +20,45 @@ const descriptionStyle = {
   color: "#333333",
 };
 
+const INLINE_LINK_RE = /\[([^\]]+)\]\(([^)]+)\)/g;
+const linkClassName =
+  "underline underline-offset-[3px] decoration-[1px] transition-opacity hover:opacity-70";
+
+function renderInline(text) {
+  const nodes = [];
+  let lastIndex = 0;
+  let match;
+  let key = 0;
+
+  INLINE_LINK_RE.lastIndex = 0;
+
+  while ((match = INLINE_LINK_RE.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(text.slice(lastIndex, match.index));
+    }
+
+    nodes.push(
+      <a
+        key={key++}
+        href={match[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={linkClassName}
+      >
+        {match[1]}
+      </a>,
+    );
+
+    lastIndex = INLINE_LINK_RE.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(text.slice(lastIndex));
+  }
+
+  return nodes.length ? nodes : text;
+}
+
 function renderDescription(description) {
   return description.split("\n").map((line, index) => {
     const trimmed = line.trimStart();
@@ -31,7 +70,7 @@ function renderDescription(description) {
             aria-hidden
             className="mt-[0.55em] inline-block h-[0.35em] w-[0.35em] shrink-0 rounded-full bg-current md:mt-[0.6em] md:h-[0.4em] md:w-[0.4em]"
           />
-          <span>{trimmed.slice(1).trimStart()}</span>
+          <span>{renderInline(trimmed.slice(1).trimStart())}</span>
         </span>
       );
     }
@@ -42,7 +81,7 @@ function renderDescription(description) {
 
     return (
       <span key={index}>
-        {line}
+        {renderInline(line)}
         {"\n"}
       </span>
     );
