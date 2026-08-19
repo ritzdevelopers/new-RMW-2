@@ -952,12 +952,55 @@ const Section1 = () => {
         setOtpValue("");
         setOtpError(null);
       } else {
+        // The backend sometimes still persists the enquiry even if it returns a non-2xx.
+        // Show the real server response so the UI isn't misleading.
+        const serverMessage =
+          result?.message ||
+          result?.error ||
+          result?.errors?.[0]?.message ||
+          result?.errors?.[0] ||
+          "";
+        const vendorSuccess =
+          result?.ok === true ||
+          result?.success === true ||
+          result?.status === "success";
+        console.error("contact-enquiry non-2xx:", {
+          status: response.status,
+          statusText: response.statusText,
+          result,
+        });
+
+        if (vendorSuccess) {
+          setStatus({
+            type: "success",
+            variant: "submit-success",
+            title: "Enquiry submitted",
+            text: serverMessage || "Query submitted successfully!",
+            hint: "The backend reported success, even though it returned a non-2xx status.",
+          });
+          form.reset();
+          setCountry("");
+          setFirstNameError(null);
+          setLastNameError(null);
+          setPhoneError(null);
+          setEmailError(null);
+          setOtpSent(false);
+          setOtpVerified(false);
+          setOtpValue("");
+          setOtpError(null);
+          return;
+        }
+
         setStatus({
           type: "error",
           variant: "submit-error",
           title: "Submission failed",
-          text: result.message || "Submission failed. Please try again.",
-          hint: "Your details are still saved. Try submitting again.",
+          text:
+            serverMessage ||
+            `Submission failed (HTTP ${response.status}). Please try again.`,
+          hint:
+            serverMessage ||
+            "If the enquiry is saved, you can refresh and try again if needed.",
         });
       }
     } catch (error) {
