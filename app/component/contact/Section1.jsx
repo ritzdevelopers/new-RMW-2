@@ -661,8 +661,25 @@ const Section1 = () => {
   const [otpError, setOtpError] = useState(null);
   const [otpValue, setOtpValue] = useState("");
   const [sendingOtp, setSendingOtp] = useState(false);
+  const [resendCountdown, setResendCountdown] = useState(0);
 
   const formLocked = otpSent && !otpVerified;
+
+  useLayoutEffect(() => {
+    if (!otpSent || otpVerified || resendCountdown <= 0) return;
+
+    const timer = window.setInterval(() => {
+      setResendCountdown((current) => {
+        if (current <= 1) {
+          window.clearInterval(timer);
+          return 0;
+        }
+        return current - 1;
+      });
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, [otpSent, otpVerified, resendCountdown]);
 
   useLayoutEffect(() => {
     if (formLocked) {
@@ -725,6 +742,7 @@ const Section1 = () => {
       setOtpSent(true);
       setOtpVerified(false);
       setOtpValue("");
+      setResendCountdown(45);
       setStatus({
         type: "success",
         variant: "otp-sent",
@@ -951,6 +969,7 @@ const Section1 = () => {
         setOtpVerified(false);
         setOtpValue("");
         setOtpError(null);
+        setResendCountdown(0);
       } else {
         // The backend sometimes still persists the enquiry even if it returns a non-2xx.
         // Show the real server response so the UI isn't misleading.
@@ -1401,7 +1420,7 @@ const Section1 = () => {
                   <button
                     type="button"
                     className="font-medium text-[#FFD188] underline cursor-pointer underline-offset-2 transition-opacity hover:opacity-80"
-                    disabled={sendingOtp || submitting}
+                    disabled={sendingOtp || submitting || resendCountdown > 0}
                     onClick={() => {
                       const form = formRef.current;
                       if (!form) return;
@@ -1421,7 +1440,11 @@ const Section1 = () => {
                       sendOtp(normalizedPhone, selectedCountry);
                     }}
                   >
-                    {sendingOtp ? "Sending..." : "Resend OTP"}
+                    {sendingOtp
+                      ? "Sending..."
+                      : resendCountdown > 0
+                        ? `Resend OTP in ${resendCountdown}s`
+                        : "Resend OTP"}
                   </button>
                 </p>
               )}
