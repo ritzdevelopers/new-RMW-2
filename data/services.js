@@ -21,12 +21,10 @@ export const services = [
     number: "01",
     category: "Digital Marketing",
     title: "Digital Marketing",
-    metaTitle:
-      "Digital Marketing Agency in India | ROI-Driven Marketing Solutions | Ritz Media World",
+    metaTitle: "Digital Marketing Agency in India | ROI-Driven Marketing Solutions | Ritz Media World",
     headline: "Own the Attention",
     image: serviceImages[0],
-    description:
-      "Digital Marketing Agency Ritz Media World helps brands turn attention into actual growth. We handle SEO, Social Media Marketing, PPC, Reputation Management, Lead Generation, and Brand Awareness, building strategies across India that get results you can measure and count on.",
+    description: "Digital Marketing Agency Ritz Media World helps brands turn attention into actual growth. We handle SEO, Social Media Marketing, PPC, Reputation Management, Lead Generation, and Brand Awareness, building strategies across India that get results you can measure and count on.",
     highlights: [
       "Performance & paid media strategy",
       "SEO, SEM & analytics",
@@ -57,42 +55,42 @@ export const services = [
           content: "Search Engine Optimization (SEO)",
           subSlug: "search-engine-optimization-seo",
           paragraph:
-            "SEO That Goes Beyond Rankings\n\nRitz Media World is a results-driven SEO agency in India, and we'll say upfront: rankings alone don't pay the bills. What matters is helping the right customers find your business, understand what you offer, and take the next step with confidence.\n\nWe build every SEO strategy around search intent, customer behaviour, competitive research, and how your website actually feels to use, so a ranking gain turns into traffic that converts, not just a number that looks good in a report. It's part of why we're consistently named among the [top digital marketing companies driving results in Noida](https://ritzmediaworld.com/best-digital-marketing-agency-in-noida). More to the point, it's why our strategies are built around where your business is headed, not just this month's keyword positions.\n\nWhat our SEO services cover:\n• Search intent and keyword strategy tailored to your industry\n• Technical and on-page SEO audits\n• Competitive and market research\n• Content and website experience optimization\n• Ongoing performance tracking tied to enquiries and leads, not just rankings",
+            "SEO That Goes Beyond Rankings\n\nSearch engine optimization is about more than achieving higher rankings on Google. It is about helping the right customers find your business, understand what you offer, and take the next step with confidence.\n\nAt Ritz Media World, we develop SEO strategies around search intent, customer behaviour, competitive research, and your website experience. Our approach focuses on improving organic visibility, attracting relevant traffic, strengthening your online presence, and creating meaningful opportunities for enquiries, leads, and conversions.\n\nWe look beyond rankings to understand what drives your audience and what your business needs to grow. Whether you are building a new brand, growing an established business, or competing in a competitive market, we create SEO strategies designed around your business goals and long-term growth.",
         },
         {
           src: "/digital-marketing/social-media.jpg",
           content: "Social Media Marketing",
           subSlug: "social-media-management",
           paragraph:
-            "Turn Social Media Into Meaningful Brand Connections\n\nSocial media is where people actually discover brands, form opinions, and decide who's worth their attention. Ritz Media World's social media marketing helps businesses in India earn that attention, and hold onto it, rather than chasing likes that don't lead anywhere.\n\nWe bring strategy, content, creative direction, audience insight, and performance analysis together so your brand shows up consistently, not sporadically. We don't post just to stay active. Every piece is built to create awareness, spark real engagement, and support growth you can actually point to.\n\nWhat our social media marketing includes:\n• Platform-specific content strategy and creative development\n• Audience insight-driven targeting\n• Community engagement and response management\n• Performance analysis tied to real business outcomes",
+            "Turn Social Media Into Meaningful Brand Connections\n\nSocial media is where people discover brands, explore ideas, share opinions, and decide which businesses deserve their attention.\n\nAt [Ritz Media World](https://ritzmediaworld.com/), we create social media marketing strategies that keep your brand visible, relevant, and connected with the right audience. We bring together strategy, content, creative communication, audience insights, and performance analysis to build a social presence aligned with your business goals.\n\nFrom content planning and creative development to audience engagement and ongoing optimization, we help your brand communicate consistently across the social platforms that matter to your customers.\n\nWe do not focus on posting simply to stay active. We create social media experiences that build awareness, encourage engagement, strengthen relationships, and support meaningful business growth.",
         },
         {
           src: "/digital-marketing/orm.jpg",
           content: "Online Reputation Management (ORM)",
           subSlug: "orm-in-digital-marketing",
           paragraph:
-            "Build Trust Before Customers Make Their Decision\n\nBy the time someone contacts your business, they've usually already formed an opinion of it, from reviews, feedback, and whatever else they found online. Ritz Media World's online reputation management services help Indian businesses shape that opinion before the first conversation even happens.\n\nWe monitor and manage your presence across the channels that matter, paying attention to sentiment, catching reputation risks early, and responding to feedback the way a real person would, professionally, not defensively. Managing reputation was never about hiding the bad stuff. It's about listening, responding well, and giving people more reasons to trust you.\n\nWhat our ORM services cover:\n• Ongoing reputation monitoring across review and social platforms\n• Sentiment analysis and reputation risk identification\n• Professional, timely response management\n• Strategies to encourage genuine positive customer feedback",
+            "Build Trust Before Customers Make Their Decision\n\nYour online reputation can shape how people perceive your business before they ever contact you. Customers search for reviews, read feedback, compare experiences, and look for signals that help them decide whether a brand is trustworthy.\n\nAt Ritz Media World, we help businesses monitor, manage, and strengthen their online reputation across relevant digital channels. Our approach focuses on understanding customer sentiment, identifying reputation opportunities, encouraging positive customer experiences, and responding professionally to feedback.\n\nWe believe reputation management is not about hiding negative feedback. It is about building a stronger brand, listening to customers, responding thoughtfully, and creating more reasons for people to trust your business.",
         },
         {
           src: "/digital-marketing/ppc1.jpg",
           content: "Pay-Per-Click Advertising (PPC)",
           subSlug: "ppc-google-ads-agency",
           paragraph:
-            "Reach Customers When They're Ready to Act\n\nThere's a specific moment when someone's actively searching for what you sell and being visible right then can be the difference between a sale and a scroll-past. That's the moment Ritz Media World's PPC advertising is built to catch, for businesses across India.\n\nWe shape every campaign around your goals, audience, competition, and budget, handling everything from keyword targeting to landing pages to what happens after the click. Clicks were never really the point. Reaching the right person, at the right moment, with something worth clicking on, that's what actually moves the needle.\n\nWhat our PPC services include:\n• Campaign strategy built around budget and business goals\n• Keyword targeting and competitive analysis\n• Ad messaging and landing page optimization\n• Conversion tracking and ongoing spend optimization",
+            "Reach Customers When They're Ready to Act\n\nWhen customers are actively searching for a product, service, or solution, being visible at the right moment can make a significant difference.\n\nAt Ritz Media World, we develop PPC strategies around your business objectives, target audience, competition, budget, and customer journey. From campaign planning and keyword targeting to ad messaging, audience targeting, landing pages, conversion tracking, and ongoing optimization, we focus on making your advertising investment more effective.\n\nThe goal is not simply to generate clicks. It is to reach the right audience and create meaningful opportunities for enquiries, leads, sales, and business growth.",
         },
         {
           src: "/digital-marketing/lead-generation.jpg",
           content: "Lead Generation",
           subSlug: "lead-generation",
           paragraph:
-            "Turn Digital Attention Into Real Business Opportunities\n\nGetting noticed is the easy part. Ritz Media World's lead generation work is about what happens next, turning that attention into real enquiries, qualified leads, and paying customers for businesses in India.\n\nWe combine targeted campaigns, the right digital channels, content worth reading, and calls to action people actually follow, so there's a clear path from someone noticing you to someone reaching out. We care less about the total number of leads and more about whether they're the right ones, relevant, genuinely interested, worth your team's time.\n\nWhat our lead generation approach covers:\n• Targeted, channel-specific campaign design\n• Conversion-focused landing pages and calls to action\n• Lead quality and intent scoring, not just volume\n• Continuous optimization for a stronger sales pipeline",
+            "Turn Digital Attention Into Real Business Opportunities\n\nGetting people to notice your brand is only the beginning. The real opportunity is turning that attention into enquiries, qualified leads, appointments, and customers.\n\nAt Ritz Media World, we create lead generation strategies designed to connect your business with people who have genuine interest in what you offer. We combine targeted campaigns, relevant digital channels, compelling content, landing pages, clear calls to action, and conversion-focused experiences to create a stronger path from discovery to enquiry.\n\nWe focus not only on the number of leads, but also on their relevance, quality, intent, and potential value to your business.\n\nOur goal is to create better opportunities for sustainable business growth through a more focused and effective lead generation strategy.",
         },
         {
           src: "/digital-marketing/brand-awarness.jpg",
           content: "Brand Awareness",
           subSlug: "brand-awareness",
           paragraph:
-            "Make Your Brand Recognizable, Relevant, and Remembered\n\nNobody chooses a business they've never heard of. [Ritz Media World](https://ritzmediaworld.com/) builds brand awareness strategies that make sure Indian businesses aren't just seen, but remembered by the audiences that actually matter to them.\n\nWe pull together content, social, paid media, search visibility, and creative direction into one consistent presence, built around what genuinely sets your business apart. Being seen was never really the goal. Being remembered, trusted, and top-of-mind when someone's ready to decide, that's the part that actually counts.\n\nWhat our brand awareness strategy includes:\n• Multi-channel presence across content, social, and paid media\n• Differentiated brand messaging and creative direction\n• Consistent audience targeting across touch points\n• Long-term brand recall and trust-building, not just visibility spikes",
+            "Make Your Brand Recognizable, Relevant, and Remembered\n\nBefore people choose a business, they need to know that it exists. Brand awareness is about consistently putting your business in front of the right audience and creating an identity that people can recognize, remember, and trust.\n\nAt Ritz Media World, we develop brand awareness strategies that combine content, social media, digital advertising, search visibility, creative communication, and audience targeting to strengthen your brand presence across digital channels.\n\nWe focus on communicating what makes your business different and creating consistent experiences that keep your brand relevant in the minds of your audience.\n\nBecause awareness is not simply about being seen. It is about being recognized, remembered, trusted, and considered when your audience is ready to make a decision.",
         },
       ],
     },
@@ -106,7 +104,7 @@ export const services = [
       description:
         "Digital Marketing Agency Ritz Media World helps brands turn attention into actual growth. We handle SEO, Social Media Marketing, PPC, Reputation Management, Lead Generation, and Brand Awareness, building strategies across India that get results you can measure and count on.",
       image: {
-        src: "/digital-marketing/rmw-29.jpg    ",
+        src: "/digital-marketing/rmw-29.jpg",
         width: 720.953,
         height: 762.712,
         aspectRatio: "69 / 73",
@@ -158,12 +156,10 @@ export const services = [
     number: "02",
     category: "Creative Services",
     title: "Creative Services",
-    metaTitle:
-      "Creative Services Agency in India | Branding, Graphic Design & Logo Design | Ritz Media World",
+    metaTitle: "Creative Services Agency in India | Branding, Graphic Design & Logo Design | Ritz Media World",
     headline: "Distinct by Design",
     image: serviceImages[1],
-    description:
-      "Ritz Media World offers Creative Services including branding, logo design, graphic design, packaging design, and print advertising to elevate your brand.",
+    description: "Ritz Media World offers Creative Services including branding, logo design, graphic design, packaging design, and print advertising to elevate your brand.",
     highlights: [
       "Branding & identity development",
       "Graphic design",
@@ -291,12 +287,10 @@ export const services = [
     number: "03",
     category: "Print Advertising",
     title: "Print Advertising",
-    metaTitle:
-      "Print Advertising Services | Newspaper Advertising Agency in India | Ritz Media World",
+    metaTitle: "Print Advertising Services | Newspaper Advertising Agency in India | Ritz Media World",
     headline: "Ink Meets Impact",
     image: serviceImages[2],
-    description:
-      "Ritz Media World provides Print Advertising Services in India, including newspaper and magazine advertising, ad design, media planning, and campaign execution.",
+    description: "Ritz Media World provides Print Advertising Services in India, including newspaper and magazine advertising, ad design, media planning, and campaign execution.",
     highlights: [
       "Advertisement design",
       "Ad placement",
@@ -430,12 +424,10 @@ export const services = [
     number: "04",
     category: "Radio Advertising",
     title: "Radio Advertising",
-    metaTitle:
-      "Radio Advertising Agency in India | FM Radio Advertising Services | Ritz Media World",
+    metaTitle: "Radio Advertising Agency in India | FM Radio Advertising Services | Ritz Media World",
     headline: "Voices That Travel",
     image: serviceImages[3],
-    description:
-      "Reach millions with Ritz Media World's Radio Advertising Services in India. Expert FM radio ads, media planning, scriptwriting, voiceovers, and campaign management.",
+    description: "Reach millions with Ritz Media World's Radio Advertising Services in India. Expert FM radio ads, media planning, scriptwriting, voiceovers, and campaign management.",
     highlights: [
       "Advertising concept development",
       "Scriptwriting",
@@ -574,12 +566,10 @@ export const services = [
     number: "05",
     category: "Content Marketing",
     title: "Content Marketing",
-    metaTitle:
-      "Content Marketing Agency in India | SEO Content Writing Services | Ritz Media World",
+    metaTitle: "Content Marketing Agency in India | SEO Content Writing Services | Ritz Media World",
     headline: "Stories That Sell",
     image: serviceImages[4],
-    description:
-      "Grow your business with Ritz Media World's Content Marketing Services. Expert SEO content, blogs, website copy, email marketing, and content strategies.",
+    description: "Grow your business with Ritz Media World's Content Marketing Services. Expert SEO content, blogs, website copy, email marketing, and content strategies.",
     highlights: [
       "Customized content strategy",
       "Email & newsletters marketing",
@@ -697,12 +687,10 @@ export const services = [
     number: "06",
     category: "Web Development",
     title: "Web Development",
-    metaTitle:
-      "Website Design & Development Company in India | Ritz Media World",
+    metaTitle: "Website Design & Development Company in India | Ritz Media World",
     headline: "Digital Experiences That Inspire Results",
     image: serviceImages[5],
-    description:
-      "Looking for a website design & development company in India? Ritz Media World builds responsive, SEO-friendly, WordPress, and custom websites.",
+    description: "Looking for a website design & development company in India? Ritz Media World builds responsive, SEO-friendly, WordPress, and custom websites.",
     highlights: [
       "UI/UX design services",
       "Custom website development",
@@ -839,8 +827,7 @@ export const services = [
     metaTitle: "Celebrity Endorsement Agency in India | Ritz Media World",
     headline: "Borrow the Spotlight",
     image: serviceImages[6],
-    description:
-      "Ritz Media World is a leading celebrity endorsement agency in India, offering celebrity marketing, brand partnerships, campaign management, PR and talent selection services.",
+    description: "Ritz Media World is a leading celebrity endorsement agency in India, offering celebrity marketing, brand partnerships, campaign management, PR and talent selection services.",
     highlights: [
       "Celebrity identification & selection",
       "Contract negotiations",
@@ -981,12 +968,10 @@ export const services = [
     number: "08",
     category: "Influencer Marketing",
     title: "Influencer Marketing",
-    metaTitle:
-      "Influencer Marketing Agency in India | Influencer Marketing Services | Ritz Media World",
+    metaTitle: "Influencer Marketing Agency in India | Influencer Marketing Services | Ritz Media World",
     headline: "Make People Listen",
     image: serviceImages[7],
-    description:
-      "Influencer Marketing Agency in India offering influencer marketing services, creator partnerships, campaign management, brand collaborations, and strategic campaigns.",
+    description: "Influencer Marketing Agency in India offering influencer marketing services, creator partnerships, campaign management, brand collaborations, and strategic campaigns.",
     highlights: [
       "Influencer identification",
       "Cost-benefit analysis",
@@ -1098,8 +1083,7 @@ export const services = [
     metaTitle: "3D Rendering Services | Ritz Media World",
     headline: "Vision Before Reality",
     image: serviceImages[8],
-    description:
-      "Ritz Media World delivers premium 3D rendering and architectural visualization for real estate, interiors, exteriors, floor plans, townships and landscapes.",
+    description: "Ritz Media World delivers premium 3D rendering and architectural visualization for real estate, interiors, exteriors, floor plans, townships and landscapes.",
     highlights: [
       "3D Exterior Rendering",
       "3D Interior Rendering",

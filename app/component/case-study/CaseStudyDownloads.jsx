@@ -318,7 +318,7 @@ function CaseStudyDownloads() {
               insights.
             </p>
           </div>
-
+          
           <div
             data-cs-download-reveal
             className="mt-10 w-full sm:mt-12 lg:mt-14"
