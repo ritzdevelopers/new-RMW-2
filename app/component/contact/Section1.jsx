@@ -311,13 +311,15 @@ const SelectField = ({
   required,
   value,
   onChange,
+  disabled = false,
 }) => (
   <Field label={label}>
     <div className="relative">
       <select
-        className={selectClass}
+        className={`${selectClass} ${disabled ? "cursor-not-allowed opacity-60" : ""}`}
         name={name}
         required={required}
+        disabled={disabled}
         {...(value !== undefined ? { value, onChange } : { defaultValue: "" })}
       >
         <option value="">{placeholder}</option>
@@ -335,6 +337,178 @@ const SelectField = ({
     </div>
   </Field>
 );
+
+const lockedInputClass = `${inputClass} read-only:cursor-not-allowed read-only:opacity-70`;
+
+function maskPhoneForDisplay(phone, country) {
+  const local = normalizeLocalPhone(phone, country);
+  if (!local || local.length < 4) return local;
+  return `${local.slice(0, 2)}****${local.slice(-2)}`;
+}
+
+function OtpInput({ value, onChange, onComplete, error, disabled }) {
+  const inputRefs = useRef([]);
+  const digits = value.padEnd(4, " ").split("").slice(0, 4);
+
+  const updateValue = (nextDigits) => {
+    const joined = nextDigits.join("").replace(/\s/g, "");
+    onChange(joined);
+    if (joined.length === 4 && onComplete) onComplete(joined);
+  };
+
+  const focusIndex = (index) => {
+    inputRefs.current[index]?.focus();
+    inputRefs.current[index]?.select();
+  };
+
+  const handleChange = (index, raw) => {
+    const digit = raw.replace(/\D/g, "").slice(-1);
+    const next = [...digits.map((d) => (d === " " ? "" : d))];
+    next[index] = digit;
+    while (next.length < 4) next.push("");
+    updateValue(next);
+
+    if (digit && index < 3) {
+      focusIndex(index + 1);
+    }
+  };
+
+  const handleKeyDown = (index, e) => {
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      const next = [...digits.map((d) => (d === " " ? "" : d))];
+      if (next[index]) {
+        next[index] = "";
+        updateValue(next);
+      } else if (index > 0) {
+        next[index - 1] = "";
+        updateValue(next);
+        focusIndex(index - 1);
+      }
+      return;
+    }
+
+    if (e.key === "ArrowLeft" && index > 0) {
+      e.preventDefault();
+      focusIndex(index - 1);
+    }
+    if (e.key === "ArrowRight" && index < 3) {
+      e.preventDefault();
+      focusIndex(index + 1);
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pasted = e.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, 4);
+    if (!pasted) return;
+    onChange(pasted);
+    if (pasted.length === 4 && onComplete) onComplete(pasted);
+    focusIndex(Math.min(pasted.length, 3));
+  };
+
+  return (
+    <div>
+      <div
+        className="grid grid-cols-4 gap-3 md:gap-4"
+        role="group"
+        aria-label="Enter 4-digit verification code"
+      >
+        {digits.map((digit, index) => (
+          <input
+            key={index}
+            ref={(el) => {
+              inputRefs.current[index] = el;
+            }}
+            type="text"
+            inputMode="numeric"
+            autoComplete={index === 0 ? "one-time-code" : "off"}
+            maxLength={1}
+            value={digit === " " ? "" : digit}
+            disabled={disabled}
+            aria-invalid={error ? "true" : undefined}
+            onChange={(e) => handleChange(index, e.target.value)}
+            onKeyDown={(e) => handleKeyDown(index, e)}
+            onPaste={handlePaste}
+            onFocus={(e) => e.target.select()}
+            className={`h-14 w-full   text-center text-3xl font-semibold text-white outline-none transition-all duration-200 md:h-16 md:text-3xl border-b-1 border-b-white/10 ${
+              error
+                ? "  focus:ring-[#FF8A8A]/45"
+                : digit && digit !== " "
+                  ? " focus:ring-[#FFD188]/50"
+                  : "hover:bg-white/[0.04] focus:ring-[#FFD188]/30"
+            } disabled:cursor-not-allowed disabled:opacity-50`}
+            style={{ fontFamily: sequelFontFamily }}
+            data-otp-index={index}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FormStatusAlert({ status, onDismiss }) {
+  if (!status) return null;
+
+  const isSuccess = status.type === "success";
+  const isOtpSent = status.variant === "otp-sent";
+
+  const iconClass = isSuccess
+    ? isOtpSent
+      ? "ri-shield-check-line text-[#FFD188]"
+      : "ri-checkbox-circle-line text-[#7CFFB2]"
+    : "ri-error-warning-line text-[#FF8A8A]";
+
+ 
+  return (
+    <div
+      role={isSuccess ? "status" : "alert"}
+      aria-live="polite"
+      className={`relative mt-6 overflow-hidden py-5  md:py-6 `}
+    >
+      <button
+        type="button"
+        onClick={onDismiss}
+        className="absolute top-4 right-4 cursor-pointer text-white/45 transition-colors hover:text-white/80"
+        aria-label="Dismiss message"
+      >
+        <i className="ri-close-line text-xl" />
+      </button>
+
+      <div className="flex items-start gap-4 ">
+        
+        <div className="min-w-0">
+          <p
+            className="text-[13px] tracking-[1.2px] uppercase"
+            style={{
+              fontFamily: sequelFontFamily,
+              color: isSuccess ? (isOtpSent ? "#FFD188" : "#7CFFB2") : "#FF8A8A",
+            }}
+          >
+            {status.title || (isSuccess ? "Success" : "Something went wrong")}
+          </p>
+          <p
+            className="mt-2 text-sm leading-6 text-white/85 md:text-[15px]"
+            style={{ fontFamily: sequelFontFamily }}
+          >
+            {status.text}
+          </p>
+          {status.hint ? (
+            <p
+              className="mt-2 text-xs leading-5 text-white/55"
+              style={{ fontFamily: sequelFontFamily }}
+            >
+              {status.hint}
+            </p>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const headingWords = ["WE", "WOULD", "BE", "HAPPY", "TO"];
 
@@ -482,13 +656,32 @@ const Section1 = () => {
   const [lastNameError, setLastNameError] = useState(null);
   const [phoneError, setPhoneError] = useState(null);
   const [emailError, setEmailError] = useState(null);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [otpError, setOtpError] = useState(null);
+  const [otpValue, setOtpValue] = useState("");
+  const [sendingOtp, setSendingOtp] = useState(false);
+
+  const formLocked = otpSent && !otpVerified;
+
+  useLayoutEffect(() => {
+    if (formLocked) {
+      const timer = window.setTimeout(() => {
+        const firstOtpInput = document.querySelector('[data-otp-index="0"]');
+        firstOtpInput?.focus();
+      }, 150);
+      return () => window.clearTimeout(timer);
+    }
+  }, [formLocked]);
 
   const handleNameInput = (e, clearError) => {
+    if (formLocked) return;
     e.currentTarget.value = e.currentTarget.value.replace(/[^A-Za-z '-]/g, "");
     if (clearError) clearError();
   };
 
   const handlePhoneInput = (e) => {
+    if (formLocked) return;
     const cleaned = e.currentTarget.value.replace(/[^0-9+]/g, "");
     e.currentTarget.value = cleaned;
     if (phoneError) setPhoneError(null);
@@ -499,8 +692,108 @@ const Section1 = () => {
   };
 
   const handleCountryChange = (e) => {
+    if (formLocked) return;
     setCountry(e.target.value);
     setPhoneError(null);
+  };
+
+  const sendOtp = async (phone, selectedCountry) => {
+    setSendingOtp(true);
+    setOtpError(null);
+
+    try {
+      const response = await fetch("/otp/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, country: selectedCountry }),
+      });
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        const message = result.message || "Could not send OTP. Please try again.";
+        setOtpError(message);
+        setStatus({
+          type: "error",
+          variant: "otp-error",
+          title: "OTP not sent",
+          text: message,
+          hint: "Check your phone number and try again, or refresh the page to start over.",
+        });
+        return false;
+      }
+
+      setOtpSent(true);
+      setOtpVerified(false);
+      setOtpValue("");
+      setStatus({
+        type: "success",
+        variant: "otp-sent",
+        title: "Verification code sent",
+        text: `We sent a 4-digit code to ${maskPhoneForDisplay(phone, selectedCountry)}.`,
+        hint: "Your form details are locked while you verify. Enter the code below or refresh the page to edit again.",
+      });
+      return true;
+    } catch (error) {
+      console.error("OTP send error:", error);
+      const message = "Could not send OTP. Please try again.";
+      setOtpError(message);
+      setStatus({
+        type: "error",
+        variant: "otp-error",
+        title: "OTP not sent",
+        text: message,
+        hint: "Please check your connection and try again.",
+      });
+      return false;
+    } finally {
+      setSendingOtp(false);
+    }
+  };
+
+  const verifyOtp = async (phone, selectedCountry, otp) => {
+    try {
+      const response = await fetch("/otp/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, country: selectedCountry, otp }),
+      });
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        const message = result.message || "Invalid OTP. Please try again.";
+        setOtpError(message);
+        setStatus({
+          type: "error",
+          variant: "otp-verify-error",
+          title: "Verification failed",
+          text: message,
+          hint: "Double-check the 4-digit code or tap Resend OTP to get a new one.",
+        });
+        return false;
+      }
+
+      setOtpVerified(true);
+      setOtpError(null);
+      setStatus({
+        type: "success",
+        variant: "otp-verified",
+        title: "Phone verified",
+        text: "Your number is verified. Submitting your enquiry now.",
+      });
+      return true;
+    } catch (error) {
+      console.error("OTP verify error:", error);
+      const message = "Could not verify OTP. Please try again.";
+      setOtpError(message);
+      setStatus({
+        type: "error",
+        variant: "otp-verify-error",
+        title: "Verification failed",
+        text: message,
+        hint: "Please try entering the code again.",
+      });
+      return false;
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -524,21 +817,36 @@ const Section1 = () => {
     const firstNameValidationError = validateName(firstName, "first name");
     if (firstNameValidationError) {
       setFirstNameError(firstNameValidationError);
-      setStatus({ type: "error", text: firstNameValidationError });
+      setStatus({
+        type: "error",
+        variant: "validation-error",
+        title: "Check your details",
+        text: firstNameValidationError,
+      });
       return;
     }
 
     const lastNameValidationError = validateName(lastName, "last name");
     if (lastNameValidationError) {
       setLastNameError(lastNameValidationError);
-      setStatus({ type: "error", text: lastNameValidationError });
+      setStatus({
+        type: "error",
+        variant: "validation-error",
+        title: "Check your details",
+        text: lastNameValidationError,
+      });
       return;
     }
 
     const emailValidationError = validateEmail(email);
     if (emailValidationError) {
       setEmailError(emailValidationError);
-      setStatus({ type: "error", text: emailValidationError });
+      setStatus({
+        type: "error",
+        variant: "validation-error",
+        title: "Check your details",
+        text: emailValidationError,
+      });
       return;
     }
 
@@ -548,11 +856,57 @@ const Section1 = () => {
     );
     if (phoneValidationError) {
       setPhoneError(phoneValidationError);
-      setStatus({ type: "error", text: phoneValidationError });
+      setStatus({
+        type: "error",
+        variant: "validation-error",
+        title: "Check your details",
+        text: phoneValidationError,
+      });
       return;
     }
 
     const normalizedPhone = normalizeLocalPhone(phone, selectedCountry);
+
+    setSubmitting(true);
+    setStatus(null);
+    setFirstNameError(null);
+    setLastNameError(null);
+    setPhoneError(null);
+    setEmailError(null);
+    setOtpError(null);
+
+    if (!otpSent || !otpVerified) {
+      if (!otpSent) {
+        await sendOtp(normalizedPhone, selectedCountry);
+        setSubmitting(false);
+        return;
+      }
+
+      const enteredOtp = otpValue.trim();
+      if (!/^\d{4}$/.test(enteredOtp)) {
+        const message = "Enter the 4-digit OTP sent to your phone.";
+        setOtpError(message);
+        setStatus({
+          type: "error",
+          variant: "otp-verify-error",
+          title: "Enter verification code",
+          text: message,
+          hint: "Please enter all 4 digits from the SMS we sent you.",
+        });
+        setSubmitting(false);
+        return;
+      }
+
+      const verified = await verifyOtp(
+        normalizedPhone,
+        selectedCountry,
+        enteredOtp,
+      );
+      if (!verified) {
+        setSubmitting(false);
+        return;
+      }
+    }
 
     const message = [
       `Reason for Inquiry: ${reason || "N/A"}`,
@@ -570,13 +924,6 @@ const Section1 = () => {
       message,
     };
 
-    setSubmitting(true);
-    setStatus(null);
-    setFirstNameError(null);
-    setLastNameError(null);
-    setPhoneError(null);
-    setEmailError(null);
-
     try {
       const response = await fetch("/api/system-settings/contact-enquiry", {
         method: "POST",
@@ -589,7 +936,10 @@ const Section1 = () => {
       if (response.ok) {
         setStatus({
           type: "success",
+          variant: "submit-success",
+          title: "Enquiry submitted",
           text: result.message || "Query submitted successfully!",
+          hint: "Our team will get back to you shortly.",
         });
         form.reset();
         setCountry("");
@@ -597,17 +947,27 @@ const Section1 = () => {
         setLastNameError(null);
         setPhoneError(null);
         setEmailError(null);
+        setOtpSent(false);
+        setOtpVerified(false);
+        setOtpValue("");
+        setOtpError(null);
       } else {
         setStatus({
           type: "error",
+          variant: "submit-error",
+          title: "Submission failed",
           text: result.message || "Submission failed. Please try again.",
+          hint: "Your details are still saved. Try submitting again.",
         });
       }
     } catch (error) {
       console.error("Submission error:", error);
       setStatus({
         type: "error",
+        variant: "submit-error",
+        title: "Server error",
         text: "Server error. Please try again later.",
+        hint: "If the issue continues, refresh the page and try again.",
       });
     } finally {
       setSubmitting(false);
@@ -775,16 +1135,24 @@ const Section1 = () => {
         <form
           ref={formRef}
           onSubmit={handleSubmit}
-          className="mx-auto mt-7 w-full max-w-[765px] md:mt-7 lg:mt-16"
+          className={`mx-auto mt-7 w-full max-w-[765px] md:mt-7 lg:mt-16 ${formLocked ? "relative" : ""}`}
         >
-          <div className="grid grid-cols-1 xl:gap-5 gap-8 md:grid-cols-2 md:gap-x-10">
+          {formLocked ? (
+            <div
+              className="pointer-events-none absolute inset-0 z-[1] "
+              aria-hidden
+            />
+          ) : null}
+
+          <div className={`grid grid-cols-1 xl:gap-5 gap-8 md:grid-cols-2 md:gap-x-10 ${formLocked ? "relative z-0" : ""}`}>
             <div>
               <Field label="FIRST NAME*">
                 <input
                   type="text"
                   name="firstName"
                   required
-                  className={inputClass}
+                  readOnly={formLocked}
+                  className={lockedInputClass}
                   onInput={(e) =>
                     handleNameInput(e, () => {
                       if (firstNameError) setFirstNameError(null);
@@ -811,7 +1179,8 @@ const Section1 = () => {
                   type="text"
                   name="lastName"
                   required
-                  className={inputClass}
+                  readOnly={formLocked}
+                  className={lockedInputClass}
                   onInput={(e) =>
                     handleNameInput(e, () => {
                       if (lastNameError) setLastNameError(null);
@@ -841,7 +1210,8 @@ const Section1 = () => {
                   type="email"
                   name="email"
                   required
-                  className={inputClass}
+                  readOnly={formLocked}
+                  className={lockedInputClass}
                   onInput={handleEmailInput}
                   aria-invalid={emailError ? "true" : undefined}
                 />
@@ -864,9 +1234,10 @@ const Section1 = () => {
                   type="tel"
                   name="phone"
                   required
+                  readOnly={formLocked}
                   inputMode="numeric"
                   maxLength={getPhoneMaxLength(country)}
-                  className={inputClass}
+                  className={lockedInputClass}
                   onInput={handlePhoneInput}
                   aria-invalid={phoneError ? "true" : undefined}
                 />
@@ -891,6 +1262,7 @@ const Section1 = () => {
               placeholder="Select an option"
               name="reason"
               required
+              disabled={formLocked}
               options={[
                 "General Inquiry",
                 "New Project",
@@ -903,6 +1275,7 @@ const Section1 = () => {
               placeholder="Select your country"
               name="country"
               required
+              disabled={formLocked}
               value={country}
               onChange={handleCountryChange}
               options={COUNTRY_OPTIONS}
@@ -911,6 +1284,7 @@ const Section1 = () => {
               label="HOW DID YOU HEAR ABOUT US?"
               placeholder="Select an option"
               name="howHeard"
+              disabled={formLocked}
               options={[
                 "Search Engine",
                 "Social Media",
@@ -926,29 +1300,112 @@ const Section1 = () => {
               <textarea
                 rows={4}
                 name="message"
-                className={`${inputClass} resize-none`}
+                readOnly={formLocked}
+                className={`${lockedInputClass} resize-none`}
               />
             </Field>
           </div>
 
-          <SubmitButton
-            disabled={submitting}
-            label={submitting ? "SUBMITTING..." : "SUBMIT"}
-          />
+          {formLocked ? (
+            <div className="relative z-[2] mt-8 md:mt-10">
+              <div className=" flex items-center justify-between gap-3">
+                <div>
+                  <p
+                    className="text-[12px] tracking-[1.2px] uppercase"
+                    style={{
+                      fontFamily: sequelFontFamily,
+                      color: "#FFD188",
+                    }}
+                  >
+                    Verify your phone
+                  </p>
+                  <p
+                    className="mt-1 text-sm text-white/75"
+                    style={{ fontFamily: sequelFontFamily }}
+                  >
+                    Enter the 4-digit code sent to your mobile number.
+                  </p>
+                </div> 
+              </div>
 
-          {status && (
-            <p
-              role="status"
-              aria-live="polite"
-              className="mt-4 text-sm"
-              style={{
-                fontFamily: sequelFontFamily,
-                color: status.type === "success" ? "#7CFFB2" : "#FF8A8A",
-              }}
-            >
-              {status.text}
-            </p>
-          )}
+              <OtpInput
+                value={otpValue}
+                onChange={(next) => {
+                  setOtpValue(next);
+                  if (otpError) setOtpError(null);
+                }}
+                error={otpError}
+                disabled={submitting || sendingOtp}
+              />
+
+              {otpError ? (
+                <p
+                  className="mt-4 flex items-center gap-2 text-xs"
+                  style={{
+                    fontFamily: sequelFontFamily,
+                    color: "#FF8A8A",
+                  }}
+                >
+                  <i className="ri-error-warning-line text-base" />
+                  {otpError}
+                </p>
+              ) : (
+                <p
+                  className="mt-4 text-xs text-white/55"
+                  style={{ fontFamily: sequelFontFamily }}
+                >
+                  Didn&apos;t receive the code?{" "}
+                  <button
+                    type="button"
+                    className="font-medium text-[#FFD188] underline cursor-pointer underline-offset-2 transition-opacity hover:opacity-80"
+                    disabled={sendingOtp || submitting}
+                    onClick={() => {
+                      const form = formRef.current;
+                      if (!form) return;
+                      const formData = new FormData(form);
+                      const phone = (formData.get("phone") || "").toString().trim();
+                      const selectedCountry = (
+                        formData.get("country") ||
+                        country ||
+                        ""
+                      )
+                        .toString()
+                        .trim();
+                      const normalizedPhone = normalizeLocalPhone(
+                        phone,
+                        selectedCountry,
+                      );
+                      sendOtp(normalizedPhone, selectedCountry);
+                    }}
+                  >
+                    {sendingOtp ? "Sending..." : "Resend OTP"}
+                  </button>
+                </p>
+              )}
+            </div>
+          ) : null}
+
+          <div className={formLocked ? "relative z-[2]" : ""}>
+            <SubmitButton
+              disabled={submitting || sendingOtp}
+              label={
+                sendingOtp
+                  ? "SENDING OTP..."
+                  : submitting
+                    ? formLocked
+                      ? "VERIFYING..."
+                      : "SUBMITTING..."
+                    : formLocked
+                      ? "VERIFY & SUBMIT"
+                      : "SUBMIT"
+              }
+            />
+          </div>
+
+          <FormStatusAlert
+            status={status}
+            onDismiss={() => setStatus(null)}
+          />
         </form>
       </div>
     </section>

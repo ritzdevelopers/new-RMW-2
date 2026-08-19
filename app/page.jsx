@@ -1,12 +1,18 @@
+import React, { Suspense } from "react";
+import dynamic from "next/dynamic";
+
+// Critical Above-The-Fold components load instantly
 import Header from "./common/Header";
-import Footer from "./component/latest/Footer";
-import OverlaySection1 from "./component/latest/OverlaySection1";
 import Section1 from "./component/home/Section1";
-import Section2 from "./component/home/Section2";
-import Section3 from "./component/home/Section3";
-import Section4 from "./component/home/Section4";
-import Section5 from "./component/home/Section5";
 import WebLoader from "./component/loader/WebLoader";
+
+// Fixed: Next.js dynamic imports without { ssr: false } for Server Components
+const Section2 = dynamic(() => import("./component/home/Section2"));
+const Section3 = dynamic(() => import("./component/home/Section3"));
+const Section4 = dynamic(() => import("./component/home/Section4"));
+const Section5 = dynamic(() => import("./component/home/Section5"));
+const Footer = dynamic(() => import("./component/latest/Footer"));
+const OverlaySection1 = dynamic(() => import("./component/latest/OverlaySection1"));
 
 const serviceHeadings = [
   "Branding & Creative Solutions",
@@ -38,15 +44,15 @@ const pageHeadings = [
 ];
 
 const HOME_VIDEO_SRC =
-  "https://otherassets.blob.core.windows.net/rmw/home-website.mp4";
+  "https://windows.net";
 const SECTION3_VIDEO_SRC =
-  "https://otherassets.blob.core.windows.net/rmw/home-section2.mp4";
+  "https://windows.net";
 
 export default function Home() {
   return (
     <WebLoader>
       {/* Start hero videos fetch as early as possible (during loader). */}
-      <link rel="preconnect" href="https://otherassets.blob.core.windows.net" />
+      <link rel="preconnect" href="https://windows.net" />
       <link
         rel="preload"
         as="video"
@@ -59,25 +65,34 @@ export default function Home() {
         href={SECTION3_VIDEO_SRC}
         type="video/mp4"
       />
+      
       <Header />
       <Section1 />
-      <Section2 />
-      {/* SEO heading hierarchy - present in source, hidden visually */}
-      <div className="sr-only">
-        <h2>Our Services</h2>
-        {serviceHeadings.map((title) => (
-          <h3 key={title}>{title}</h3>
-        ))}
-        {pageHeadings.map((title) => (
-          <h2 key={title}>{title}</h2>
-        ))}
-      </div>
-      <Section3 />
-      <Section4 />
-      <div className="relative">
-        <Section5 />
-      </div>
-      <Footer section={<OverlaySection1 />} />
+
+      {/* Suspense handles the non-blocking execution chunking */}
+      <Suspense fallback={null}>
+        <Section2 />
+        
+        {/* SEO heading hierarchy - present in source, hidden visually */}
+        <div className="sr-only">
+          <h2>Our Services</h2>
+          {serviceHeadings.map((title) => (
+            <h3 key={title}>{title}</h3>
+          ))}
+          {pageHeadings.map((title) => (
+            <h2 key={title}>{title}</h2>
+          ))}
+        </div>
+
+        <Section3 />
+        <Section4 />
+        <div className="relative">
+          <Section5 />
+        </div>
+        <Footer section={<OverlaySection1 />} />
+      </Suspense>
     </WebLoader>
   );
 }
+
+
