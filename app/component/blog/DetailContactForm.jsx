@@ -63,6 +63,8 @@ const HOW_HEARD_OPTIONS = [
   "Advertisement",
   "Other",
 ];
+const DEFAULT_REASON = REASON_OPTIONS[0];
+const DEFAULT_HOW_HEARD = HOW_HEARD_OPTIONS[0];
 
 function hasInvalidRepeatedPattern(digits) {
   if (!digits) return false;
@@ -359,6 +361,8 @@ export default function DetailContactForm() {
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
   const [country, setCountry] = useState("");
+  const [reason, setReason] = useState(DEFAULT_REASON);
+  const [howHeard, setHowHeard] = useState(DEFAULT_HOW_HEARD);
   const [phoneError, setPhoneError] = useState(null);
   const [emailError, setEmailError] = useState(null);
   const [otpSent, setOtpSent] = useState(false);
@@ -414,6 +418,16 @@ export default function DetailContactForm() {
     if (formLocked) return;
     setCountry(e.target.value);
     setPhoneError(null);
+  };
+
+  const handleReasonChange = (e) => {
+    if (formLocked) return;
+    setReason(e.target.value);
+  };
+
+  const handleHowHeardChange = (e) => {
+    if (formLocked) return;
+    setHowHeard(e.target.value);
   };
 
   const sendOtp = async (phone, selectedCountry) => {
@@ -530,7 +544,7 @@ export default function DetailContactForm() {
     const lastName = (formData.get("lastName") || "").toString().trim();
     const email = (formData.get("email") || "").toString().trim();
     const phone = (formData.get("phone") || "").toString().trim();
-    const reason = (formData.get("reason") || "").toString().trim();
+    const formReason = (formData.get("reason") || reason || "").toString().trim();
     const selectedCountry = (
       formData.get("country") ||
       country ||
@@ -538,7 +552,7 @@ export default function DetailContactForm() {
     )
       .toString()
       .trim();
-    const howHeard = (formData.get("howHeard") || "").toString().trim();
+    const formHowHeard = (formData.get("howHeard") || howHeard || "").toString().trim();
     const messageText = (formData.get("message") || "").toString().trim();
 
     const emailValidationError = validateEmail(email);
@@ -560,9 +574,9 @@ export default function DetailContactForm() {
 
     const normalizedPhone = normalizeLocalPhone(phone, selectedCountry);
     const message = [
-      `Reason for Inquiry: ${reason || "N/A"}`,
+      `Reason for Inquiry: ${formReason || DEFAULT_REASON}`,
       `Country: ${selectedCountry || "N/A"}`,
-      `How did you hear about us: ${howHeard || "N/A"}`,
+      `How did you hear about us: ${formHowHeard || DEFAULT_HOW_HEARD}`,
       "",
       `Message: ${messageText || "N/A"}`,
     ].join("\n");
@@ -625,6 +639,8 @@ export default function DetailContactForm() {
         });
         form.reset();
         setCountry("");
+        setReason(DEFAULT_REASON);
+        setHowHeard(DEFAULT_HOW_HEARD);
         setPhoneError(null);
         setEmailError(null);
         setOtpSent(false);
@@ -805,13 +821,13 @@ export default function DetailContactForm() {
                 name="reason"
                 required
                 disabled={formLocked}
-                defaultValue=""
+                value={reason}
+                onChange={handleReasonChange}
                 className={selectClass + (formLocked ? ` ${lockedSelectClass}` : "")}
                 style={{ fontFamily: bodyFont }}
                 onFocus={(e) => setFieldFocus(e.currentTarget, true, false)}
                 onBlur={(e) => setFieldFocus(e.currentTarget, false, false)}
               >
-                <option value="">Select an option</option>
                 {REASON_OPTIONS.map((option) => (
                   <option key={option} value={option}>
                     {option}
@@ -863,13 +879,13 @@ export default function DetailContactForm() {
               <select
                 name="howHeard"
                 disabled={formLocked}
-                defaultValue=""
+                value={howHeard}
+                onChange={handleHowHeardChange}
                 className={selectClass + (formLocked ? ` ${lockedSelectClass}` : "")}
                 style={{ fontFamily: bodyFont }}
                 onFocus={(e) => setFieldFocus(e.currentTarget, true, false)}
                 onBlur={(e) => setFieldFocus(e.currentTarget, false, false)}
               >
-                <option value="">Select an option</option>
                 {HOW_HEARD_OPTIONS.map((option) => (
                   <option key={option} value={option}>
                     {option}

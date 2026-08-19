@@ -45,6 +45,21 @@ const inputLineClass =
 const selectClass = `${inputClass} appearance-none cursor-pointer`;
 
 const COUNTRY_OPTIONS = ["India", "UAE", "UK", "Singapore", "USA"];
+const REASON_OPTIONS = [
+  "General Inquiry",
+  "New Project",
+  "RFP Submission",
+  "Partnership",
+];
+const HOW_HEARD_OPTIONS = [
+  "Search Engine",
+  "Social Media",
+  "Referral",
+  "Advertisement",
+  "Other",
+];
+const DEFAULT_REASON = REASON_OPTIONS[0];
+const DEFAULT_HOW_HEARD = HOW_HEARD_OPTIONS[0];
 
 /** Local mobile rules per country (digits only, no country code). */
 const COUNTRY_PHONE_RULES = {
@@ -652,6 +667,8 @@ const Section1 = () => {
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState(null);
   const [country, setCountry] = useState("");
+  const [reason, setReason] = useState(DEFAULT_REASON);
+  const [howHeard, setHowHeard] = useState(DEFAULT_HOW_HEARD);
   const [firstNameError, setFirstNameError] = useState(null);
   const [lastNameError, setLastNameError] = useState(null);
   const [phoneError, setPhoneError] = useState(null);
@@ -712,6 +729,16 @@ const Section1 = () => {
     if (formLocked) return;
     setCountry(e.target.value);
     setPhoneError(null);
+  };
+
+  const handleReasonChange = (e) => {
+    if (formLocked) return;
+    setReason(e.target.value);
+  };
+
+  const handleHowHeardChange = (e) => {
+    if (formLocked) return;
+    setHowHeard(e.target.value);
   };
 
   const sendOtp = async (phone, selectedCountry) => {
@@ -825,11 +852,11 @@ const Section1 = () => {
     const lastName = (formData.get("lastName") || "").toString().trim();
     const email = (formData.get("email") || "").toString().trim();
     const phone = (formData.get("phone") || "").toString().trim();
-    const reason = (formData.get("reason") || "").toString().trim();
+    const formReason = (formData.get("reason") || reason || "").toString().trim();
     const selectedCountry = (formData.get("country") || country || "")
       .toString()
       .trim();
-    const howHeard = (formData.get("howHeard") || "").toString().trim();
+    const formHowHeard = (formData.get("howHeard") || howHeard || "").toString().trim();
     const messageText = (formData.get("message") || "").toString().trim();
 
     const firstNameValidationError = validateName(firstName, "first name");
@@ -927,9 +954,9 @@ const Section1 = () => {
     }
 
     const message = [
-      `Reason for Inquiry: ${reason || "N/A"}`,
+      `Reason for Inquiry: ${formReason || DEFAULT_REASON}`,
       `Country: ${selectedCountry || "N/A"}`,
-      `How did you hear about us: ${howHeard || "N/A"}`,
+      `How did you hear about us: ${formHowHeard || DEFAULT_HOW_HEARD}`,
       "",
       `Message: ${messageText || "N/A"}`,
     ].join("\n");
@@ -961,6 +988,8 @@ const Section1 = () => {
         });
         form.reset();
         setCountry("");
+        setReason(DEFAULT_REASON);
+        setHowHeard(DEFAULT_HOW_HEARD);
         setFirstNameError(null);
         setLastNameError(null);
         setPhoneError(null);
@@ -1325,12 +1354,9 @@ const Section1 = () => {
               name="reason"
               required
               disabled={formLocked}
-              options={[
-                "General Inquiry",
-                "New Project",
-                "RFP Submission",
-                "Partnership",
-              ]}
+              value={reason}
+              onChange={handleReasonChange}
+              options={REASON_OPTIONS}
             />
             <SelectField
               label="COUNTRY*"
@@ -1347,13 +1373,9 @@ const Section1 = () => {
               placeholder="Select an option"
               name="howHeard"
               disabled={formLocked}
-              options={[
-                "Search Engine",
-                "Social Media",
-                "Referral",
-                "Advertisement",
-                "Other",
-              ]}
+              value={howHeard}
+              onChange={handleHowHeardChange}
+              options={HOW_HEARD_OPTIONS}
             />
           </div>
 
