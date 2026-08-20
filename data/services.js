@@ -632,7 +632,7 @@ export const services = [
           content: "Social Media Content",
           subSlug: "social-media-content",
           paragraph:
-            "Consistency beats sporadic bursts of good content, every time. Ritz Media World's social media content keeps your brand present and relevant across the platforms your audience actually uses, and for brands that want a bigger push, it pairs naturally with influencer marketing to extend that reach further.\n\nWe combine strategy, creative direction, and platform-specific writing so a brand shows up with something worth actually engaging with, built around a real idea instead of a filled calendar slot.\n\nHow it comes together:\n• Platform-specific content strategy and copy\n• Consistent brand voice across channels\n• Content built to earn real engagement\n• Creative direction aligned with campaign goals",
+            "Consistency beats sporadic bursts of good content, every time. Ritz Media World's social media content keeps your brand present and relevant across the platforms your audience actually uses, and for brands that want a bigger push, it pairs naturally with [influencer marketing](https://ritzmediaworld.com/services/influencer-marketing-agency-in-india) to extend that reach further.\n\nWe combine strategy, creative direction, and platform-specific writing so a brand shows up with something worth actually engaging with, built around a real idea instead of a filled calendar slot.\n\nHow it comes together:\n• Platform-specific content strategy and copy\n• Consistent brand voice across channels\n• Content built to earn real engagement\n• Creative direction aligned with campaign goals",
         },
         {
           src: "/content-marketing/email.jpg",
