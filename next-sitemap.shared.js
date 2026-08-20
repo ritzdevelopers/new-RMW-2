@@ -20,7 +20,7 @@ const SITEMAP_INDEX_FILES = [
 
 /** Paths that must never appear in any sitemap file. */
 const EXCLUDED_SITEMAP_PATHS = new Set([
-  "/services/contents-marketing/content-marketing",
+  "/services/content-marketing/content-marketing",
   "/best-content-marketing-agency-delhi-ncr",
   "/career2",
   "/services/print-advertising2",
@@ -44,8 +44,8 @@ const EXCLUDED_SITEMAP_PREFIXES = [
 
 /** DB / legacy service path → canonical public URL in sitemaps. */
 const SERVICE_SITEMAP_PATH_ALIASES = {
-  "/services/contents-marketing/content-marketing":
-    "/services/contents-marketing/customized-content-strategy",
+  "/services/content-marketing/content-marketing":
+    "/services/content-marketing/customized-content-strategy",
 };
 
 function normalizeSitemapPath(path) {

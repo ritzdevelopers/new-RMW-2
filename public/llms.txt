@@ -15,7 +15,7 @@
 - [All Services](https://ritzmediaworld.com/services): Overview of all service offerings
 - [Digital Marketing](https://ritzmediaworld.com/services/digital-marketing): Performance marketing, SEO, and social media marketing services
 - [Creative Services](https://ritzmediaworld.com/services/creative-services): Branding and creative design solutions
-- [Content Marketing](https://ritzmediaworld.com/services/contents-marketing): Content strategy and content production services
+- [Content Marketing](https://ritzmediaworld.com/services/content-marketing): Content strategy and content production services
 - [Web Development](https://ritzmediaworld.com/services/web-designing-and-development): Website design and development
 - [Print Advertising](https://ritzmediaworld.com/services/print-advertising): Newspaper and print ad campaigns
 - [Radio Advertising](https://ritzmediaworld.com/services/radio-advertising): Radio ad planning and buying

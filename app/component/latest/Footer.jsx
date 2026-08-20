@@ -200,7 +200,7 @@ const servicesRow1 = [
 
 const servicesRow2 = [
   { title: "RADIO ADVERTISING", href: "/services/radio-advertising" },
-  { title: "CONTENT MARKETING", href: "/services/contents-marketing" },
+  { title: "CONTENT MARKETING", href: "/services/content-marketing" },
   { title: "WEB DEVELOPMENT", href: "/services/web-designing-and-development" },
 ];
 

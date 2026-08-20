@@ -16,7 +16,7 @@ const serviceRows = [
     { title: "Radio Advertisement", href: "/services/radio-advertising" },
   ],
   [
-    { title: "Content Marketing", href: "/services/contents-marketing" },
+    { title: "Content Marketing", href: "/services/content-marketing" },
     {
       title: "Celebrity Endorsement",
       href: "/services/celebrity-endorsements",

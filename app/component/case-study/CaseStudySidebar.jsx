@@ -165,13 +165,9 @@ export default function CaseStudySidebar({
         <div className="flex w-full flex-col gap-3 p-4 sm:p-5 xl:p-7">
           <div className="flex w-full flex-wrap gap-2 sm:gap-3 xl:gap-4">
             {visibleKeywords.map((keyword, index) => (
-              <Link
+              <div
                 key={`${keyword}-${index}`}
-                href={`/tags?keyword=${slugifyTag(keyword)}`}
-                title={keyword}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center rounded-[50px] border border-[#F0F0F0] px-4 py-1.5 text-center transition-colors duration-200 hover:border-[#0F1640]/40 hover:bg-[#0F1640]/5 sm:px-5 sm:py-2 xl:px-5"
+                className="flex items-center justify-center rounded-[50px] border border-[#F0F0F0] px-4 py-1.5 text-center sm:px-5 sm:py-2 xl:px-5"
               >
                 <p
                   className="text-[12px] font-normal text-[#484848] sm:text-[13px] xl:text-[14px]"
@@ -179,7 +175,7 @@ export default function CaseStudySidebar({
                 >
                   {keyword}
                 </p>
-              </Link>
+              </div>
             ))}
           </div>
           {keywords.length > PREVIEW_COUNT ? (

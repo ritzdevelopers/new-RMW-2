@@ -15,7 +15,7 @@ const STATIC_PAGE_PATHS = [
   "/services/influencer-marketing-agency-in-india",
   "/services/celebrity-endorsements",
   "/services/web-designing-and-development",
-  "/services/contents-marketing",
+  "/services/content-marketing",
   "/services/radio-advertising",
   "/services/print-advertising",
   "/services/creative-services",

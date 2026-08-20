@@ -27,6 +27,9 @@ export function middleware(request) {
     if (pathname === "/work.html") {
         return NextResponse.redirect(new URL("/case-study", request.url));
     }
+    if (pathname === "/services/contents-marketing") {
+        return NextResponse.redirect(new URL("/services/content-marketing", request.url));
+    }
     return NextResponse.next();
 }
 
@@ -46,5 +49,6 @@ export const config = {
         "/services/vedvan",
         "/services/vvip-madhuban",
         "/rdx-digital-marketing-course",
+        "/services/contents-marketing"
     ],
 };
