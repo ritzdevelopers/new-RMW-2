@@ -662,8 +662,7 @@ const Footer = ({ section = null }) => {
                 (service, index, arr) => (
                   <Link
                     key={service.href}
-                    href={service.href}
-                    target="_blank"
+                    href={service.href} 
                     rel="noopener noreferrer"
                     className={`px-1 text-center transition-colors hover:text-white${
                       index === arr.length - 1 && arr.length % 2 === 1
@@ -691,8 +690,7 @@ const Footer = ({ section = null }) => {
                       •
                     </span>
                     <Link
-                      href={service.href}
-                      target="_blank"
+                      href={service.href} 
                       rel="noopener noreferrer"
                       className="min-w-0 text-left transition-colors hover:text-white"
                     >

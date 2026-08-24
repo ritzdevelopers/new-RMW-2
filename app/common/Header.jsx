@@ -335,7 +335,6 @@ const Header = () => {
                 <Link
                   href="/services"
                   title="Services"
-                  target="_blank"
                   rel="noopener noreferrer"
                   className={linkClass}
                 >
@@ -465,7 +464,6 @@ const Header = () => {
           <Link
             href="/services"
             title="Services"
-            target="_blank"
             rel="noopener noreferrer"
             className={linkClass}
             onClick={() => setMenuOpen(false)}
@@ -574,7 +572,6 @@ const Header = () => {
               <Link
                 href="/services"
                 title="View all services"
-                target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setServicesMenuOpen(false)}
                 className="mt-0 md:mt-3 inline-flex items-center gap-2 font-sequel text-[19px] font-[310] uppercase tracking-normal text-white transition-colors hover:text-[#c99237]"
@@ -591,7 +588,6 @@ const Header = () => {
                 key={service.slug}
                 href={`/services/${service.slug}`}
                 title={service.title}
-                target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setServicesMenuOpen(false)}
                 style={{

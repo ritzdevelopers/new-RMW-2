@@ -126,7 +126,6 @@ const OverlaySection1 = () => {
                 <Link
                   key={key}
                   href={label.href}
-                  target="_blank"
                   rel="noopener noreferrer"
                   onMouseEnter={() => setHoveredKey(key)}
                   className={`${serviceClass} ${mobileFontClass} block w-full text-center ${getOpacityClass(
@@ -157,7 +156,6 @@ const OverlaySection1 = () => {
                     <Link
                       key={key}
                       href={label.href}
-                      target="_blank"
                       rel="noopener noreferrer"
                       onMouseEnter={() => setHoveredKey(key)}
                       className={`${serviceClass} ${desktopFontClass} ${getOpacityClass(
