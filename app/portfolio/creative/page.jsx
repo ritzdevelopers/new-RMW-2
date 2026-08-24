@@ -51,6 +51,8 @@ const paper_prints = [
   "/portfolio-page/creatives/paper_prints_i8.jpg",
   "/portfolio-page/creatives/paper_prints_i9.jpg",
   "/portfolio-page/creatives/paper_prints_i10.jpg",
+  "/portfolio-page/creatives/paper_prints_i11.jpg",
+  "/portfolio-page/creatives/paper_prints_i12.jpg", 
 ];
 
 const brochures_adaptations_images = [
