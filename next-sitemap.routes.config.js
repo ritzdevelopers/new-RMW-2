@@ -3,10 +3,17 @@ const {
   fetchAllPostSitemapRecords,
   collectPostSitemapPaths,
 } = require("./next-sitemap.blog-sources");
-const { fetchServiceSitemapEntries } = require("./next-sitemap.service-sources");
-const { fetchCategorySitemapEntries } = require("./next-sitemap.category-sources");
+const {
+  fetchServiceSitemapEntries,
+} = require("./next-sitemap.service-sources");
+const {
+  fetchCategorySitemapEntries,
+} = require("./next-sitemap.category-sources");
 const { fetchTagSitemapEntries } = require("./next-sitemap.tag-sources");
-const { getSitemapBuildLastmod, isExcludedSitemapPath } = require("./next-sitemap.shared");
+const {
+  getSitemapBuildLastmod,
+  isExcludedSitemapPath,
+} = require("./next-sitemap.shared");
 
 /** Paths that must never appear in sitemap-0.xml (admin, internal, legacy). */
 const EXCLUDED_PATHS = [
@@ -19,6 +26,8 @@ const EXCLUDED_PATHS = [
   "/404/*",
   "/slug_img",
   "/blogs_old",
+  "/contact2.html",
+  "/contact.html",
   "/all-ritz-blogs",
   "/all-ritz-blogs/*",
   "/career2",
@@ -74,18 +83,21 @@ module.exports = {
     const uniquePaths = new Map();
 
     for (const path of await fetchCategorySitemapEntries()) {
-      if (!isExcludedSitemapPath(path) && !matchesExcludedPath(path)) uniquePaths.set(path, true);
+      if (!isExcludedSitemapPath(path) && !matchesExcludedPath(path))
+        uniquePaths.set(path, true);
     }
 
     for (const path of await fetchTagSitemapEntries()) {
-      if (!isExcludedSitemapPath(path) && !matchesExcludedPath(path)) uniquePaths.set(path, true);
+      if (!isExcludedSitemapPath(path) && !matchesExcludedPath(path))
+        uniquePaths.set(path, true);
     }
 
     const records = await fetchAllPostSitemapRecords();
     let blogPathCount = 0;
 
     for (const postPath of collectPostSitemapPaths(records)) {
-      if (isExcludedSitemapPath(postPath) || matchesExcludedPath(postPath)) continue;
+      if (isExcludedSitemapPath(postPath) || matchesExcludedPath(postPath))
+        continue;
       if (!uniquePaths.has(postPath)) blogPathCount++;
       uniquePaths.set(postPath, true);
     }
@@ -114,12 +126,14 @@ module.exports = {
         lastmod: buildLastmod,
         changefreq: "weekly",
         priority:
-          path.startsWith("/category/") || path.startsWith("/tags/") ? 0.7 : 0.8,
+          path.startsWith("/category/") || path.startsWith("/tags/")
+            ? 0.7
+            : 0.8,
       });
     }
 
     console.log(
-      `[next-sitemap:sitemap-0] Categories + tags + posts (${blogPathCount}) + services → ${items.length} additional paths`
+      `[next-sitemap:sitemap-0] Categories + tags + posts (${blogPathCount}) + services → ${items.length} additional paths`,
     );
     return items;
   },
