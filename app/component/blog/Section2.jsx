@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
 import { resolveBlogImageUrl } from "../../../lib/caseStudyApi";
+import { formatBlogDate } from "../../../lib/formatBlogDate";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -101,15 +102,8 @@ function getCategory(blog) {
 }
 
 function formatMetaLine(blog) {
-  if (!blog?.created_at) return "Ritz Media World";
-  const date = new Date(blog.created_at);
-  if (Number.isNaN(date.getTime())) return "Ritz Media World";
-  const formatted = date.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-  return `Ritz Media World ${formatted}`;
+  const formatted = formatBlogDate(blog?.created_at);
+  return formatted ? `Ritz Media World ${formatted}` : "Ritz Media World";
 }
 
 function slugifyCategoryLink(name) {
