@@ -217,7 +217,7 @@ const Section4 = ({ categories = [], blogsByCategory = {} }) => {
                       src={featuredPost.image}
                       alt={featuredPost.title}
                       title={featuredPost.title}
-                      className="block h-full w-full"
+                      className="block h-full w-full object-cover"
                     />
                   </div>
 
@@ -255,7 +255,7 @@ const Section4 = ({ categories = [], blogsByCategory = {} }) => {
                           src={post.image}
                           alt={post.title}
                           title={post.title}
-                          className="block h-full w-full"
+                          className="block h-full w-full object-cover"
                         />
                       </div>
 

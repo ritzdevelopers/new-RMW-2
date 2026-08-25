@@ -244,7 +244,7 @@ const Section1 = ({ blogs = [] }) => {
                         src={post.image}
                         alt={post.title}
                         title={post.title}
-                        className="h-12 w-12 shrink-0 rounded-md "
+                        className="h-12 w-12 shrink-0 rounded-md object-cover"
                       />
                       <span className="min-w-0 flex-1">
                         <span className="block text-[12px] capitalize text-[#00000099]">
@@ -281,7 +281,7 @@ const Section1 = ({ blogs = [] }) => {
                 src={featuredPost.image}
                 alt={featuredPost.title}
                 title={featuredPost.title}
-                className="block h-full w-full"
+                className="block h-full w-full object-cover"
               />
             </div>
 
@@ -326,7 +326,7 @@ const Section1 = ({ blogs = [] }) => {
                     src={post.image}
                     alt={post.title}
                     title={post.title}
-                    className="block h-full w-full"
+                    className="block h-full w-full object-cover"
                   />
                 </div>
 
