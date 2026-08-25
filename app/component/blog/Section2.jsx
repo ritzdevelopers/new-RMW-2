@@ -235,7 +235,7 @@ const Section2 = ({ blogs = [], categories = [] }) => {
                     src={post.image}
                     alt={post.title}
                     title={post.title}
-                    className="block h-full w-full"
+                    className="block h-full w-full object-cover"
                   />
                 </div>
 
