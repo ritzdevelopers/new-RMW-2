@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { refreshFooterScroll } from "@/lib/footerRefresh";
 
 const BANNER_SRC = "/service/website%20banner%20%5BRecovered%5D-01.jpg";
 
@@ -72,41 +71,27 @@ const rowLayoutClasses = [
 
 const OverlaySection1 = () => {
   const [hoveredKey, setHoveredKey] = useState(null);
+  const [shouldLoadMedia, setShouldLoadMedia] = useState(false);
   const sectionRef = useRef(null);
 
   const getOpacityClass = (key) =>
     hoveredKey && hoveredKey !== key ? "opacity-30" : "opacity-100";
 
-  // Let the footer curtain measure this overlay once layout is settled.
-  useLayoutEffect(() => {
-    refreshFooterScroll();
-    const raf = requestAnimationFrame(() => refreshFooterScroll());
-    const timer = window.setTimeout(() => refreshFooterScroll(), 120);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.clearTimeout(timer);
-    };
-  }, []);
-
+  // Footer banner is far below the fold - keep it off the LCP / priority path.
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
 
-    const refresh = () => refreshFooterScroll();
-    const resizeObserver =
-      typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(() => refresh())
-        : null;
-    resizeObserver?.observe(el);
-
-    const settleTimer = window.setTimeout(refresh, 400);
-    window.addEventListener("load", refresh, { once: true });
-
-    return () => {
-      resizeObserver?.disconnect();
-      window.clearTimeout(settleTimer);
-      window.removeEventListener("load", refresh);
-    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setShouldLoadMedia(true);
+        observer.disconnect();
+      },
+      { rootMargin: "600px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -115,17 +100,18 @@ const OverlaySection1 = () => {
       className="relative h-[100dvh] min-h-[100dvh] w-full max-w-full overflow-hidden bg-[#0E1125]"
     >
       <div className="relative h-full min-h-[100dvh] w-full">
-        <Image
-          src={BANNER_SRC}
-          alt="Ritz Media World creative services"
-          title="Ritz Media World creative services"
-          fill
-          loading="lazy"
-          fetchPriority="low"
-          quality={75}
-          className="object-cover object-center"
-          sizes="100vw"
-        />
+        {shouldLoadMedia ? (
+          <Image
+            src={BANNER_SRC}
+            alt="Ritz Media World creative services"
+            title="Ritz Media World creative services"
+            fill
+            loading="lazy"
+            fetchPriority="low"
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+        ) : null}
 
         <div className="absolute inset-0 bg-black/10" aria-hidden />
 
