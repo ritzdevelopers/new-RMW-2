@@ -444,9 +444,9 @@ const Footer = ({ section = null }) => {
     const resizeObserver =
       typeof ResizeObserver !== "undefined"
         ? new ResizeObserver(() => {
-            measure();
-            apply();
-          })
+          measure();
+          apply();
+        })
         : null;
 
     resizeObserver?.observe(stack);
@@ -551,7 +551,7 @@ const Footer = ({ section = null }) => {
             >
               Connect
             </span>
-            
+
             <nav className="flex flex-col items-center gap-2 md:items-start md:gap-3">
               {connectLinks.map((link) => (
                 <Link
@@ -621,6 +621,46 @@ const Footer = ({ section = null }) => {
                 <span>+91 7290002168</span>
               </p>
             </div>
+            <div className="mt-4 md:mt-5">
+              <a
+                href="https://www.google.com/preferences/source?q=ritzmediaworld.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Add Contenaissance as a preferred source on Google"
+                className="
+      google-source-btn
+      inline-flex items-center
+      gap-2.5 sm:gap-3
+      rounded-full bg-white
+      px-4 py-2.5
+      sm:px-5 sm:py-3
+      md:px-6 md:py-3.5
+      text-[14px] sm:text-[16px] md:text-[18px]
+      font-bold leading-[1.15]
+      text-[#171717]
+      shadow-lg
+      transition-transform duration-300
+      hover:scale-[1.03]
+      max-w-full
+    "
+              >
+                {/* Google Logo */}
+                <div className="flex h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 shrink-0 items-center justify-center">
+                  <img
+                    src="/google-logo.png"
+                    alt="Google"
+                    className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 object-contain"
+                  />
+                </div>
+
+                {/* Text */}
+                <span className="whitespace-nowrap">
+                  Add as a preferred
+                  <br />
+                  source on Google
+                </span>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -662,13 +702,12 @@ const Footer = ({ section = null }) => {
                 (service, index, arr) => (
                   <Link
                     key={service.href}
-                    href={service.href} 
+                    href={service.href}
                     rel="noopener noreferrer"
-                    className={`px-1 text-center transition-colors hover:text-white${
-                      index === arr.length - 1 && arr.length % 2 === 1
-                        ? " col-span-2"
-                        : ""
-                    }`}
+                    className={`px-1 text-center transition-colors hover:text-white${index === arr.length - 1 && arr.length % 2 === 1
+                      ? " col-span-2"
+                      : ""
+                      }`}
                   >
                     {service.title}
                   </Link>
@@ -690,7 +729,7 @@ const Footer = ({ section = null }) => {
                       •
                     </span>
                     <Link
-                      href={service.href} 
+                      href={service.href}
                       rel="noopener noreferrer"
                       className="min-w-0 text-left transition-colors hover:text-white"
                     >
