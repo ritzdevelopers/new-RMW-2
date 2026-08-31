@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { refreshFooterScroll } from "@/lib/footerRefresh";
 
 const SECTION3_VIDEO_SRC =
   "https://otherassets.blob.core.windows.net/rmw/home-section2.mp4";
 
 const Section3 = () => {
   const videoRef = useRef(null);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -14,6 +16,17 @@ const Section3 = () => {
 
     let started = false;
     let cancelled = false;
+
+    const notifyLayoutStable = () => {
+      const video = videoRef.current;
+      const wrapper = sectionRef.current?.firstElementChild;
+      if (video?.videoWidth && video?.videoHeight && wrapper) {
+        wrapper.style.aspectRatio = `${video.videoWidth} / ${video.videoHeight}`;
+        wrapper.style.minHeight = "";
+      }
+      refreshFooterScroll();
+      window.dispatchEvent(new Event("rmw:layout-stable"));
+    };
 
     const playVideo = () => {
       if (cancelled) return;
@@ -59,26 +72,35 @@ const Section3 = () => {
     );
     observer.observe(video);
 
+    video.addEventListener("loadedmetadata", notifyLayoutStable, { once: true });
+
     return () => {
       cancelled = true;
       observer.disconnect();
       window.removeEventListener("rmw:loader-done", begin);
       video.removeEventListener("loadeddata", playVideo);
       video.removeEventListener("canplay", playVideo);
+      video.removeEventListener("loadedmetadata", notifyLayoutStable);
     };
   }, []);
 
   return (
-    <section className="w-full bg-black [content-visibility:auto] [contain-intrinsic-size:auto_420px]">
-      <video
-        ref={videoRef}
-        loop
-        muted
-        playsInline
-        preload="none"
-        disableRemotePlayback
-        className="block h-auto w-full object-cover"
-      />
+    <section
+      ref={sectionRef}
+      className="relative isolate z-[1] w-full bg-black"
+      data-home-section="section3"
+    >
+      <div className="relative w-full min-h-[420px] bg-black">
+        <video
+          ref={videoRef}
+          loop
+          muted
+          playsInline
+          preload="none"
+          disableRemotePlayback
+          className="block h-auto w-full min-h-[420px] object-cover"
+        />
+      </div>
     </section>
   );
 };

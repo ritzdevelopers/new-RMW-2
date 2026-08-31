@@ -821,6 +821,34 @@ const Section4 = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Re-measure ScrollTrigger when Section 3 (or any prior sibling) changes height.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const refresh = () => {
+      if (!window.__gsapScrollTrigger) return;
+      import("gsap/ScrollTrigger")
+        .then(({ ScrollTrigger }) => ScrollTrigger.refresh())
+        .catch(() => {});
+    };
+
+    const onLayoutStable = () => refresh();
+    window.addEventListener("rmw:layout-stable", onLayoutStable);
+
+    const prevSibling = section.previousElementSibling;
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined" && prevSibling
+        ? new ResizeObserver(() => refresh())
+        : null;
+    resizeObserver?.observe(prevSibling);
+
+    return () => {
+      window.removeEventListener("rmw:layout-stable", onLayoutStable);
+      resizeObserver?.disconnect();
+    };
+  }, []);
+
   const applyListStartY = useCallback(() => {
     if (typeof window === "undefined" || window.innerWidth < 768) return;
     const pin = pinRef.current;
@@ -1374,7 +1402,11 @@ const Section4 = () => {
 
     requestAnimationFrame(() => ScrollTrigger.refresh());
 
+    const onLayoutStable = () => ScrollTrigger.refresh();
+    window.addEventListener("rmw:layout-stable", onLayoutStable);
+
     return () => {
+      window.removeEventListener("rmw:layout-stable", onLayoutStable);
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
@@ -1385,10 +1417,11 @@ const Section4 = () => {
   return (
     <section
       ref={sectionRef}
-      className={`relative bg-white ${
+      data-home-section="section4"
+      className={`relative isolate z-[2] bg-white ${
         viewMode === "grid"
-          ? "px-0 py-0"
-          : "px-8 py-[35px] md:px-12 md:py-[6vh]"
+          ? "px-0 py-0 md:min-h-[100dvh]"
+          : "px-8 py-[35px] md:min-h-[calc(88dvh+12vh)] md:px-12 md:py-[6vh]"
       }`}
     >
       <style>{`
