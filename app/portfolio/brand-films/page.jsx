@@ -8,7 +8,7 @@ import Section6 from "@/app/component/social-media/Section6";
 import Section8 from "@/app/component/social-media/Section8";
 import Section10 from "@/app/component/social-media/Section10";
 import DynamicSlider from "@/app/component/social-media/DynamicSlider";
-
+import SeoBrandFilmHeadings from "@/app/component/social-media/SeoBrandFilmHeadings";
 import Section2 from "@/app/component/work/portfolio/Section2";
 /** Webflow Editor's Note Light custom font stack */
 const editorsNoteLight =
@@ -81,6 +81,8 @@ const walkthrough_images = [
 ];
 
 export const metadata = {
+  title: "Brand Film Production Company in India | Ritz Media World",
+  description: "Ritz Media World is a brand film production company in India creating cinematic brand films, corporate videos and compelling visual stories that connect brands with audiences.",
   alternates: {
     canonical: "https://ritzmediaworld.com/portfolio/brand-films",
   },
@@ -89,7 +91,7 @@ export const metadata = {
 function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>
-      <Header title="Brand Films" />
+      <Header title="Brand Film Production Company" />
       <Hero title="Bringing stories to motion & ideas to screen<br />with AI-Powered Video Creation" />
       <DynamicSlider heading="Brand Films" images={brand_film_images} />
       {/* <Section3 />  */}
@@ -104,6 +106,7 @@ function page() {
 
       <Section2 />
       <Section10 />
+      <SeoBrandFilmHeadings />
     </main>
   );
 }
