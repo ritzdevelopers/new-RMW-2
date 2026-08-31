@@ -69,9 +69,7 @@ export default function RootLayout({ children }) {
       className="h-full antialiased [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
     >
       <head>
-        {/* Preload critical self-hosted faces (replaces Google Fonts / jsDelivr CDN). */}
-        
-        
+        {/* Preload only LCP-critical faces. Remixicon is below-the-fold chrome. */}
         <link
           rel="preload"
           href="/fonts/google/league-spartan-latin-wght-normal.woff2"
@@ -86,13 +84,6 @@ export default function RootLayout({ children }) {
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        <link
-          rel="preload"
-          href="/fonts/remixicon/remixicon.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
       </head>
       <body
         suppressHydrationWarning
@@ -100,9 +91,9 @@ export default function RootLayout({ children }) {
       >
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

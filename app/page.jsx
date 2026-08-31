@@ -4,15 +4,41 @@ import dynamic from "next/dynamic";
 // Critical Above-The-Fold components load instantly
 import Header from "./common/Header";
 import Section1 from "./component/home/Section1";
+import Section3 from "./component/home/Section3";
+import Section4 from "./component/home/Section4";
+import OverlaySection1 from "./component/latest/OverlaySection1";
 import WebLoader from "./component/loader/WebLoader";
 
-// Fixed: Next.js dynamic imports without { ssr: false } for Server Components
 const Section2 = dynamic(() => import("./component/home/Section2"));
-const Section3 = dynamic(() => import("./component/home/Section3"));
-const Section4 = dynamic(() => import("./component/home/Section4"));
 const Section5 = dynamic(() => import("./component/home/Section5"));
 const Footer = dynamic(() => import("./component/latest/Footer"));
-const OverlaySection1 = dynamic(() => import("./component/latest/OverlaySection1"));
+
+function Section2Fallback() {
+  return (
+    <section
+      className="relative w-full overflow-hidden px-8 py-[35px] md:px-12 md:py-[70px] min-h-[min(520px,85vh)] bg-[#0F0E14]"
+      aria-hidden
+    />
+  );
+}
+
+function Section5Fallback() {
+  return (
+    <section
+      className="bg-[#FAFAFA] px-8 py-[35px] md:px-12 md:py-[70px] min-h-[720px]"
+      aria-hidden
+    />
+  );
+}
+
+function FooterFallback() {
+  return (
+    <footer
+      className="relative w-full min-h-[100dvh] bg-[#0E1125]"
+      aria-hidden
+    />
+  );
+}
 
 const serviceHeadings = [
   "Branding & Creative Solutions",
@@ -43,56 +69,50 @@ const pageHeadings = [
   "Let's Build Your Brand Together",
 ];
 
-const HOME_VIDEO_SRC =
-  "https://windows.net";
-const SECTION3_VIDEO_SRC =
-  "https://windows.net";
+const HOME_VIDEO_HOST = "https://otherassets.blob.core.windows.net";
 
 export default function Home() {
   return (
     <WebLoader>
-      {/* Start hero videos fetch as early as possible (during loader). */}
-      <link rel="preconnect" href="https://windows.net" />
+      {/* Warm the hero-video origin only — do not preload the below-fold clip. */}
+      <link rel="preconnect" href={HOME_VIDEO_HOST} />
       <link
         rel="preload"
-        as="video"
-        href={HOME_VIDEO_SRC}
-        type="video/mp4"
+        as="image"
+        href="/loder/loader_i6.jpg"
+        fetchPriority="high"
       />
-      <link
-        rel="preload"
-        as="video"
-        href={SECTION3_VIDEO_SRC}
-        type="video/mp4"
-      />
-      
+
       <Header />
       <Section1 />
 
-      {/* Suspense handles the non-blocking execution chunking */}
-      <Suspense fallback={null}>
+      <Suspense fallback={<Section2Fallback />}>
         <Section2 />
-        
-        {/* SEO heading hierarchy - present in source, hidden visually */}
-        <div className="sr-only">
-          <h2>Our Services</h2>
-          {serviceHeadings.map((title) => (
-            <h3 key={title}>{title}</h3>
-          ))}
-          {pageHeadings.map((title) => (
-            <h2 key={title}>{title}</h2>
-          ))}
-        </div>
+      </Suspense>
 
-        <Section3 />
-        <Section4 />
-        <div className="relative">
+      {/* SEO heading hierarchy - present in source, hidden visually */}
+      <div className="sr-only">
+        <h2>Our Services</h2>
+        {serviceHeadings.map((title) => (
+          <h3 key={title}>{title}</h3>
+        ))}
+        {pageHeadings.map((title) => (
+          <h2 key={title}>{title}</h2>
+        ))}
+      </div>
+
+      <Section3 />
+      <Section4 />
+
+      <div className="relative">
+        <Suspense fallback={<Section5Fallback />}>
           <Section5 />
-        </div>
+        </Suspense>
+      </div>
+
+      <Suspense fallback={<FooterFallback />}>
         <Footer section={<OverlaySection1 />} />
       </Suspense>
     </WebLoader>
   );
 }
-
-

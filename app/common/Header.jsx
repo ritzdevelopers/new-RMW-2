@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import gsap from "gsap";
 import { services } from "../../data/services";
 
 const portfolioSubLinks = [
@@ -44,13 +43,19 @@ const Header = () => {
   const [portfolioSubOpen, setPortfolioSubOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(88);
-  const [headerVisible, setHeaderVisible] = useState(true);
   const headerRef = useRef(null);
   const headerBarRef = useRef(null);
   const lastScrollY = useRef(0);
   const servicesCloseTimer = useRef(null);
   const workCloseTimer = useRef(null);
+  const menuOpenRef = useRef(false);
+  const servicesMenuOpenRef = useRef(false);
+  const workMenuOpenRef = useRef(false);
   const pathname = usePathname();
+
+  menuOpenRef.current = menuOpen;
+  servicesMenuOpenRef.current = servicesMenuOpen;
+  workMenuOpenRef.current = workMenuOpen;
 
   const handleLogoClick = (event) => {
     const isHome = pathname === "/" || window.location.pathname === "/";
@@ -142,27 +147,12 @@ const Header = () => {
   const megaMenuOpen = servicesMenuOpen || workMenuOpen;
 
   useLayoutEffect(() => {
-    const header = headerRef.current;
-    if (!header) return;
-
-    const ctx = gsap.context(() => {
-      const items = gsap.utils.toArray("[data-header-reveal]", header);
-      if (!items.length) return;
-
-      gsap.set(items, { yPercent: -110 });
-      gsap.timeline({ delay: 0.15 })
-        .to(items, {
-          yPercent: 0,
-          duration: 1.05,
-          ease: "power4.out",
-          stagger: 0.08,
-        })
-        .eventCallback("onComplete", () => {
-          window.dispatchEvent(new CustomEvent("header-reveal-complete"));
-        });
-    }, header);
-
-    return () => ctx.revert();
+    const items = headerRef.current?.querySelectorAll("[data-header-reveal]");
+    const delayMs = 150 + 1050 + Math.max(0, (items?.length ?? 1) - 1) * 80;
+    const timer = window.setTimeout(() => {
+      window.dispatchEvent(new CustomEvent("header-reveal-complete"));
+    }, delayMs);
+    return () => window.clearTimeout(timer);
   }, []);
 
   useLayoutEffect(() => {
@@ -177,12 +167,14 @@ const Header = () => {
     if (!bar) return;
 
     const updateHeight = () => {
-      setHeaderHeight(bar.getBoundingClientRect().height);
+      const next = Math.round(bar.getBoundingClientRect().height);
+      setHeaderHeight((current) => (current === next ? current : next));
     };
 
     updateHeight();
-    window.addEventListener("resize", updateHeight);
-    return () => window.removeEventListener("resize", updateHeight);
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(bar);
+    return () => observer.disconnect();
   }, []);
 
   useLayoutEffect(() => {
@@ -231,27 +223,38 @@ const Header = () => {
     };
   }, [megaMenuOpen]);
 
-  // Show header on scroll up / hide on scroll down - all screen sizes
-  useLayoutEffect(() => {
+  // Show header on scroll up / hide on scroll down - all screen sizes.
+  // Toggle classes on the bar directly so scroll does not re-render the header tree.
+  useEffect(() => {
     lastScrollY.current = window.scrollY;
+    const bar = headerBarRef.current;
+    if (!bar) return;
+
+    const setVisible = (visible) => {
+      bar.classList.toggle("translate-y-0", visible);
+      bar.classList.toggle("-translate-y-full", !visible);
+    };
 
     const onScroll = () => {
       const y = Math.max(0, window.scrollY);
       const delta = y - lastScrollY.current;
 
-      // Keep header visible while any menu is open
-      if (menuOpen || servicesMenuOpen || workMenuOpen) {
-        setHeaderVisible(true);
+      if (
+        menuOpenRef.current ||
+        servicesMenuOpenRef.current ||
+        workMenuOpenRef.current
+      ) {
+        setVisible(true);
         lastScrollY.current = y;
         return;
       }
 
       if (y <= 8) {
-        setHeaderVisible(true);
+        setVisible(true);
       } else if (delta > 6) {
-        setHeaderVisible(false);
+        setVisible(false);
       } else if (delta < -6) {
-        setHeaderVisible(true);
+        setVisible(true);
       }
 
       lastScrollY.current = y;
@@ -259,12 +262,14 @@ const Header = () => {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [menuOpen, servicesMenuOpen, workMenuOpen]);
+  }, []);
 
   useLayoutEffect(() => {
-    if (menuOpen || servicesMenuOpen || workMenuOpen) {
-      setHeaderVisible(true);
-    }
+    if (!(menuOpen || servicesMenuOpen || workMenuOpen)) return;
+    const bar = headerBarRef.current;
+    if (!bar) return;
+    bar.classList.add("translate-y-0");
+    bar.classList.remove("-translate-y-full");
   }, [menuOpen, servicesMenuOpen, workMenuOpen]);
 
   return (
@@ -280,9 +285,7 @@ const Header = () => {
 
       <div
         ref={headerBarRef}
-        className={`fixed inset-x-0 top-[var(--independence-banner-height,0px)] z-[110] w-full bg-[#0D1334] transition-transform duration-300 ease-out will-change-transform ${
-          headerVisible ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className="fixed inset-x-0 top-[var(--independence-banner-height,0px)] z-[110] w-full bg-[#0D1334] translate-y-0 transition-transform duration-300 ease-out will-change-transform"
       >
         <div
           ref={headerRef}
@@ -296,7 +299,11 @@ const Header = () => {
           onClick={handleLogoClick}
           className="shrink-0 overflow-hidden"
         >
-          <span data-header-reveal className="inline-block">
+          <span
+            data-header-reveal
+            className="inline-block"
+            style={{ "--hdr-i": 0 }}
+          >
             <Image
               src="/logo/rmw.logo.png"
               alt="Ritz Media World"
@@ -304,7 +311,8 @@ const Header = () => {
               width={180}
               height={72}
               className="h-12 w-auto md:h-14"
-              priority
+              preload
+              sizes="180px"
             />
           </span>
         </Link>
@@ -318,7 +326,11 @@ const Header = () => {
               rel="noopener noreferrer"
               className={`${linkClass} overflow-hidden`}
             >
-              <span data-header-reveal className="inline-block">
+              <span
+                data-header-reveal
+                className="inline-block"
+                style={{ "--hdr-i": 1 }}
+              >
                 ABOUT
               </span>
             </Link>
@@ -331,6 +343,7 @@ const Header = () => {
               <span
                 data-header-reveal
                 className="inline-flex items-center gap-1.5 overflow-hidden"
+                style={{ "--hdr-i": 2 }}
               >
                 <Link
                   href="/services"
@@ -376,7 +389,11 @@ const Header = () => {
                   toggleWorkMenu();
                 }}
               >
-                <span data-header-reveal className="inline-flex items-center gap-1.5">
+                <span
+                  data-header-reveal
+                  className="inline-flex items-center gap-1.5"
+                  style={{ "--hdr-i": 3 }}
+                >
                   OUR WORK
                   <i
                     className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${workMenuOpen ? "rotate-180" : ""}`}
@@ -395,7 +412,11 @@ const Header = () => {
                 rel="noopener noreferrer"
                 className={`${linkClass} overflow-hidden`}
               >
-                <span data-header-reveal className="inline-block">
+                <span
+                  data-header-reveal
+                  className="inline-block"
+                  style={{ "--hdr-i": 4 }}
+                >
                   {link.label}
                 </span>
               </Link>
@@ -409,13 +430,18 @@ const Header = () => {
             onClick={() => setMenuOpen((open) => !open)}
             className="shrink-0 cursor-pointer overflow-hidden md:hidden"
           >
-            <span data-header-reveal className="inline-block">
+            <span
+              data-header-reveal
+              className="inline-block"
+              style={{ "--hdr-i": 1 }}
+            >
               <Image
                 src="/logo/menu.png"
                 alt={menuOpen ? "Close menu" : "Open menu"}
                 title={menuOpen ? "Close menu" : "Open menu"}
                 width={36}
                 height={28}
+                sizes="36px"
                 className="h-5 w-auto md:h-6"
               />
             </span>

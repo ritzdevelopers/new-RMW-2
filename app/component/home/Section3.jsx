@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { refreshFooterScroll } from "@/lib/footerRefresh";
 
 const SECTION3_VIDEO_SRC =
   "https://otherassets.blob.core.windows.net/rmw/home-section2.mp4";
 
 const Section3 = () => {
   const videoRef = useRef(null);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -15,24 +17,38 @@ const Section3 = () => {
     let started = false;
     let cancelled = false;
 
+    const notifyLayoutStable = () => {
+      const video = videoRef.current;
+      const wrapper = sectionRef.current?.firstElementChild;
+      if (video?.videoWidth && video?.videoHeight && wrapper) {
+        wrapper.style.aspectRatio = `${video.videoWidth} / ${video.videoHeight}`;
+        wrapper.style.minHeight = "";
+      }
+      refreshFooterScroll();
+      window.dispatchEvent(new Event("rmw:layout-stable"));
+    };
+
     const playVideo = () => {
       if (cancelled) return;
       video.muted = true;
       video.play().catch(() => {});
     };
 
-    // Buffer early so the first frame is ready when the section enters view.
-    if (!video.getAttribute("src")) {
-      video.src = SECTION3_VIDEO_SRC;
-    }
-    video.preload = "auto";
-    if (video.readyState === 0) {
-      video.load();
-    }
+    const attachSource = () => {
+      if (cancelled) return;
+      if (!video.getAttribute("src")) {
+        video.src = SECTION3_VIDEO_SRC;
+      }
+      video.preload = "metadata";
+      if (video.readyState === 0) {
+        video.load();
+      }
+    };
 
     const begin = () => {
       if (started || cancelled) return;
       started = true;
+      attachSource();
 
       if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
         playVideo();
@@ -42,22 +58,21 @@ const Section3 = () => {
       video.addEventListener("canplay", playVideo);
     };
 
-    if (window.__rmwLoaderDone) {
-      begin();
-    } else {
-      window.addEventListener("rmw:loader-done", begin, { once: true });
-    }
-
-    // Pause off-screen to cut decode/CPU after the user scrolls away.
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!started) return;
-        if (entry.isIntersecting) playVideo();
-        else video.pause();
+        if (entry.isIntersecting) {
+          if (window.__rmwLoaderDone) begin();
+          else window.addEventListener("rmw:loader-done", begin, { once: true });
+          if (started) playVideo();
+        } else if (started) {
+          video.pause();
+        }
       },
-      { rootMargin: "200px 0px", threshold: 0.05 }
+      { rootMargin: "280px 0px", threshold: 0.01 }
     );
     observer.observe(video);
+
+    video.addEventListener("loadedmetadata", notifyLayoutStable, { once: true });
 
     return () => {
       cancelled = true;
@@ -65,21 +80,27 @@ const Section3 = () => {
       window.removeEventListener("rmw:loader-done", begin);
       video.removeEventListener("loadeddata", playVideo);
       video.removeEventListener("canplay", playVideo);
+      video.removeEventListener("loadedmetadata", notifyLayoutStable);
     };
   }, []);
 
   return (
-    <section className="w-full bg-black">
-      <video
-        ref={videoRef}
-        src={SECTION3_VIDEO_SRC}
-        loop
-        muted
-        playsInline
-        preload="auto"
-        disableRemotePlayback
-        className="block h-auto w-full object-cover"
-      />
+    <section
+      ref={sectionRef}
+      className="relative isolate z-[1] w-full bg-black"
+      data-home-section="section3"
+    >
+      <div className="relative w-full min-h-[420px] bg-black">
+        <video
+          ref={videoRef}
+          loop
+          muted
+          playsInline
+          preload="none"
+          disableRemotePlayback
+          className="block h-auto w-full min-h-[420px] object-cover"
+        />
+      </div>
     </section>
   );
 };

@@ -406,10 +406,8 @@ const Footer = ({ section = null }) => {
       measureBrand();
     };
 
-    const getProgress = () => {
-      stackTop = stack.getBoundingClientRect().top + window.scrollY;
-      return clamp((window.scrollY - stackTop) / revealDistance, 0, 1);
-    };
+    const getProgress = () =>
+      clamp((window.scrollY - stackTop) / revealDistance, 0, 1);
 
     const apply = () => {
       raf = 0;
@@ -669,15 +667,17 @@ const Footer = ({ section = null }) => {
         <div className="mx-auto mt-5 w-full max-w-[340px] border border-white/10 bg-white/[0.02] p-2.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] backdrop-blur-sm sm:w-fit sm:max-w-full md:mt-6 md:p-3 lg:mt-5">
           <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 sm:gap-4 md:gap-6 lg:gap-8">
             {partnerLogos.map((logo) => (
-              <img
-                key={logo.src}
-                src={logo.src}
-                alt={logo.alt}
-                title={logo.title}
-                width={90}
-                height={55}
-                className="h-[22px] w-[64px] shrink-0 object-contain sm:h-[26px] sm:w-[77px]"
-              />
+            <img
+              key={logo.src}
+              src={logo.src}
+              alt={logo.alt}
+              title={logo.title}
+              width={90}
+              height={55}
+              loading="lazy"
+              decoding="async"
+              className="h-[22px] w-[64px] shrink-0 object-contain sm:h-[26px] sm:w-[77px]"
+            />
             ))}
           </div>
         </div>
@@ -785,6 +785,10 @@ const Footer = ({ section = null }) => {
           src="/logo/r-logo-new.png"
           alt="Ritz Media World"
           title="Ritz Media World"
+          width={360}
+          height={360}
+          loading="lazy"
+          decoding="async"
           className="h-[160px] w-auto max-w-none object-contain will-change-transform sm:h-[180px] md:h-[220px] lg:h-[220px] xl:h-[280px] 2xl:h-[360px]"
           style={{
             filter: "brightness(3.2) contrast(1.05)",
