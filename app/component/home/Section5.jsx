@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
@@ -317,7 +318,6 @@ const Section5 = () => {
                 height={88}
                 loading="lazy"
                 decoding="async"
-                fetchPriority="low"
                 className="block h-[72px] w-[72px] md:h-[88px] md:w-[88px]"
                 aria-hidden
               />
@@ -372,17 +372,19 @@ const Section5 = () => {
           className="mx-auto hidden w-full max-w-[420px] shrink-0 cursor-grab active:cursor-grabbing lg:mx-0 lg:block lg:max-w-[460px]"
         >
           {shouldLoadMedia && isLg ? (
-            <img
-              ref={imageRef}
-              src={slide.image}
-              alt={slide.author}
-              width={460}
-              height={580}
-              loading="lazy"
-              decoding="async"
-              fetchPriority="low"
-              className="mt-3 block h-auto w-full object-contain shadow-md lg:mt-35"
-            />
+            <div ref={imageRef}>
+              <Image
+                src={slide.image}
+                alt={slide.author}
+                width={460}
+                height={580}
+                sizes="(min-width: 1024px) 460px, 0px"
+                quality={75}
+                loading="lazy"
+                decoding="async"
+                className="mt-3 block h-auto w-full object-contain shadow-md lg:mt-35"
+              />
+            </div>
           ) : null}
         </div>
       </div>

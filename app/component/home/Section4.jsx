@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -154,15 +155,20 @@ const GridSlider = ({ cardRefs, loadMedia = false }) => {
   const running = useRef(false);
   const autoPaused = useRef(false);
   const resumeTimer = useRef(0);
+  const loopWidthRef = useRef(0);
+  const inViewRef = useRef(true);
 
   const loopItems = [...services, ...services];
 
   const getLoopWidth = useCallback(() => {
+    if (loopWidthRef.current > 0) return loopWidthRef.current;
     const track = trackRef.current;
     if (!track) return 0;
     const cards = track.querySelectorAll("a");
     if (cards.length < services.length * 2) return 0;
-    return cards[services.length].offsetLeft - cards[0].offsetLeft;
+    const width = cards[services.length].offsetLeft - cards[0].offsetLeft;
+    loopWidthRef.current = width;
+    return width;
   }, []);
 
   const wrapPosition = useCallback(
@@ -181,6 +187,11 @@ const GridSlider = ({ cardRefs, loadMedia = false }) => {
   const tick = useCallback(() => {
     const track = trackRef.current;
     if (!track) {
+      running.current = false;
+      return;
+    }
+
+    if (!inViewRef.current && !isDragging.current) {
       running.current = false;
       return;
     }
@@ -264,11 +275,31 @@ const GridSlider = ({ cardRefs, loadMedia = false }) => {
   );
 
   useLayoutEffect(() => {
+    const container = containerRef.current;
+    const onResize = () => {
+      loopWidthRef.current = 0;
+    };
+    window.addEventListener("resize", onResize);
+
+    let viewObserver;
+    if (container) {
+      viewObserver = new IntersectionObserver(
+        ([entry]) => {
+          inViewRef.current = entry.isIntersecting;
+          if (entry.isIntersecting) ensureRAF();
+        },
+        { rootMargin: "120px 0px" }
+      );
+      viewObserver.observe(container);
+    }
+
     ensureRAF();
     return () => {
       cancelAnimationFrame(rafId.current);
       running.current = false;
       window.clearTimeout(resumeTimer.current);
+      window.removeEventListener("resize", onResize);
+      viewObserver?.disconnect();
     };
   }, [ensureRAF]);
 
@@ -361,16 +392,20 @@ const GridSlider = ({ cardRefs, loadMedia = false }) => {
               draggable={false}
             >
               <div className="relative aspect-[3/4] w-full overflow-hidden bg-black/5 md:h-full md:w-auto">
-                <img
-                  src={loadMedia ? service.image : undefined}
-                  alt={service.title}
-                  title={service.title}
-                  draggable={false}
-                  loading="lazy"
-                  decoding="async"
-                  fetchPriority="low"
-                  className="pointer-events-none h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                />
+                {loadMedia ? (
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    title={service.title}
+                    fill
+                    sizes="(max-width: 768px) 80vw, 300px"
+                    quality={75}
+                    draggable={false}
+                    loading="lazy"
+                    decoding="async"
+                    className="pointer-events-none object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                  />
+                ) : null}
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0" />
 
                 <div
@@ -568,6 +603,8 @@ const MobileImageSlider = ({ loadMedia = false }) => {
   }, [goBy, stopAuto]);
 
   useLayoutEffect(() => {
+    if (window.matchMedia("(min-width: 768px)").matches) return;
+
     measure();
     const onResize = () => measure();
     window.addEventListener("resize", onResize);
@@ -661,16 +698,20 @@ const MobileImageSlider = ({ loadMedia = false }) => {
               }}
             >
               <div className="relative aspect-[3/4] w-full overflow-hidden bg-black/5">
-                <img
-                  src={loadMedia ? service.image : undefined}
-                  alt={service.title}
-                  title={service.title}
-                  draggable={false}
-                  loading="lazy"
-                  decoding="async"
-                  fetchPriority="low"
-                  className="pointer-events-none h-full w-full object-cover"
-                />
+                {loadMedia ? (
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    title={service.title}
+                    fill
+                    sizes="100vw"
+                    quality={75}
+                    draggable={false}
+                    loading="lazy"
+                    decoding="async"
+                    className="pointer-events-none object-cover"
+                  />
+                ) : null}
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0" />
                 <span
                   className="pointer-events-none absolute inset-x-3 bottom-4 text-[22px] text-white"
@@ -740,6 +781,7 @@ const Section4 = () => {
   const [revealSlow, setRevealSlow] = useState(false);
   // Keep multi‑MB portfolio images off the critical path until near viewport.
   const [shouldLoadMedia, setShouldLoadMedia] = useState(false);
+  const [pinReady, setPinReady] = useState(false);
   const sectionRef = useRef(null);
   const pinRef = useRef(null);
   const listRef = useRef(null);
@@ -770,24 +812,14 @@ const Section4 = () => {
       ([entry]) => {
         if (!entry.isIntersecting) return;
         setShouldLoadMedia(true);
+        setPinReady(true);
         observer.disconnect();
       },
-      // Start early so images are warm before pin/FLIP animations run.
-      { rootMargin: "900px 0px" }
+      { rootMargin: "240px 0px" }
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
-
-  useEffect(() => {
-    if (!shouldLoadMedia) return;
-    services.forEach(({ image }) => {
-      const img = new window.Image();
-      img.decoding = "async";
-      img.fetchPriority = "low";
-      img.src = image;
-    });
-  }, [shouldLoadMedia]);
 
   const applyListStartY = useCallback(() => {
     if (typeof window === "undefined" || window.innerWidth < 768) return;
@@ -1205,6 +1237,7 @@ const Section4 = () => {
 
   // Pinned scroll-driven list - only active while viewMode === "list".
   useLayoutEffect(() => {
+    if (!pinReady) return;
     if (viewMode !== "list") return;
 
     let frame = 0;
@@ -1347,7 +1380,7 @@ const Section4 = () => {
       window.removeEventListener("resize", onScroll);
       mm.revert();
     };
-  }, [viewMode, pendingReveal]);
+  }, [viewMode, pendingReveal, pinReady]);
 
   return (
     <section
@@ -1399,16 +1432,21 @@ const Section4 = () => {
               showGridPreview ? "opacity-0" : "opacity-100"
             }`}
           >
-            <img
-              key={activeService.slug}
-              src={shouldLoadMedia ? activeService.image : undefined}
-              alt={activeService.title}
-              title={activeService.title}
-              loading="lazy"
-              decoding="async"
-              fetchPriority="low"
-              className="block h-auto w-[min(300px,26vw)] object-contain shadow-[0_20px_50px_rgba(0,0,0,0.18)]"
-            />
+            {shouldLoadMedia ? (
+              <Image
+                key={activeService.slug}
+                src={activeService.image}
+                alt={activeService.title}
+                title={activeService.title}
+                width={300}
+                height={400}
+                sizes="min(300px, 26vw)"
+                quality={75}
+                loading="lazy"
+                decoding="async"
+                className="block h-auto w-[min(300px,26vw)] object-contain shadow-[0_20px_50px_rgba(0,0,0,0.18)]"
+              />
+            ) : null}
           </div>
 
           <MobileImageSlider loadMedia={shouldLoadMedia} />
@@ -1470,16 +1508,21 @@ const Section4 = () => {
                       }`}
                       style={{ transitionDelay: showGridPreview ? `${index * 45}ms` : "0ms" }}
                     >
-                      <img
-                        src={shouldLoadMedia ? service.image : undefined}
-                        alt={service.title}
-                        title={service.title}
-                        draggable={false}
-                        loading="lazy"
-                        decoding="async"
-                        fetchPriority="low"
-                        className="block h-[64px] w-[64px] object-cover lg:h-[88px] lg:w-[88px]"
-                      />
+                      {shouldLoadMedia ? (
+                        <Image
+                          src={service.image}
+                          alt={service.title}
+                          title={service.title}
+                          width={88}
+                          height={88}
+                          sizes="88px"
+                          quality={75}
+                          draggable={false}
+                          loading="lazy"
+                          decoding="async"
+                          className="block h-[64px] w-[64px] object-cover lg:h-[88px] lg:w-[88px]"
+                        />
+                      ) : null}
                     </span>
 
                     {isActive && !showGridPreview ? (

@@ -1,9 +1,21 @@
 "use client";
 
-import * as faceapi from 'face-api.js';
 import { BloomEffect, ChromaticAberrationEffect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
 import { useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
+import {
+  Color,
+  MathUtils,
+  Mesh,
+  NoToneMapping,
+  OrthographicCamera,
+  PlaneGeometry,
+  Scene,
+  ShaderMaterial,
+  SRGBColorSpace,
+  Vector2,
+  Vector3,
+  WebGLRenderer
+} from 'three';
 import './GridScan.css';
 
 const vert = `
@@ -314,12 +326,12 @@ export const GridScan = ({
   const [modelsReady, setModelsReady] = useState(false);
   const [uiFaceActive, setUiFaceActive] = useState(false);
 
-  const lookTarget = useRef(new THREE.Vector2(0, 0));
+  const lookTarget = useRef(new Vector2(0, 0));
   const tiltTarget = useRef(0);
   const yawTarget = useRef(0);
 
-  const lookCurrent = useRef(new THREE.Vector2(0, 0));
-  const lookVel = useRef(new THREE.Vector2(0, 0));
+  const lookCurrent = useRef(new Vector2(0, 0));
+  const lookVel = useRef(new Vector2(0, 0));
   const tiltCurrent = useRef(0);
   const tiltVel = useRef(0);
   const yawCurrent = useRef(0);
@@ -347,27 +359,30 @@ export const GridScan = ({
   const bufT = useRef([]);
   const bufYaw = useRef([]);
 
-  const s = THREE.MathUtils.clamp(sensitivity, 0, 1);
-  const skewScale = THREE.MathUtils.lerp(0.06, 0.2, s);
-  const tiltScale = THREE.MathUtils.lerp(0.12, 0.3, s);
-  const yawScale = THREE.MathUtils.lerp(0.1, 0.28, s);
-  const depthResponse = THREE.MathUtils.lerp(0.25, 0.45, s);
-  const smoothTime = THREE.MathUtils.lerp(0.45, 0.12, s);
+  const s = MathUtils.clamp(sensitivity, 0, 1);
+  const skewScale = MathUtils.lerp(0.06, 0.2, s);
+  const tiltScale = MathUtils.lerp(0.12, 0.3, s);
+  const yawScale = MathUtils.lerp(0.1, 0.28, s);
+  const depthResponse = MathUtils.lerp(0.25, 0.45, s);
+  const smoothTime = MathUtils.lerp(0.45, 0.12, s);
   const maxSpeed = Infinity;
 
-  const yBoost = THREE.MathUtils.lerp(1.2, 1.6, s);
+  const yBoost = MathUtils.lerp(1.2, 1.6, s);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     let leaveTimer = null;
+    let rect = el.getBoundingClientRect();
+    const refreshRect = () => {
+      rect = el.getBoundingClientRect();
+    };
     const onMove = e => {
       if (uiFaceActive) return;
       if (leaveTimer) {
         clearTimeout(leaveTimer);
         leaveTimer = null;
       }
-      const rect = el.getBoundingClientRect();
       const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const ny = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
       lookTarget.current.set(nx, ny);
@@ -410,11 +425,13 @@ export const GridScan = ({
     el.addEventListener('mouseenter', onEnter);
     if (scanOnClick) el.addEventListener('click', onClick);
     el.addEventListener('mouseleave', onLeave);
+    window.addEventListener('resize', refreshRect);
     return () => {
       el.removeEventListener('mousemove', onMove);
       el.removeEventListener('mouseenter', onEnter);
       el.removeEventListener('mouseleave', onLeave);
       if (scanOnClick) el.removeEventListener('click', onClick);
+      window.removeEventListener('resize', refreshRect);
       if (leaveTimer) clearTimeout(leaveTimer);
     };
   }, [uiFaceActive, snapBackDelay, scanOnClick, enableGyro]);
@@ -423,22 +440,38 @@ export const GridScan = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    let cancelled = false;
+    let started = false;
+    let disposeScene = () => {};
+
+    const startScene = () => {
+      if (cancelled || started) return;
+      started = true;
+
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.5);
+    const renderer = new WebGLRenderer({
+      antialias: false,
+      alpha: true,
+      powerPreference: 'high-performance',
+      stencil: false,
+      depth: false
+    });
     rendererRef.current = renderer;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.NoToneMapping;
+    renderer.setPixelRatio(pixelRatio);
+    renderer.setSize(container.clientWidth, container.clientHeight, false);
+    renderer.outputColorSpace = SRGBColorSpace;
+    renderer.toneMapping = NoToneMapping;
     renderer.autoClear = false;
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
     const uniforms = {
       iResolution: {
-        value: new THREE.Vector3(container.clientWidth, container.clientHeight, renderer.getPixelRatio())
+        value: new Vector3(container.clientWidth, container.clientHeight, renderer.getPixelRatio())
       },
       iTime: { value: 0 },
-      uSkew: { value: new THREE.Vector2(0, 0) },
+      uSkew: { value: new Vector2(0, 0) },
       uTilt: { value: 0 },
       uYaw: { value: 0 },
       uLineThickness: { value: lineThickness },
@@ -460,7 +493,7 @@ export const GridScan = ({
       uScanCount: { value: 0 }
     };
 
-    const material = new THREE.ShaderMaterial({
+    const material = new ShaderMaterial({
       uniforms,
       vertexShader: vert,
       fragmentShader: frag,
@@ -470,9 +503,9 @@ export const GridScan = ({
     });
     materialRef.current = material;
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+    const scene = new Scene();
+    const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const quad = new Mesh(new PlaneGeometry(2, 2), material);
     scene.add(quad);
 
     let composer = null;
@@ -491,7 +524,7 @@ export const GridScan = ({
       bloomRef.current = bloom;
 
       const chroma = new ChromaticAberrationEffect({
-        offset: new THREE.Vector2(chromaticAberration, chromaticAberration),
+        offset: new Vector2(chromaticAberration, chromaticAberration),
         radialModulation: true,
         modulationOffset: 0.0
       });
@@ -503,14 +536,19 @@ export const GridScan = ({
     }
 
     const onResize = () => {
-      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setSize(container.clientWidth, container.clientHeight, false);
       material.uniforms.iResolution.value.set(container.clientWidth, container.clientHeight, renderer.getPixelRatio());
       if (composerRef.current) composerRef.current.setSize(container.clientWidth, container.clientHeight);
     };
     window.addEventListener('resize', onResize);
 
     let last = performance.now();
+    let visible = true;
     const tick = () => {
+      if (!visible) {
+        rafRef.current = null;
+        return;
+      }
       const now = performance.now();
       const dt = Math.max(0, Math.min(0.1, (now - last) / 1000));
       last = now;
@@ -541,10 +579,12 @@ export const GridScan = ({
       yawCurrent.current = yawSm.value;
       yawVel.current = yawSm.v;
 
-      const skew = new THREE.Vector2(lookCurrent.current.x * skewScale, -lookCurrent.current.y * yBoost * skewScale);
-      material.uniforms.uSkew.value.set(skew.x, skew.y);
+      material.uniforms.uSkew.value.set(
+        lookCurrent.current.x * skewScale,
+        -lookCurrent.current.y * yBoost * skewScale
+      );
       material.uniforms.uTilt.value = tiltCurrent.current * tiltScale;
-      material.uniforms.uYaw.value = THREE.MathUtils.clamp(yawCurrent.current * yawScale, -0.6, 0.6);
+      material.uniforms.uYaw.value = MathUtils.clamp(yawCurrent.current * yawScale, -0.6, 0.6);
 
       material.uniforms.iTime.value = now / 1000;
       renderer.clear(true, true, true);
@@ -555,10 +595,25 @@ export const GridScan = ({
       }
       rafRef.current = requestAnimationFrame(tick);
     };
+
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible && !rafRef.current) {
+          last = performance.now();
+          rafRef.current = requestAnimationFrame(tick);
+        }
+      },
+      { rootMargin: '80px 0px', threshold: 0 }
+    );
+    visibilityObserver.observe(container);
     rafRef.current = requestAnimationFrame(tick);
 
-    return () => {
+    disposeScene = () => {
+      visible = false;
+      visibilityObserver.disconnect();
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
       window.removeEventListener('resize', onResize);
       material.dispose();
       quad.geometry.dispose();
@@ -569,7 +624,26 @@ export const GridScan = ({
       }
       renderer.dispose();
       renderer.forceContextLoss();
-      container.removeChild(renderer.domElement);
+      if (renderer.domElement.parentNode === container) {
+        container.removeChild(renderer.domElement);
+      }
+    };
+    };
+
+    const bootObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        bootObserver.disconnect();
+        startScene();
+      },
+      { rootMargin: '120px 0px' }
+    );
+    bootObserver.observe(container);
+
+    return () => {
+      cancelled = true;
+      bootObserver.disconnect();
+      disposeScene();
     };
   }, [
     sensitivity,
@@ -655,10 +729,10 @@ export const GridScan = ({
       if (uiFaceActive) return;
       const gamma = e.gamma ?? 0;
       const beta = e.beta ?? 0;
-      const nx = THREE.MathUtils.clamp(gamma / 45, -1, 1);
-      const ny = THREE.MathUtils.clamp(-beta / 30, -1, 1);
+      const nx = MathUtils.clamp(gamma / 45, -1, 1);
+      const ny = MathUtils.clamp(-beta / 30, -1, 1);
       lookTarget.current.set(nx, ny);
-      tiltTarget.current = THREE.MathUtils.degToRad(gamma) * 0.4;
+      tiltTarget.current = MathUtils.degToRad(gamma) * 0.4;
     };
     window.addEventListener('deviceorientation', handler);
     return () => {
@@ -667,9 +741,12 @@ export const GridScan = ({
   }, [enableGyro, uiFaceActive]);
 
   useEffect(() => {
+    if (!enableWebcam) return;
+
     let canceled = false;
     const load = async () => {
       try {
+        const faceapi = await import('face-api.js');
         await Promise.all([
           faceapi.nets.tinyFaceDetector.loadFromUri(modelsPath),
           faceapi.nets.faceLandmark68TinyNet.loadFromUri(modelsPath)
@@ -683,18 +760,21 @@ export const GridScan = ({
     return () => {
       canceled = true;
     };
-  }, [modelsPath]);
+  }, [enableWebcam, modelsPath]);
 
   useEffect(() => {
+    if (!enableWebcam || !modelsReady) return;
+
     let stop = false;
     let lastDetect = 0;
     const video = videoRef.current;
+    let faceapi = null;
 
     const start = async () => {
-      if (!enableWebcam || !modelsReady) return;
       if (!video) return;
 
       try {
+        faceapi = await import('face-api.js');
         const stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } },
           audio: false
@@ -729,7 +809,7 @@ export const GridScan = ({
               const nxm = median(bufX.current);
               const nym = median(bufY.current);
 
-              const look = new THREE.Vector2(Math.tanh(nxm), Math.tanh(nym));
+              const look = new Vector2(Math.tanh(nxm), Math.tanh(nym));
 
               const faceSize = Math.min(1, Math.hypot(box.width / vw, box.height / vh));
               const depthScale = 1 + depthResponse * (faceSize - 0.25);
@@ -751,7 +831,7 @@ export const GridScan = ({
               const dL = dist2(tip, leftCheek);
               const dR = dist2(tip, rightCheek);
               const eyeDist = Math.hypot(rc.x - lc.x, rc.y - lc.y) + 1e-6;
-              let yawSignal = THREE.MathUtils.clamp((dR - dL) / (eyeDist * 1.6), -1, 1);
+              let yawSignal = MathUtils.clamp((dR - dL) / (eyeDist * 1.6), -1, 1);
               yawSignal = Math.tanh(yawSignal);
               medianPush(bufYaw.current, yawSignal, 5);
               yawTarget.current = median(bufYaw.current);
@@ -809,7 +889,7 @@ export const GridScan = ({
 };
 
 function srgbColor(hex) {
-  const c = new THREE.Color(hex);
+  const c = new Color(hex);
   return c.convertSRGBToLinear();
 }
 

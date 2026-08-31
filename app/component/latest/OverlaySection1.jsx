@@ -108,6 +108,7 @@ const OverlaySection1 = () => {
             fill
             loading="lazy"
             fetchPriority="low"
+            quality={75}
             className="object-cover object-center"
             sizes="100vw"
           />

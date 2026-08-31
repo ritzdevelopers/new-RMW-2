@@ -313,6 +313,10 @@ function WebLoader({
               ref={imgRef}
               src={images[index]}
               alt=""
+              width={546}
+              height={487}
+              decoding="async"
+              fetchPriority={index === 0 ? "high" : "low"}
               style={styles.image}
               draggable={false}
             />

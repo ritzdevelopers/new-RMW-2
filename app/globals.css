@@ -244,6 +244,26 @@ body::-webkit-scrollbar {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@keyframes rmw-header-reveal {
+  from {
+    transform: translateY(-110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+[data-header-reveal] {
+  animation: rmw-header-reveal 1.05s cubic-bezier(0.19, 1, 0.22, 1) both;
+  animation-delay: calc(0.15s + var(--hdr-i, 0) * 0.08s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-header-reveal] {
+    animation: none;
+  }
+}
+
 @keyframes call-triangle-burst {
   0% {
     transform: translate3d(-50%, -50%, 0) rotate(var(--call-tri-rot, 0deg)) scale(0.35);

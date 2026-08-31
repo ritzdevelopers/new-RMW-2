@@ -43,29 +43,20 @@ const pageHeadings = [
   "Let's Build Your Brand Together",
 ];
 
-const HOME_VIDEO_SRC =
-  "https://windows.net";
-const SECTION3_VIDEO_SRC =
-  "https://windows.net";
+const HOME_VIDEO_HOST = "https://otherassets.blob.core.windows.net";
 
 export default function Home() {
   return (
     <WebLoader>
-      {/* Start hero videos fetch as early as possible (during loader). */}
-      <link rel="preconnect" href="https://windows.net" />
+      {/* Warm the hero-video origin only — do not preload the below-fold clip. */}
+      <link rel="preconnect" href={HOME_VIDEO_HOST} />
       <link
         rel="preload"
-        as="video"
-        href={HOME_VIDEO_SRC}
-        type="video/mp4"
+        as="image"
+        href="/loder/loader_i6.jpg"
+        fetchPriority="high"
       />
-      <link
-        rel="preload"
-        as="video"
-        href={SECTION3_VIDEO_SRC}
-        type="video/mp4"
-      />
-      
+
       <Header />
       <Section1 />
 

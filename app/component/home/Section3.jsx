@@ -21,18 +21,21 @@ const Section3 = () => {
       video.play().catch(() => {});
     };
 
-    // Buffer early so the first frame is ready when the section enters view.
-    if (!video.getAttribute("src")) {
-      video.src = SECTION3_VIDEO_SRC;
-    }
-    video.preload = "auto";
-    if (video.readyState === 0) {
-      video.load();
-    }
+    const attachSource = () => {
+      if (cancelled) return;
+      if (!video.getAttribute("src")) {
+        video.src = SECTION3_VIDEO_SRC;
+      }
+      video.preload = "metadata";
+      if (video.readyState === 0) {
+        video.load();
+      }
+    };
 
     const begin = () => {
       if (started || cancelled) return;
       started = true;
+      attachSource();
 
       if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
         playVideo();
@@ -42,20 +45,17 @@ const Section3 = () => {
       video.addEventListener("canplay", playVideo);
     };
 
-    if (window.__rmwLoaderDone) {
-      begin();
-    } else {
-      window.addEventListener("rmw:loader-done", begin, { once: true });
-    }
-
-    // Pause off-screen to cut decode/CPU after the user scrolls away.
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!started) return;
-        if (entry.isIntersecting) playVideo();
-        else video.pause();
+        if (entry.isIntersecting) {
+          if (window.__rmwLoaderDone) begin();
+          else window.addEventListener("rmw:loader-done", begin, { once: true });
+          if (started) playVideo();
+        } else if (started) {
+          video.pause();
+        }
       },
-      { rootMargin: "200px 0px", threshold: 0.05 }
+      { rootMargin: "280px 0px", threshold: 0.01 }
     );
     observer.observe(video);
 
@@ -69,14 +69,13 @@ const Section3 = () => {
   }, []);
 
   return (
-    <section className="w-full bg-black">
+    <section className="w-full bg-black [content-visibility:auto] [contain-intrinsic-size:auto_420px]">
       <video
         ref={videoRef}
-        src={SECTION3_VIDEO_SRC}
         loop
         muted
         playsInline
-        preload="auto"
+        preload="none"
         disableRemotePlayback
         className="block h-auto w-full object-cover"
       />
