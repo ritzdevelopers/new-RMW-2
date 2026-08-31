@@ -625,7 +625,7 @@ const Footer = ({ section = null }) => {
             </div>
             <div className="mt-4 md:mt-5">
   <a
-    href="https://www.google.com/preferences/source?q=contenaissance.com"
+    href="https://www.google.com/preferences/source?q=ritzmediaworld.com"
     target="_blank"
     rel="noopener noreferrer"
     aria-label="Add Contenaissance as a preferred source on Google"
