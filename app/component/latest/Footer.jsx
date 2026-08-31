@@ -624,12 +624,12 @@ const Footer = ({ section = null }) => {
               </p>
             </div>
             <div className="mt-4 md:mt-5">
-  <a
-    href="https://www.google.com/preferences/source?q=ritzmediaworld.com"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Add Contenaissance as a preferred source on Google"
-    className="
+              <a
+                href="https://www.google.com/preferences/source?q=ritzmediaworld.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Add Contenaissance as a preferred source on Google"
+                className="
       google-source-btn
       inline-flex items-center
       gap-2.5 sm:gap-3
@@ -645,31 +645,24 @@ const Footer = ({ section = null }) => {
       hover:scale-[1.03]
       max-w-full
     "
-  >
-    {/* Google Logo */}
-    <div className="flex h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 shrink-0 items-center justify-center">
-      <span
-        className="google-logo text-[32px] sm:text-[36px] md:text-[40px] font-semibold leading-none"
-        style={{
-          fontFamily: "Arial, sans-serif",
-          background:
-            "conic-gradient(from -45deg, #4285F4 0deg 90deg, #34A853 90deg 180deg, #FBBC05 180deg 270deg, #EA4335 270deg 360deg)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}
-      >
-        G
-      </span>
-    </div>
+              >
+                {/* Google Logo */}
+                <div className="flex h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 shrink-0 items-center justify-center">
+                  <img
+                    src="/google-logo.png"
+                    alt="Google"
+                    className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 object-contain"
+                  />
+                </div>
 
-    {/* Text */}
-    <span className="whitespace-nowrap">
-      Add as a preferred
-      <br />
-      source on Google
-    </span>
-  </a>
-</div>
+                {/* Text */}
+                <span className="whitespace-nowrap">
+                  Add as a preferred
+                  <br />
+                  source on Google
+                </span>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -712,8 +705,8 @@ const Footer = ({ section = null }) => {
                     href={service.href}
                     rel="noopener noreferrer"
                     className={`px-1 text-center transition-colors hover:text-white${index === arr.length - 1 && arr.length % 2 === 1
-                        ? " col-span-2"
-                        : ""
+                      ? " col-span-2"
+                      : ""
                       }`}
                   >
                     {service.title}
