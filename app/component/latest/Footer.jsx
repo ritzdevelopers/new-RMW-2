@@ -150,8 +150,8 @@ function ContactFloat() {
   return (
     <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-center gap-3">
       <div className="relative h-14 w-14">
-        <a
-          href="tel:+919220516777"
+        <Link
+          href="/contact"
           aria-label="Call us"
           onMouseEnter={triggerBurst}
           onPointerDown={triggerBurst}
@@ -166,7 +166,7 @@ function ContactFloat() {
           >
             <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z" />
           </svg>
-        </a>
+        </Link>
         {bursts.map((id) => (
           <TriangleParticleBurst key={id} burstId={id} onComplete={() => removeBurst(id)} />
         ))}
@@ -406,8 +406,10 @@ const Footer = ({ section = null }) => {
       measureBrand();
     };
 
-    const getProgress = () =>
-      clamp((window.scrollY - stackTop) / revealDistance, 0, 1);
+    const getProgress = () => {
+      stackTop = stack.getBoundingClientRect().top + window.scrollY;
+      return clamp((window.scrollY - stackTop) / revealDistance, 0, 1);
+    };
 
     const apply = () => {
       raf = 0;
@@ -667,17 +669,15 @@ const Footer = ({ section = null }) => {
         <div className="mx-auto mt-5 w-full max-w-[340px] border border-white/10 bg-white/[0.02] p-2.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] backdrop-blur-sm sm:w-fit sm:max-w-full md:mt-6 md:p-3 lg:mt-5">
           <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3 sm:gap-4 md:gap-6 lg:gap-8">
             {partnerLogos.map((logo) => (
-            <img
-              key={logo.src}
-              src={logo.src}
-              alt={logo.alt}
-              title={logo.title}
-              width={90}
-              height={55}
-              loading="lazy"
-              decoding="async"
-              className="h-[22px] w-[64px] shrink-0 object-contain sm:h-[26px] sm:w-[77px]"
-            />
+              <img
+                key={logo.src}
+                src={logo.src}
+                alt={logo.alt}
+                title={logo.title}
+                width={90}
+                height={55}
+                className="h-[22px] w-[64px] shrink-0 object-contain sm:h-[26px] sm:w-[77px]"
+              />
             ))}
           </div>
         </div>
@@ -785,10 +785,6 @@ const Footer = ({ section = null }) => {
           src="/logo/r-logo-new.png"
           alt="Ritz Media World"
           title="Ritz Media World"
-          width={360}
-          height={360}
-          loading="lazy"
-          decoding="async"
           className="h-[160px] w-auto max-w-none object-contain will-change-transform sm:h-[180px] md:h-[220px] lg:h-[220px] xl:h-[280px] 2xl:h-[360px]"
           style={{
             filter: "brightness(3.2) contrast(1.05)",
