@@ -46,10 +46,10 @@ const Section2 = () => {
               aria-hidden
             />
 
-            <div
+            {/* <div
               className="absolute inset-0 bg-black/35"
               aria-hidden
-            />
+            /> */}
           </>
         ) : (
           <>
