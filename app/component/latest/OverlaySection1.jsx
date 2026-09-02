@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { siteTheme } from "@/siteTheme";
 
 const BANNER_SRC = "/service/website%20banner%20%5BRecovered%5D-01.jpg";
 
@@ -100,18 +101,28 @@ const OverlaySection1 = () => {
       className="relative h-[100dvh] min-h-[100dvh] w-full max-w-full overflow-hidden bg-[#0E1125]"
     >
       <div className="relative h-full min-h-[100dvh] w-full">
-        {shouldLoadMedia ? (
-          <Image
-            src={BANNER_SRC}
-            alt="Ritz Media World creative services"
-            title="Ritz Media World creative services"
-            fill
-            loading="lazy"
-            fetchPriority="low"
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-        ) : null}
+      {siteTheme.janmashtami ? (
+  <Image
+    src="/janmashtami/services-bg.png"
+    alt=""
+    fill
+    priority={false}
+    className="object-cover object-center"
+    sizes="100vw"
+    aria-hidden
+  />
+) : shouldLoadMedia ? (
+  <Image
+    src={BANNER_SRC}
+    alt="Ritz Media World creative services"
+    title="Ritz Media World creative services"
+    fill
+    loading="lazy"
+    fetchPriority="low"
+    className="object-cover object-center"
+    sizes="100vw"
+  />
+) : null}
 
         <div className="absolute inset-0 bg-black/10" aria-hidden />
 

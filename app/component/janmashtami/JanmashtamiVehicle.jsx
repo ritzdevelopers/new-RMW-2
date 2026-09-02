@@ -1,0 +1,27 @@
+import Image from "next/image";
+import { siteTheme } from "@/siteTheme";
+import "./janmashtami.css";
+
+export default function JanmashtamiVehicle() {
+  if (!siteTheme.janmashtami) return null;
+
+  return (
+    <div className="janmashtami-decor" aria-hidden>
+      <div className="janmashtami-bg" />
+
+      <div className="janmashtami-truck-layer">
+        <div className="janmashtami-truck-track">
+          <Image
+            src="/janmashtami/Frame-106324.png"
+            alt=""
+            width={320}
+            height={128}
+            className="janmashtami-truck-image"
+            sizes="50vw"
+            priority={false}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}

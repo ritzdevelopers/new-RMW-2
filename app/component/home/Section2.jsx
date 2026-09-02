@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { GridScan } from "@/components/GridScan";
+import { siteTheme } from "@/siteTheme";
 
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
@@ -35,26 +36,46 @@ const Section2 = () => {
   return (
     <section className="relative w-full overflow-hidden px-8 py-[35px] md:px-12 md:py-[70px]">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[#0F0E14]" aria-hidden />
-        <GridScan
-          className="absolute inset-0"
-          style={{ width: "100%", height: "100%" }}
-          sensitivity={0.55}
-          lineThickness={1}
-          linesColor="#5A5568"
-          gridScale={0.1}
-          scanColor="#4DA6FF"
-          scanOpacity={0.4}
-          enablePost
-          bloomIntensity={0.6}
-          chromaticAberration={0.002}
-          noiseIntensity={0.01}
-          lineJitter={0.1}
-          scanGlow={0.5}
-          scanSoftness={2}
-          enableWebcam={false}
-          showPreview={false}
-        />
+        {siteTheme.janmashtami ? (
+          <>
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: "url('/janmashtami/section-bg.jpg')",
+              }}
+              aria-hidden
+            />
+
+            <div
+              className="absolute inset-0 bg-black/35"
+              aria-hidden
+            />
+          </>
+        ) : (
+          <>
+            <div className="absolute inset-0 bg-[#0F0E14]" aria-hidden />
+
+            <GridScan
+              className="absolute inset-0"
+              style={{ width: "100%", height: "100%" }}
+              sensitivity={0.55}
+              lineThickness={1}
+              linesColor="#5A5568"
+              gridScale={0.1}
+              scanColor="#4DA6FF"
+              scanOpacity={0.4}
+              enablePost
+              bloomIntensity={0.6}
+              chromaticAberration={0.002}
+              noiseIntensity={0.01}
+              lineJitter={0.1}
+              scanGlow={0.5}
+              scanSoftness={2}
+              enableWebcam={false}
+              showPreview={false}
+            />
+          </>
+        )}
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-8xl">
@@ -63,14 +84,14 @@ const Section2 = () => {
             className="m-0 min-w-0 w-full text-center text-[28px] md:col-start-1 md:row-start-1 md:text-left md:text-[30px] lg:text-[48px]"
             style={headingStyle}
           >
-            Creative Advertising, Branding & Digital <br className="md:hidden lg:block"/> Marketing Agency in India
+            Creative Advertising, Branding & Digital <br className="md:hidden lg:block" /> Marketing Agency in India
           </h1>
 
           <p
             className="m-0 mt-5 w-full text-center md:col-span-2 md:row-start-2 md:text-left xl:max-w-[1150px] lg:max-w-[800px] md:max-w-[800px]"
             style={bodyStyle}
           >
-           18 years of transforming brands through creativity, strategy & innovation
+            18 years of transforming brands through creativity, strategy & innovation
           </p>
 
           <Link

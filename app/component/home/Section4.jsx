@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { siteTheme } from "@/siteTheme";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -1415,15 +1416,31 @@ const Section4 = () => {
   }, [viewMode, pendingReveal, pinReady]);
 
   return (
-    <section
-      ref={sectionRef}
-      data-home-section="section4"
-      className={`relative isolate z-[2] bg-white ${
-        viewMode === "grid"
-          ? "px-0 py-0 md:min-h-[100dvh]"
-          : "px-8 py-[35px] md:min-h-[calc(88dvh+12vh)] md:px-12 md:py-[6vh]"
-      }`}
-    >
+<section
+  ref={sectionRef}
+  data-home-section="section4"
+  className={`relative isolate z-[2] ${
+    viewMode === "grid"
+      ? "px-0 py-0 md:min-h-[100dvh]"
+      : "px-8 py-[35px] md:min-h-[calc(88dvh+12vh)] md:px-12 md:py-[6vh]"
+  }`}
+>
+  {siteTheme.janmashtami && (
+    <div
+      className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: "url('/janmashtami/section4-bg.jpg')",
+      }}
+      aria-hidden="true"
+    />
+  )}
+
+  {!siteTheme.janmashtami && (
+    <div
+      className="pointer-events-none absolute inset-0 -z-10 bg-white"
+      aria-hidden="true"
+    />
+  )}
       <style>{`
         @media (min-width: 768px) {
           .section4-row-link-active {
