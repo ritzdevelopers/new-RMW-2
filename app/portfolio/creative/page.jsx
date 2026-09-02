@@ -4,6 +4,7 @@ import Hero from "@/app/component/social-media/Hero";
 import Section10 from "@/app/component/social-media/Section10";
 import DynamicSlider from "@/app/component/social-media/DynamicSlider";
 import Section2 from "@/app/component/work/portfolio/Section2";
+import SeoHeadings from "../../component/social-media/seoHeadings";
 /** Webflow Editor's Note Light custom font stack */
 
 const editorsNoteLight =
@@ -87,6 +88,8 @@ const social_media_creatives_images = [
 ];
 
 export const metadata = {
+  title: 'Creative Design Agency in Noida | Portfolio | Ritz Media World',
+  description: 'Explore Ritz Media World’s creative design portfolio featuring branding, graphic design, print, OOH, social media and brochure designs that inspire.',
   alternates: {
     canonical: "https://ritzmediaworld.com/portfolio/creative",
   },
@@ -110,6 +113,7 @@ function page() {
       <DynamicSlider heading="Brochure Creative" images={brochures_adaptations_images}/>
       <Section2 />
       <Section10 />
+      <SeoHeadings />
     </main>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { GridScan } from "@/components/GridScan";
 
 const headingStyle = {
   fontFamily: '"League Spartan", sans-serif',
@@ -32,86 +32,29 @@ const aboutButtonTextStyle = {
 };
 
 const Section2 = () => {
-  const sectionRef = useRef(null);
-  const [GridScan, setGridScan] = useState(null);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-
-    let cancelled = false;
-    let idleId = 0;
-    let timeoutId = 0;
-    let stopObserve = () => {};
-
-    const load = () => {
-      import("@/components/GridScan").then((mod) => {
-        if (!cancelled) setGridScan(() => mod.GridScan);
-      });
-    };
-
-    const boot = () => {
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry.isIntersecting) return;
-          observer.disconnect();
-          if ("requestIdleCallback" in window) {
-            idleId = window.requestIdleCallback(load, { timeout: 1800 });
-          } else {
-            timeoutId = window.setTimeout(load, 200);
-          }
-        },
-        { rootMargin: "160px 0px" }
-      );
-      observer.observe(el);
-      stopObserve = () => observer.disconnect();
-    };
-
-    if (window.__rmwLoaderDone) {
-      boot();
-    } else {
-      window.addEventListener("rmw:loader-done", boot, { once: true });
-    }
-
-    return () => {
-      cancelled = true;
-      window.removeEventListener("rmw:loader-done", boot);
-      stopObserve();
-      if (idleId && "cancelIdleCallback" in window) {
-        window.cancelIdleCallback(idleId);
-      }
-      if (timeoutId) window.clearTimeout(timeoutId);
-    };
-  }, []);
-
   return (
-    <section
-      ref={sectionRef}
-      className="relative w-full overflow-hidden px-8 py-[35px] md:px-12 md:py-[70px]"
-    >
+    <section className="relative w-full overflow-hidden px-8 py-[35px] md:px-12 md:py-[70px]">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[#0F0E14]" aria-hidden />
-        {GridScan ? (
-          <GridScan
-            className="absolute inset-0"
-            style={{ width: "100%", height: "100%" }}
-            sensitivity={0.55}
-            lineThickness={1}
-            linesColor="#5A5568"
-            gridScale={0.1}
-            scanColor="#4DA6FF"
-            scanOpacity={0.4}
-            enablePost
-            bloomIntensity={0.6}
-            chromaticAberration={0.002}
-            noiseIntensity={0.01}
-            lineJitter={0.1}
-            scanGlow={0.5}
-            scanSoftness={2}
-            enableWebcam={false}
-            showPreview={false}
-          />
-        ) : null}
+        <GridScan
+          className="absolute inset-0"
+          style={{ width: "100%", height: "100%" }}
+          sensitivity={0.55}
+          lineThickness={1}
+          linesColor="#5A5568"
+          gridScale={0.1}
+          scanColor="#4DA6FF"
+          scanOpacity={0.4}
+          enablePost
+          bloomIntensity={0.6}
+          chromaticAberration={0.002}
+          noiseIntensity={0.01}
+          lineJitter={0.1}
+          scanGlow={0.5}
+          scanSoftness={2}
+          enableWebcam={false}
+          showPreview={false}
+        />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-8xl">
