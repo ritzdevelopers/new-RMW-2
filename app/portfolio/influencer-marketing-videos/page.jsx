@@ -40,8 +40,12 @@ const influencer_marketing_videos = [
 ];
 
 export const metadata = {
+  title: "Influencer Marketing Videos | Ritz Media World",
+  description:
+    "Explore Ritz Media World’s influencer marketing videos, blending creative storytelling, real voices and engaging content to make brands stand out.",
   alternates: {
-    canonical: "https://ritzmediaworld.com/portfolio/influencer-marketing-videos",
+    canonical:
+      "https://ritzmediaworld.com/portfolio/influencer-marketing-videos",
   },
 };
 
@@ -53,6 +57,26 @@ function page() {
       <DynamicSlider3 heading="Influencer Marketing Videos" images={influencer_marketing_videos}/>
       <Section2 />
       <Section10 />
+      <div
+  style={{
+    position: "absolute",
+    width: "1px",
+    height: "1px",
+    padding: 0,
+    margin: "-1px",
+    overflow: "hidden",
+    clip: "rect(0, 0, 0, 0)",
+    whiteSpace: "nowrap",
+    border: 0,
+  }}
+>
+  <h2>Influencer Marketing Videos</h2>
+  <h2>Influencer Marketing That Feels Authentic</h2>
+  <h2>Our Influencer Marketing Work</h2>
+  <h2>Creative Videos That Connect With Audiences</h2>
+  <h2>Why Choose Influencer Marketing?</h2>
+  <h2>Let’s Create Something People Remember</h2>
+</div>
     </main>
   );
 }
