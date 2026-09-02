@@ -330,7 +330,7 @@ const Header = () => {
             </Link>
           )}
 
-          <div className="flex items-center gap-8 text-right md:gap-10">
+          <div className="flex items-center gap-8 text-right md:gap-10 px-2 md:px-10 lg:px-35">
             <nav className="hidden items-center gap-8 md:flex md:gap-10">
               <Link
                 href="/about.html"

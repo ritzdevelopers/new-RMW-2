@@ -41,7 +41,7 @@ const Section2 = () => {
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat"
               style={{
-                backgroundImage: "url('/janmashtami/section-bg1.png')",
+                backgroundImage: "url('/janmashtami/section-bg-light-blue.png')",
               }}
               aria-hidden
             />

@@ -311,7 +311,7 @@ const resetBrandMorph = (ritz, mediaworld) => {
 const MediaWorldText = () => (
   <span
     className={`inline-flex max-w-full shrink-0 items-baseline gap-[4px] whitespace-nowrap !text-[clamp(1.25rem,8vw,1.75rem)] sm:gap-[6px] sm:!text-[32px] md:!text-[44px] lg:gap-2 lg:!text-[56px] xl:!text-[74px] ${siteTheme.janmashtami
-        ? "bg-[url('/janmashtami/footer-brand.jpg')] bg-cover bg-center bg-clip-text text-transparent"
+        ? "bg-[url('/janmashtami/footer-light-blue.png')] bg-cover bg-center bg-clip-text text-transparent"
         : ""
       }`}
     style={{
@@ -762,7 +762,7 @@ const Footer = ({ section = null }) => {
                 siteTheme.janmashtami
                   ? {
                     ...brandTextStyle,
-                    backgroundImage: "url('/janmashtami/footer-brand.jpg')",
+                    backgroundImage: "url('/janmashtami/footer-light-blue.png')",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     WebkitBackgroundClip: "text",
