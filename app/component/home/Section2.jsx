@@ -78,7 +78,7 @@ const Section2 = () => {
         )}
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-8xl">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-5">
         <div className="grid grid-cols-1 justify-items-center md:grid-cols-[1fr_auto] md:items-start md:justify-items-stretch md:gap-x-6">
           <h1
             className="m-0 min-w-0 w-full text-center text-[28px] md:col-start-1 md:row-start-1 md:text-left md:text-[30px] lg:text-[48px]"
