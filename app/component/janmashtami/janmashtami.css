@@ -30,11 +30,11 @@
   background-repeat: no-repeat;
 }
 
-/* Truck ABOVE navbar links */
+/* Truck ABOVE navbar links — sibling of navbar row, not inside decor */
 .janmashtami-truck-layer {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 9999;
   pointer-events: none;
   overflow: visible;
 }
