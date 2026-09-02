@@ -10,7 +10,7 @@ const headingStyle = {
   lineHeight: "100%",
   letterSpacing: "0",
   textTransform: "uppercase",
-  color: "#FFFFFF",
+  color: "#F6379B",
 };
 
 const bodyStyle = {
@@ -20,7 +20,7 @@ const bodyStyle = {
   fontSize: "22px",
   lineHeight: "30px",
   letterSpacing: "0",
-  color: "#FFFFFF",
+  color: "#333",
 };
 
 const aboutButtonTextStyle = {
@@ -88,7 +88,7 @@ const Section2 = () => {
           </h1>
 
           <p
-            className="m-0 mt-5 w-full text-center md:col-span-2 md:row-start-2 md:text-left xl:max-w-[1150px] lg:max-w-[800px] md:max-w-[800px]"
+            className="m-0 mt-3 w-full text-center md:col-span-2 md:row-start-2 md:text-left xl:max-w-[1150px] lg:max-w-[800px] md:max-w-[800px]"
             style={bodyStyle}
           >
             18 years of transforming brands through creativity, strategy & innovation
