@@ -310,18 +310,17 @@ const resetBrandMorph = (ritz, mediaworld) => {
 
 const MediaWorldText = () => (
   <span
-    className={`inline-flex max-w-full shrink-0 items-baseline gap-[4px] whitespace-nowrap !text-[clamp(1.25rem,8vw,1.75rem)] sm:gap-[6px] sm:!text-[32px] md:!text-[44px] lg:gap-2 lg:!text-[56px] xl:!text-[74px] ${
-      siteTheme.janmashtami
-        ? "bg-[url('/janmashtami/footer-brand.png')] bg-cover bg-center bg-clip-text text-transparent"
+    className={`inline-flex max-w-full shrink-0 items-baseline gap-[4px] whitespace-nowrap !text-[clamp(1.25rem,8vw,1.75rem)] sm:gap-[6px] sm:!text-[32px] md:!text-[44px] lg:gap-2 lg:!text-[56px] xl:!text-[74px] ${siteTheme.janmashtami
+        ? "bg-[url('/janmashtami/footer-brand.jpg')] bg-cover bg-center bg-clip-text text-transparent"
         : ""
-    }`}
+      }`}
     style={{
       ...brandTextStyle,
       ...(siteTheme.janmashtami
         ? {
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }
         : {}),
     }}
   >
@@ -754,37 +753,37 @@ const Footer = ({ section = null }) => {
           </div>
 
           <div
-  data-footer-brand-row
-  className="relative z-[2] mx-auto flex w-full max-w-[1320px] flex-col items-center justify-center gap-0 px-1 text-center sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-2 sm:gap-y-1 sm:px-2 md:gap-x-3 md:px-6 lg:flex-nowrap lg:justify-between lg:gap-2"
->
-  <span
-    data-footer-ritz
-    style={
-      siteTheme.janmashtami
-        ? {
-            ...brandTextStyle,
-            backgroundImage: "url('/janmashtami/footer-brand.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            color: "transparent",
-          }
-        : brandTextStyle
-    }
-    className="inline-block max-w-full shrink-0 !text-[clamp(1.25rem,8vw,1.75rem)] sm:!text-[32px] md:!text-[40px] lg:will-change-transform lg:!text-[56px] xl:!text-[74px]"
-  >
-    RITZ
-  </span>
+            data-footer-brand-row
+            className="relative z-[2] mx-auto flex w-full max-w-[1320px] flex-col items-center justify-center gap-0 px-1 text-center sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-2 sm:gap-y-1 sm:px-2 md:gap-x-3 md:px-6 lg:flex-nowrap lg:justify-between lg:gap-2"
+          >
+            <span
+              data-footer-ritz
+              style={
+                siteTheme.janmashtami
+                  ? {
+                    ...brandTextStyle,
+                    backgroundImage: "url('/janmashtami/footer-brand.jpg')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    color: "transparent",
+                  }
+                  : brandTextStyle
+              }
+              className="inline-block max-w-full shrink-0 !text-[clamp(1.25rem,8vw,1.75rem)] sm:!text-[32px] md:!text-[40px] lg:will-change-transform lg:!text-[56px] xl:!text-[74px]"
+            >
+              RITZ
+            </span>
 
-  <div
-  data-footer-mediaworld
-  className="max-w-full shrink-0 lg:will-change-transform"
->
-  <MediaWorldText />
-</div>
-</div>
+            <div
+              data-footer-mediaworld
+              className="max-w-full shrink-0 lg:will-change-transform"
+            >
+              <MediaWorldText />
+            </div>
+          </div>
         </div>
       </div>
 

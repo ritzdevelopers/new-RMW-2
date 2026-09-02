@@ -1429,7 +1429,7 @@ const Section4 = () => {
     <div
       className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: "url('/janmashtami/section4-bg.jpg')",
+        backgroundImage: "url('/janmashtami/section4-bg.png')",
       }}
       aria-hidden="true"
     />

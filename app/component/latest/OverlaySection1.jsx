@@ -103,7 +103,7 @@ const OverlaySection1 = () => {
       <div className="relative h-full min-h-[100dvh] w-full">
       {siteTheme.janmashtami ? (
   <Image
-    src="/janmashtami/services-bg.png"
+    src="/janmashtami/services-bg.jpg"
     alt=""
     fill
     priority={false}
