@@ -39,9 +39,10 @@ const Section2 = () => {
         {siteTheme.janmashtami ? (
           <>
             <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              className="section2-janmashtami-bg absolute inset-0 bg-cover bg-center bg-no-repeat"
               style={{
-                backgroundImage: "url('/janmashtami/section-bg-light-blue.png')",
+                backgroundImage:
+                  "url('/janmashtami/section-bg-light-blue.png')",
               }}
               aria-hidden
             />
@@ -119,6 +120,15 @@ const Section2 = () => {
           </Link>
         </div>
       </div>
+
+      <style jsx>{`
+        @media (min-width: 1024px) {
+          .section2-janmashtami-bg {
+            background-size: 100% 100% !important;
+            background-position: center !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };

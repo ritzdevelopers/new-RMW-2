@@ -1425,15 +1425,25 @@ const Section4 = () => {
       : "px-8 py-[35px] md:min-h-[calc(88dvh+12vh)] md:px-12 md:py-[6vh]"
   }`}
 >
-  {siteTheme.janmashtami && (
-    <div
-      className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage: "url('/janmashtami/section-4-light-blue.png')",
-      }}
-      aria-hidden="true"
-    />
-  )}
+<style jsx>{`
+  @media (min-width: 1024px) {
+    .section4-janmashtami-bg {
+      background-size: 100% 100% !important;
+      background-position: center !important;
+    }
+  }
+`}</style>
+
+{siteTheme.janmashtami && (
+  <div
+    className="section4-janmashtami-bg pointer-events-none absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+    style={{
+      backgroundImage:
+        "url('/janmashtami/section-4-light-blue.png')",
+    }}
+    aria-hidden="true"
+  />
+)}
 
   {!siteTheme.janmashtami && (
     <div

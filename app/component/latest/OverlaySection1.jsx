@@ -55,8 +55,9 @@ const serviceRows = [
 
 const serviceClass =
   "shrink-0 whitespace-nowrap uppercase leading-[1.05] tracking-[0] font-semibold text-white hover:text-[#f6379b] transition-colors duration-300 cursor-pointer";
-  
+
 const mobileFontClass = "text-[clamp(20px,7vw,46px)]";
+
 const desktopFontClass =
   "text-[clamp(22px,4.2vw,68px)] xl:text-[clamp(28px,4.4vw,72px)]";
 
@@ -91,23 +92,25 @@ const OverlaySection1 = () => {
       },
       { rootMargin: "600px 0px" }
     );
+
     observer.observe(el);
+
     return () => observer.disconnect();
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-[100dvh] min-h-[100dvh] w-full max-w-full overflow-hidden bg-[#0E1125]"
+      className="relative h-[100dvh] min-h-[100dvh] w-full max-w-full overflow-hidden bg-[#0E1125] lg:h-auto lg:min-h-[100dvh]"
     >
-      <div className="relative h-full min-h-[100dvh] w-full">
+      <div className="relative h-full min-h-[100dvh] w-full lg:h-auto lg:min-h-[100dvh]">
         {siteTheme.janmashtami ? (
           <Image
             src="/janmashtami/section-light-blue.jpg"
             alt=""
             fill
             priority={false}
-            className="object-cover object-center"
+            className="object-cover object-center lg:object-fill"
             sizes="100vw"
             aria-hidden
           />
@@ -133,6 +136,7 @@ const OverlaySection1 = () => {
           >
             {serviceRows.flat().map((label, index) => {
               const key = `mobile-${index}-${label.href}`;
+
               return (
                 <Link
                   key={key}
@@ -140,7 +144,7 @@ const OverlaySection1 = () => {
                   rel="noopener noreferrer"
                   onMouseEnter={() => setHoveredKey(key)}
                   className={`${serviceClass} ${mobileFontClass} block w-full text-center ${getOpacityClass(
-                    key,
+                    key
                   )}`}
                 >
                   {label.title}
@@ -156,12 +160,14 @@ const OverlaySection1 = () => {
             {serviceRows.map((row, rowIndex) => (
               <div
                 key={rowIndex}
-                className={`flex w-full shrink-0 flex-nowrap items-center gap-x-8 xl:gap-x-16 ${rowLayoutClasses[rowIndex] ??
+                className={`flex w-full shrink-0 flex-nowrap items-center gap-x-8 xl:gap-x-16 ${
+                  rowLayoutClasses[rowIndex] ??
                   "justify-evenly xl:justify-center"
-                  }`}
+                }`}
               >
                 {row.map((label, index) => {
                   const key = `${rowIndex}-${index}-${label.href}`;
+
                   return (
                     <Link
                       key={key}
@@ -169,7 +175,7 @@ const OverlaySection1 = () => {
                       rel="noopener noreferrer"
                       onMouseEnter={() => setHoveredKey(key)}
                       className={`${serviceClass} ${desktopFontClass} ${getOpacityClass(
-                        key,
+                        key
                       )}`}
                     >
                       {label.title}
@@ -181,6 +187,15 @@ const OverlaySection1 = () => {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @media (min-width: 1024px) {
+          .janmashtami-desktop-bg {
+            object-fit: fill !important;
+            object-position: center !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };
