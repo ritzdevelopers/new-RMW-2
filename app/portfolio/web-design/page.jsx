@@ -42,6 +42,11 @@ const website_images = [
 ];
 
 export const metadata = {
+  title: "Creative Website Design Portfolio | Ritz Media World",
+
+  description:
+    "Discover thoughtfully designed websites by Ritz Media World, combining creativity, functionality, and user experience to help brands stand out and grow online.",
+
   alternates: {
     canonical: "https://ritzmediaworld.com/portfolio/web-design",
   },
@@ -59,6 +64,46 @@ function page() {
       />
       <Section2 />
       <Section10 />
+      {/* SEO Heading Structure - visually hidden */}
+      <div
+        style={{
+          position: 'absolute',
+          width: '1px',
+          height: '1px',
+          padding: 0,
+          margin: '-1px',
+          overflow: 'hidden',
+          clip: 'rect(0, 0, 0, 0)',
+          whiteSpace: 'nowrap',
+          border: 0,
+        }}
+      >
+        <h2>Website Design Portfolio</h2>
+
+        <h2>Creative Website Designs That Make an Impact</h2>
+
+        <h2>Explore Our Website Design Work</h2>
+
+        <h3>Business Websites</h3>
+
+        <h3>E-commerce Websites</h3>
+
+        <h3>Corporate Websites</h3>
+
+        <h3>Custom Website Designs</h3>
+
+        <h2>Websites Designed Around Your Brand</h2>
+
+        <h2>Our Approach to Website Design</h2>
+
+        <h2>Understanding Your Business</h2>
+
+        <h3>Creating a Better User Experience</h3>
+
+        <h3>Designing for Performance</h3>
+
+        <h2>Let's Build Your Next Website</h2>
+      </div>
     </main>
   );
 }

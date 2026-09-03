@@ -129,7 +129,7 @@ const OverlaySection1 = () => {
 
         <div className="absolute inset-0 bg-black/10" aria-hidden />
 
-        <div className="font-league-spartan relative z-10 flex h-full min-h-[100dvh] flex-col p-[20px] xl:p-[50px]">
+        <div className="font-league-spartan relative z-10 flex h-full min-h-[100dvh] flex-col p-[20px] xl:p-[70px]">
           <div
             className="flex min-h-0 flex-1 flex-col items-center justify-between gap-4 text-center md:hidden py-15"
             onMouseLeave={() => setHoveredKey(null)}
