@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { siteTheme } from "@/siteTheme";
 
 const BANNER_SRC = "/service/website%20banner%20%5BRecovered%5D-01.jpg";
 
@@ -53,8 +54,8 @@ const serviceRows = [
 ];
 
 const serviceClass =
-  "shrink-0 whitespace-nowrap uppercase leading-[1.05] tracking-[0] font-semibold text-white transition-opacity duration-300 cursor-pointer";
-
+  "shrink-0 whitespace-nowrap uppercase leading-[1.05] tracking-[0] font-semibold text-white hover:text-[#f6379b] transition-colors duration-300 cursor-pointer";
+  
 const mobileFontClass = "text-[clamp(20px,7vw,46px)]";
 const desktopFontClass =
   "text-[clamp(22px,4.2vw,68px)] xl:text-[clamp(28px,4.4vw,72px)]";
@@ -100,7 +101,17 @@ const OverlaySection1 = () => {
       className="relative h-[100dvh] min-h-[100dvh] w-full max-w-full overflow-hidden bg-[#0E1125]"
     >
       <div className="relative h-full min-h-[100dvh] w-full">
-        {shouldLoadMedia ? (
+        {siteTheme.janmashtami ? (
+          <Image
+            src="/janmashtami/section-light-blue.jpg"
+            alt=""
+            fill
+            priority={false}
+            className="object-cover object-center"
+            sizes="100vw"
+            aria-hidden
+          />
+        ) : shouldLoadMedia ? (
           <Image
             src={BANNER_SRC}
             alt="Ritz Media World creative services"
@@ -117,7 +128,7 @@ const OverlaySection1 = () => {
 
         <div className="font-league-spartan relative z-10 flex h-full min-h-[100dvh] flex-col p-[20px] xl:p-[50px]">
           <div
-            className="flex min-h-0 flex-1 flex-col items-center justify-between gap-4 text-center md:hidden"
+            className="flex min-h-0 flex-1 flex-col items-center justify-between gap-4 text-center md:hidden py-15"
             onMouseLeave={() => setHoveredKey(null)}
           >
             {serviceRows.flat().map((label, index) => {
@@ -145,10 +156,9 @@ const OverlaySection1 = () => {
             {serviceRows.map((row, rowIndex) => (
               <div
                 key={rowIndex}
-                className={`flex w-full shrink-0 flex-nowrap items-center gap-x-8 xl:gap-x-16 ${
-                  rowLayoutClasses[rowIndex] ??
+                className={`flex w-full shrink-0 flex-nowrap items-center gap-x-8 xl:gap-x-16 ${rowLayoutClasses[rowIndex] ??
                   "justify-evenly xl:justify-center"
-                }`}
+                  }`}
               >
                 {row.map((label, index) => {
                   const key = `${rowIndex}-${index}-${label.href}`;

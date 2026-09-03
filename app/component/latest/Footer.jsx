@@ -1,5 +1,5 @@
 "use client";
-
+import { siteTheme } from "@/siteTheme";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -310,8 +310,19 @@ const resetBrandMorph = (ritz, mediaworld) => {
 
 const MediaWorldText = () => (
   <span
-    className="inline-flex max-w-full shrink-0 items-baseline gap-[4px] whitespace-nowrap !text-[clamp(1.25rem,8vw,1.75rem)] sm:gap-[6px] sm:!text-[32px] md:!text-[44px] lg:gap-2 lg:!text-[56px] xl:!text-[74px]"
-    style={brandTextStyle}
+    className={`inline-flex max-w-full shrink-0 items-baseline gap-[4px] whitespace-nowrap !text-[clamp(1.25rem,8vw,1.75rem)] sm:gap-[6px] sm:!text-[32px] md:!text-[44px] lg:gap-2 lg:!text-[56px] xl:!text-[74px] ${siteTheme.janmashtami
+        ? "bg-[url('/janmashtami/footer-light-blue.png')] bg-cover bg-center bg-clip-text text-transparent"
+        : ""
+      }`}
+    style={{
+      ...brandTextStyle,
+      ...(siteTheme.janmashtami
+        ? {
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }
+        : {}),
+    }}
   >
     <span>MEDIA</span>
     <span>WORLD</span>
@@ -747,7 +758,20 @@ const Footer = ({ section = null }) => {
           >
             <span
               data-footer-ritz
-              style={brandTextStyle}
+              style={
+                siteTheme.janmashtami
+                  ? {
+                    ...brandTextStyle,
+                    backgroundImage: "url('/janmashtami/footer-light-blue.png')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    color: "transparent",
+                  }
+                  : brandTextStyle
+              }
               className="inline-block max-w-full shrink-0 !text-[clamp(1.25rem,8vw,1.75rem)] sm:!text-[32px] md:!text-[40px] lg:will-change-transform lg:!text-[56px] xl:!text-[74px]"
             >
               RITZ

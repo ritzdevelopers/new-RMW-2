@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { services } from "../../data/services";
+import JanmashtamiVehicle from "../component/janmashtami/JanmashtamiVehicle";
+import { siteTheme } from "@/siteTheme";
 
 const portfolioSubLinks = [
   { label: "Brand Identity", href: "/portfolio/brand-identity" },
@@ -34,7 +36,7 @@ const navLinks = [
 ];
 
 const linkClass =
-  "font-sequel text-base font-[310] uppercase leading-none tracking-normal text-[#FFFFFF]";
+  "font-sequel text-base font-[450] uppercase leading-none tracking-normal text-[#FFFFFF]";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -283,131 +285,56 @@ const Header = () => {
         }}
       />
 
-      <div
-        ref={headerBarRef}
-        className="fixed inset-x-0 top-[var(--independence-banner-height,0px)] z-[110] w-full bg-[#0D1334] translate-y-0 transition-transform duration-300 ease-out will-change-transform"
-      >
+<div
+  ref={headerBarRef}
+  className={`fixed inset-x-0 top-[var(--independence-banner-height,0px)] z-[110] w-full overflow-visible translate-y-0 transition-transform duration-300 ease-out will-change-transform ${
+    siteTheme.janmashtami
+      ? "janmashtami-header"
+      : "bg-[#0D1334]"
+  }`}
+>
+        <JanmashtamiVehicle />
         <div
-          ref={headerRef}
-          className="mx-auto flex w-full max-w-8xl items-center justify-between px-8 py-5 md:px-12"
-        >
-        <Link
-          href="/"
-          title="Ritz Media World"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={handleLogoClick}
-          className="shrink-0 overflow-hidden"
-        >
-          <span
-            data-header-reveal
-            className="inline-block"
-            style={{ "--hdr-i": 0 }}
-          >
-            <Image
-              src="/logo/rmw.logo.png"
-              alt="Ritz Media World"
-              title="Ritz Media World"
-              width={180}
-              height={72}
-              className="h-12 w-auto md:h-14"
-              preload
-              sizes="180px"
-            />
-          </span>
-        </Link>
-
-        <div className="flex items-center gap-8 text-right md:gap-10">
-          <nav className="hidden items-center gap-8 md:flex md:gap-10">
+  ref={headerRef}
+  className={`relative z-[2] mx-auto flex w-full max-w-8xl items-center px-8 py-5 md:px-12 ${
+    siteTheme.janmashtami
+      ? "justify-end"
+      : "justify-between"
+  }`}
+>
+          {!siteTheme.janmashtami && (
             <Link
-              href="/about.html"
-              title="About"
+              href="/"
+              title="Ritz Media World"
               target="_blank"
               rel="noopener noreferrer"
-              className={`${linkClass} overflow-hidden`}
+              onClick={handleLogoClick}
+              className="shrink-0 overflow-hidden"
             >
               <span
                 data-header-reveal
                 className="inline-block"
-                style={{ "--hdr-i": 1 }}
+                style={{ "--hdr-i": 0 }}
               >
-                ABOUT
+                <Image
+                  src="/logo/rmw.logo.png"
+                  alt="Ritz Media World"
+                  title="Ritz Media World"
+                  width={180}
+                  height={72}
+                  className="h-12 w-auto md:h-14"
+                  preload
+                  sizes="180px"
+                />
               </span>
             </Link>
+          )}
 
-            <div
-              className="relative"
-              onMouseEnter={isDesktop ? openServicesMenu : undefined}
-              onMouseLeave={isDesktop ? closeServicesMenu : undefined}
-            >
-              <span
-                data-header-reveal
-                className="inline-flex items-center gap-1.5 overflow-hidden"
-                style={{ "--hdr-i": 2 }}
-              >
-                <Link
-                  href="/services"
-                  title="Services"
-                  rel="noopener noreferrer"
-                  className={linkClass}
-                >
-                  SERVICES
-                </Link>
-                <button
-                  type="button"
-                  aria-label={
-                    servicesMenuOpen ? "Close services menu" : "Open services menu"
-                  }
-                  aria-haspopup="true"
-                  aria-expanded={servicesMenuOpen}
-                  className={`${linkClass} inline-flex cursor-pointer items-center p-0`}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    toggleServicesMenu();
-                  }}
-                >
-                  <i
-                    className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${servicesMenuOpen ? "rotate-180" : ""}`}
-                    aria-hidden
-                  />
-                </button>
-              </span>
-            </div>
-
-            <div
-              className="relative"
-              onMouseEnter={isDesktop ? openWorkMenu : undefined}
-              onMouseLeave={isDesktop ? closeWorkMenu : undefined}
-            >
-              <button
-                type="button"
-                className={`${linkClass} overflow-hidden`}
-                aria-haspopup="true"
-                aria-expanded={workMenuOpen}
-                onClick={(event) => {
-                  event.preventDefault();
-                  toggleWorkMenu();
-                }}
-              >
-                <span
-                  data-header-reveal
-                  className="inline-flex items-center gap-1.5"
-                  style={{ "--hdr-i": 3 }}
-                >
-                  OUR WORK
-                  <i
-                    className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${workMenuOpen ? "rotate-180" : ""}`}
-                    aria-hidden
-                  />
-                </span>
-              </button>
-            </div>
-
-            {navLinks.map((link) => (
+          <div className="flex items-center gap-8 text-right md:gap-10 px-2 md:px-10 lg:px-20 xl:px-30">
+            <nav className="hidden items-center gap-8 md:flex md:gap-10">
               <Link
-                key={link.label}
-                href={link.href}
-                title={link.label}
+                href="/about.html"
+                title="About"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${linkClass} overflow-hidden`}
@@ -415,53 +342,137 @@ const Header = () => {
                 <span
                   data-header-reveal
                   className="inline-block"
-                  style={{ "--hdr-i": 4 }}
+                  style={{ "--hdr-i": 1 }}
                 >
-                  {link.label}
+                  ABOUT
                 </span>
               </Link>
-            ))}
-          </nav>
 
-          <button
-            type="button"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((open) => !open)}
-            className="shrink-0 cursor-pointer overflow-hidden md:hidden"
-          >
-            <span
-              data-header-reveal
-              className="inline-block"
-              style={{ "--hdr-i": 1 }}
+              <div
+                className="relative"
+                onMouseEnter={isDesktop ? openServicesMenu : undefined}
+                onMouseLeave={isDesktop ? closeServicesMenu : undefined}
+              >
+                <span
+                  data-header-reveal
+                  className="inline-flex items-center gap-1.5 overflow-hidden"
+                  style={{ "--hdr-i": 2 }}
+                >
+                  <Link
+                    href="/services"
+                    title="Services"
+                    rel="noopener noreferrer"
+                    className={linkClass}
+                  >
+                    SERVICES
+                  </Link>
+                  <button
+                    type="button"
+                    aria-label={
+                      servicesMenuOpen ? "Close services menu" : "Open services menu"
+                    }
+                    aria-haspopup="true"
+                    aria-expanded={servicesMenuOpen}
+                    className={`${linkClass} inline-flex cursor-pointer items-center p-0`}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      toggleServicesMenu();
+                    }}
+                  >
+                    <i
+                      className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${servicesMenuOpen ? "rotate-180" : ""}`}
+                      aria-hidden
+                    />
+                  </button>
+                </span>
+              </div>
+
+              <div
+                className="relative"
+                onMouseEnter={isDesktop ? openWorkMenu : undefined}
+                onMouseLeave={isDesktop ? closeWorkMenu : undefined}
+              >
+                <button
+                  type="button"
+                  className={`${linkClass} overflow-hidden`}
+                  aria-haspopup="true"
+                  aria-expanded={workMenuOpen}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    toggleWorkMenu();
+                  }}
+                >
+                  <span
+                    data-header-reveal
+                    className="inline-flex items-center gap-1.5"
+                    style={{ "--hdr-i": 3 }}
+                  >
+                    OUR WORK
+                    <i
+                      className={`ri-arrow-down-s-line text-lg transition-transform duration-200 ${workMenuOpen ? "rotate-180" : ""}`}
+                      aria-hidden
+                    />
+                  </span>
+                </button>
+              </div>
+
+              {navLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  title={link.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${linkClass} overflow-hidden`}
+                >
+                  <span
+                    data-header-reveal
+                    className="inline-block"
+                    style={{ "--hdr-i": 4 }}
+                  >
+                    {link.label}
+                  </span>
+                </Link>
+              ))}
+            </nav>
+
+            <button
+              type="button"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((open) => !open)}
+              className="shrink-0 cursor-pointer overflow-hidden md:hidden"
             >
-              <Image
-                src="/logo/menu.png"
-                alt={menuOpen ? "Close menu" : "Open menu"}
-                title={menuOpen ? "Close menu" : "Open menu"}
-                width={36}
-                height={28}
-                sizes="36px"
-                className="h-5 w-auto md:h-6"
-              />
-            </span>
-          </button>
-        </div>
+              <span
+                data-header-reveal
+                className="inline-block"
+                style={{ "--hdr-i": 1 }}
+              >
+                <Image
+                  src="/logo/menu.png"
+                  alt={menuOpen ? "Close menu" : "Open menu"}
+                  title={menuOpen ? "Close menu" : "Open menu"}
+                  width={36}
+                  height={28}
+                  sizes="36px"
+                  className="h-5 w-auto md:h-6"
+                />
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 
       <div
-        className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 md:hidden ${
-          menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
-        }`}
+        className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 md:hidden ${menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+          }`}
         onClick={() => setMenuOpen(false)}
         aria-hidden={!menuOpen}
       />
 
       <nav
-        className={`fixed top-0 right-0 z-[70] flex h-full w-[280px] max-w-[80vw] flex-col gap-8 bg-[#0D1334] px-8 pb-8 pt-24 transition-transform duration-300 ease-out md:hidden ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 z-[70] flex h-full w-[280px] max-w-[80vw] flex-col gap-8 bg-[#0D1334] px-8 pb-8 pt-24 transition-transform duration-300 ease-out md:hidden ${menuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         aria-hidden={!menuOpen}
       >
         <button
@@ -549,9 +560,8 @@ const Header = () => {
       </nav>
 
       <div
-        className={`fixed inset-x-0 bottom-0 z-[105] ${
-          servicesMenuOpen ? "pointer-events-auto" : "pointer-events-none"
-        }`}
+        className={`fixed inset-x-0 bottom-0 z-[105] ${servicesMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+          }`}
         style={{
           top: `calc(${headerHeight}px + var(--independence-banner-height, 0px))`,
         }}
@@ -560,15 +570,13 @@ const Header = () => {
         aria-hidden={!servicesMenuOpen}
       >
         <div
-          className={`absolute inset-0 bg-black/85 backdrop-blur-md transition-opacity duration-500 ${
-            servicesMenuOpen ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 bg-black/85 backdrop-blur-md transition-opacity duration-500 ${servicesMenuOpen ? "opacity-100" : "opacity-0"
+            }`}
         />
 
         <div
-          className={`relative flex h-full w-full flex-col overflow-hidden transition-all duration-500 ease-out md:flex-row ${
-            servicesMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
-          }`}
+          className={`relative flex h-full w-full flex-col overflow-hidden transition-all duration-500 ease-out md:flex-row ${servicesMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
+            }`}
         >
           <button
             type="button"
@@ -594,7 +602,7 @@ const Header = () => {
               >
                 Explore our services
               </p>
-              
+
               <Link
                 href="/services"
                 title="View all services"
@@ -621,11 +629,10 @@ const Header = () => {
                   fontFamily: '"League Spartan", sans-serif',
                   fontWeight: 600,
                 }}
-                className={`block w-full max-w-full text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${
-                  servicesMenuOpen
+                className={`block w-full max-w-full text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${servicesMenuOpen
                     ? "translate-x-0 opacity-100"
                     : "translate-x-4 opacity-0 md:translate-x-8"
-                }`}
+                  }`}
               >
                 {service.title}
               </Link>
@@ -635,9 +642,8 @@ const Header = () => {
       </div>
 
       <div
-        className={`fixed inset-x-0 bottom-0 z-[105] ${
-          workMenuOpen ? "pointer-events-auto" : "pointer-events-none"
-        }`}
+        className={`fixed inset-x-0 bottom-0 z-[105] ${workMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+          }`}
         style={{
           top: `calc(${headerHeight}px + var(--independence-banner-height, 0px))`,
         }}
@@ -646,15 +652,13 @@ const Header = () => {
         aria-hidden={!workMenuOpen}
       >
         <div
-          className={`absolute inset-0 bg-black/85 backdrop-blur-md transition-opacity duration-500 ${
-            workMenuOpen ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 bg-black/85 backdrop-blur-md transition-opacity duration-500 ${workMenuOpen ? "opacity-100" : "opacity-0"
+            }`}
         />
 
         <div
-          className={`relative flex h-full w-full flex-col overflow-hidden transition-all duration-500 ease-out md:flex-row ${
-            workMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
-          }`}
+          className={`relative flex h-full w-full flex-col overflow-hidden transition-all duration-500 ease-out md:flex-row ${workMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
+            }`}
         >
           <button
             type="button"
@@ -689,9 +693,9 @@ const Header = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => {
-              setWorkMenuOpen(false);
-              setPortfolioSubOpen(false);
-            }}
+                  setWorkMenuOpen(false);
+                  setPortfolioSubOpen(false);
+                }}
                 className="mt-3 inline-flex items-center gap-2 font-sequel text-[19px] font-[310] uppercase tracking-normal text-white transition-colors hover:text-[#c99237]"
               >
                 View portfolio
@@ -726,19 +730,17 @@ const Header = () => {
                     fontFamily: '"League Spartan", sans-serif',
                     fontWeight: 600,
                   }}
-                  className={`flex w-full max-w-full items-center justify-end text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${
-                    workMenuOpen
+                  className={`flex w-full max-w-full items-center justify-end text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${workMenuOpen
                       ? "translate-x-0 opacity-100"
                       : "translate-x-4 opacity-0 md:translate-x-8"
-                  }`}
+                    }`}
                 >
                   <span className="inline-flex items-center gap-2">
                     <span>{item.label}</span>
                     {item.children ? (
                       <i
-                        className={`ri-arrow-down-s-line text-[1em] leading-none transition-transform duration-200 ${
-                          portfolioSubOpen ? "rotate-180" : ""
-                        }`}
+                        className={`ri-arrow-down-s-line text-[1em] leading-none transition-transform duration-200 ${portfolioSubOpen ? "rotate-180" : ""
+                          }`}
                         aria-hidden
                       />
                     ) : null}
@@ -747,11 +749,10 @@ const Header = () => {
 
                 {item.children ? (
                   <div
-                    className={`grid w-full transition-[grid-template-rows,margin,opacity] duration-500 ease-out ${
-                      portfolioSubOpen
+                    className={`grid w-full transition-[grid-template-rows,margin,opacity] duration-500 ease-out ${portfolioSubOpen
                         ? "mt-3 grid-rows-[1fr] opacity-100 md:mt-4"
                         : "mt-0 grid-rows-[0fr] opacity-0"
-                    }`}
+                      }`}
                   >
                     <div className="overflow-hidden">
                       <div className="flex w-full flex-col items-end gap-2 md:gap-3">
@@ -773,11 +774,10 @@ const Header = () => {
                               fontFamily: '"League Spartan", sans-serif',
                               fontWeight: 500,
                             }}
-                            className={`block w-full max-w-full text-[15px] uppercase leading-[1.1] tracking-[-0.01em] text-white/75 transition-all duration-500 ease-out hover:text-[#c99237] md:text-[17px] lg:text-[18px] xl:text-[22px] ${
-                              portfolioSubOpen
+                            className={`block w-full max-w-full text-[15px] uppercase leading-[1.1] tracking-[-0.01em] text-white/75 transition-all duration-500 ease-out hover:text-[#c99237] md:text-[17px] lg:text-[18px] xl:text-[22px] ${portfolioSubOpen
                                 ? "translate-y-0 opacity-100"
                                 : "-translate-y-2 opacity-0"
-                            }`}
+                              }`}
                           >
                             {subItem.label}
                           </Link>

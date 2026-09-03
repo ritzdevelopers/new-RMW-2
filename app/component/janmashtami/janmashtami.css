@@ -1,0 +1,136 @@
+@keyframes janmashtami-vehicle-drive {
+  from {
+    transform: translate3d(-120%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(100vw, 0, 0);
+  }
+}
+
+/* Janmashtami full header decoration */
+.janmashtami-decor {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Full header background */
+.janmashtami-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  background-image: url("/janmashtami/header-litght-green.jpg");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Truck ABOVE navbar links — sibling of navbar row, not inside decor */
+.janmashtami-truck-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.janmashtami-truck-track {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+
+  will-change: transform;
+  animation: janmashtami-vehicle-drive 20s linear infinite;
+}
+
+.janmashtami-truck-image {
+  display: block;
+
+  height: 85%;
+  width: auto;
+  max-width: none;
+
+  object-fit: contain;
+
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.45));
+}
+
+/*
+ * Navbar above decoration layers (background stays at z-index: 0).
+ * Truck remains at z-index: 9999 and may pass over links during animation.
+ */
+.janmashtami-header > .relative {
+  position: relative;
+  z-index: 2;
+  isolation: isolate;
+}
+
+/* High-contrast nav links on the themed header background */
+.janmashtami-header nav a,
+.janmashtami-header nav button {
+  color: #2a2a2a;
+  /* text-shadow:
+    0 1px 2px rgba(13, 19, 52, 0.95),
+    0 2px 10px rgba(13, 19, 52, 0.65); */
+  filter: brightness(1.12);
+}
+
+.janmashtami-header nav i {
+  color: #2a2a2a;
+  /* filter: brightness(1.12) drop-shadow(0 1px 2px rgba(13, 19, 52, 0.9)); */
+}
+
+/* Mobile menu icon in the header cluster */
+.janmashtami-header > .relative > .flex > button {
+  filter: brightness(1.12) drop-shadow(0 1px 3px rgba(13, 19, 52, 0.75));
+}
+
+/* Logo is already hidden in JSX during Janmashtami */
+
+/* Mobile */
+/* @media (max-width: 767px) {
+  .janmashtami-truck-image {
+    height: 65%;
+  }
+
+  .janmashtami-truck-track {
+    animation-duration: 16s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .janmashtami-truck-track {
+    animation: none;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+} */
+
+@media (max-width: 767px) {
+  .janmashtami-bg {
+    width: 100%;
+    height: 100%;
+
+    /* Don't stretch the full artwork to mobile */
+    background-size: auto 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .janmashtami-truck-image {
+    height: 65%;
+  }
+
+  .janmashtami-truck-track {
+    animation-duration: 16s;
+  }
+}
