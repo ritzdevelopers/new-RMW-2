@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { siteTheme } from "@/siteTheme";
 import "./janmashtami.css";
 
@@ -7,12 +8,16 @@ export default function JanmashtamiVehicle() {
 
   return (
     <>
-      <div className="janmashtami-decor" aria-hidden>
+      <div className="janmashtami-decor" aria-hidden="true">
         <div className="janmashtami-bg" />
       </div>
 
-      <div className="janmashtami-truck-layer" aria-hidden>
-        <div className="janmashtami-truck-track">
+      <div className="janmashtami-truck-layer">
+        <Link
+          href="/"
+          className="janmashtami-truck-track"
+          aria-label="Go to homepage"
+        >
           <Image
             src="/janmashtami/logo.png"
             alt=""
@@ -22,7 +27,7 @@ export default function JanmashtamiVehicle() {
             sizes="50vw"
             priority={false}
           />
-        </div>
+        </Link>
       </div>
     </>
   );

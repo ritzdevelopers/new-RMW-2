@@ -285,23 +285,21 @@ const Header = () => {
         }}
       />
 
-<div
-  ref={headerBarRef}
-  className={`fixed inset-x-0 top-[var(--independence-banner-height,0px)] z-[110] w-full overflow-visible translate-y-0 transition-transform duration-300 ease-out will-change-transform ${
-    siteTheme.janmashtami
-      ? "janmashtami-header"
-      : "bg-[#0D1334]"
-  }`}
->
+      <div
+        ref={headerBarRef}
+        className={`fixed inset-x-0 top-[var(--independence-banner-height,0px)] z-[110] w-full overflow-visible translate-y-0 transition-transform duration-300 ease-out will-change-transform ${siteTheme.janmashtami
+            ? "janmashtami-header"
+            : "bg-[#0D1334]"
+          }`}
+      >
         <JanmashtamiVehicle />
         <div
-  ref={headerRef}
-  className={`relative z-[2] mx-auto flex w-full max-w-8xl items-center px-8 py-5 md:px-12 ${
-    siteTheme.janmashtami
-      ? "justify-end"
-      : "justify-between"
-  }`}
->
+          ref={headerRef}
+          className={`relative z-[2] mx-auto flex w-full max-w-8xl items-center px-8 py-5 md:px-12 ${siteTheme.janmashtami
+              ? "justify-end"
+              : "justify-between"
+            }`}
+        >
           {!siteTheme.janmashtami && (
             <Link
               href="/"
@@ -630,8 +628,8 @@ const Header = () => {
                   fontWeight: 600,
                 }}
                 className={`block w-full max-w-full text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${servicesMenuOpen
-                    ? "translate-x-0 opacity-100"
-                    : "translate-x-4 opacity-0 md:translate-x-8"
+                  ? "translate-x-0 opacity-100"
+                  : "translate-x-4 opacity-0 md:translate-x-8"
                   }`}
               >
                 {service.title}
@@ -731,8 +729,8 @@ const Header = () => {
                     fontWeight: 600,
                   }}
                   className={`flex w-full max-w-full items-center justify-end text-[22px] uppercase leading-[1.05] tracking-[-0.02em] text-white transition-all duration-500 ease-out hover:text-[#c99237] md:text-[34px] lg:text-[clamp(22px,2.8vw,40px)] xl:text-[46px] ${workMenuOpen
-                      ? "translate-x-0 opacity-100"
-                      : "translate-x-4 opacity-0 md:translate-x-8"
+                    ? "translate-x-0 opacity-100"
+                    : "translate-x-4 opacity-0 md:translate-x-8"
                     }`}
                 >
                   <span className="inline-flex items-center gap-2">
@@ -750,8 +748,8 @@ const Header = () => {
                 {item.children ? (
                   <div
                     className={`grid w-full transition-[grid-template-rows,margin,opacity] duration-500 ease-out ${portfolioSubOpen
-                        ? "mt-3 grid-rows-[1fr] opacity-100 md:mt-4"
-                        : "mt-0 grid-rows-[0fr] opacity-0"
+                      ? "mt-3 grid-rows-[1fr] opacity-100 md:mt-4"
+                      : "mt-0 grid-rows-[0fr] opacity-0"
                       }`}
                   >
                     <div className="overflow-hidden">
@@ -775,8 +773,8 @@ const Header = () => {
                               fontWeight: 500,
                             }}
                             className={`block w-full max-w-full text-[15px] uppercase leading-[1.1] tracking-[-0.01em] text-white/75 transition-all duration-500 ease-out hover:text-[#c99237] md:text-[17px] lg:text-[18px] xl:text-[22px] ${portfolioSubOpen
-                                ? "translate-y-0 opacity-100"
-                                : "-translate-y-2 opacity-0"
+                              ? "translate-y-0 opacity-100"
+                              : "-translate-y-2 opacity-0"
                               }`}
                           >
                             {subItem.label}
