@@ -19,6 +19,9 @@ const page = () => {
     <>
       <Header />
 
+      <Section1 />
+      <Section2 />
+      
       {/* SEO Content - Hidden from UI */}
       <div
         style={{
@@ -40,9 +43,6 @@ const page = () => {
         <h2>Team & Memorable Moments</h2>
         <h2>Explore Our Work</h2>
       </div>
-
-      <Section1 />
-      <Section2 />
 
       <Footer section={<OverlaySection1 />} />
     </>
