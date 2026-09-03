@@ -54,8 +54,8 @@ const serviceRows = [
 ];
 
 const serviceClass =
-  "shrink-0 whitespace-nowrap uppercase leading-[1.05] tracking-[0] font-semibold text-white transition-opacity duration-300 cursor-pointer";
-
+  "shrink-0 whitespace-nowrap uppercase leading-[1.05] tracking-[0] font-semibold text-white hover:text-[#f6379b] transition-colors duration-300 cursor-pointer";
+  
 const mobileFontClass = "text-[clamp(20px,7vw,46px)]";
 const desktopFontClass =
   "text-[clamp(22px,4.2vw,68px)] xl:text-[clamp(28px,4.4vw,72px)]";
