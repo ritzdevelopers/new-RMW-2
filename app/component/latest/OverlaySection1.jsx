@@ -52,6 +52,7 @@ const serviceRows = [
   ],
 ];
 
+
 const serviceClass =
   "shrink-0 whitespace-nowrap uppercase leading-[1.05] tracking-[0] font-semibold text-white transition-opacity duration-300 cursor-pointer";
 
@@ -145,10 +146,9 @@ const OverlaySection1 = () => {
             {serviceRows.map((row, rowIndex) => (
               <div
                 key={rowIndex}
-                className={`flex w-full shrink-0 flex-nowrap items-center gap-x-8 xl:gap-x-16 ${
-                  rowLayoutClasses[rowIndex] ??
+                className={`flex w-full shrink-0 flex-nowrap items-center gap-x-8 xl:gap-x-16 ${rowLayoutClasses[rowIndex] ??
                   "justify-evenly xl:justify-center"
-                }`}
+                  }`}
               >
                 {row.map((label, index) => {
                   const key = `${rowIndex}-${index}-${label.href}`;
