@@ -14,7 +14,7 @@ export default function JanmashtamiVehicle() {
       <div className="janmashtami-truck-layer" aria-hidden>
         <div className="janmashtami-truck-track">
           <Image
-            src="/janmashtami/Frame-106324.png"
+            src="/janmashtami/logo.png"
             alt=""
             width={320}
             height={128}

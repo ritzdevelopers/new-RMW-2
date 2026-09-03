@@ -36,7 +36,7 @@ const navLinks = [
 ];
 
 const linkClass =
-  "font-sequel text-base font-[310] uppercase leading-none tracking-normal text-[#FFFFFF]";
+  "font-sequel text-base font-[450] uppercase leading-none tracking-normal text-[#FFFFFF]";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);

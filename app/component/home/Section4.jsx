@@ -1534,9 +1534,9 @@ const Section4 = () => {
                         style={{
                           ...titleStyle,
                           color:
-                            isActive || showGridPreview || revealBlack
-                              ? "#000000"
-                              : "#00000005",
+                          isActive || showGridPreview || revealBlack
+                            ? "#f6379b"
+                            : "#f6379b05",
                           transitionDuration: revealSlow ? "800ms" : undefined,
                         }}
                       >
