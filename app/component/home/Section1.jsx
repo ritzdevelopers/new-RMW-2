@@ -80,7 +80,6 @@ const Section1 = () => {
     if (loaderSkipped) {
       startBuffering();
     } else {
-      attachSource("metadata");
       window.addEventListener("rmw:loader-loading", startBuffering, {
         once: true,
       });

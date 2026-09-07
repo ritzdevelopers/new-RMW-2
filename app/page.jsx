@@ -71,17 +71,38 @@ const pageHeadings = [
 
 const HOME_VIDEO_HOST = "https://otherassets.blob.core.windows.net";
 
+const HOME_LCP_IMAGE = "/loder/loader_i6.webp";
+
 export default function Home() {
   return (
-    <WebLoader>
-      {/* Warm the hero-video origin; preload first loader frame for cold visits. */}
-      <link rel="preconnect" href={HOME_VIDEO_HOST} />
-      <link
-        rel="preload"
-        as="image"
-        href="/loder/loader_i6.webp"
+    <>
+      {/* Discover the mobile LCP loader frame in the first HTML response. */}
+      <link rel="preload" as="image" href={HOME_LCP_IMAGE} fetchPriority="high" />
+      <img
+        src={HOME_LCP_IMAGE}
+        alt=""
+        width={546}
+        height={487}
         fetchPriority="high"
+        loading="eager"
+        decoding="async"
+        aria-hidden
+        style={{
+          position: "absolute",
+          width: 1,
+          height: 1,
+          padding: 0,
+          margin: -1,
+          overflow: "hidden",
+          clip: "rect(0,0,0,0)",
+          whiteSpace: "nowrap",
+          border: 0,
+        }}
       />
+
+      <WebLoader>
+      {/* Warm the hero-video origin only — no hero video preload. */}
+      <link rel="preconnect" href={HOME_VIDEO_HOST} />
 
       <Header />
       <Section1 />
@@ -114,5 +135,6 @@ export default function Home() {
         <Footer section={<OverlaySection1 />} />
       </Suspense>
     </WebLoader>
+    </>
   );
 }
