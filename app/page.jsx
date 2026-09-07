@@ -4,23 +4,14 @@ import dynamic from "next/dynamic";
 // Critical Above-The-Fold components load instantly
 import Header from "./common/Header";
 import Section1 from "./component/home/Section1";
+import Section2 from "./component/home/Section2";
 import Section3 from "./component/home/Section3";
 import Section4 from "./component/home/Section4Deferred";
 import OverlaySection1 from "./component/latest/OverlaySection1";
 import WebLoader from "./component/loader/WebLoader";
 
-const Section2 = dynamic(() => import("./component/home/Section2"));
 const Section5 = dynamic(() => import("./component/home/Section5"));
 const Footer = dynamic(() => import("./component/latest/Footer"));
-
-function Section2Fallback() {
-  return (
-    <section
-      className="relative w-full overflow-hidden px-8 py-[35px] md:px-12 md:py-[70px] min-h-[min(520px,85vh)] bg-[#0F0E14]"
-      aria-hidden
-    />
-  );
-}
 
 function Section5Fallback() {
   return (
@@ -107,9 +98,7 @@ export default function Home() {
       <Header />
       <Section1 />
 
-      <Suspense fallback={<Section2Fallback />}>
-        <Section2 />
-      </Suspense>
+      <Section2 />
 
       {/* SEO heading hierarchy - present in source, hidden visually */}
       <div className="sr-only">
