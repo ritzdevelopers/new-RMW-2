@@ -57,28 +57,28 @@ const slides = [
       "They not only make sure that they deliver on their promises, but also educate you on what exactly is needed to be done for your brand, thereby preventing you from under or over spending your precious money.",
     author: "Eldeco Group",
     role: "Managing Director",
-    image: "/home/Eldeco.jpg",
+    image: "/home/Eldeco.webp",
   },
   {
     quote:
       "If there is one thing serving as a full service digital agency for more than a decade taught us, it has to be the value of relationships. Therefore, our relationship with our clients is both a priority and a point of pride to us.",
     author: "FAIRFOX - EON",
     role: "Marketing Head",
-    image: "/home/Eon-by-fairfox.jpg",
+    image: "/home/Eon-by-fairfox.webp",
   },
   {
     quote:
       "To me, advertising my brand was merely a means to ensure my elongated presence in the market. Thanks to ritz Media world, my advertisements not only ensured my brand’s sustenance but have also got me a great number of quality leads.",
     author: "Madhusudan Ghee",
     role: "Managing Director",
-    image: "/home/Madhusudan-Ghee.jpg",
+    image: "/home/Madhusudan-Ghee.webp",
   },
   {
     quote:
       "I must admit that RMW and its team of professionals are always on my favourite list. They have always delivered the best services to me even if they had to put in extra efforts and their team has always been available for extensive support.",
     author: "Escorts Tractor",
     role: "Chief Communication Officer",
-    image: "/home/Escorts-Tractor.jpg",
+    image: "/home/Escorts-Tractor.webp",
   },
 ];
 

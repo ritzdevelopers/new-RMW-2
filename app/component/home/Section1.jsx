@@ -58,13 +58,32 @@ const Section1 = () => {
       }
     };
 
-    // Buffer during the intro loader so the first frame is ready on reveal.
-    if (!video.getAttribute("src")) {
-      video.src = HOME_VIDEO_SRC;
-    }
-    video.preload = "auto";
-    if (video.readyState === 0) {
-      video.load();
+    // Discover the hero URL early without pulling the full file during the
+    // intro animation; switch to full buffer once the loader slideshow starts.
+    const attachSource = (preloadMode, forceReload = false) => {
+      if (cancelled) return;
+      if (!video.getAttribute("src")) {
+        video.src = HOME_VIDEO_SRC;
+      }
+      video.preload = preloadMode;
+      if (video.readyState === 0 || forceReload) {
+        video.load();
+      }
+    };
+
+    const startBuffering = () => attachSource("auto", true);
+
+    const loaderSkipped =
+      typeof window !== "undefined" &&
+      window.sessionStorage.getItem("rmwLoaderShown") === "1";
+
+    if (loaderSkipped) {
+      startBuffering();
+    } else {
+      attachSource("metadata");
+      window.addEventListener("rmw:loader-loading", startBuffering, {
+        once: true,
+      });
     }
 
     const begin = () => {
@@ -100,6 +119,7 @@ const Section1 = () => {
     return () => {
       cancelled = true;
       observer.disconnect();
+      window.removeEventListener("rmw:loader-loading", startBuffering);
       window.removeEventListener("rmw:loader-done", begin);
       video.removeEventListener("loadeddata", tryPlayWithSound);
       video.removeEventListener("canplay", playVideo);
@@ -127,10 +147,9 @@ const Section1 = () => {
     <section className="relative w-full bg-black">
       <video
         ref={videoRef}
-        src={HOME_VIDEO_SRC}
         loop
         playsInline
-        preload="auto"
+        preload="none"
         disableRemotePlayback
         className="block h-auto w-full object-cover lg:max-h-[calc(100vh-100px)] md:max-h-[calc(100vh-200px)]"
       />

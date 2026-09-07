@@ -62,16 +62,16 @@ const linkRowClass =
   "inline-flex items-baseline justify-center gap-4 md:gap-6 lg:gap-10";
 
 const services = [
-  { title: "GULSHAN", slug: "gulshan", image: "/home/gulshan_optim.jpg", xlShift: 0 },
-  { title: "VEDVAN", slug: "vedvan", image: "/home/vedvan.jpg", xlShift: 100 },
-  { title: "EXOTICA", slug: "exotica", image: "/home/exotica.jpg", xlShift: -200 },
+  { title: "GULSHAN", slug: "gulshan", image: "/home/gulshan_optim.webp", xlShift: 0 },
+  { title: "VEDVAN", slug: "vedvan", image: "/home/vedvan.webp", xlShift: 100 },
+  { title: "EXOTICA", slug: "exotica", image: "/home/exotica.webp", xlShift: -200 },
   { title: "SPLENDOR ONYX", slug: "splendor-onyx", image: "/home/onyx.png", xlShift: 100 },
-  { title: "LUMORA", slug: "lumora", image: "/home/lumora_optim.jpg", xlShift: -200 },
-  { title: "SANSKAR", slug: "sanskar", image: "/home/SANSKAR.jpg", xlShift: 200 },
-  { title: "VVIP MADHUBAN", slug: "vvip-madhuban", image: "/home/vvip.jpg", xlShift: -100 },
-  { title: "GHD", slug: "ghd", image: "/home/GHD.jpg", xlShift: 200 },
-  { title: "MANSHA GROUP", slug: "mansha-group", image: "/home/mansha.jpg", xlShift: -100 },
-  { title: "EON FAIRFOX", slug: "eon-fairfox", image: "/home/FAIRFOX.jpg", xlShift: 200, shiftClass: " md:-translate-x-[100px] lg:translate-x-[200px] xl:translate-x-[200px]" },
+  { title: "LUMORA", slug: "lumora", image: "/home/lumora_optim.webp", xlShift: -200 },
+  { title: "SANSKAR", slug: "sanskar", image: "/home/SANSKAR.webp", xlShift: 200 },
+  { title: "VVIP MADHUBAN", slug: "vvip-madhuban", image: "/home/vvip.webp", xlShift: -100 },
+  { title: "GHD", slug: "ghd", image: "/home/GHD.webp", xlShift: 200 },
+  { title: "MANSHA GROUP", slug: "mansha-group", image: "/home/mansha.webp", xlShift: -100 },
+  { title: "EON FAIRFOX", slug: "eon-fairfox", image: "/home/FAIRFOX.webp", xlShift: 200, shiftClass: " md:-translate-x-[100px] lg:translate-x-[200px] xl:translate-x-[200px]" },
 ];
 
 const shiftClassByValue = {
