@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const BANNER_SRC = "/service/website%20banner%20%5BRecovered%5D-01.jpg";
+const BANNER_SRC = "/service/website%20banner%20%5BRecovered%5D-01.webp";
 
 const serviceRows = [
   [

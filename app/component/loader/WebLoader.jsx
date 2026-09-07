@@ -7,12 +7,12 @@ const LOADER_SESSION_KEY = "rmwLoaderShown";
  
 const DEFAULT_IMAGES = [
     
-  "/loder/loader_i6.jpg",
-  "/loder/loader_i1.jpg",
-  "/loder/loader_i2.jpg",
-  "/loder/loader_i4.jpg",
+  "/loder/loader_i6.webp",
+  "/loder/loader_i1.webp",
+  "/loder/loader_i2.webp",
+  "/loder/loader_i4.webp",
   
-  "/loder/loader_i3.jpg",
+  "/loder/loader_i3.webp",
 ];
 
 // Desktop image window grows from the first size to the last (in px).
@@ -198,6 +198,9 @@ function WebLoader({
   // Advance through images, then trigger the reveal
   useEffect(() => {
     if (phase !== "loading") return;
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("rmw:loader-loading"));
+    }
 
     const timer = setInterval(() => {
       setIndex((prev) => {
@@ -213,6 +216,22 @@ function WebLoader({
 
     return () => clearInterval(timer);
   }, [phase, images.length, intervalMs]);
+
+  // Prefetch only the next loader frame so later slides are ready without
+  // downloading the whole sequence up front.
+  useEffect(() => {
+    if (phase !== "loading" && phase !== "intro") return;
+    const nextSrc = images[index + 1];
+    if (!nextSrc || typeof window === "undefined") return;
+    if (document.querySelector(`link[data-rmw-prefetch="${nextSrc}"]`)) return;
+
+    const prefetch = document.createElement("link");
+    prefetch.rel = "prefetch";
+    prefetch.as = "image";
+    prefetch.href = nextSrc;
+    prefetch.setAttribute("data-rmw-prefetch", nextSrc);
+    document.head.appendChild(prefetch);
+  }, [index, phase, images]);
 
   // Final reveal sequence
   useEffect(() => {
@@ -316,6 +335,7 @@ function WebLoader({
               width={546}
               height={487}
               decoding="async"
+              loading={index === 0 ? "eager" : "lazy"}
               fetchPriority={index === 0 ? "high" : "low"}
               style={styles.image}
               draggable={false}

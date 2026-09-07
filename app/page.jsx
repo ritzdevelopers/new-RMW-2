@@ -74,12 +74,12 @@ const HOME_VIDEO_HOST = "https://otherassets.blob.core.windows.net";
 export default function Home() {
   return (
     <WebLoader>
-      {/* Warm the hero-video origin only — do not preload the below-fold clip. */}
+      {/* Warm the hero-video origin; preload first loader frame for cold visits. */}
       <link rel="preconnect" href={HOME_VIDEO_HOST} />
       <link
         rel="preload"
         as="image"
-        href="/loder/loader_i6.jpg"
+        href="/loder/loader_i6.webp"
         fetchPriority="high"
       />
 
