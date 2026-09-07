@@ -354,8 +354,10 @@ function WebLoader({
               width={546}
               height={487}
               decoding="async"
-              loading={index === 0 ? "eager" : "lazy"}
-              fetchPriority={index === 0 ? "auto" : "low"}
+              loading={
+                index === 0 || index === images.length - 1 ? "eager" : "lazy"
+              }
+              fetchPriority={index === images.length - 1 ? "high" : index === 0 ? "auto" : "low"}
               style={styles.image}
               draggable={false}
             />
