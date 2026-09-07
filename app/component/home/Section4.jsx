@@ -3,10 +3,29 @@
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+let gsapBundle = null;
+let gsapBundlePromise = null;
+
+function loadGsap() {
+  if (gsapBundle) return Promise.resolve(gsapBundle);
+  if (!gsapBundlePromise) {
+    gsapBundlePromise = Promise.all([
+      import("gsap"),
+      import("gsap/ScrollTrigger"),
+    ]).then(([gsapModule, scrollTriggerModule]) => {
+      const gsap = gsapModule.default;
+      const { ScrollTrigger } = scrollTriggerModule;
+      gsap.registerPlugin(ScrollTrigger);
+      if (typeof window !== "undefined") {
+        window.__gsapScrollTrigger = true;
+      }
+      gsapBundle = { gsap, ScrollTrigger };
+      return gsapBundle;
+    });
+  }
+  return gsapBundlePromise;
+}
 
 const titleStyle = {
   fontFamily: '"League Spartan", sans-serif',
@@ -293,7 +312,6 @@ const GridSlider = ({ cardRefs, loadMedia = false }) => {
       viewObserver.observe(container);
     }
 
-    ensureRAF();
     return () => {
       cancelAnimationFrame(rafId.current);
       running.current = false;
@@ -484,9 +502,10 @@ const MOBILE_GAP = 12;
 const MOBILE_AUTO_INTERVAL = 3200;
 const MOBILE_SLIDE_DURATION = 0.55;
 
-const MobileImageSlider = ({ loadMedia = false }) => {
+const MobileImageSlider = ({ loadMedia = false, gsapActive = false }) => {
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
+  const gsapRef = useRef(null);
   const xRef = useRef(0);
   const stepRef = useRef(0);
   const loopWidthRef = useRef(0);
@@ -515,7 +534,12 @@ const MobileImageSlider = ({ loadMedia = false }) => {
       if (!track) return;
       const x = wrapX(value);
       xRef.current = x;
-      gsap.set(track, { x, force3D: true });
+      const gsap = gsapRef.current;
+      if (gsap) {
+        gsap.set(track, { x, force3D: true });
+      } else {
+        track.style.transform = `translate3d(${x}px, 0, 0)`;
+      }
     },
     [wrapX],
   );
@@ -539,7 +563,8 @@ const MobileImageSlider = ({ loadMedia = false }) => {
   const slideTo = useCallback(
     (targetX) => {
       const track = trackRef.current;
-      if (!track) return;
+      const gsap = gsapRef.current;
+      if (!track || !gsap) return;
 
       killTween();
       const from = xRef.current;
@@ -603,18 +628,27 @@ const MobileImageSlider = ({ loadMedia = false }) => {
   }, [goBy, stopAuto]);
 
   useLayoutEffect(() => {
+    if (!gsapActive) return;
     if (window.matchMedia("(min-width: 768px)").matches) return;
 
-    measure();
+    let cancelled = false;
+
+    loadGsap().then(({ gsap }) => {
+      if (cancelled) return;
+      gsapRef.current = gsap;
+      measure();
+      startAuto();
+    });
+
     const onResize = () => measure();
     window.addEventListener("resize", onResize);
-    startAuto();
     return () => {
+      cancelled = true;
       window.removeEventListener("resize", onResize);
       stopAuto();
       killTween();
     };
-  }, [measure, startAuto, stopAuto, killTween]);
+  }, [gsapActive, measure, startAuto, stopAuto, killTween]);
 
   const onPointerDown = (e) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
@@ -855,8 +889,10 @@ const Section4 = () => {
     const list = listRef.current;
     const first = itemRefs.current[0];
     if (!pin || !list || !first) return;
-    gsap.set(list, {
-      y: pin.offsetHeight * 0.3 - (first.offsetTop + first.offsetHeight / 2),
+    loadGsap().then(({ gsap }) => {
+      gsap.set(list, {
+        y: pin.offsetHeight * 0.3 - (first.offsetTop + first.offsetHeight / 2),
+      });
     });
   }, []);
 
@@ -873,6 +909,8 @@ const Section4 = () => {
       setPendingReveal(false);
       isAnimatingRef.current = false;
     };
+
+    loadGsap().then(({ gsap }) => {
 
     // Phase A - build the card image ghosts on top of the still-visible grid
     // *before* swapping to the list, so the very first painted frame already
@@ -1061,6 +1099,7 @@ const Section4 = () => {
         }
       });
     });
+    });
   };
 
   // Choreographed list -> grid transition:
@@ -1105,6 +1144,7 @@ const Section4 = () => {
       isAnimatingRef.current = false;
     };
 
+    loadGsap().then(({ gsap }) => {
     const makeText = (rect, fontSize, text) => {
       const el = document.createElement("div");
       Object.assign(el.style, {
@@ -1250,6 +1290,7 @@ const Section4 = () => {
         }
       });
     });
+    });
   };
 
   const handleViewChange = (mode) => {
@@ -1269,6 +1310,8 @@ const Section4 = () => {
     if (viewMode !== "list") return;
 
     let frame = 0;
+    let cancelled = false;
+    let gsapCleanup = () => {};
 
     const updateActive = () => {
       const viewportCenter = window.innerHeight / 2;
@@ -1304,113 +1347,116 @@ const Section4 = () => {
     // clones. Setting up the pinned ScrollTrigger here (pin-spacer insertion +
     // full ScrollTrigger.refresh reflow) mid-animation is what caused the lag,
     // so we skip it until the morph has finished (pendingReveal -> false).
-    if (pendingReveal) {
-      return () => {
-        cancelAnimationFrame(frame);
-        window.removeEventListener("scroll", onScroll);
-        window.removeEventListener("resize", onScroll);
-      };
-    }
+    if (!pendingReveal) {
+      loadGsap().then(({ gsap, ScrollTrigger }) => {
+        if (cancelled) return;
 
-    const section = sectionRef.current;
-    const pin = pinRef.current;
-    const list = listRef.current;
-    const mm = gsap.matchMedia();
+        const section = sectionRef.current;
+        const pin = pinRef.current;
+        const list = listRef.current;
+        const mm = gsap.matchMedia();
 
-    mm.add("(min-width: 768px)", () => {
-      if (!section || !pin || !list) return;
+        mm.add("(min-width: 768px)", () => {
+          if (!section || !pin || !list) return;
 
-      const getStartY = () => {
-        const first = itemRefs.current[0];
-        if (!first) return 0;
+          const getStartY = () => {
+            const first = itemRefs.current[0];
+            if (!first) return 0;
 
-        return pin.offsetHeight * 0.30 - (first.offsetTop + first.offsetHeight / 2);
-      };
+            return pin.offsetHeight * 0.30 - (first.offsetTop + first.offsetHeight / 2);
+          };
 
-      const getEndY = () => {
-        const items = itemRefs.current.filter(Boolean);
-        const last = items[items.length - 1];
-        if (!last) return getStartY();
+          const getEndY = () => {
+            const items = itemRefs.current.filter(Boolean);
+            const last = items[items.length - 1];
+            if (!last) return getStartY();
 
-        // Stop when last text sits on the image center
-        return pin.offsetHeight * 0.5 - (last.offsetTop + last.offsetHeight / 2);
-      };
+            // Stop when last text sits on the image center
+            return pin.offsetHeight * 0.5 - (last.offsetTop + last.offsetHeight / 2);
+          };
 
-      const applyStartY = () => {
-        gsap.set(list, { y: getStartY() });
-      };
+          const applyStartY = () => {
+            gsap.set(list, { y: getStartY() });
+          };
 
-      applyStartY();
+          applyStartY();
 
-      const tween = gsap.to(list, {
-        y: () => getEndY(),
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: () => `+=${Math.max(Math.abs(getStartY() - getEndY()), window.innerHeight)}`,
-          scrub: true,
-          pin,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onRefresh: applyStartY,
-        },
-      });
-
-      return () => {
-        tween.scrollTrigger?.kill();
-        tween.kill();
-        gsap.set(list, { clearProps: "transform" });
-      };
-    });
-
-    mm.add("(max-width: 767px)", () => {
-      if (!section) return;
-
-      const items = itemRefs.current.filter(Boolean);
-      if (!items.length) return;
-
-      const tweens = items.map((item, index) => {
-        const dir = index % 2 === 0 ? -1 : 1;
-        gsap.set(item, { force3D: true });
-        return gsap.fromTo(
-          item,
-          { x: dir * -8 },
-          {
-            x: dir * 8,
-            ease: "power1.inOut",
-            force3D: true,
+          const tween = gsap.to(list, {
+            y: () => getEndY(),
+            ease: "none",
             scrollTrigger: {
               trigger: section,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1.4,
+              start: "top top",
+              end: () => `+=${Math.max(Math.abs(getStartY() - getEndY()), window.innerHeight)}`,
+              scrub: true,
+              pin,
+              anticipatePin: 1,
               invalidateOnRefresh: true,
+              onRefresh: applyStartY,
             },
-          },
-        );
-      });
+          });
 
-      return () => {
-        tweens.forEach((tween) => {
-          tween.scrollTrigger?.kill();
-          tween.kill();
+          return () => {
+            tween.scrollTrigger?.kill();
+            tween.kill();
+            gsap.set(list, { clearProps: "transform" });
+          };
         });
-        items.forEach((item) => gsap.set(item, { clearProps: "x" }));
-      };
-    });
 
-    requestAnimationFrame(() => ScrollTrigger.refresh());
+        mm.add("(max-width: 767px)", () => {
+          if (!section) return;
 
-    const onLayoutStable = () => ScrollTrigger.refresh();
-    window.addEventListener("rmw:layout-stable", onLayoutStable);
+          const items = itemRefs.current.filter(Boolean);
+          if (!items.length) return;
+
+          const tweens = items.map((item, index) => {
+            const dir = index % 2 === 0 ? -1 : 1;
+            gsap.set(item, { force3D: true });
+            return gsap.fromTo(
+              item,
+              { x: dir * -8 },
+              {
+                x: dir * 8,
+                ease: "power1.inOut",
+                force3D: true,
+                scrollTrigger: {
+                  trigger: section,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: 1.4,
+                  invalidateOnRefresh: true,
+                },
+              },
+            );
+          });
+
+          return () => {
+            tweens.forEach((tween) => {
+              tween.scrollTrigger?.kill();
+              tween.kill();
+            });
+            items.forEach((item) => gsap.set(item, { clearProps: "x" }));
+          };
+        });
+
+        requestAnimationFrame(() => ScrollTrigger.refresh());
+
+        const onLayoutStable = () => ScrollTrigger.refresh();
+        window.addEventListener("rmw:layout-stable", onLayoutStable);
+
+        gsapCleanup = () => {
+          window.removeEventListener("rmw:layout-stable", onLayoutStable);
+          mm.revert();
+        };
+      });
+    }
 
     return () => {
-      window.removeEventListener("rmw:layout-stable", onLayoutStable);
+      cancelled = true;
+      gsapCleanup();
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
-      mm.revert();
     };
   }, [viewMode, pendingReveal, pinReady]);
 
@@ -1482,7 +1528,7 @@ const Section4 = () => {
             ) : null}
           </div>
 
-          <MobileImageSlider loadMedia={shouldLoadMedia} />
+          <MobileImageSlider loadMedia={shouldLoadMedia} gsapActive={pinReady} />
 
           <ul
             ref={listRef}

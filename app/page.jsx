@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import Header from "./common/Header";
 import Section1 from "./component/home/Section1";
 import Section3 from "./component/home/Section3";
-import Section4 from "./component/home/Section4";
+import Section4 from "./component/home/Section4Deferred";
 import OverlaySection1 from "./component/latest/OverlaySection1";
 import WebLoader from "./component/loader/WebLoader";
 
