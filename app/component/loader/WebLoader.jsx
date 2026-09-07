@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import gsap from "gsap";
 
 const LOADER_SESSION_KEY = "rmwLoaderShown";
 
@@ -11,7 +10,6 @@ const DEFAULT_IMAGES = [
   "/loder/loader_i1.webp",
   "/loder/loader_i2.webp",
   "/loder/loader_i4.webp",
-  
   "/loder/loader_i3.webp",
 ];
 
@@ -71,18 +69,7 @@ function WebLoader({
   const skippedRef = useRef(false);
   const sizeRangeRef = useRef(null);
   const isMobileRef = useRef(false);
-
-  // Show the loader only the first time per browser session. If it has already
-  // played, skip straight to "done" before paint (no flash) on later visits.
-  useLayoutEffect(() => {
-    if (typeof window === "undefined") return;
-    isMobileRef.current = isMobileViewport();
-    sizeRangeRef.current = getImageSizeRange();
-    if (window.sessionStorage.getItem(LOADER_SESSION_KEY) === "1") {
-      skippedRef.current = true;
-      setPhase("done");
-    }
-  }, []);
+  const gsapRef = useRef(null);
 
   const reduceMotion =
     typeof window !== "undefined" &&
@@ -98,71 +85,93 @@ function WebLoader({
     };
   };
 
-  useEffect(() => {
-    if (skippedRef.current) return;
-    const first = sizeAt(0);
-    gsap.set(frameRef.current, {
-      left: "50%",
-      top: "50%",
-      xPercent: -50,
-      yPercent: -50,
-      width: 0,
-      height: 0,
-      opacity: 0,
-    });
-    gsap.set(topTextRef.current, {
-      left: "50%",
-      top: "50%",
-      xPercent: -100,
-      yPercent: -50,
-      x: 0,
-      y: 0,
-      opacity: 1,
-    });
-    gsap.set(bottomTextRef.current, {
-      left: "50%",
-      top: "50%",
-      xPercent: 0,
-      yPercent: -50,
-      x: 0,
-      y: 0,
-      opacity: 1,
-    });
-
-    if (reduceMotion) {
-      gsap.set(topTextRef.current, { yPercent: -100, x: -first.w / 2, y: -first.h / 2 });
-      gsap.set(bottomTextRef.current, { yPercent: 0, x: first.w / 2, y: first.h / 2 });
-      gsap.set(frameRef.current, { width: first.w, height: first.h, opacity: 1 });
-      setPhase("loading");
+  // Show the loader only the first time per browser session. If it has already
+  // played, skip straight to "done" before paint (no flash) on later visits.
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+    isMobileRef.current = isMobileViewport();
+    sizeRangeRef.current = getImageSizeRange();
+    if (window.sessionStorage.getItem(LOADER_SESSION_KEY) === "1") {
+      skippedRef.current = true;
+      setPhase("done");
       return;
     }
 
-    const tl = gsap.timeline({
-      delay: introHoldMs / 1000,
-      onComplete: () => setPhase("loading"),
+    let cancelled = false;
+
+    import("gsap").then(({ default: gsap }) => {
+      if (cancelled || skippedRef.current) return;
+      gsapRef.current = gsap;
+
+      const first = sizeAt(0);
+      gsap.set(frameRef.current, {
+        left: "50%",
+        top: "50%",
+        xPercent: -50,
+        yPercent: -50,
+        width: 0,
+        height: 0,
+        opacity: 0,
+      });
+      gsap.set(topTextRef.current, {
+        left: "50%",
+        top: "50%",
+        xPercent: -100,
+        yPercent: -50,
+        x: 0,
+        y: 0,
+        opacity: 1,
+      });
+      gsap.set(bottomTextRef.current, {
+        left: "50%",
+        top: "50%",
+        xPercent: 0,
+        yPercent: -50,
+        x: 0,
+        y: 0,
+        opacity: 1,
+      });
+
+      if (reduceMotion) {
+        gsap.set(topTextRef.current, { yPercent: -100, x: -first.w / 2, y: -first.h / 2 });
+        gsap.set(bottomTextRef.current, { yPercent: 0, x: first.w / 2, y: first.h / 2 });
+        gsap.set(frameRef.current, { width: first.w, height: first.h, opacity: 1 });
+        setPhase("loading");
+        return;
+      }
+
+      const tl = gsap.timeline({
+        delay: introHoldMs / 1000,
+        onComplete: () => setPhase("loading"),
+      });
+
+      tl.to(
+        topTextRef.current,
+        { yPercent: -100, x: -first.w / 2, y: -first.h / 2, duration: 0.4, ease: "power3.inOut" },
+        0
+      )
+        .to(
+          bottomTextRef.current,
+          { yPercent: 0, x: first.w / 2, y: first.h / 2, duration: 0.4, ease: "power3.inOut" },
+          0
+        )
+        .to(
+          frameRef.current,
+          { width: first.w, height: first.h, duration: 0.4, ease: "power3.inOut" },
+          0
+        )
+        .to(frameRef.current, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0.15);
     });
 
-    tl.to(
-      topTextRef.current,
-      { yPercent: -100, x: -first.w / 2, y: -first.h / 2, duration: 0.4, ease: "power3.inOut" },
-      0
-    )
-      .to(
-        bottomTextRef.current,
-        { yPercent: 0, x: first.w / 2, y: first.h / 2, duration: 0.4, ease: "power3.inOut" },
-        0
-      )
-      .to(
-        frameRef.current,
-        { width: first.w, height: first.h, duration: 0.4, ease: "power3.inOut" },
-        0
-      )
-      .to(frameRef.current, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0.15);
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
     if (phase === "intro") return;
-    if (reduceMotion || !imgRef.current) return;
+    const gsap = gsapRef.current;
+    if (!gsap || reduceMotion || !imgRef.current) return;
 
     gsap.fromTo(
       imgRef.current,
@@ -193,7 +202,7 @@ function WebLoader({
         transformOrigin: "left center",
       });
     }
-  }, [index]);
+  }, [index, phase]);
 
   // Advance through images, then trigger the reveal
   useEffect(() => {
@@ -217,10 +226,9 @@ function WebLoader({
     return () => clearInterval(timer);
   }, [phase, images.length, intervalMs]);
 
-  // Prefetch only the next loader frame so later slides are ready without
-  // downloading the whole sequence up front.
+  // Prefetch only the next loader frame once the slideshow has started.
   useEffect(() => {
-    if (phase !== "loading" && phase !== "intro") return;
+    if (phase !== "loading") return;
     const nextSrc = images[index + 1];
     if (!nextSrc || typeof window === "undefined") return;
     if (document.querySelector(`link[data-rmw-prefetch="${nextSrc}"]`)) return;
@@ -242,6 +250,9 @@ function WebLoader({
       onComplete?.();
       return;
     }
+
+    const gsap = gsapRef.current;
+    if (!gsap) return;
 
     const tl = gsap.timeline({
       defaults: { ease: "power4.inOut" },
@@ -326,7 +337,15 @@ function WebLoader({
             {bottomText}
           </span>
 
-          <div ref={frameRef} style={styles.frame}>
+          <div
+            ref={frameRef}
+            style={{
+              ...styles.frame,
+              width: 0,
+              height: 0,
+              opacity: 0,
+            }}
+          >
             <img
               key={index}
               ref={imgRef}
@@ -336,7 +355,7 @@ function WebLoader({
               height={487}
               decoding="async"
               loading={index === 0 ? "eager" : "lazy"}
-              fetchPriority={index === 0 ? "high" : "low"}
+              fetchPriority={index === 0 ? "auto" : "low"}
               style={styles.image}
               draggable={false}
             />
