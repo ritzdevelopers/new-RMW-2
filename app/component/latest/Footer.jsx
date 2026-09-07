@@ -785,6 +785,8 @@ const Footer = ({ section = null }) => {
           src="/logo/r-logo-new.png"
           alt="Ritz Media World"
           title="Ritz Media World"
+          width={1048}
+          height={1259}
           className="h-[160px] w-auto max-w-none object-contain will-change-transform sm:h-[180px] md:h-[220px] lg:h-[220px] xl:h-[280px] 2xl:h-[360px]"
           style={{
             filter: "brightness(3.2) contrast(1.05)",

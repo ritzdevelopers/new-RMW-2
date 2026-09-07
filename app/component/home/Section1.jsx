@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react";
 
 const HOME_VIDEO_SRC =
   "https://otherassets.blob.core.windows.net/rmw/home-website.mp4";
+// Intrinsic size of home-website.mp4 — reserves hero height before metadata loads.
+const HOME_VIDEO_WIDTH = 1920;
+const HOME_VIDEO_HEIGHT = 1080;
 
 const Section1 = () => {
   const videoRef = useRef(null);
@@ -144,14 +147,21 @@ const Section1 = () => {
 
   return (
     <section className="relative w-full bg-black">
-      <video
-        ref={videoRef}
-        loop
-        playsInline
-        preload="none"
-        disableRemotePlayback
-        className="block h-auto w-full object-cover lg:max-h-[calc(100vh-100px)] md:max-h-[calc(100vh-200px)]"
-      />
+      <div
+        className="relative w-full md:max-h-[calc(100vh-200px)] lg:max-h-[calc(100vh-100px)]"
+        style={{ aspectRatio: `${HOME_VIDEO_WIDTH} / ${HOME_VIDEO_HEIGHT}` }}
+      >
+        <video
+          ref={videoRef}
+          loop
+          playsInline
+          preload="none"
+          disableRemotePlayback
+          width={HOME_VIDEO_WIDTH}
+          height={HOME_VIDEO_HEIGHT}
+          className="block h-full w-full object-cover"
+        />
+      </div>
 
       <button
         type="button"
