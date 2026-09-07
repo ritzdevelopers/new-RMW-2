@@ -62,12 +62,12 @@ const pageHeadings = [
 
 const HOME_VIDEO_HOST = "https://otherassets.blob.core.windows.net";
 
-const HOME_LCP_IMAGE = "/loder/loader_i6.webp";
+const HOME_LCP_IMAGE = "/loder/loader_i3.webp";
 
 export default function Home() {
   return (
     <>
-      {/* Discover the mobile LCP loader frame in the first HTML response. */}
+      {/* Discover the mobile LCP loader frame (last slideshow image at max size) in the first HTML response. */}
       <link rel="preload" as="image" href={HOME_LCP_IMAGE} fetchPriority="high" />
       <img
         src={HOME_LCP_IMAGE}
