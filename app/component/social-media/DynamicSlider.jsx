@@ -101,7 +101,7 @@ function ScrollableImageLightbox({ image, onClose }) {
   );
 }
 
-function DynamicSlider({ heading, images, enableLightbox = false }) {
+function DynamicSlider({ heading, images, enableLightbox = false, headingAs = "h3" }) {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
   const tweenRef = useRef(null);
@@ -235,10 +235,12 @@ function DynamicSlider({ heading, images, enableLightbox = false }) {
   const cardHeight =
     metrics.cardWidth > 0 ? Math.round(metrics.cardWidth * (510 / 408)) : 510;
 
+  const HeadingTag = headingAs === "h3" ? "h3" : "p";
+
   return (
     <section className="relative flex w-full flex-col gap-8 bg-[#ffffff] py-12 pb-4">
       <div className="flex w-full items-center justify-center text-center">
-        <h3 className="text-[25px] font-[500] lg:text-[35px]">{heading}</h3>
+        <HeadingTag className="text-[25px] font-[500] lg:text-[35px]">{heading}</HeadingTag>
       </div>
 
       <div

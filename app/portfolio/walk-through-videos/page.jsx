@@ -3,6 +3,7 @@ import Header from "@/app/component/social-media/Header";
 import Hero from "@/app/component/social-media/Hero";
 import Section10 from "@/app/component/social-media/Section10";
 import DynamicSlider from "@/app/component/social-media/DynamicSlider";
+import SeoWalkThroughHeadings from "@/app/component/social-media/SeoWalkThroughHeadings";
 
 import Section2 from "@/app/component/work/portfolio/Section2";
 /** Webflow Editor's Note Light custom font stack */
@@ -43,6 +44,9 @@ const walkthrough_images = [
 ];
 
 export const metadata = {
+  title: "Walk-Through Video Production Company in India | Ritz Media World",
+  description:
+    "Create immersive walk-through videos that bring spaces, properties and brands to life. Explore AI-powered video production by Ritz Media World.",
   alternates: {
     canonical: "https://ritzmediaworld.com/portfolio/walk-through-videos",
   },
@@ -52,13 +56,18 @@ function page() {
   return (
     <main style={{ fontFamily: editorsNoteLight }}>
       <Header title="Walk-Through Videos" />
-      <Hero title="Bringing stories to motion & ideas to screen<br />with AI-Powered Video Creation" />
+      <Hero
+        title="Bringing stories to motion & ideas to screen<br />with AI-Powered Video Creation"
+        titleAs="p"
+      />
       <DynamicSlider
         heading="Walk-Through Videos"
         images={walkthrough_images}
+        headingAs="p"
       />
-      <Section2 />
-      <Section10 />
+      <Section2 headingAs="p" />
+      <Section10 headingAs="p" />
+      <SeoWalkThroughHeadings />
     </main>
   );
 }
