@@ -42,6 +42,8 @@ const EXCLUDED_PATHS = [
   "/services/Real-Estate-Walkthrough/*",
   "/tags2",
   "/tags2/*",
+  "/web-stories",
+  "/web-stories/*",
 ];
 
 function matchesExcludedPath(path) {

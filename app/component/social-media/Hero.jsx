@@ -1,6 +1,7 @@
 import React from "react";
 
-function Hero({ title }) {
+function Hero({ title, titleAs = "h2" }) {
+  const TitleTag = titleAs === "h2" ? "h2" : "p";
   return (
     <section
       className="w-full h-[620px] flex justify-center items-center bg-cover bg-center bg-no-repeat bg-fixed"
@@ -8,7 +9,7 @@ function Hero({ title }) {
     >
       <div className="w-full h-full flex justify-center items-center bg-[#000000a3]">
         <div className="w-full h-full flex justify-center items-center text-center">
-          <h2
+          <TitleTag
             className="text-white text-2xl lg:text-[43px] font-[300]"
             dangerouslySetInnerHTML={{
               __html: title

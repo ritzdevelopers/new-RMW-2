@@ -63,7 +63,7 @@ const getVisibleCount = (width) => {
   return 5;
 };
 
-const Section2 = () => {
+const Section2 = ({ headingAs = "h2" }) => {
   const pathname = usePathname();
   const containerRef = useRef(null);
   const trackRef = useRef(null);
@@ -194,15 +194,17 @@ const Section2 = () => {
     else startMarquee();
   };
 
+  const HeadingTag = headingAs === "h2" ? "h2" : "p";
+
   return (
     <section className="w-full bg-[#FAFAFA] py-[72px] max-xl:py-[60px] max-md:py-[48px] max-sm:py-[40px]">
       <div className="mx-auto flex w-full max-w-[1560px] flex-col items-center gap-[48px] px-6 max-md:gap-[32px] max-md:px-4 max-sm:gap-[28px]">
-        <h2
+        <HeadingTag
           className="m-0 text-center text-[42px] font-[600] uppercase leading-[1.2] tracking-[-0.01em] text-black max-xl:text-[28px] max-lg:text-[26px] max-md:text-[24px] max-sm:text-[22px]"
           style={{ fontFamily: "League Spartan, sans-serif" }}
         >
           Explore our latest work
-        </h2>
+        </HeadingTag>
 
         <div
           ref={containerRef}
