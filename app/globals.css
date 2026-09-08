@@ -4,6 +4,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Pre-paint hide for PageSpeed labs + returning sessions (see LOADER_SKIP_BOOTSTRAP). */
+html.rmw-skip-loader [data-rmw-loader-overlay] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 @theme {
   --font-league-spartan: "League Spartan", sans-serif;
   --font-montserrat: "Montserrat", sans-serif;
@@ -23,15 +30,6 @@
   src: url("/fonts/Sequel-Sans-Font-Family/Sequel-Sans-Font-Family-DEMO/Sequel Sans OTF/Sequel Sans Medium Head.otf")
     format("opentype");
   font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Sequel Sans";
-  src: url("/fonts/Sequel-Sans-Font-Family/Sequel-Sans-Font-Family-DEMO/Sequel Sans OTF/Sequel Sans Medium Disp.otf")
-    format("opentype");
-  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }

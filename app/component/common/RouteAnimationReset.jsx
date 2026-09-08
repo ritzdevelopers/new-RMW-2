@@ -12,23 +12,9 @@ export default function RouteAnimationReset() {
     const syncAnimations = () => {
       refreshFooterScroll();
 
-      if (!window.__gsapScrollTrigger) {
-        import("gsap/ScrollTrigger")
-          .then(({ ScrollTrigger }) => {
-            window.__gsapScrollTrigger = true;
-            const live = ScrollTrigger.getAll().filter((trigger) => {
-              const element = trigger.trigger;
-              if (element && !document.contains(element)) {
-                trigger.kill();
-                return false;
-              }
-              return true;
-            });
-            if (live.length) ScrollTrigger.refresh();
-          })
-          .catch(() => {});
-        return;
-      }
+      // Do not pull gsap/ScrollTrigger onto the homepage critical path until
+      // something has registered triggers (Section4 etc. set this flag).
+      if (!window.__gsapScrollTrigger) return;
 
       import("gsap/ScrollTrigger")
         .then(({ ScrollTrigger }) => {
@@ -50,8 +36,8 @@ export default function RouteAnimationReset() {
       firstPaint.current = false;
       const idle =
         "requestIdleCallback" in window
-          ? window.requestIdleCallback(syncAnimations, { timeout: 1200 })
-          : window.setTimeout(syncAnimations, 400);
+          ? window.requestIdleCallback(syncAnimations, { timeout: 2500 })
+          : window.setTimeout(syncAnimations, 800);
       return () => {
         if ("cancelIdleCallback" in window && typeof idle === "number") {
           window.cancelIdleCallback(idle);

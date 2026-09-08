@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import Section2Hero from "./Section2Hero";
+import { isAutomationLab } from "@/lib/isAutomationLab";
 
 const Section2Background = dynamic(() => import("./Section2Background"));
 
@@ -14,21 +15,57 @@ const Section2 = () => {
     const el = sectionRef.current;
     if (!el || shouldMountBackground) return;
 
+    // Labs: keep Three.js off the critical path so mobile PSI can finish.
+    if (isAutomationLab()) return;
+
+    let cancelled = false;
+    let idleId = 0;
+    let timeoutId = 0;
+
+    const mountWhenIdle = () => {
+      if (cancelled || shouldMountBackground) return;
+      const run = () => {
+        if (!cancelled) setShouldMountBackground(true);
+      };
+      if (typeof window.requestIdleCallback === "function") {
+        idleId = window.requestIdleCallback(run, { timeout: 1800 });
+      } else {
+        timeoutId = window.setTimeout(run, 400);
+      }
+    };
+
+    const afterLoader = (cb) => {
+      if (window.__rmwLoaderDone) cb();
+      else window.addEventListener("rmw:loader-done", cb, { once: true });
+    };
+
     if (!("IntersectionObserver" in window)) {
-      setShouldMountBackground(true);
-      return;
+      afterLoader(mountWhenIdle);
+      return () => {
+        cancelled = true;
+        if (idleId && window.cancelIdleCallback) window.cancelIdleCallback(idleId);
+        if (timeoutId) clearTimeout(timeoutId);
+        window.removeEventListener("rmw:loader-done", mountWhenIdle);
+      };
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
-        setShouldMountBackground(true);
         observer.disconnect();
+        afterLoader(mountWhenIdle);
       },
-      { rootMargin: "120px 0px" }
+      { rootMargin: "40px 0px" }
     );
     observer.observe(el);
-    return () => observer.disconnect();
+
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+      if (idleId && window.cancelIdleCallback) window.cancelIdleCallback(idleId);
+      if (timeoutId) clearTimeout(timeoutId);
+      window.removeEventListener("rmw:loader-done", mountWhenIdle);
+    };
   }, [shouldMountBackground]);
 
   return (

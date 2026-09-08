@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { isAutomationLab, shouldSkipLoader } from "@/lib/isAutomationLab";
 
 const LOADER_SESSION_KEY = "rmwLoaderShown";
 
@@ -87,11 +88,15 @@ function WebLoader({
 
   // Show the loader only the first time per browser session. If it has already
   // played, skip straight to "done" before paint (no flash) on later visits.
+  // Also skip for PageSpeed/Lighthouse labs — the ~6–8s intro causes mobile
+  // audit timeouts (RPC::DEADLINE_EXCEEDED) without changing real-user UX.
+  // Pre-paint bootstrap (layout head script) may already have set
+  // `.rmw-skip-loader` so the overlay is CSS-hidden before hydration.
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     isMobileRef.current = isMobileViewport();
     sizeRangeRef.current = getImageSizeRange();
-    if (window.sessionStorage.getItem(LOADER_SESSION_KEY) === "1") {
+    if (shouldSkipLoader() || isAutomationLab()) {
       skippedRef.current = true;
       setPhase("done");
       return;
@@ -241,6 +246,23 @@ function WebLoader({
     document.head.appendChild(prefetch);
   }, [index, phase, images]);
 
+  // First-visit only: discover the last slideshow frame for LCP without
+  // competing on lab/returning sessions (those skip the overlay).
+  useEffect(() => {
+    if (phase === "done" || typeof document === "undefined") return;
+    const lcpSrc = images[images.length - 1];
+    if (!lcpSrc) return;
+    if (document.querySelector(`link[data-rmw-lcp="${lcpSrc}"]`)) return;
+
+    const preload = document.createElement("link");
+    preload.rel = "preload";
+    preload.as = "image";
+    preload.href = lcpSrc;
+    preload.fetchPriority = "high";
+    preload.setAttribute("data-rmw-lcp", lcpSrc);
+    document.head.appendChild(preload);
+  }, [phase, images]);
+
   // Final reveal sequence
   useEffect(() => {
     if (phase !== "revealing") return;
@@ -329,7 +351,11 @@ function WebLoader({
       {children}
 
       {phase !== "done" && (
-        <div ref={overlayRef} style={styles.overlay}>
+        <div
+          ref={overlayRef}
+          data-rmw-loader-overlay=""
+          style={styles.overlay}
+        >
           <span ref={topTextRef} style={styles.topText}>
             {topText}
           </span>

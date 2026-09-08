@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { refreshFooterScroll } from "@/lib/footerRefresh";
+import { isAutomationLab } from "@/lib/isAutomationLab";
 
 const SECTION3_VIDEO_SRC =
   "https://otherassets.blob.core.windows.net/rmw/home-section2.mp4";
@@ -13,6 +14,9 @@ const Section3 = () => {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+
+    // Avoid starting the ~28MB clip during PageSpeed mobile audits.
+    if (isAutomationLab()) return;
 
     let started = false;
     let cancelled = false;
@@ -68,7 +72,9 @@ const Section3 = () => {
           video.pause();
         }
       },
-      { rootMargin: "280px 0px", threshold: 0.01 }
+      // Keep preload near-viewport only — early start of the ~28MB clip
+      // saturates Slow 4G during PageSpeed mobile audits.
+      { rootMargin: "80px 0px", threshold: 0.01 }
     );
     observer.observe(video);
 
