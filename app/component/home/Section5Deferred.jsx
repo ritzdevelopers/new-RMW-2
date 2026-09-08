@@ -4,16 +4,18 @@ import dynamic from "next/dynamic";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { isAutomationLab } from "@/lib/isAutomationLab";
 
-const Section4 = dynamic(() => import("./Section4"));
+const Section5 = dynamic(() => import("./Section5"));
 
-const FALLBACK_CLASS =
-  "relative isolate z-[2] bg-white px-8 py-[35px] md:min-h-[calc(88dvh+12vh)] md:px-12 md:py-[6vh]";
-
-function Section4Fallback() {
-  return <section className={FALLBACK_CLASS} aria-hidden />;
+function Section5Fallback() {
+  return (
+    <section
+      className="bg-[#FAFAFA] px-8 py-[35px] md:px-12 md:py-[70px] min-h-[720px]"
+      aria-hidden
+    />
+  );
 }
 
-export default function Section4Deferred() {
+export default function Section5Deferred() {
   const hostRef = useRef(null);
   const [shouldMount, setShouldMount] = useState(false);
 
@@ -21,7 +23,6 @@ export default function Section4Deferred() {
     const el = hostRef.current;
     if (!el || shouldMount) return;
 
-    // Keep the heavy GSAP/marquee section out of PageSpeed mobile audits.
     if (isAutomationLab()) return;
 
     if (!("IntersectionObserver" in window)) {
@@ -35,7 +36,7 @@ export default function Section4Deferred() {
         setShouldMount(true);
         observer.disconnect();
       },
-      { rootMargin: "100px 0px" }
+      { rootMargin: "200px 0px" }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -43,11 +44,11 @@ export default function Section4Deferred() {
 
   if (shouldMount) {
     return (
-      <Suspense fallback={<Section4Fallback />}>
-        <Section4 />
+      <Suspense fallback={<Section5Fallback />}>
+        <Section5 />
       </Suspense>
     );
   }
 
-  return <section ref={hostRef} className={FALLBACK_CLASS} aria-hidden />;
+  return <section ref={hostRef} className="bg-[#FAFAFA] min-h-[720px]" aria-hidden />;
 }

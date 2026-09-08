@@ -4,7 +4,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { services } from "../../data/services";
+import { navServices as services } from "../../data/navServices";
 
 const portfolioSubLinks = [
   { label: "Brand Identity", href: "/portfolio/brand-identity" },
@@ -40,6 +40,8 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [servicesMenuOpen, setServicesMenuOpen] = useState(false);
   const [workMenuOpen, setWorkMenuOpen] = useState(false);
+  const [servicesMenuMounted, setServicesMenuMounted] = useState(false);
+  const [workMenuMounted, setWorkMenuMounted] = useState(false);
   const [portfolioSubOpen, setPortfolioSubOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(88);
@@ -80,6 +82,8 @@ const Header = () => {
       workCloseTimer.current = null;
     }
     setWorkMenuOpen(false);
+    setPortfolioSubOpen(false);
+    setServicesMenuMounted(true);
     setServicesMenuOpen(true);
   };
 
@@ -101,7 +105,11 @@ const Header = () => {
       workCloseTimer.current = null;
     }
     setWorkMenuOpen(false);
-    setServicesMenuOpen((open) => !open);
+    setServicesMenuOpen((open) => {
+      const next = !open;
+      if (next) setServicesMenuMounted(true);
+      return next;
+    });
   };
 
   const openWorkMenu = () => {
@@ -114,6 +122,7 @@ const Header = () => {
       servicesCloseTimer.current = null;
     }
     setServicesMenuOpen(false);
+    setWorkMenuMounted(true);
     setWorkMenuOpen(true);
     setPortfolioSubOpen(true);
   };
@@ -139,6 +148,7 @@ const Header = () => {
     setServicesMenuOpen(false);
     setWorkMenuOpen((open) => {
       const next = !open;
+      if (next) setWorkMenuMounted(true);
       setPortfolioSubOpen(next);
       return next;
     });
@@ -548,6 +558,7 @@ const Header = () => {
         ))}
       </nav>
 
+      {servicesMenuMounted ? (
       <div
         className={`fixed inset-x-0 bottom-0 z-[105] ${
           servicesMenuOpen ? "pointer-events-auto" : "pointer-events-none"
@@ -633,7 +644,9 @@ const Header = () => {
           </nav>
         </div>
       </div>
+      ) : null}
 
+      {workMenuMounted ? (
       <div
         className={`fixed inset-x-0 bottom-0 z-[105] ${
           workMenuOpen ? "pointer-events-auto" : "pointer-events-none"
@@ -791,6 +804,7 @@ const Header = () => {
           </nav>
         </div>
       </div>
+      ) : null}
     </header>
   );
 };

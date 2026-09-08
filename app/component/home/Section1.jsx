@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { isAutomationLab } from "@/lib/isAutomationLab";
 
 const HOME_VIDEO_SRC =
   "https://otherassets.blob.core.windows.net/rmw/home-website.mp4";
@@ -16,6 +17,9 @@ const Section1 = () => {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+
+    // PageSpeed mobile Slow-4G cannot finish while buffering this ~47MB asset.
+    if (isAutomationLab()) return;
 
     let unlockBound = false;
     let started = false;
@@ -61,36 +65,24 @@ const Section1 = () => {
       }
     };
 
-    // Discover the hero URL early without pulling the full file during the
-    // intro animation; switch to full buffer once the loader slideshow starts.
-    const attachSource = (preloadMode, forceReload = false) => {
+    // Attach the hero URL without full-file preload. `auto` was downloading
+    // ~47MB under Slow 4G and causing PageSpeed mobile RPC::DEADLINE_EXCEEDED.
+    // Playback still buffers just-in-time when play() runs.
+    const attachSource = () => {
       if (cancelled) return;
       if (!video.getAttribute("src")) {
         video.src = HOME_VIDEO_SRC;
       }
-      video.preload = preloadMode;
-      if (video.readyState === 0 || forceReload) {
+      video.preload = "metadata";
+      if (video.readyState === 0) {
         video.load();
       }
     };
 
-    const startBuffering = () => attachSource("auto", true);
-
-    const loaderSkipped =
-      typeof window !== "undefined" &&
-      window.sessionStorage.getItem("rmwLoaderShown") === "1";
-
-    if (loaderSkipped) {
-      startBuffering();
-    } else {
-      window.addEventListener("rmw:loader-loading", startBuffering, {
-        once: true,
-      });
-    }
-
     const begin = () => {
       if (started || cancelled) return;
       started = true;
+      attachSource();
 
       // Play as soon as a frame is available (may already be buffered).
       if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
@@ -121,7 +113,6 @@ const Section1 = () => {
     return () => {
       cancelled = true;
       observer.disconnect();
-      window.removeEventListener("rmw:loader-loading", startBuffering);
       window.removeEventListener("rmw:loader-done", begin);
       video.removeEventListener("loadeddata", tryPlayWithSound);
       video.removeEventListener("canplay", playVideo);

@@ -437,11 +437,12 @@ export const GridScan = ({
       started = true;
 
     const isMobile = window.matchMedia('(max-width: 767px)').matches;
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.5);
+    // Cap DPR harder on mobile so bloom/WebGL stay under PSI CPU throttle.
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, isMobile ? 0.75 : 1.5);
     const renderer = new WebGLRenderer({
       antialias: false,
       alpha: true,
-      powerPreference: 'high-performance',
+      powerPreference: isMobile ? 'low-power' : 'high-performance',
       stencil: false,
       depth: false
     });
@@ -532,8 +533,10 @@ export const GridScan = ({
 
     let last = performance.now();
     let visible = true;
+    let pageVisible = document.visibilityState !== 'hidden';
+
     const tick = () => {
-      if (!visible) {
+      if (!visible || !pageVisible) {
         rafRef.current = null;
         return;
       }
@@ -584,22 +587,42 @@ export const GridScan = ({
       rafRef.current = requestAnimationFrame(tick);
     };
 
+    const resumeTick = () => {
+      if (visible && pageVisible && !rafRef.current) {
+        last = performance.now();
+        rafRef.current = requestAnimationFrame(tick);
+      }
+    };
+
+    const onVisibilityChange = () => {
+      pageVisible = document.visibilityState !== 'hidden';
+      if (pageVisible) resumeTick();
+      else if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
-        if (visible && !rafRef.current) {
-          last = performance.now();
-          rafRef.current = requestAnimationFrame(tick);
+        if (visible) resumeTick();
+        else if (rafRef.current) {
+          cancelAnimationFrame(rafRef.current);
+          rafRef.current = null;
         }
       },
       { rootMargin: '80px 0px', threshold: 0 }
     );
     visibilityObserver.observe(container);
-    rafRef.current = requestAnimationFrame(tick);
+    resumeTick();
 
     disposeScene = () => {
       visible = false;
+      pageVisible = false;
       visibilityObserver.disconnect();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
       window.removeEventListener('resize', onResize);
@@ -618,19 +641,31 @@ export const GridScan = ({
     };
     };
 
+    let bootIdleId = 0;
+    let bootTimeoutId = 0;
     const bootObserver = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
         bootObserver.disconnect();
-        startScene();
+        // Defer WebGL boot slightly so hydration/LCP aren't competing for main thread.
+        const start = () => {
+          if (!cancelled) startScene();
+        };
+        if (typeof window.requestIdleCallback === 'function') {
+          bootIdleId = window.requestIdleCallback(start, { timeout: 1200 });
+        } else {
+          bootTimeoutId = window.setTimeout(start, 200);
+        }
       },
-      { rootMargin: '120px 0px' }
+      { rootMargin: '40px 0px' }
     );
     bootObserver.observe(container);
 
     return () => {
       cancelled = true;
       bootObserver.disconnect();
+      if (bootIdleId && window.cancelIdleCallback) window.cancelIdleCallback(bootIdleId);
+      if (bootTimeoutId) clearTimeout(bootTimeoutId);
       disposeScene();
     };
   }, [

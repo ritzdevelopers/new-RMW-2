@@ -1,9 +1,9 @@
 import Script from "next/script";
 import RouteAnimationReset from "./component/common/RouteAnimationReset";
+import { LOADER_SKIP_BOOTSTRAP } from "@/lib/isAutomationLab";
 import "./fonts.css";
 import "./remixicon.css";
 import "./globals.css";
-
 
 const GA_MEASUREMENT_ID = "G-0YHLN54GF7";
 
@@ -69,6 +69,10 @@ export default function RootLayout({ children }) {
       className="h-full antialiased [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
     >
       <head>
+        {/* Pre-paint: hide intro loader for labs / returning sessions (SI). */}
+        <script
+          dangerouslySetInnerHTML={{ __html: LOADER_SKIP_BOOTSTRAP }}
+        />
         {/* Preload only LCP-critical faces. Remixicon is below-the-fold chrome. */}
         <link
           rel="preload"
