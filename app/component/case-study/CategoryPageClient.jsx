@@ -4,12 +4,21 @@ import React, { useEffect } from "react";
 import BlogListingGrid from "./BlogListingGrid";
 import { refreshFooterScroll } from "../../../lib/footerRefresh";
 
-export default function CategoryPageClient({ categorypage, blogs = [], title = "" }) {
+export default function CategoryPageClient({
+  categorypage,
+  blogs = [],
+  title = "",
+  hasSeoHeadings = false,
+}) {
   useEffect(() => {
     refreshFooterScroll();
     const timer = window.setTimeout(refreshFooterScroll, 400);
     return () => window.clearTimeout(timer);
   }, [categorypage, blogs]);
+
+  const titleClassName =
+    'mt-3 text-[clamp(28px,4.5vw,52px)] font-semibold leading-tight text-white';
+  const titleStyle = { fontFamily: '"League Spartan", sans-serif' };
 
   return (
     <>
@@ -21,12 +30,15 @@ export default function CategoryPageClient({ categorypage, blogs = [], title = "
           >
             Category
           </span>
-          <h1
-            className="mt-3 text-[clamp(28px,4.5vw,52px)] font-semibold leading-tight text-white"
-            style={{ fontFamily: '"League Spartan", sans-serif' }}
-          >
-            {title}
-          </h1>
+          {hasSeoHeadings ? (
+            <p className={titleClassName} style={titleStyle} aria-hidden="true">
+              {title}
+            </p>
+          ) : (
+            <h1 className={titleClassName} style={titleStyle}>
+              {title}
+            </h1>
+          )}
         </div>
       </section>
 

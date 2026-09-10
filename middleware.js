@@ -30,6 +30,7 @@ export function middleware(request) {
   if (pathname === "/services/contents-marketing") {
     return NextResponse.redirect(
       new URL("/services/content-marketing", request.url),
+      { status: 301 }
     );
   }
   if (pathname === "/contact.html" || pathname === "/contact2.html") {
