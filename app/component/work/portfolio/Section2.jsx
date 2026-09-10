@@ -205,7 +205,6 @@ const Section2 = ({ headingAs = "h2" }) => {
         >
           Explore our latest work
         </HeadingTag>
-
         <div
           ref={containerRef}
           className="relative w-full overflow-hidden py-4"
@@ -233,7 +232,6 @@ const Section2 = ({ headingAs = "h2" }) => {
                     draggable={false}
                   />
                 </div>
-
                 <ServiceDetailMediaButton
                   label={service.label}
                   href={service.href}
@@ -242,7 +240,6 @@ const Section2 = ({ headingAs = "h2" }) => {
               </article>
             ))}
           </div>
-
           <button
             type="button"
             aria-label="Slide left"
@@ -260,7 +257,6 @@ const Section2 = ({ headingAs = "h2" }) => {
               <path d="M15 6l-6 6 6 6" />
             </svg>
           </button>
-
           <button
             type="button"
             aria-label="Slide right"
