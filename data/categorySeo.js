@@ -15,120 +15,99 @@
 /** @type {Record<string, CategorySeo>} */
 export const categorySeoBySlug = {
   "artist-management-agency": {
-    title: "Artist Management Agency in India | Ritz Media World",
+    title: "Artist Management Agency | Ritz Media World",
     description:
-      "Discover the best artist management agency in India for talent bookings, celebrity management, artist promotions, brand endorsements and event management services.",
+      "Explore insights, trends, and resources on artist management, talent, events, branding, and entertainment from Ritz Media World.",
     keywords: [
-      "artist management agency",
-      "artist management agency in India",
-      "artist management company",
-      "talent management agency",
-      "celebrity management agency",
-      "artist booking agency",
+      "Artist Management Agency",
+      "Artist Management",
+      "Artist Management Company",
+      "Talent Management",
+      "Celebrity Management",
+      "Artist Management Services",
     ],
     h1: "Artist Management Agency",
     sections: [
-      {
-        h2: "Artist Management Services",
-        h3: ["Artist Booking", "Celebrity Management", "Brand Endorsements"],
-      },
-      { h2: "Why Choose Ritz Media World?" },
-      { h2: "Artist Management Agency in Delhi NCR & Noida" },
-      { h2: "Frequently Asked Questions" },
+      { h2: "Artist Management Insights & Updates" },
+      { h2: "Latest Artist Management Articles" },
+      { h2: "Explore More Entertainment Insights" },
     ],
   },
 
   "best-ad-agency": {
-    title: "Best Ad Agency in India | Ritz Media World",
+    title: "Best Ad Agency | Advertising Insights & Trends | Ritz Media World",
     description:
-      "Find the best ad agency in India for creative advertising, media planning, digital campaigns, branding and marketing solutions that help businesses grow.",
+      "Explore advertising insights, trends, and expert tips from Ritz Media World on ad campaigns, branding, digital advertising, and business growth.",
+    keywords: [
+      "Best Ad Agency",
+      "Advertising Agency",
+      "Ad Agency",
+      "Advertising Company",
+      "Digital Advertising Agency",
+      "Advertising Agency Delhi NCR",
+    ],
     h1: "Best Ad Agency",
     sections: [
-      {
-        h2: "Advertising Services We Offer",
-        h3: [
-          "Creative Advertising",
-          "Digital Advertising",
-          "Media Planning & Buying",
-          "Branding & Marketing",
-        ],
-      },
-      { h2: "Why Choose Ritz Media World?" },
-      { h2: "Best Ad Agency in Delhi NCR & Noida" },
-      { h2: "Latest Advertising Insights" },
-      { h2: "Frequently Asked Questions" },
+      { h2: "Advertising Insights & Trends" },
+      { h2: "Latest Advertising Articles" },
+      { h2: "Explore More Marketing Insights" },
     ],
   },
 
   "case-study": {
-    title: "Marketing & Advertising Case Studies | Ritz Media World",
+    title: "Case Studies | Marketing, Branding & Business Insights | Ritz Media World",
     description:
-      "Explore real marketing and advertising case studies, covering creative campaigns, branding, digital strategy and successful brand stories from Ritz Media World.",
-    h1: "Marketing & Advertising Case Studies",
-    sections: [
-      { h2: "Our Latest Case Studies" },
-      { h2: "Marketing & Advertising Success Stories" },
-      { h2: "Creative & Digital Campaign Case Studies" },
-      { h2: "Frequently Asked Questions" },
+      "Discover real stories, strategies, and results behind successful marketing, branding, and advertising campaigns, with practical insights you can learn from.",
+    keywords: [
+      "Case Studies",
+      "Marketing Case Studies",
+      "Branding Case Studies",
+      "Advertising Case Studies",
+      "Business Case Studies",
+      "Digital Marketing Case Studies",
     ],
+    h1: "Case Studies",
+    sections: [],
   },
 
   "celebrity-endorsements-agency": {
-    title: "Celebrity Endorsement Agency in India | Ritz Media World",
+    title: "Celebrity Endorsement Agency | Ritz Media World",
     description:
-      "Find a trusted celebrity endorsement agency in India for celebrity collaborations, brand promotions, influencer campaigns and strategic marketing solutions.",
+      "Explore celebrity endorsement insights, brand collaborations, celebrity marketing campaigns, and promotions from Ritz Media World.",
     keywords: [
-      "celebrity endorsement agency",
-      "celebrity endorsement agency in India",
-      "celebrity marketing agency",
-      "celebrity brand endorsement",
-      "celebrity promotion agency",
+      "Celebrity Endorsement Agency",
+      "Celebrity Endorsement",
+      "Celebrity Marketing",
+      "Celebrity Brand Endorsements",
+      "Celebrity Collaborations",
+      "Celebrity Promotions",
     ],
     h1: "Celebrity Endorsement Agency",
     sections: [
-      {
-        h2: "Celebrity Endorsement Services",
-        h3: [
-          "Celebrity Brand Endorsements",
-          "Celebrity Collaborations",
-          "Celebrity Marketing Campaigns",
-          "Celebrity Promotions",
-        ],
-      },
-      { h2: "Why Choose Ritz Media World?" },
-      { h2: "Celebrity Endorsement Agency in Delhi NCR" },
-      { h2: "Latest Celebrity Endorsement Insights" },
-      { h2: "Frequently Asked Questions" },
+      { h2: "Celebrity Endorsement Insights" },
+      { h2: "Latest Celebrity Marketing Articles" },
+      { h2: "Explore More Entertainment Insights" },
     ],
   },
 
   "creative-advertising-agency": {
-    title: "Creative Advertising Agency in India | Ritz Media World",
+    title:
+      "Creative Advertising Agency | Creative Campaigns & Ideas | Ritz Media World",
     description:
-      "Find a creative advertising agency in India for branding, campaign design, digital creatives, vizdeo production and innovative advertising solutions that grow brands.",
+      "Discover creative advertising ideas, campaigns, trends, and insights to see how brands use powerful concepts and storytelling to connect with their audience.",
     keywords: [
-      "creative advertising agency",
-      "creative advertising agency in India",
-      "creative agency",
-      "advertising creative agency",
-      "creative agency Delhi NCR",
-      "creative agency Noida",
+      "Creative Advertising Agency",
+      "Creative Advertising",
+      "Creative Ad Agency",
+      "Advertising Campaigns",
+      "Creative Advertising Ideas",
+      "Advertising Agency",
     ],
     h1: "Creative Advertising Agency",
     sections: [
-      {
-        h2: "Creative Advertising Services",
-        h3: [
-          "Branding & Identity Design",
-          "Creative Campaigns",
-          "Graphic Design",
-          "Video & Content Production",
-        ],
-      },
-      { h2: "Why Choose Ritz Media World?" },
-      { h2: "Creative Advertising Agency in Delhi NCR & Noida" },
-      { h2: "Latest Creative Advertising Insights" },
-      { h2: "Frequently Asked Questions" },
+      { h2: "Creative Advertising Ideas & Insights" },
+      { h2: "Latest Advertising Articles" },
+      { h2: "Explore More Creative Work" },
     ],
   },
 
@@ -160,6 +139,67 @@ export const categorySeoBySlug = {
       { h2: "Digital Marketing Agency in Delhi NCR" },
       { h2: "Latest Digital Marketing Insights" },
       { h2: "Frequently Asked Questions" },
+    ],
+  },
+
+  "web-design-and-development": {
+    title: "Web Design & Development | Website Tips & Insights | Ritz Media World",
+    description:
+      "Explore web design and development tips, trends, and insights from Ritz Media World to create better websites, improve user experience, and grow online.",
+    keywords: [
+      "Web Design and Development",
+      "Web Design",
+      "Web Development",
+      "Website Design",
+      "Website Development",
+      "Responsive Web Design",
+      "Web Development Agency",
+    ],
+    h1: "Web Design & Development",
+    sections: [
+      { h2: "Web Design & Development Insights" },
+      { h2: "Latest Articles" },
+      { h2: "More Digital Marketing Insights" },
+    ],
+  },
+
+  "graphic-designing-service": {
+    title: "Graphic Designing Service | Ritz Media World",
+    description:
+      "Explore graphic design ideas, branding trends, logo inspiration, and creative insights from Ritz Media World to build a strong and memorable brand identity.",
+    keywords: [
+      "Graphic Designing Service",
+      "Graphic Design",
+      "Graphic Design Services",
+      "Logo Design",
+      "Brand Identity Design",
+      "Creative Design Services",
+    ],
+    h1: "Graphic Designing Service",
+    sections: [
+      { h2: "Graphic Design Ideas & Inspiration" },
+      { h2: "Latest Graphic Design Articles" },
+      { h2: "Explore More Creative Insights" },
+    ],
+  },
+
+  "print-advertising-agency": {
+    title: "Print Advertising Agency | Ritz Media World",
+    description:
+      "Explore newspaper ads, print advertising, hoardings, ad rates, and media planning insights from Ritz Media World to make smarter advertising decisions.",
+    keywords: [
+      "Print Advertising Agency",
+      "Print Advertising",
+      "Newspaper Advertising",
+      "Newspaper Ads",
+      "Outdoor Advertising",
+      "Hoarding Advertising",
+    ],
+    h1: "Print Advertising Agency",
+    sections: [
+      { h2: "Print Advertising Tips & Insights" },
+      { h2: "Latest Print Advertising Articles" },
+      { h2: "Explore More Advertising Insights" },
     ],
   },
 };
