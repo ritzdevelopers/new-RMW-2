@@ -42,25 +42,20 @@ const website_images = [
 ];
 
 export const metadata = {
+  title: "Web Design Portfolio | Creative Website Designs by Ritz Media World",
+  description:
+    "Explore our web design portfolio featuring creative, responsive, and user-friendly websites designed to help brands build a strong online presence.",
+  keywords: [
+    "Web Design Portfolio",
+    "Website Design Portfolio",
+    "Website Design Projects",
+    "Creative Website Design",
+    "Responsive Web Design",
+    "Custom Website Design",
+  ],
   alternates: {
-    title: "Creative Website Design Portfolio | Ritz Media World",
-    description:
-      "Discover thoughtfully designed websites by Ritz Media World, combining creativity, functionality, and user experience to help brands stand out and grow online.",
-  
     canonical: "https://ritzmediaworld.com/portfolio/web-design",
   },
-};
-
-const seoHeadingStyle = {
-  position: "absolute",
-  width: "1px",
-  height: "1px",
-  padding: 0,
-  margin: "-1px",
-  overflow: "hidden",
-  clip: "rect(0, 0, 0, 0)",
-  whiteSpace: "nowrap",
-  border: 0,
 };
 
 function page() {
@@ -75,31 +70,12 @@ function page() {
       />
       <Section2 />
       <Section10 />
-      <div aria-hidden="false">
-        <h2 style={seoHeadingStyle}>Website Design Portfolio</h2>
-
-        <h2 style={seoHeadingStyle}>
-          Creative Website Designs That Make an Impact
-        </h2>
-
-        <h2 style={seoHeadingStyle}>Explore Our Website Design Work</h2>
-
-        <h3 style={seoHeadingStyle}>Business Websites</h3>
-        <h3 style={seoHeadingStyle}>E-commerce Websites</h3>
-        <h3 style={seoHeadingStyle}>Corporate Websites</h3>
-        <h3 style={seoHeadingStyle}>Custom Website Designs</h3>
-
-        <h2 style={seoHeadingStyle}>
-          Websites Designed Around Your Brand
-        </h2>
-
-        <h2 style={seoHeadingStyle}>Our Approach to Website Design</h2>
-
-        <h3 style={seoHeadingStyle}>Understanding Your Business</h3>
-        <h3 style={seoHeadingStyle}>Creating a Better User Experience</h3>
-        <h3 style={seoHeadingStyle}>Designing for Performance</h3>
-
-        <h2 style={seoHeadingStyle}>Let’s Build Your Next Website</h2>
+      <div className="sr-only">
+        <h2>Our Website Design Projects</h2>
+        <h2>Creative & Custom Web Design</h2>
+        <h2>Our Web Design Approach</h2>
+        <h2>Why Choose Ritz Media World?</h2>
+        <h2>Let’s Build Your Website</h2>
       </div>
     </main>
   );
