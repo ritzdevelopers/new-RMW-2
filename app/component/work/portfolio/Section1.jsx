@@ -18,7 +18,8 @@ const Section1 = () => {
           <div className="relative w-full overflow-hidden xl:h-[664px]">
             <Image
               src="/portfolio/profolio-banner-1.jpg"
-              alt=""
+              alt="Ritz Media World"
+              title="Ritz Media World"
               width={1200}
               height={1600}
               priority
@@ -29,7 +30,8 @@ const Section1 = () => {
           <div className="relative w-full overflow-hidden xl:h-[664px]">
             <Image
               src="/portfolio/profolio-banner-2.jpg"
-              alt=""
+              alt="Ritz Media World"
+              title="Ritz Media World"
               width={1200}
               height={1600}
               priority

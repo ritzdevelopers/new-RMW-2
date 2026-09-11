@@ -202,6 +202,35 @@ export const categorySeoBySlug = {
       { h2: "Explore More Advertising Insights" },
     ],
   },
+
+  "performance-marketing-agency": {
+    title: "Performance Marketing Agency in India | Ritz Media World",
+    description:
+      "Looking for a performance marketing agency? Ritz Media World helps brands generate leads, sales and measurable growth through data-driven digital campaigns.",
+    keywords: [
+      "performance marketing agency",
+      "performance marketing company",
+      "performance marketing agency in India",
+      "digital performance marketing",
+      "performance marketing services",
+      "ROI driven marketing",
+    ],
+    h1: "Performance Marketing Agency",
+    sections: [
+      { h2: "Performance Marketing That Delivers Results" },
+      {
+        h2: "Our Performance Marketing Services",
+        h3: ["Google Ads", "Meta Ads", "Lead Generation", "Remarketing"],
+      },
+      {
+        h2: "Our Approach to Performance Marketing",
+        h3: ["Strategy", "Campaign Management", "Tracking & Optimization"],
+      },
+      { h2: "Why Choose Ritz Media World?" },
+      { h2: "Frequently Asked Questions" },
+      { h2: "Grow Your Business With Performance Marketing" },
+    ],
+  },
 };
 
 export function getCategorySeo(slug) {

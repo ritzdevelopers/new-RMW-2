@@ -651,6 +651,7 @@ const Footer = ({ section = null }) => {
                   <img
                     src="/google-logo.png"
                     alt="Google"
+                    title="Google"
                     className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 object-contain"
                   />
                 </div>

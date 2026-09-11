@@ -120,7 +120,9 @@ const ServiceDetailIntro = ({ intro, activeSlug, title }) => {
                   <source media="(min-width: 768px)" srcSet={image.src} />
                   <img
                     src={image.mobileSrc}
-                    alt=""
+                    alt="Ritz Media World"
+                    title="Ritz Media World"
+
                     width={image.width}
                     height={image.height}
                     className="block h-full min-h-0 w-full object-cover object-center md:h-auto"
@@ -129,7 +131,8 @@ const ServiceDetailIntro = ({ intro, activeSlug, title }) => {
               ) : (
                 <img
                   src={image.src}
-                  alt=""
+                  alt="Ritz Media World"
+                  title="Ritz Media World"
                   width={image.width}
                   height={image.height}
                   className="block h-full min-h-0 w-full object-cover object-center md:h-auto"

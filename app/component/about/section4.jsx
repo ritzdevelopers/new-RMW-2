@@ -57,7 +57,8 @@ function MilestoneCard({ item }) {
         <div className="relative flex h-[147px] w-[147px] items-center justify-center overflow-hidden rounded-full">
           <img
             src={item.image}
-            alt=""
+            alt={item.title}
+            title={item.title}
             className={item.year === "2008" ? "h-[80%]" : "h-[100%]"}
           />
         </div>

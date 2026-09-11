@@ -398,7 +398,8 @@ const Footer = ({ overlaySection = null }) => {
           ref={footerRevealLogoRef}
           data-footer-reveal-logo
           src="/logo/r-logo-new.png"
-          alt=""
+          alt="Ritz Media World Logo"
+          title="Ritz Media World Logo"
           className="h-[300px] w-[250px] max-w-none object-contain will-change-transform md:h-[517px] md:w-[431px]"
           style={{
             filter: "brightness(3.2) contrast(1.05)",
@@ -446,7 +447,7 @@ const Footer = ({ overlaySection = null }) => {
               </Link>
             ))}
           </nav>
-
+          
           <div className="flex flex-col items-center gap-3 text-center md:gap-5">
             <div className="flex flex-col items-center md:mt-15 mt-2">
               <span style={connectLabelStyle}>Email</span>

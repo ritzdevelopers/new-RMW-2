@@ -10,7 +10,8 @@ const ServiceDetailBanner = ({ banner }) => {
       <div className="mx-auto w-full max-w-[1440px]">
         <img
           src={banner.src}
-          alt=""
+          alt="Ritz Media World"
+          title="Ritz Media World"
           width={banner.width ?? 1440}
           height={banner.height ?? 887}
           className="block aspect-[1440/887] h-auto w-full max-h-[887px] object-cover object-center"

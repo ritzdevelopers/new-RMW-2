@@ -313,7 +313,8 @@ const Section5 = () => {
             {shouldLoadMedia ? (
               <img
                 src="/home/double-quotes.svg"
-                alt=""
+                alt={"Double quotes"}
+                title={"Double quotes"}
                 width={88}
                 height={88}
                 loading="lazy"

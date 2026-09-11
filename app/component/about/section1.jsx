@@ -1607,7 +1607,8 @@ const Section1 = () => {
               <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
                 <img
                   src="/logo/r-rmw-transparent.png"
-                  alt=""
+                  alt="Ritz Media World Logo"
+                  title="Ritz Media World Logo"
                   className="block h-auto w-auto max-w-[60%] object-contain"
                   style={{
                     maxHeight: "calc(60vw * 1259 / 1048 - 160px)",
@@ -1646,7 +1647,8 @@ const Section1 = () => {
         <div data-logo-inner className="absolute inset-x-0 bottom-0 flex h-full items-end justify-center">
           <img
             src="/logo/r-rmw-transparent.png"
-            alt=""
+            alt="Ritz Media World Logo"
+            title="Ritz Media World Logo"
             className="block h-full w-auto max-w-[85%] object-contain object-bottom"
             style={{
               filter: "brightness(3.2) contrast(1.05)",
@@ -1659,7 +1661,8 @@ const Section1 = () => {
       <section id="intro" ref={filmRef} className="relative overflow-x-hidden bg-[#FAFAFA] px-8 pb-0 pt-[35px] md:px-12 md:pb-0 md:pt-[70px] lg:py-16 lg:pt-20">
         <img
           src="/logo/r-logo-side.png"
-          alt=""
+          alt="Ritz Media World Logo"
+          title="Ritz Media World Logo"
           aria-hidden
           className="pointer-events-none absolute -left-0 top-[50%] z-0 hidden h-[min(440px,50vh)] w-auto -translate-y-1/2 object-contain object-left lg:block lg:h-[min(360px,35vh)] xl:h-[min(520px,55vh)]"
         />
