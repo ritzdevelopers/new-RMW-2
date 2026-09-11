@@ -356,7 +356,8 @@ const ServicesGrid = () => {
               <img
                 data-svc-image
                 src={service.image}
-                alt=""
+                alt="Ritz Media World"
+                title="Ritz Media World"
                 width={690}
                 height={730}
                 loading={index === 0 ? "eager" : "lazy"}

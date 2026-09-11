@@ -44,9 +44,9 @@ const walkthrough_images = [
 ];
 
 export const metadata = {
-  title: "Walk-Through Video Production Company in India | Ritz Media World",
+  title: "Walk-Through Video Production Services | Ritz Media World",
   description:
-    "Create immersive walk-through videos that bring spaces, properties and brands to life. Explore AI-powered video production by Ritz Media World.",
+    "Bring spaces and ideas to life with professional walk-through videos for real estate, interiors and architecture. Explore our video production services.",
   alternates: {
     canonical: "https://ritzmediaworld.com/portfolio/walk-through-videos",
   },

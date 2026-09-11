@@ -195,7 +195,7 @@ const Section2 = ({ headingAs = "h2" }) => {
   };
 
   const HeadingTag = headingAs === "h2" ? "h2" : "p";
-
+  
   return (
     <section className="w-full bg-[#FAFAFA] py-[72px] max-xl:py-[60px] max-md:py-[48px] max-sm:py-[40px]">
       <div className="mx-auto flex w-full max-w-[1560px] flex-col items-center gap-[48px] px-6 max-md:gap-[32px] max-md:px-4 max-sm:gap-[28px]">

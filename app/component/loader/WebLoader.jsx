@@ -376,7 +376,8 @@ function WebLoader({
               key={index}
               ref={imgRef}
               src={images[index]}
-              alt=""
+              alt="RMW Loader"
+              title="RMW Loader"
               width={546}
               height={487}
               decoding="async"

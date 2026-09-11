@@ -219,7 +219,8 @@ function GalleryCardMedia({ src, index, activeAudioIndex, onActivateAudio }) {
       <img
         data-svc-image
         src={src}
-        alt=""
+        alt="Ritz Media World"
+        title="Ritz Media World"
         className="absolute inset-0 h-full w-full object-cover object-top will-change-transform"
         draggable={false}
       />

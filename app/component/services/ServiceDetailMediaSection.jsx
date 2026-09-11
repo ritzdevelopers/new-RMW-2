@@ -122,7 +122,8 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
                 ) : (
                   <img
                     src={video.src}
-                    alt=""
+                    alt="Ritz Media World"
+                    title="Ritz Media World"
                     width={video.width ?? 561}
                     height={video.height ?? 342}
                     className="block h-full w-full object-cover object-center"
@@ -160,7 +161,8 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
               ) : (
                 <img
                   src={image.src}
-                  alt=""
+                  alt="Ritz Media World"
+                  title="Ritz Media World"
                   width={image.width ?? 720.953}
                   height={image.height ?? 762.712}
                   className="block h-full w-full object-cover object-center"
@@ -191,7 +193,8 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
               >
                 <img
                   src={container.leftImage.src}
-                  alt=""
+                  alt="Ritz Media World"
+                  title="Ritz Media World"
                   width={container.leftImage.width ?? 509}
                   height={container.leftImage.height ?? 277}
                   className="block h-full w-full object-contain object-left-top"
@@ -203,7 +206,8 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
               <div className="absolute right-0 top-0">
                 <img
                   src={container.rightImage.src}
-                  alt=""
+                  alt="Ritz Media World"
+                  title="Ritz Media World"
                   width={container.rightImage.width}
                   height={container.rightImage.height}
                   className="block object-contain object-right-top"
@@ -243,7 +247,8 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
                 ) : (
                   <img
                     src={item.src}
-                    alt=""
+                    alt="Ritz Media World"
+                    title="Ritz Media World"
                     className="block h-full w-full object-cover object-center"
                   />
                 )}
@@ -273,7 +278,8 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
             {/* {imageContent.background ? (
               <img
                 src={imageContent.background}
-                alt=""
+                alt="Ritz Media World"
+                title="Ritz Media World"
                 className="mx-auto mt-8 block h-auto w-auto max-w-full xl:mt-20 md:mt-10"
               />
             ) : null} */}

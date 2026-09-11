@@ -731,7 +731,7 @@ export const services = [
     title: "Web Development",
     metaTitle:
       "Website Design & Development Company in India | Ritz Media World",
-    headline: "Digital Experiences That Inspire Results",
+    headline: "Digital Experiences Elevated.",
     image: serviceImages[5],
     description:
       "Looking for a website design & development company in India? Ritz Media World builds responsive, SEO-friendly, WordPress, and custom websites.",

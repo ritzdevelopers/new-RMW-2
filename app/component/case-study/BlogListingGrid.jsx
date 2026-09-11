@@ -43,6 +43,7 @@ export default function BlogListingGrid({
                   <img
                     src={image}
                     alt={blog.title}
+                    title={blog.title}
                     className="h-auto w-full object-contain md:h-full md:max-h-[243px]"
                   />
                 ) : null}
@@ -57,6 +58,7 @@ export default function BlogListingGrid({
                 <Link
                   href={`/${blog.slug}`}
                   target="_blank"
+                  title={blog.title}
                   rel="noopener noreferrer"
                   className="group relative mt-auto inline-flex cursor-pointer items-center gap-2 self-center overflow-hidden rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
                 >

@@ -180,7 +180,8 @@ const DeliverCard = ({ imageSrc, isActive, cardIndex, hoveredIndex, activeIndex,
   >
     <Image
       src={imageSrc}
-      alt=""
+      alt="Ritz Media World Logo"
+      title="Ritz Media World Logo"
       width={878}
       height={768}
       className="absolute inset-0 h-full w-full object-cover object-center max-md:rounded-[10px]"

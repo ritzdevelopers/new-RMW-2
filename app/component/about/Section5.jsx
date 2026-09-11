@@ -224,7 +224,8 @@ const Section5 = () => {
                     <div className="relative mx-auto my-auto flex w-full flex-1 items-center justify-center py-4">
                       <Image
                         src={award.image}
-                        alt=""
+                        alt={award.description}
+                        title={award.description}
                         width={260}
                         height={260}
                         className="max-h-[200px] w-auto object-contain md:max-h-[220px]"

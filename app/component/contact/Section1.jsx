@@ -642,7 +642,7 @@ const AnimatedHeadingLine = () => {
   }, []);
 
   return (
-    <h1 style={headingStyle} className={`${headingSizeClass} m-0 w-full`}>
+    <div style={headingStyle} className={`${headingSizeClass} m-0 w-full`}>
       <div ref={wrapRef} className="relative w-full">
         <div className="relative z-[1] flex w-full justify-between">
           {renderHeadingWord()}
@@ -656,7 +656,7 @@ const AnimatedHeadingLine = () => {
           {renderHeadingWord("#FFD188")}
         </div>
       </div>
-    </h1>
+    </div>
   );
 };
 

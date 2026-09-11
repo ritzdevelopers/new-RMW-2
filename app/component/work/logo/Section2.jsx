@@ -201,7 +201,8 @@ function Section2() {
                   <img
                     data-logo-image
                     src={item}
-                    alt=""
+                    alt="Ritz Media World"
+                    title="Ritz Media World"
                     className="w-full h-full object-contain will-change-transform"
                   />
                 </div>

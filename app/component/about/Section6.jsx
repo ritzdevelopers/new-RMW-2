@@ -37,6 +37,8 @@ const carouselItems = [
     height: 710,
     fixedWidth: 480,
     heightReduce: 50,
+    alt: "First image",
+    title: "First image",
   },
   { type: "news", href: "https://www.linkedin.com/company/ritzmediaworld", label: "Linkedin" },
   {
@@ -45,6 +47,8 @@ const carouselItems = [
     fixed: true,
     width: 320,
     height: 433,
+    alt: "Second image",
+    title: "Second image",
   },
 
   {
@@ -54,6 +58,8 @@ const carouselItems = [
     height: 710,
     fixedWidth: 480,
     heightReduce: 50,
+    alt: "Third image",
+    title: "Third image",
   },
   { type: "news", href: "https://www.instagram.com/ritzmediaworld", label: "Instagram", subtitle: "the creative side" },
   {
@@ -62,6 +68,8 @@ const carouselItems = [
     fixed: true,
     width: 320,
     height: 433,
+    alt: "Fourth image",
+    title: "Fourth image",
   },
 ];
 
@@ -215,7 +223,8 @@ const CarouselImage = ({
     >
      <Image
   src={item.src}
-  alt=""
+  alt={item.alt}
+  title={item.title}
   width={itemWidth}
   height={itemHeight}
   onLoad={() => onLoad(index)}
