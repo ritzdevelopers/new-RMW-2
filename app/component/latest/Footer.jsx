@@ -150,8 +150,8 @@ function ContactFloat() {
   return (
     <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-center gap-3">
       <div className="relative h-14 w-14">
-        <Link
-          href="/contact"
+        <a
+          href="tel:+917290002168"
           aria-label="Call us"
           onMouseEnter={triggerBurst}
           onPointerDown={triggerBurst}
@@ -166,7 +166,7 @@ function ContactFloat() {
           >
             <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z" />
           </svg>
-        </Link>
+        </a>
         {bursts.map((id) => (
           <TriangleParticleBurst key={id} burstId={id} onComplete={() => removeBurst(id)} />
         ))}
@@ -618,46 +618,38 @@ const Footer = ({ section = null }) => {
                 style={contactTextStyle}
                 className="mt-1.5 flex flex-col items-center gap-1 !text-[13px] !leading-5 sm:mt-2 sm:block sm:!text-[16px] sm:!leading-[22px] md:!text-[18px]"
               >
-                <span>+91 9220516777</span>
+                <a
+                  href="tel:+919220516777"
+                  className="transition-opacity hover:opacity-70"
+                >
+                  +91 9220516777
+                </a>
                 <span className="hidden sm:inline"> | </span>
-                <span>+91 7290002168</span>
+                <a
+                  href="tel:+917290002168"
+                  className="transition-opacity hover:opacity-70"
+                >
+                  +91 7290002168
+                </a>
               </p>
             </div>
-            <div className="mt-4 md:mt-5">
+            <div className="mt-3 flex justify-center md:mt-4">
               <a
                 href="https://www.google.com/preferences/source?q=ritzmediaworld.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Add Contenaissance as a preferred source on Google"
-                className="
-      google-source-btn
-      inline-flex items-center
-      gap-2.5 sm:gap-3
-      rounded-full bg-white
-      px-4 py-2.5
-      sm:px-5 sm:py-3
-      md:px-6 md:py-3.5
-      text-[14px] sm:text-[16px] md:text-[18px]
-      font-bold leading-[1.15]
-      text-[#171717]
-      shadow-lg
-      transition-transform duration-300
-      hover:scale-[1.03]
-      max-w-full
-    "
+                aria-label="Add Ritz Media World as a preferred source on Google"
+                className="google-source-btn inline-flex w-fit max-w-[200px] items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[11px] font-semibold leading-[1.15] text-[#171717] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-transform duration-300 hover:scale-[1.02] sm:max-w-[220px] sm:gap-2 sm:px-3.5 sm:py-2 sm:text-[12px] md:text-[13px]"
               >
-                {/* Google Logo */}
-                <div className="flex h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 shrink-0 items-center justify-center">
-                  <img
-                    src="/google-logo.png"
-                    alt="Google"
-                    title="Google"
-                    className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 object-contain"
-                  />
-                </div>
-
-                {/* Text */}
-                <span className="whitespace-nowrap">
+                <img
+                  src="/google-logo.png"
+                  alt=""
+                  title="Google"
+                  width={24}
+                  height={24}
+                  className="h-5 w-5 shrink-0 object-contain sm:h-6 sm:w-6"
+                />
+                <span className="text-left">
                   Add as a preferred
                   <br />
                   source on Google
