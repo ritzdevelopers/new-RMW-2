@@ -48,6 +48,7 @@ export default function BlogListingGrid({
                   />
                 ) : null}
               </div>
+              
               <div className="flex flex-1 flex-col p-5 text-center">
                 <h3
                   className="mb-4 text-[18px] font-semibold leading-snug text-[#1D1D1B]"
