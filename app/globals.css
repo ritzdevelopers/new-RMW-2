@@ -323,46 +323,26 @@ body::-webkit-scrollbar {
 
 
 @keyframes googlePulseOpen {
-  0% {
-    transform: scale(1);
-  }
-
-  15% {
-    transform: scale(1.08);
-  }
-
-  30% {
-    transform: scale(1);
-  }
-
-  45% {
-    transform: scale(1.08);
-  }
-
-  60% {
-    transform: scale(1);
-  }
-
-  75% {
-    transform: scale(1.08);
-  }
-
-  90% {
-    transform: scale(1);
-  }
-
+  0%,
   100% {
     transform: scale(1);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  }
+
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
   }
 }
 
 .google-source-btn {
-  animation: googlePulseOpen 4s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
+  animation: googlePulseOpen 3.5s ease-in-out infinite;
 }
 
 .google-source-btn:hover {
   animation: none !important;
-  transform: none !important;
 }
 
 @keyframes header-independence-zoom {
