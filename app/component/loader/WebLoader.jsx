@@ -7,11 +7,11 @@ const LOADER_SESSION_KEY = "rmwLoaderShown";
  
 const DEFAULT_IMAGES = [
     
-  "/loder/loader_i6.webp",
-  "/loder/loader_i1.webp",
-  "/loder/loader_i2.webp",
-  "/loder/loader_i4.webp",
-  "/loder/loader_i3.webp",
+  "/loader2/loader_i6_com.jpg",
+  "/loader2/loader_i1_com.jpg",
+  "/loader2/loader_i2_com.jpg",
+  "/loader2/loader_i4_com.jpg",
+  "/loader2/loader_i3_com.jpg",
 ];
 
 // Desktop image window grows from the first size to the last (in px).
