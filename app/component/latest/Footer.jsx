@@ -167,7 +167,7 @@ function ContactFloat() {
           aria-label="Call Now"
           onMouseEnter={triggerBurst}
           onPointerDown={triggerBurst}
-          className="call-float-btn group relative z-[1] flex h-[41px] w-[41px] items-center justify-start overflow-hidden rounded-full bg-[url('/new-theme/circle-button.png')] bg-cover bg-center bg-no-repeat transition-[width,box-shadow,background-image] duration-300 ease-out hover:w-[140px] hover:bg-[url('/new-theme/btn2.jpg')] focus-visible:w-[140px] focus-visible:bg-[url('/new-theme/btn2.jpg')] active:scale-[0.98]"
+          className="call-float-btn group relative z-[1] flex h-[41px] w-[41px] items-center justify-start overflow-hidden rounded-full bg-[url('/new-theme/circle-button.png')] bg-cover bg-center bg-no-repeat transition-[width,box-shadow,background-image] duration-300 ease-out hover:w-[140px] hover:bg-[url('/new-theme/button-3.png')] focus-visible:w-[140px] focus-visible:bg-[url('/new-theme/button-3.png')] active:scale-[0.98]"
           style={{ fontFamily: sequelFontFamily }}
         >
           <span className={iconWrapClass}>
@@ -182,7 +182,7 @@ function ContactFloat() {
             </svg>
           </span>
           <span className={labelClass} aria-hidden="true">
-            Call Now
+            Call Ok, Please
           </span>
         </a>
         <div className="pointer-events-none absolute left-0 top-0 h-[41px] w-[41px]">
