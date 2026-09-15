@@ -231,6 +231,37 @@ export const categorySeoBySlug = {
       { h2: "Grow Your Business With Performance Marketing" },
     ],
   },
+
+  "fm-radio-advertising": {
+    title:
+      "FM Radio Advertising Agency & Services in India | Ritz Media World",
+    description:
+      "Looking for FM radio advertising in India? Explore radio advertising services, campaign strategies, rates and insights from Ritz Media World.",
+    keywords: [
+      "FM radio advertising",
+      "FM radio advertising agency",
+      "FM radio advertising in India",
+      "radio advertising services",
+      "FM radio advertising rates",
+      "radio advertising agency India",
+    ],
+    h1: "FM Radio Advertising Agency & Services in India",
+    sections: [
+      { h2: "FM Radio Advertising in India" },
+      { h2: "FM Radio Advertising Services" },
+      { h2: "FM Radio Advertising Rates & Costs" },
+      { h2: "Benefits of FM Radio Advertising" },
+      { h2: "Why Choose Ritz Media World?" },
+      {
+        h2: "Frequently Asked Questions",
+        h3: [
+          "What is FM radio advertising?",
+          "How much does FM radio advertising cost in India?",
+          "How can I advertise on FM radio?",
+        ],
+      },
+    ],
+  },
 };
 
 export function getCategorySeo(slug) {

@@ -33,9 +33,7 @@ export function middleware(request) {
       { status: 301 }
     );
   }
-  if (pathname === "/contact.html" || pathname === "/contact2.html") {
-    return NextResponse.redirect(new URL("/contact", request.url));
-  }
+   
   return NextResponse.next();
 }
 
