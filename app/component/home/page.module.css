@@ -1,0 +1,100 @@
+.heading {
+  margin: 0;
+  min-width: 0;
+  width: 100%;
+  text-align: center;
+  font-family: "League Spartan", sans-serif;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #DD1246;
+  font-size: 22px;
+}
+
+/* sm: ≥640px */
+@media (min-width: 640px) {
+  .heading {
+    font-size: 26px;
+  }
+}
+
+/* md: ≥768px */
+@media (min-width: 768px) {
+  .heading {
+    font-size: 18px;
+    text-align: left;
+    grid-column-start: 1;
+    grid-row-start: 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heading {
+    font-size: 25px;
+  }
+}
+
+/* ≥1132px */
+
+
+/* ≥1331px */
+@media (min-width: 1345px) {
+  .heading {
+    font-size: 32px;
+  }
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  padding: 2rem 1rem; /* py-8 px-4 */
+}
+
+/* sm: ≥640px — px-6 py-10 */
+@media (min-width: 640px) {
+  .heroOverlay {
+    padding: 2.5rem 1.5rem;
+  }
+}
+
+/* md: ≥768px — px-12 py-14 */
+@media (min-width: 768px) {
+  .heroOverlay {
+    padding: 3.5rem 5rem;
+  }
+}
+
+/* lg: ≥1024px — px-12 py-16 */
+@media (min-width: 1024px) {
+  .heroOverlay {
+    padding: 4rem 3rem;
+  }
+} 
+
+ @media (min-width: 1024px) {
+  .heroOverlay {
+    padding: 3.5rem 7rem;
+  }
+}
+
+.contactButton {
+  margin-right: 54px;
+}
+
+/* lg: ≥1024px — mr 5rem */
+@media (min-width: 1024px) {
+  .contactButton {
+    margin-right: 5rem;
+  }
+}
+
+/* 2xl: ≥1536px — mr 19rem */
+@media (min-width: 1206px) {
+  .contactButton {
+    margin-right: 10rem;
+  }
+}

@@ -256,9 +256,42 @@ body::-webkit-scrollbar {
   animation-delay: calc(0.15s + var(--hdr-i, 0) * 0.08s);
 }
 
+@keyframes header-truck-drive {
+  0% {
+    left: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+  100% {
+    left: 100%;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.header-truck-track {
+  overflow: visible;
+}
+
+.header-truck-logo {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  height: clamp(40px, 70%, 56px);
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  animation: header-truck-drive 22s linear infinite;
+  will-change: left, transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-header-reveal] {
     animation: none;
+  }
+
+  .header-truck-logo {
+    animation: none;
+    left: 2rem;
+    transform: none;
   }
 }
 

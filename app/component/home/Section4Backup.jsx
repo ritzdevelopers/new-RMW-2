@@ -101,7 +101,7 @@ const ViewToggle = ({ viewMode, onChange, onGridHover }) => {
         onClick={() => onChange("list")}
         style={toggleFont}
         className={`${baseBtn} ${
-          viewMode === "list" ? "text-[#DD1246]" : "text-[#DD1246]/35 hover:text-[#DD1246]/60"
+          viewMode === "list" ? "text-black" : "text-black/35 hover:text-black/60"
         }`}
         aria-pressed={viewMode === "list"}
       >
@@ -129,7 +129,7 @@ const ViewToggle = ({ viewMode, onChange, onGridHover }) => {
         onBlur={() => onGridHover?.(false)}
         style={toggleFont}
         className={`${baseBtn} ${
-          viewMode === "grid" ? "text-[#DD1246]" : "text-[#DD1246]/35 hover:text-[#DD1246]/60"
+          viewMode === "grid" ? "text-black" : "text-black/35 hover:text-black/60"
         }`}
         aria-pressed={viewMode === "grid"}
       >
@@ -434,7 +434,7 @@ const GridSlider = ({ cardRefs, loadMedia = false }) => {
                     fontSize: "clamp(40px, 8vw, 104px)",
                     lineHeight: "0.82",
                     letterSpacing: "0.02em",
-                    WebkitTextStroke: "1px rgba(104, 19, 19, 0.25)",
+                    WebkitTextStroke: "1px rgba(255,255,255,0.25)",
                   }}
                 >
                   <span className="block [word-break:break-all] transition-transform duration-500 ease-out group-hover:-translate-y-4">
@@ -1018,7 +1018,7 @@ const Section4 = () => {
             fontFamily: '"League Spartan", sans-serif',
             fontWeight: "600",
             textTransform: "uppercase",
-            color: "#DD1246",
+            color: "#000",
             fontSize,
             lineHeight: "1",
             whiteSpace: "nowrap",
@@ -1159,7 +1159,7 @@ const Section4 = () => {
         fontFamily: '"League Spartan", sans-serif',
         fontWeight: "600",
         textTransform: "uppercase",
-        color: "#DD1246",
+        color: "#000",
         fontSize,
         lineHeight: "1",
         whiteSpace: "nowrap",
@@ -1464,7 +1464,7 @@ const Section4 = () => {
     <section
       ref={sectionRef}
       data-home-section="section4"
-      className={`relative isolate z-[2] bg-white bg-[url('/new-theme/new-theme3.jpg')] bg-cover bg-center bg-no-repeat ${
+      className={`relative isolate z-[2] bg-white ${
         viewMode === "grid"
           ? "px-0 py-0 md:min-h-[100dvh]"
           : "px-8 py-[35px] md:min-h-[calc(88dvh+12vh)] md:px-12 md:py-[6vh]"
@@ -1479,7 +1479,7 @@ const Section4 = () => {
         }
         @media (max-width: 767px) {
           .section4-row-text {
-            color: #DD1246 !important;
+            color: #000000 !important;
           }
         }
       `}</style>
@@ -1564,8 +1564,8 @@ const Section4 = () => {
                           ...titleStyle,
                           color:
                             isActive || showGridPreview || revealBlack
-                              ? "#DD1246"
-                              : "#DD124605",
+                              ? "#000000"
+                              : "#00000005",
                           transitionDuration: revealSlow ? "800ms" : undefined,
                         }}
                       >
@@ -1655,4 +1655,4 @@ const Section4 = () => {
   );
 };
 
-export default Section4;
+export default Section4Backup   ;

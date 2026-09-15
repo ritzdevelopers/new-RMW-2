@@ -295,11 +295,26 @@ const Header = () => {
 
       <div
         ref={headerBarRef}
-        className="fixed inset-x-0 top-[var(--independence-banner-height,0px)] z-[110] w-full bg-[#0D1334] translate-y-0 transition-transform duration-300 ease-out will-change-transform"
+        className="fixed inset-x-0 top-[var(--independence-banner-height,0px)] z-[110] w-full overflow-x-clip overflow-y-visible bg-[#0D1334] bg-[url('/new-theme/new-theme1.jpg')] bg-cover bg-center bg-no-repeat translate-y-0 transition-transform duration-300 ease-out will-change-transform"
       >
         <div
+          className="header-truck-track pointer-events-none absolute inset-x-0 top-0 -bottom-[10px] z-0"
+          aria-hidden
+        >
+          <Image
+            src="/new-theme/truck_logo.png"
+            alt=""
+            width={280}
+            height={120}
+            className="header-truck-logo"
+            preload
+            sizes="280px"
+          />
+        </div>
+
+        <div
           ref={headerRef}
-          className="mx-auto flex w-full max-w-8xl items-center justify-between px-8 py-5 md:px-12"
+          className="relative z-10 mx-auto flex w-full max-w-8xl items-center justify-between px-8 py-5 md:px-12"
         >
         <Link
           href="/"
@@ -307,23 +322,15 @@ const Header = () => {
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleLogoClick}
-          className="shrink-0 overflow-hidden"
+          aria-label="Ritz Media World home"
+          className="relative z-10 h-12 w-[147px] shrink-0 md:h-14 lg:w-[220px]"
         >
           <span
             data-header-reveal
-            className="inline-block"
+            className="sr-only"
             style={{ "--hdr-i": 0 }}
           >
-            <Image
-              src="/logo/rmw.logo.png"
-              alt="Ritz Media World"
-              title="Ritz Media World"
-              width={180}
-              height={72}
-              className="h-12 w-auto md:h-14"
-              preload
-              sizes="180px"
-            />
+            Ritz Media World
           </span>
         </Link>
 
@@ -334,7 +341,8 @@ const Header = () => {
               title="About"
               target="_blank"
               rel="noopener noreferrer"
-              className={`${linkClass} overflow-hidden`}
+              className={`${linkClass} overflow-hidden font-bold`}
+              style={{ color: "#000521" }}
             >
               <span
                 data-header-reveal
@@ -359,7 +367,8 @@ const Header = () => {
                   href="/services"
                   title="Services"
                   rel="noopener noreferrer"
-                  className={linkClass}
+                  className={`${linkClass} font-bold`}
+                  style={{ color: "#000521" }}
                 >
                   SERVICES
                 </Link>
@@ -370,7 +379,8 @@ const Header = () => {
                   }
                   aria-haspopup="true"
                   aria-expanded={servicesMenuOpen}
-                  className={`${linkClass} inline-flex cursor-pointer items-center p-0`}
+                  className={`${linkClass} inline-flex cursor-pointer items-center p-0 font-bold`}
+                  style={{ color: "#000521" }}
                   onClick={(event) => {
                     event.preventDefault();
                     toggleServicesMenu();
@@ -391,7 +401,8 @@ const Header = () => {
             >
               <button
                 type="button"
-                className={`${linkClass} overflow-hidden`}
+                className={`${linkClass} overflow-hidden font-bold`}
+                style={{ color: "#000521" }}
                 aria-haspopup="true"
                 aria-expanded={workMenuOpen}
                 onClick={(event) => {
@@ -401,8 +412,8 @@ const Header = () => {
               >
                 <span
                   data-header-reveal
-                  className="inline-flex items-center gap-1.5"
-                  style={{ "--hdr-i": 3 }}
+                  className="inline-flex items-center gap-1.5 font-bold"
+                  style={{ "--hdr-i": 3, color: "#000521" }}
                 >
                   OUR WORK
                   <i
@@ -420,7 +431,8 @@ const Header = () => {
                 title={link.label}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${linkClass} overflow-hidden`}
+                className={`${linkClass} overflow-hidden font-bold`}
+                style={{ color: "#000521" }}
               >
                 <span
                   data-header-reveal

@@ -1,28 +1,17 @@
 import Link from "next/link";
-
-const headingStyle = {
-  fontFamily: '"League Spartan", sans-serif',
-  fontWeight: 700,
-  lineHeight: "100%",
-  letterSpacing: "0",
-  textTransform: "uppercase",
-  color: "#FFFFFF",
-};
+import styles from "./page.module.css";
 
 const bodyStyle = {
   fontFamily: "Montserrat, sans-serif",
   fontWeight: 400,
   fontStyle: "italic",
-  fontSize: "22px",
-  lineHeight: "30px",
   letterSpacing: "0",
-  color: "#FFFFFF",
+  color: "#DD1246",
 };
 
 const aboutButtonTextStyle = {
   fontFamily: "Montserrat, sans-serif",
   fontWeight: 700,
-  fontSize: "16px",
   lineHeight: "100%",
   letterSpacing: "0",
   textTransform: "capitalize",
@@ -30,40 +19,35 @@ const aboutButtonTextStyle = {
 
 const Section2Hero = () => {
   return (
-    <div className="grid grid-cols-1 justify-items-center md:grid-cols-[1fr_auto] md:items-start md:justify-items-stretch md:gap-x-6">
-      <h1
-        className="m-0 min-w-0 w-full text-center text-[28px] md:col-start-1 md:row-start-1 md:text-left md:text-[30px] lg:text-[48px]"
-        style={headingStyle}
-      >
-        Creative Advertising, Branding & Digital <br className="md:hidden lg:block"/> Marketing Agency in India
+    <div className="grid w-full grid-cols-1 justify-items-center gap-y-4 sm:gap-y-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:justify-items-stretch md:gap-x-6 md:gap-y-0 lg:gap-x-8">
+      <h1 className={styles.heading}>
+        Creative Advertising, Branding & Digital{" "}
+        <br className="hidden sm:block" />
+        Marketing Agency in India
       </h1>
 
       <p
-        className="m-0 mt-5 w-full text-center md:col-span-2 md:row-start-2 md:text-left xl:max-w-[1150px] lg:max-w-[800px] md:max-w-[800px]"
+        className="m-0 w-full max-w-[36rem] text-center text-[14px] leading-6 sm:max-w-none sm:text-[16px] sm:leading-7 md:col-span-2 md:row-start-2 md:mt-0  md:max-w-[800px] md:text-left md:text-[13px] md:leading-[28px] lg:max-w-[900px] lg:text-[17px] xl:text-[20px] lg:leading-[30px] xl:max-w-[1150px] xl:text-[22px]"
         style={bodyStyle}
       >
-       18 years of transforming brands through creativity, strategy & innovation
+        18 years of transforming brands through creativity, strategy & innovation
       </p>
 
       <Link
         href="/contact"
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative mt-5 flex shrink-0 cursor-pointer items-center gap-2 overflow-hidden rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:col-start-2 md:row-start-1 md:mt-0 md:justify-self-end md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
+        className={`${styles.contactButton} group relative mt-1 flex h-[44px] w-full max-w-[200px] shrink-0 cursor-pointer items-center justify-center bg-[url('/new-theme/button.png')] bg-contain bg-center bg-no-repeat px-8 sm:mt-2 sm:h-[48px] sm:max-w-[220px] sm:px-10 md:col-start-2 md:row-start-1 md:mt-2 md:h-[52px] md:w-[240px] md:max-w-none md:justify-self-end md:px-12 lg:mt-4 lg:h-[56px] lg:w-[260px] lg:px-14`}
       >
         <span
-          aria-hidden
-          className="absolute inset-0 origin-left scale-x-0 rounded-full bg-[#1D1D1B] transition-transform duration-[550ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100"
-        />
-        <span
-          className="relative z-10 text-[#1D1D1B] transition-colors duration-300 group-hover:text-white"
+          className="relative z-10 pl-1 text-[13px] text-white transition-opacity duration-300 group-hover:opacity-90 sm:pl-2 sm:text-[14px] md:mt-0.5 md:text-[15px] lg:text-[16px]"
           style={aboutButtonTextStyle}
         >
-         Contact Us
+          Contact Us
         </span>
-        <span className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#1D1D1B] text-white transition-[background-color,color,transform] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45 group-hover:bg-white group-hover:text-[#1D1D1B] md:h-9 md:w-9">
+        <span className="relative z-10 flex h-6 w-6 items-center justify-center text-white transition-transform duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-9 lg:w-9">
           <i
-            className="ri-arrow-right-up-line text-[14px] md:text-[16px]"
+            className="ri-arrow-right-up-line text-[12px] sm:text-[13px] md:text-[14px] lg:text-[16px]"
             aria-hidden
           />
         </span>
