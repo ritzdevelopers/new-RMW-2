@@ -153,7 +153,7 @@ const OverlaySection1 = () => {
           </div>
 
           <div
-            className="hidden min-h-0 w-full flex-1 flex-col justify-center xl:gap-0 md:gap-[37px] md:flex xl:justify-between"
+            className="hidden min-h-0 w-full flex-1 flex-col justify-center xl:gap-[20px] md:gap-[37px] md:flex "
             onMouseLeave={() => setHoveredKey(null)}
           >
             {serviceRows.map((row, rowIndex) => (

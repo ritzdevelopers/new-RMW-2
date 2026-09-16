@@ -1510,7 +1510,7 @@ const Section4 = () => {
         >
           {/* Toggle lives inside the pinned area so it stays anchored to the
               bottom of Section 4 (absolute, not viewport-fixed). */}
-          <div className="absolute bottom-4 left-0 z-[60] hidden md:block md:bottom-6">
+          <div className="absolute bottom-4 left-1/2 z-[60] hidden -translate-x-1/2 md:block md:bottom-6">
             <ViewToggle
               viewMode={viewMode}
               onChange={handleViewChange}
@@ -1654,7 +1654,7 @@ const Section4 = () => {
         >
           <GridSlider cardRefs={gridCardRefs} loadMedia={shouldLoadMedia} />
 
-          <div className="z-[60] hidden w-full md:flex">
+          <div className="absolute bottom-6 left-1/2 z-[60] hidden -translate-x-1/2 md:flex">
             <ViewToggle
               viewMode={viewMode}
               onChange={handleViewChange}

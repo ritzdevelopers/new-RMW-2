@@ -4,6 +4,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { HiMenuAlt1 } from "react-icons/hi";
 import { navServices as services } from "../../data/navServices";
 
 const portfolioSubLinks = [
@@ -298,31 +299,31 @@ const Header = () => {
         className="fixed inset-x-0 top-[var(--independence-banner-height,0px)] z-[110] w-full overflow-x-clip overflow-y-visible bg-[#0D1334] bg-[url('/new-theme/new-theme1.jpg')] bg-cover bg-center bg-no-repeat translate-y-0 transition-transform duration-300 ease-out will-change-transform"
       >
         <div
-          className="header-truck-track pointer-events-none absolute inset-x-0 top-0 -bottom-[10px] z-0"
-          aria-hidden
+          className="header-truck-track pointer-events-none absolute inset-x-0 top-0 -bottom-[10px] z-20"
         >
-          <Image
-            src="/new-theme/truck_logo.png"
-            alt=""
-            width={280}
-            height={120}
-            className="header-truck-logo"
-            preload
-            sizes="280px"
-          />
+          <Link
+            href="/"
+            onClick={handleLogoClick}
+            aria-label="Go to home page"
+            className="header-truck-logo pointer-events-auto cursor-pointer"
+          >
+            <Image
+              src="/new-theme/truck_logo.png"
+              alt=""
+              width={280}
+              height={120}
+              className="block h-full w-auto max-w-none object-contain"
+              preload
+              sizes="280px"
+            />
+          </Link>
         </div>
 
         <div
           ref={headerRef}
           className="relative z-10 mx-auto flex w-full max-w-8xl items-center justify-between px-8 py-5 md:px-12"
         >
-        <Link
-          href="/"
-          title="Ritz Media World"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={handleLogoClick}
-          aria-label="Ritz Media World home"
+        <div      
           className="relative z-10 h-12 w-[147px] shrink-0 md:h-14 lg:w-[220px]"
         >
           <span
@@ -332,7 +333,7 @@ const Header = () => {
           >
             Ritz Media World
           </span>
-        </Link>
+        </div>
 
         <div className="flex items-center gap-8 text-right md:gap-10">
           <nav className="hidden items-center gap-8 md:flex md:gap-10">
@@ -454,18 +455,10 @@ const Header = () => {
           >
             <span
               data-header-reveal
-              className="inline-block"
+              className="inline-block text-[#DD1246]"
               style={{ "--hdr-i": 1 }}
             >
-              <Image
-                src="/logo/menu.png"
-                alt={menuOpen ? "Close menu" : "Open menu"}
-                title={menuOpen ? "Close menu" : "Open menu"}
-                width={36}
-                height={28}
-                sizes="36px"
-                className="h-5 w-auto md:h-6"
-              />
+              <HiMenuAlt1 className="h-7 w-7" aria-hidden />
             </span>
           </button>
         </div>

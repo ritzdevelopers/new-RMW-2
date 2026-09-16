@@ -283,6 +283,12 @@ body::-webkit-scrollbar {
   will-change: left, transform;
 }
 
+@media (max-width: 767px) {
+  .header-truck-logo {
+    animation-duration: 12s;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-header-reveal] {
     animation: none;
