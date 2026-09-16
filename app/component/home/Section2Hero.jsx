@@ -19,7 +19,7 @@ const aboutButtonTextStyle = {
 
 const Section2Hero = () => {
   return (
-    <div className="grid w-full grid-cols-1 justify-items-center gap-y-4 sm:gap-y-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:justify-items-stretch md:gap-x-6 md:gap-y-0 lg:gap-x-8">
+    <div className="grid w-full grid-cols-1 justify-items-center  md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:justify-items-stretch md:gap-x-6 md:gap-y-0 lg:gap-x-8">
       <h1 className={styles.heading}>
         Creative Advertising, Branding & Digital{" "}
         <br className="hidden sm:block" />
@@ -27,7 +27,7 @@ const Section2Hero = () => {
       </h1>
 
       <p
-        className="m-0 w-full max-w-[36rem] text-center text-[14px] leading-6 sm:max-w-none sm:text-[16px] sm:leading-7 md:col-span-2 md:row-start-2 md:mt-0  md:max-w-[800px] md:text-left md:text-[13px] md:leading-[28px] lg:max-w-[900px] lg:text-[17px] xl:text-[20px] lg:leading-[30px] xl:max-w-[1150px] xl:text-[22px]"
+        className="m-0 w-full max-w-[36rem] text-center text-[14px] sm:max-w-none sm:text-[16px] md:col-span-2 md:row-start-2 md:mt-0  md:max-w-[800px] md:text-left md:text-[13px] md:leading-[28px] lg:max-w-[900px] lg:text-[17px] xl:text-[20px] lg:leading-[30px] xl:max-w-[1150px] xl:text-[22px]"
         style={bodyStyle}
       >
         18 years of transforming brands through creativity, strategy & innovation

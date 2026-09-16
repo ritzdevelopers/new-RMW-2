@@ -1471,6 +1471,18 @@ const Section4 = () => {
       }`}
     >
       <style>{`
+        @media (min-width: 767px) and (max-width: 1023px) {
+          [data-home-section="section4"] {
+            background-image: url("/new-theme/website-creative--768by1668px.jpg");
+          }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1288px) {
+          [data-home-section="section4"] {
+            background-image: url("/new-theme/website-creative--1024by1668px.jpg");
+          }
+        }
+
         @media (min-width: 768px) {
           .section4-row-link-active {
             -webkit-mask-image: ${ROW_CLIP_MASK};

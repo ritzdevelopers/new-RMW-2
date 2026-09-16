@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const BANNER_SRC = "/new-theme/footer-bg.jpg";
+const MOBILE_BANNER_SRC = "/new-theme/website-mobile-version-image.jpg";
 
 const serviceRows = [
   [
@@ -102,23 +103,35 @@ const OverlaySection1 = () => {
     >
       <div className="relative h-full min-h-[100dvh] w-full">
         {shouldLoadMedia ? (
-          <Image
-            src={BANNER_SRC}
-            alt="Ritz Media World creative services"
-            title="Ritz Media World creative services"
-            fill
-            loading="lazy"
-            fetchPriority="low"
-            className="object-cover object-center"
-            sizes="100vw"
-          />
+          <>
+            <Image
+              src={MOBILE_BANNER_SRC}
+              alt="Ritz Media World creative services"
+              title="Ritz Media World creative services"
+              fill
+              loading="lazy"
+              fetchPriority="low"
+              className="object-cover object-center md:hidden"
+              sizes="(max-width: 767px) 100vw, 0px"
+            />
+            <Image
+              src={BANNER_SRC}
+              alt="Ritz Media World creative services"
+              title="Ritz Media World creative services"
+              fill
+              loading="lazy"
+              fetchPriority="low"
+              className="hidden object-cover object-center md:block"
+              sizes="(min-width: 768px) 100vw, 0px"
+            />
+          </>
         ) : null}
 
         <div className="absolute inset-0 bg-black/10" aria-hidden />
 
         <div className="font-league-spartan relative z-10 flex h-full min-h-[100dvh] flex-col p-[20px] xl:p-[50px]">
           <div
-            className="flex min-h-0 flex-1 flex-col items-center justify-between gap-4 text-center md:hidden"
+            className="flex min-h-0 flex-1 flex-col items-center justify-center gap-4 text-center md:hidden"
             onMouseLeave={() => setHoveredKey(null)}
           >
             {serviceRows.flat().map((label, index) => {
@@ -140,7 +153,7 @@ const OverlaySection1 = () => {
           </div>
 
           <div
-            className="hidden min-h-0 w-full flex-1 flex-col justify-between md:flex lg:justify-between"
+            className="hidden min-h-0 w-full flex-1 flex-col justify-center xl:gap-0 md:gap-[37px] md:flex xl:justify-between"
             onMouseLeave={() => setHoveredKey(null)}
           >
             {serviceRows.map((row, rowIndex) => (

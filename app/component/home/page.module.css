@@ -9,7 +9,7 @@
   letter-spacing: 0;
   text-transform: uppercase;
   color: #DD1246;
-  font-size: 22px;
+  font-size:16px;
 }
 
 /* sm: ≥640px */
@@ -82,9 +82,14 @@
 }
 
 .contactButton {
-  margin-right: 54px;
+  margin-right: 0px;
 }
 
+@media (min-width: 768px) {
+  .contactButton {
+    margin-right: 54px;
+  }
+}
 /* lg: ≥1024px — mr 5rem */
 @media (min-width: 1024px) {
   .contactButton {
@@ -96,5 +101,12 @@
 @media (min-width: 1206px) {
   .contactButton {
     margin-right: 10rem;
+  }
+}
+
+/* Apply the percentage margin only on screens 1546px and wider. */
+@media (min-width: 1546px) {
+  .contactButton {
+    margin-right: 100%;
   }
 }

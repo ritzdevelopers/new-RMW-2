@@ -7,13 +7,16 @@ const Section2 = () => {
   return (
     <section className="relative w-full overflow-hidden bg-[#0F0E14]">
       {/* Full-width intrinsic image — no left/right crop */}
-      <img
-        src="/new-theme/new-theme2.jpg"
-        alt=""
-        className="pointer-events-none block h-auto w-full select-none"
-        aria-hidden
-        draggable={false}
-      />
+      <picture>
+        <source media="(max-width: 767px)" srcSet="/new-theme/mobile-size.jpg" />
+        <img
+          src="/new-theme/new-theme2.jpg"
+          alt=""
+          className="pointer-events-none block h-auto w-full select-none"
+          aria-hidden
+          draggable={false}
+        />
+      </picture>
 
       <div className={styles.heroOverlay}>
         <div className="mx-auto w-full max-w-8xl">
