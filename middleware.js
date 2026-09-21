@@ -36,6 +36,15 @@ export function middleware(request) {
   if (pathname === "/contact.html" || pathname === "/contact2.html") {
     return NextResponse.redirect(new URL("/contact", request.url));
   }
+  if (
+    pathname === "/e-commerce-web-designing.html" ||
+    pathname === "/web-designing-and-development.html"
+  ) {
+    return NextResponse.redirect(
+      new URL("/services/web-designing-and-development", request.url),
+      { status: 301 }
+    );
+  }
   return NextResponse.next();
 }
 
@@ -46,6 +55,8 @@ export const config = {
     "/work.html",
     "/contact.html",
     "/contact2.html",
+    "/e-commerce-web-designing.html",
+    "/web-designing-and-development.html",
     "/services/eon-fairfox",
     "/services/exotica",
     "/services/ghd",
