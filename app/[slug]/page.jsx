@@ -26,9 +26,9 @@ export async function generateMetadata({ params }) {
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean);
-
+  
   return {
-    title: blog.meta_title || blog.title || fallbackTitle,
+    title: blog.meta_title || blog.blogBody[0].metaTitle || blog.title || fallbackTitle,
     description: blog.meta_description || undefined,
     keywords: keywords.length ? keywords : undefined,
     authors: [{ name: "Ritz Media World" }],
