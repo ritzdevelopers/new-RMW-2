@@ -37,10 +37,39 @@ function ensureLinkTitles(html) {
   );
 }
 
+const LEADING_HEADING_RE =
+  /^\s*(?:<!--[\s\S]*?-->\s*)*<(h[1-6])\b[^>]*>([\s\S]*?)<\/\1\s*>/i;
+
+function normalizeHeadingText(value) {
+  return String(value || "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;|&#160;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#0?39;|&apos;|&rsquo;|&lsquo;/gi, "'")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+function removeLeadingTitleHeading(html, title) {
+  const source = String(html || "");
+  const normalizedTitle = normalizeHeadingText(title);
+  if (!normalizedTitle) return source;
+
+  const match = source.match(LEADING_HEADING_RE);
+  if (!match || normalizeHeadingText(match[2]) !== normalizedTitle) {
+    return source;
+  }
+  return source.slice(match[0].length);
+}
+
 export default function BlogDetail({ blog, sidebar }) {
   const title = blog?.title || "";
   const image = resolveBlogImageUrl(blog?.blog_image || blog?.banner);
-  const description = ensureLinkTitles(blog?.description || "");
+  const description = ensureLinkTitles(
+    removeLeadingTitleHeading(blog?.description, title),
+  );
   const createdAt = formatDate(blog?.created_at);
 
   return (
