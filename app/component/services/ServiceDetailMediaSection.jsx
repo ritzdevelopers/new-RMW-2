@@ -54,7 +54,7 @@ const linkProps = (href) =>
       }
     : {};
 
-const MediaLinkWrap = ({ href, className = "", style, children }) => {
+const MediaLinkWrap = ({ href, title, className = "", style, children }) => {
   if (!href) {
     return (
       <div className={className} style={style}>
@@ -64,7 +64,12 @@ const MediaLinkWrap = ({ href, className = "", style, children }) => {
   }
 
   return (
-    <a {...linkProps(href)} className={`group relative block ${className}`} style={style}>
+    <a
+      {...linkProps(href)}
+      title={title || "Ritz Media World"}
+      className={`group relative block ${className}`}
+      style={style}
+    >
       {children}
       <span
         className="pointer-events-none absolute inset-0 z-[15] flex items-center justify-center bg-black/0 opacity-0 transition-all duration-500 ease-out group-hover:bg-black/15 group-hover:opacity-100"
@@ -103,6 +108,7 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
             {video?.src ? (
               <MediaLinkWrap
                 href={video.href}
+                title={title || "Watch video"}
                 className="mt-6 block w-full max-w-full overflow-hidden lg:mt-10 xl:mt-15 xl:h-[342px] xl:w-[561px] xl:max-w-[561px]"
                 style={{
                   aspectRatio: `${video.width ?? 561} / ${video.height ?? 342}`,
@@ -142,6 +148,7 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
           {image?.src ? (
             <MediaLinkWrap
               href={image.href}
+              title={title || "Ritz Media World"}
               className="relative w-full min-w-0 overflow-hidden lg:max-w-[48%] lg:ml-auto xl:w-[720.953px] xl:max-w-[720.953px] xl:shrink-0"
               style={{
                 aspectRatio: image.aspectRatio ?? "69 / 73",
@@ -230,6 +237,7 @@ const ServiceDetailMediaSection = ({ mediaSection }) => {
               <MediaLinkWrap
                 key={`${item.src}-${index}`}
                 href={item.href}
+                title={title || "Ritz Media World"}
                 className={`relative overflow-hidden ${item.className ?? ""}`}
                 style={{
                   aspectRatio: item.aspectRatio,

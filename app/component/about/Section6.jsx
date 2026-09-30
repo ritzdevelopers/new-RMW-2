@@ -170,6 +170,7 @@ const NewsCard = ({
 
     <a
       href={item.href}
+      title={item.label}
       target="_blank"
       rel="noopener noreferrer"
       className={`group/cta relative z-10 inline-flex cursor-pointer items-center overflow-hidden rounded-full bg-white shadow-[0_6px_24px_rgba(0,0,0,0.22)] ${

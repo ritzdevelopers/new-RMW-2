@@ -152,6 +152,7 @@ function ContactFloat() {
       <div className="relative h-14 w-14">
         <a
           href="tel:+917290002168"
+          title="Call us"
           aria-label="Call us"
           onMouseEnter={triggerBurst}
           onPointerDown={triggerBurst}
@@ -173,6 +174,7 @@ function ContactFloat() {
       </div>
       <a
         href="https://wa.me/917290002168"
+        title="Chat on WhatsApp"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
@@ -620,6 +622,7 @@ const Footer = ({ section = null }) => {
               >
                 <a
                   href="tel:+919220516777"
+                  title="+91 9220516777"
                   className="transition-opacity hover:opacity-70"
                 >
                   +91 9220516777
@@ -627,6 +630,7 @@ const Footer = ({ section = null }) => {
                 <span className="hidden sm:inline"> | </span>
                 <a
                   href="tel:+917290002168"
+                  title="+91 7290002168"
                   className="transition-opacity hover:opacity-70"
                 >
                   +91 7290002168
@@ -636,6 +640,7 @@ const Footer = ({ section = null }) => {
             <div className="mt-3 flex justify-center md:mt-4">
               <a
                 href="https://www.google.com/preferences/source?q=ritzmediaworld.com"
+                title="Add Ritz Media World as a preferred source on Google"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Add Ritz Media World as a preferred source on Google"
@@ -643,7 +648,7 @@ const Footer = ({ section = null }) => {
               >
                 <img
                   src="/google-logo.png"
-                  alt=""
+                  alt="Google"
                   title="Google"
                   width={24}
                   height={24}
@@ -696,6 +701,7 @@ const Footer = ({ section = null }) => {
                   <Link
                     key={service.href}
                     href={service.href}
+                    title={service.title}
                     rel="noopener noreferrer"
                     className={`px-1 text-center transition-colors hover:text-white${index === arr.length - 1 && arr.length % 2 === 1
                       ? " col-span-2"
@@ -723,6 +729,7 @@ const Footer = ({ section = null }) => {
                     </span>
                     <Link
                       href={service.href}
+                      title={service.title}
                       rel="noopener noreferrer"
                       className="min-w-0 text-left transition-colors hover:text-white"
                     >

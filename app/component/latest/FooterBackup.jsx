@@ -153,6 +153,7 @@ function ContactFloat() {
       <div className="relative h-14 w-14">
         <a
           href="tel:+919220516777"
+          title="Call us"
           aria-label="Call us"
           onMouseEnter={triggerBurst}
           onPointerDown={triggerBurst}
@@ -190,6 +191,7 @@ function ContactFloat() {
       </div>
       <a
         href="https://wa.me/917290002168"
+        title="Chat on WhatsApp"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
@@ -680,6 +682,7 @@ const Footer = ({ section = null }) => {
                   <Link
                     key={service.href}
                     href={service.href}
+                    title={service.title}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`px-1 text-center transition-colors hover:text-white${
@@ -709,6 +712,7 @@ const Footer = ({ section = null }) => {
                     </span>
                     <Link
                       href={service.href}
+                      title={service.title}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="min-w-0 text-left transition-colors hover:text-white"

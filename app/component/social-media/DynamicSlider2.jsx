@@ -220,6 +220,7 @@ function DynamicSlider2({heading, images}) {
               <img
                 src={slide.small}
                 alt={slide.label}
+                title={`Ritz Media World - ${slide.label}`}
                 className="pointer-events-none h-full w-full select-none object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                 draggable={false}
                 loading={index < 5 ? "eager" : "lazy"}
@@ -302,6 +303,7 @@ function DynamicSlider2({heading, images}) {
               alt={lightbox.label}
               className="block h-auto w-auto max-w-full select-none"
               draggable={false}
+              title={`Ritz Media World - ${lightbox.label}`}
             />
           </div>
         </div>

@@ -226,6 +226,7 @@ const Section2 = ({ headingAs = "h2" }) => {
                   <Image
                     src={service.src}
                     alt={service.alt}
+                    title={`Ritz Media World - ${service.alt}`}
                     fill
                     className="pointer-events-none object-cover object-center select-none"
                     sizes="(min-width: 1600px) 20vw, (min-width: 1200px) 25vw, (min-width: 900px) 33vw, (min-width: 640px) 50vw, 100vw"

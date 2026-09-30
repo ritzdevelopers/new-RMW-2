@@ -346,6 +346,7 @@ const ServicesGrid = () => {
             <Link
               key={service.slug}
               href={getServiceHref(service.slug)}
+              title={service.title}
               target="_blank"
               rel="noopener noreferrer"
               data-svc-card

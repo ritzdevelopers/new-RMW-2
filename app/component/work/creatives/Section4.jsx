@@ -180,6 +180,7 @@ function WalkthroughModal({
           <div data-modal-reveal className="pt-1">
             <Link
               href={slide.cta.href}
+              title={slide.cta.label}
               target="_blank"
               rel="noopener noreferrer"
               className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-[#0D6FAA] py-2.5 pl-6 pr-2.5 shadow-[0_10px_30px_rgba(13,111,170,0.4)] transition-shadow hover:shadow-[0_14px_36px_rgba(13,111,170,0.55)] max-sm:py-2 max-sm:pl-5"
@@ -662,6 +663,7 @@ function Section4() {
 
               <Link
                 href="/case-study"
+                title="Discover All"
                 className="flex cursor-pointer items-center gap-2 rounded-full bg-white py-2.5 pl-5 pr-2 shadow-[0_6px_24px_rgba(0,0,0,0.22)] md:gap-2.5 md:py-2 md:pl-6 md:pr-2"
               >
                 <span className="font-league-spartan text-[12px] font-medium uppercase tracking-[0.08em] text-[#1D1D1B] md:text-[14px]">
