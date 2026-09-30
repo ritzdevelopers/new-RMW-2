@@ -49,7 +49,7 @@ const GalleryImage = ({ src, alt = "", width, height, className = "", fill = fal
         : { width: `${width}px`, height: `${height}px`, maxWidth: "100%" }
     }
   >
-    <Image src={src} alt={alt} fill className="object-cover" sizes={fill ? "100vw" : `${width}px`} />
+    <Image src={src} alt={alt} title={`Ritz Media World - ${alt}`} fill className="object-cover" sizes={fill ? "100vw" : `${width}px`} />
   </div>
 );
 
@@ -130,20 +130,21 @@ const Section3 = () => {
                 width={image.width}
                 height={image.height}
                 fill
+                alt={`Ritz Media World - ${image.alt}`}
                 className="w-full"
               />
             ))}
           </div>
 
           <div data-gallery-desktop className="mt-4 hidden flex-wrap justify-center gap-5 lg:mt-8 lg:flex xl:mt-14">
-            <GalleryImage src="/create/first-image.jpeg" width={547} height={806} />
+            <GalleryImage src="/create/first-image.jpeg" width={547} height={806} alt="Ritz Media World - First Image" />
 
             <div className="flex flex-col gap-5">
               <div className="flex flex-wrap justify-center gap-5">
-                <GalleryImage src="/create/second-image.jpeg" width={376} height={340} />
-                <GalleryImage src="/create/third-image.jpeg" width={376} height={340} />
+                <GalleryImage src="/create/second-image.jpeg" width={376} height={340} alt="Ritz Media World - Second Image" />
+                <GalleryImage src="/create/third-image.jpeg" width={376} height={340} alt="Ritz Media World - Third Image" />
               </div>
-              <GalleryImage src="/create/fourth-image.jpeg" width={773} height={447} />
+              <GalleryImage src="/create/fourth-image.jpeg" width={773} height={447} alt="Ritz Media World - Fourth Image" />
             </div>
           </div>
 

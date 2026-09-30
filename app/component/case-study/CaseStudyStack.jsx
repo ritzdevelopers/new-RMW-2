@@ -16,8 +16,6 @@ const DROPDOWN_YEARS = [2025];
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 function getCaseStudyApiUrl() {
-  // Same-origin path - proxied in dev (next.config rewrites) and on Vercel (vercel.json).
-  // Avoids browser CORS when calling ritzmediaworld.com directly from vercel.app.
   return CASE_STUDY_PATH;
 }
 
@@ -72,9 +70,6 @@ function mapCaseStudyItem(item, index) {
   };
 }
 
-// ─── Panel ─────────────────────────────────────────────────────────────────────
-
-
 function Panel({ project, total, isActive, onActivate }) {
   const handlePanelClick = () => {
     if (project.slug) {
@@ -119,6 +114,7 @@ function Panel({ project, total, isActive, onActivate }) {
         {project.slug && (
           <Link
             href={getCaseStudyHref(project.slug)}
+            title={`Explore ${project.title}`}
             onClick={(e) => e.stopPropagation()}
             className="cs4-panel-cta"
           >

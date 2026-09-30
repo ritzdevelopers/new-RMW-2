@@ -365,6 +365,7 @@ function DynamicSlider3({ heading, images, enableLightbox = false }) {
               <img
                 src={slide.src}
                 alt={slide.label}
+                title={`Ritz Media World - ${slide.label}`}
                 className={mediaClass}
                 draggable={false}
                 loading={index < 5 ? "eager" : "lazy"}
@@ -403,6 +404,7 @@ function DynamicSlider3({ heading, images, enableLightbox = false }) {
                 <a
                   key={`${slide.label}-${index}`}
                   href={slide.href}
+                  title={`Watch ${slide.label}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative shrink-0 overflow-hidden bg-[#EFEDE8] [backface-visibility:hidden] [transform:translateZ(0)]"

@@ -41,6 +41,7 @@ function renderInline(text) {
       <a
         key={key++}
         href={match[2]}
+        title={match[1]}
         target="_blank"
         rel="noopener noreferrer"
         className={linkClassName}

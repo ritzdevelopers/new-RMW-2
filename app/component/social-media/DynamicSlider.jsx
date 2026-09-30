@@ -264,6 +264,7 @@ function DynamicSlider({ heading, images, enableLightbox = false, headingAs = "h
               <img
                 src={slide.src}
                 alt={slide.label}
+                title={`Ritz Media World - ${slide.label}`}
                 className={`pointer-events-none h-full w-full select-none object-cover${
                   isInteractive
                     ? " transition-transform duration-500 ease-out group-hover:scale-[1.03]"
@@ -279,6 +280,7 @@ function DynamicSlider({ heading, images, enableLightbox = false, headingAs = "h
                 <a
                   key={`${slide.label}-${index}`}
                   href={slide.href}
+                  title={`Watch ${slide.label}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative shrink-0 overflow-hidden bg-[#EFEDE8] [backface-visibility:hidden] [transform:translateZ(0)]"

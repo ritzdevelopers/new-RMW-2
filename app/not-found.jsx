@@ -73,9 +73,10 @@ export default function NotFound() {
             explore our services, portfolio, and latest work.
           </p>
 
-          <div classNa me="mb-12 flex flex-wrap items-center justify-center gap-4">
+          <div className="mb-12 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/"
+              title="Back to Home"
               className="inline-flex items-center gap-3 bg-[#E2E2E2] px-8 py-4 text-xs uppercase tracking-[0.12em] text-[#0D1334] transition hover:bg-white"
               style={{ fontFamily: sequelFontFamily, fontWeight: 500 }}
             >
@@ -84,6 +85,7 @@ export default function NotFound() {
             </Link>
             <Link
               href="/contact"
+              title="Contact Us"
               className="inline-flex items-center gap-3 border border-white/25 px-8 py-4 text-xs uppercase tracking-[0.12em] text-white transition hover:border-white hover:bg-white/5"
               style={{ fontFamily: sequelFontFamily, fontWeight: 500 }}
             >
@@ -104,6 +106,7 @@ export default function NotFound() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  title={link.label}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm uppercase tracking-[0.08em] text-white/70 transition hover:text-[#F5A623]"

@@ -581,12 +581,11 @@ export const services = [
     number: "05",
     category: "Content Marketing",
     title: "Content Marketing",
-    metaTitle:
-      "Content Marketing Agency in India | SEO Content Writing Services | Ritz Media World",
+    metaTitle: "Content Marketing Agency in India | Ritz Media World",
     headline: "Stories That Sell",
     image: serviceImages[4],
     description:
-      "Grow your business with Ritz Media World's Content Marketing Services. Expert SEO content, blogs, website copy, email marketing, and content strategies.",
+      "Build your brand with SEO content, website copy, blogs, social media, email and content strategy designed to attract traffic, leads and long-term online growth.",
     highlights: [
       "Website content writing",
       "SEO content writing",

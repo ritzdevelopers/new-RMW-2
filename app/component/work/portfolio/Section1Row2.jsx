@@ -58,6 +58,7 @@ function GalleryImage({ src, alt, sizes, onOpen }) {
       <Image
         src={src}
         alt={alt}
+        title={`Ritz Media World - ${alt}`}
         width={800}
         height={1000}
         sizes={sizes}
@@ -139,6 +140,7 @@ function ImageLightbox({ image, onClose }) {
         <Image
           src={image.src}
           alt={image.alt}
+          title={`Ritz Media World - ${image.alt}`}
           width={1600}
           height={2000}
           sizes="90vw"
