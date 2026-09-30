@@ -91,7 +91,7 @@ function Panel({ project, total, isActive, onActivate }) {
     >
       <div className="cs4-panel-media">
         {project.image ? (
-          <img src={project.image} alt={project.title} draggable={false} />
+          <img src={project.image} alt={project.title} title={project.title} draggable={false} />
         ) : (
           <div className="cs4-panel-fallback" style={{ background: project.accent }} />
         )}
