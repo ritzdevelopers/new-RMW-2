@@ -6,6 +6,7 @@ import OverlaySection1 from "../component/latest/OverlaySection1";
 import SlugDetailClient from "../component/blog/SlugDetailClient";
 import { getSlugDetailPageData, getSlugPageMetaInputs } from "../../lib/blogServerData";
 import { resolveBlogImageUrl } from "../../lib/caseStudyApi";
+import { extractFaqsFromHtml } from "../../lib/blogFaq";
 
 /** ISR: new blog slugs render on first request; known slugs refresh periodically. */
 export const revalidate = 60;
@@ -67,6 +68,32 @@ function buildArticleJsonLd(blog, slug, caseStudy) {
   };
 }
 
+function buildFaqJsonLd(blog, slug) {
+  const faqs = extractFaqsFromHtml(blog.description);
+  if (!faqs.length) return null;
+
+  const pageUrl = `${SITE_URL}/${blog.slug || slug}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    url: pageUrl,
+    mainEntity: faqs.map(({ question, answer }) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: answer,
+      },
+    })),
+  };
+}
+
+function toJsonLdHtml(data) {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
 
@@ -117,15 +144,20 @@ export default async function SlugDetailPage({ params }) {
   }
 
   const articleJsonLd = buildArticleJsonLd(data.blog, slug, data.caseStudy);
+  const faqJsonLd = buildFaqJsonLd(data.blog, slug);
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(articleJsonLd).replace(/</g, "\\u003c"),
-        }}
+        dangerouslySetInnerHTML={{ __html: toJsonLdHtml(articleJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: toJsonLdHtml(faqJsonLd) }}
+        />
+      )}
       <Header />
       <main>
         <SlugDetailClient
